@@ -532,7 +532,7 @@ class PEGParserGenerator
 end
 
 
-begin
+if $0 == __FILE__
   # Help
   if ARGV[0] == "-h" or ARGV[0] == "--help" or ARGV.empty?
     puts <<-HELP
