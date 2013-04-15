@@ -540,7 +540,7 @@ Usage: ruby #{File.basename(__FILE__)} grammar_file
 
 Prints parser corresponding to grammar written in `grammar_file' to standard
 output. See `samples' directory for samples of grammars.
-  HELP
+    HELP
     exit(0)
   end
   # Generate the parser.
