@@ -1,4 +1,7 @@
 #!/usr/bin/ruby
+# 
+# This files is both runnable and "require"-able.
+# 
 require 'set'
 require 'stringio'
 
@@ -15,6 +18,9 @@ class PEGParserGenerator
     @used_nonterminals = Set.new
     # Parse.
     (pparser and @input.eof?) or raise SyntaxError
+  end
+  
+  class SyntaxError < Exception
   end
   
   private
@@ -107,9 +113,6 @@ class PEGParserGenerator
       )
       true
     end
-  end
-  
-  class SyntaxError < Exception
   end
   
   # returns Hash with keys +:left_part+ and +:method_code+.
@@ -532,7 +535,7 @@ class PEGParserGenerator
 end
 
 
-begin
+if $0 == __FILE__
   # Help
   if ARGV[0] == "-h" or ARGV[0] == "--help" or ARGV.empty?
     puts <<-HELP
@@ -540,7 +543,7 @@ Usage: ruby #{File.basename(__FILE__)} grammar_file
 
 Prints parser corresponding to grammar written in `grammar_file' to standard
 output. See `samples' directory for samples of grammars.
-  HELP
+    HELP
     exit(0)
   end
   # Generate the parser.
