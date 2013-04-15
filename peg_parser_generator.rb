@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 # 
-# You may either run this script or "require" it.
+# This files is both runnable and "require"-able.
 # 
 require 'set'
 require 'stringio'
