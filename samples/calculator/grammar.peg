@@ -1,0 +1,167 @@
+%%
+# encoding: UTF-8
+require 'mathn'
+
+class Calculator
+  
+  def call(input)
+    yy_parse(input)
+  end
+  
+  private
+
+%%
+
+---- Syntax ----
+
+program <-
+  WS
+  (
+    expression_text:< result:(expr) > `;`?
+    { puts "#{expression_text.force_encoding("UTF-8")}\u{2009}=\n  #{result.to_f} (#{result});" }
+  )*
+  end
+  ;
+
+expr <- value:(expr70);
+
+-- Sum --
+expr70 <-
+  value:(expr80)
+  (
+    `+` other:(expr80) {value += other} /
+    `-` other:(expr80) {value -= other}
+  )*
+  ;
+
+-- Multiplication --
+expr80 <-
+  value:(expr85)
+  (
+    `*` other:(expr85) {value *= other} /
+    `/` other:(expr85) {value /= other}
+  )*
+  ;
+
+-- Power --
+expr85 <-
+  value:(expr86) (
+    `^` value2:(expr85) {value = value ** value2}
+  )*
+  ;
+
+-- Function --
+expr86 <-
+  sin v:expr86 {value = Math.sin(v)} /
+  cos v:expr86 {value = Math.cos(v)} /
+  tan v:expr86 {value = Math.tan(v)} /
+  arcsin v:expr86 {value = Math.asin(v)} /
+  arccos v:expr86 {value = Math.acos(v)} /
+  arctan v:expr86 {value = Math.atan(v)} /
+  ln v:expr86 {value = Math.log(v)} /
+  sqrt v:expr86 {value = Math.sqrt(v)} /
+  sqrt3 v:expr86 {value = Math.cbrt(v.abs); value = -value if v < 0} /
+  sqrt4 v:expr86 {value = Math.sqrt(Math.sqrt(v))} /
+  degrees:expr87 `°` {value = degrees * Math::PI / 180} (minutes:expr87 `'` {value += minutes * Math::PI / 180 / 60} ( seconds:expr87 `"` {value += seconds * Math::PI / 180 / 3600} )? )? /
+  value:expr87
+  ;
+
+-- Minus (unary) --
+expr87 <-
+  {invert = false}
+  ( `-` {invert = true} )? value:expr90
+  { if invert then value = -value end };
+
+-- Brackets --
+expr90 <-
+  `(` value:(expr) `)` /
+  `[` value:(expr) `]` /
+  `{` value:(expr) `}` /
+  value:(expr100)
+  ;
+
+-- Atomic --
+expr100 <-
+  value:number /
+  value:constant
+  ;
+
+---- Lex ----
+
+number <-
+  integer_part:(digits)  { value = integer_part.to_i }
+  (
+    `.` fractional_part:(digits)  { value = (integer_part + fractional_part).to_i / 10**fractional_part.length }
+  )?
+  WS
+  ;
+
+constant <-
+  (
+    'e'  {value = Math::E} /
+    ('pi' / U+03C0)  {value = Math::PI}
+  )
+  WS
+  ;
+
+`.` <- ('.' / ',') WS;
+`(` <- '(' WS;
+`)` <- ')' WS;
+`[` <- '[' WS;
+`]` <- ']' WS;
+`{` <- '{' WS;
+`}` <- '}' WS;
+`*` <- ('*' / '·' / U+00D7) WS;
+`+` <- '+' WS;
+`-` <- ('-' / '–' / '−' / '−') WS;
+`/` <- ('/' / U+00F7) WS;
+`;` <- ';' WS;
+`^` <- ('^' / U+2191) WS;
+`°` <- ('°') WS;
+`'` <- "'" WS;
+`"` <- '"' WS;
+sqrt <- ('√' / 'sqrt') WS;
+sqrt3 <- ('∛' / 'sqrt3') WS;
+sqrt4 <- ('∜' / 'sqrt4') WS;
+sin <- 'sin' WS;
+cos <- 'cos' WS;
+tan <- 'tan' WS;
+arcsin <- 'arcsin' WS;
+arccos <- 'arctan' WS;
+arctan <- 'arctan' WS;
+ln <- 'ln' WS;
+
+digits <-
+  {value = ""}
+  (
+    digit:'0'...'9'  {value << digit}  digits_delimiter*
+  )+
+  ;
+
+digits_delimiter <-
+  ' ' /
+  U+00A0 /
+  U+2000...U+200D
+  ;
+
+WS <-
+  (
+    ' ' /
+    newline /
+    U+0009 /
+    U+00A0 /
+    U+2000...U+200D /
+    '#' (!newline char)* newline
+  )*
+  ;
+
+newline <-
+  U+000D /
+  U+000A
+  ;
+
+%%
+
+end
+
+File.open(ARGV[0]) { |io| Calculator.new.(io) }
