@@ -1,4 +1,8 @@
 #!/usr/bin/ruby
+# 
+# You may either run this file as a standalone script or "require" it in your
+# own program.
+# 
 require 'set'
 require 'stringio'
 
