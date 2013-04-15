@@ -21,6 +21,9 @@ class PEGParserGenerator
     (pparser and @input.eof?) or raise SyntaxError
   end
   
+  class SyntaxError < Exception
+  end
+  
   private
   
   # ---- Syntax ----
@@ -111,9 +114,6 @@ class PEGParserGenerator
       )
       true
     end
-  end
-  
-  class SyntaxError < Exception
   end
   
   # returns Hash with keys +:left_part+ and +:method_code+.
