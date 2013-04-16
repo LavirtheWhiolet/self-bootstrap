@@ -73,7 +73,6 @@ class PEGParserGenerator
           rule_is_first = false
         end
         # Print the rule's method.
-        p rule[:method_code]
         @output.puts rule[:method_code]
         # 
         true
@@ -262,7 +261,6 @@ class PEGParserGenerator
     try {
       s = pstring and (
         body, quote = *s;
-        p body.encoding
         Code.new %(yy_string(#{quote}#{body}#{quote})), true
       )
     } or
