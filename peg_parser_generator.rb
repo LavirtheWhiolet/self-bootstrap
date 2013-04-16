@@ -265,6 +265,13 @@ class PEGParserGenerator
         Code.new %(yy_string(#{quote}#{body}#{quote})), true
       )
     } or
+    # nonterminal
+    try {
+      nonterminal = pnonterminal and (
+        @used_nonterminals << nonterminal;
+        Code.new %(#{method_name(nonterminal)}), true
+      )
+    } or
     # any char.
     try {
       pany_char and
@@ -274,13 +281,6 @@ class PEGParserGenerator
     try {
       plexeme 'end' and
       Code.new %(@yy_input.eof?), false
-    } or
-    # nonterminal
-    try {
-      nonterminal = pnonterminal and (
-        @used_nonterminals << nonterminal;
-        Code.new %(#{method_name(nonterminal)}), true
-      )
     } or
     # semantic action
     try {
