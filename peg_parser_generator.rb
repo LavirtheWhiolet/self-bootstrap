@@ -265,22 +265,22 @@ class PEGParserGenerator
         Code.new %(yy_string(#{quote}#{body}#{quote})), true
       )
     } or
+    # any char.
+    try {
+      pany_char and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ } and
+      Code.new %(@yy_input.getc), true  # It will return either character or nil. That suits us.
+    } or
+    # end
+    try {
+      plexeme 'end' and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ } and
+      Code.new %(@yy_input.eof?), false
+    } or
     # nonterminal
     try {
       nonterminal = pnonterminal and (
         @used_nonterminals << nonterminal;
         Code.new %(#{method_name(nonterminal)}), true
       )
-    } or
-    # any char.
-    try {
-      pany_char and
-      Code.new %(@yy_input.getc), true  # It will return either character or nil. That suits us.
-    } or
-    # end
-    try {
-      plexeme 'end' and
-      Code.new %(@yy_input.eof?), false
     } or
     # semantic action
     try {
