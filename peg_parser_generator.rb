@@ -267,7 +267,7 @@ class PEGParserGenerator
     } or
     # any char.
     try {
-      pany_char and
+      pany_char and debug {"Oops!"} and
       Code.new %(@yy_input.getc), true  # It will return either character or nil. That suits us.
     } or
     # end
