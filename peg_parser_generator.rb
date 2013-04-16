@@ -433,27 +433,27 @@ class PEGParserGenerator
     end
   end
   
-  # calls +parse+. If it returns nil then IO#pos of +input+ is restored to
-  # value before call to this method.
+  # calls +parse+. If it returns nil or false then IO#pos of +input+ is restored
+  # to value before call to this method.
   # 
   # It returns what +parse+ returns.
   # 
   def try(&parse)
     original_pos = input.pos
     parse = parse.()
-    if parse.nil? then input.pos = original_pos end
+    if not parse then input.pos = original_pos end
     return parse
   end
   
-  # calls +parse. If it returns nil then IO#pos of +input is restored to
-  # value before call to this method.
+  # calls +parse. If it returns nil or false then IO#pos of +input is restored
+  # to value before call to this method.
   # 
   # It always returns true.
   # 
   def opt(&parse)
     original_pos = input.pos
     parse = parse.()
-    if parse.nil? then input.pos = original_pos end
+    if not parse then input.pos = original_pos end
     return true
   end
   
