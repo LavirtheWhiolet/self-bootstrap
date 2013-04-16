@@ -371,7 +371,7 @@ class PEGParserGenerator
   end
   
   def pany_char
-    string "char" and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ and debug("Found!") } and pws
+    string "char" and debug("Got char") and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ } and pws
   end
   
   # returns +[body, quote]+ or nil.
