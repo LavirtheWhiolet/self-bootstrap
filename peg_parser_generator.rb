@@ -267,12 +267,12 @@ class PEGParserGenerator
     } or
     # any char.
     try {
-      pany_char and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ } and
+      pany_char and
       Code.new %(@yy_input.getc), true  # It will return either character or nil. That suits us.
     } or
     # end
     try {
-      plexeme 'end' and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ } and
+      plexeme 'end' and
       Code.new %(@yy_input.eof?), false
     } or
     # nonterminal
@@ -371,7 +371,7 @@ class PEGParserGenerator
   end
   
   def pany_char
-    string "char" and pws
+    string "char" and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ } pws
   end
   
   # returns +[body, quote]+ or nil.
