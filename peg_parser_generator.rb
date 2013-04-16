@@ -272,7 +272,7 @@ class PEGParserGenerator
     } or
     # end
     try {
-      plexeme 'end' and
+      pend and
       Code.new %(@yy_input.eof?), false
     } or
     # nonterminal
@@ -371,7 +371,11 @@ class PEGParserGenerator
   end
   
   def pany_char
-    string "char" and pws
+    string "char" and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ } and pws
+  end
+  
+  def pend
+    string "end" and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ } and pws
   end
   
   # returns +[body, quote]+ or nil.
@@ -397,7 +401,7 @@ class PEGParserGenerator
   
   # prints +msg+ and returns true.
   def debug(msg = "here")
-    puts msg
+    STDERR.puts msg
     true
   end
   
@@ -432,27 +436,27 @@ class PEGParserGenerator
     end
   end
   
-  # calls +parse+. If it returns nil then IO#pos of +input+ is restored to
-  # value before call to this method.
+  # calls +parse+. If it returns nil or false then IO#pos of +input+ is restored
+  # to value before call to this method.
   # 
   # It returns what +parse+ returns.
   # 
   def try(&parse)
     original_pos = input.pos
     parse = parse.()
-    if parse.nil? then input.pos = original_pos end
+    if not parse then input.pos = original_pos end
     return parse
   end
   
-  # calls +parse. If it returns nil then IO#pos of +input is restored to
-  # value before call to this method.
+  # calls +parse. If it returns nil or false then IO#pos of +input is restored
+  # to value before call to this method.
   # 
   # It always returns true.
   # 
   def opt(&parse)
     original_pos = input.pos
     parse = parse.()
-    if parse.nil? then input.pos = original_pos end
+    if not parse then input.pos = original_pos end
     return true
   end
   
