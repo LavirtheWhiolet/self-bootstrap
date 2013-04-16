@@ -118,7 +118,7 @@ class PEGParserGenerator
   # returns Hash with keys +:left_part+ and +:method_code+.
   def prule
     (left_part = pnonterminal) and plexeme '<-' and (code = pexpr) and plexeme ';' and begin
-      {
+      x = {
         left_part: left_part,
         method_code: %(
           def #{method_name(left_part)}
@@ -127,6 +127,8 @@ class PEGParserGenerator
           end
         ).force_encoding(Encoding::default_external)
       }
+      p x
+      x
     end
   end
   
