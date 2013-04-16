@@ -272,7 +272,7 @@ class PEGParserGenerator
     } or
     # end
     try {
-      plexeme 'end' and
+      pend and
       Code.new %(@yy_input.eof?), false
     } or
     # nonterminal
@@ -372,6 +372,10 @@ class PEGParserGenerator
   
   def pany_char
     string "char" and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ } and pws
+  end
+  
+  def pend
+    string "end" and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ } and pws
   end
   
   # returns +[body, quote]+ or nil.
