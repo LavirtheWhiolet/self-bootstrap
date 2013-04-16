@@ -267,7 +267,7 @@ class PEGParserGenerator
     } or
     # any char.
     try {
-      pany_char and debug("Any char") and
+      pany_char and debug(@input.pos) and
       Code.new %(@yy_input.getc), true  # It will return either character or nil. That suits us.
     } or
     # end
@@ -277,6 +277,7 @@ class PEGParserGenerator
     } or
     # nonterminal
     try {
+      debug(@input.pos) and
       nonterminal = pnonterminal and (
         @used_nonterminals << nonterminal;
         Code.new %(#{method_name(nonterminal)}), true
