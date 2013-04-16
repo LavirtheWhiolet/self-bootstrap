@@ -397,7 +397,7 @@ class PEGParserGenerator
   
   # prints +msg+ and returns true.
   def debug(msg = "here")
-    puts msg
+    STDERR.puts msg
     true
   end
   
