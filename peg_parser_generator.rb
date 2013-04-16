@@ -261,7 +261,6 @@ class PEGParserGenerator
     try {
       s = pstring and (
         body, quote = *s;
-        p body.encoding
         Code.new %(yy_string(#{quote}#{body}#{quote})), true
       )
     } or
