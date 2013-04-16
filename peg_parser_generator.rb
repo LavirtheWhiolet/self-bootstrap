@@ -267,7 +267,7 @@ class PEGParserGenerator
     } or
     # any char.
     try {
-      pany_char and debug {"Oops!"} and
+      pany_char and
       Code.new %(@yy_input.getc), true  # It will return either character or nil. That suits us.
     } or
     # end
@@ -371,7 +371,7 @@ class PEGParserGenerator
   end
   
   def pany_char
-    string "char" and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ } and pws
+    string "char" and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ and debug("Found!") } and pws
   end
   
   # returns +[body, quote]+ or nil.
