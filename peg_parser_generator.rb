@@ -267,7 +267,7 @@ class PEGParserGenerator
     } or
     # any char.
     try {
-      pany_char and debug("After pany_char: #{@input.pos}") and
+      debug("Before pany_char: #{@input.pos}") and pany_char and
       Code.new %(@yy_input.getc), true  # It will return either character or nil. That suits us.
     } or
     # end
