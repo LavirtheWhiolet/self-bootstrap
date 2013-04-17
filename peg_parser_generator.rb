@@ -258,6 +258,8 @@ class PEGParserGenerator
       Code.new %(yy_string(#{to_ruby_code(char)})), true
     } or
     # string
+    # TODO: Escape sequences in string expressions are the same as Ruby's ones.
+    #   There should be no allowed escape sequences at all.
     try {
       s = pstring and (
         body, quote = *s;
