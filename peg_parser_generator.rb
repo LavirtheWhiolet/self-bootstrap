@@ -374,7 +374,7 @@ class PEGParserGenerator
   end
   
   def pend
-    string "end" and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ } and pws
+    string "$" and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ } and pws
   end
   
   # returns +[body, quote]+ or nil.
