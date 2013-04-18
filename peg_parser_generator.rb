@@ -261,9 +261,8 @@ class PEGParserGenerator
     # TODO: Escape sequences in string expressions are the same as Ruby's ones.
     #   There should be no allowed escape sequences at all.
     try {
-      s = pstring and (
-        body, quote = *s;
-        Code.new %(yy_string(#{quote}#{body}#{quote})), true
+      string_body = pstring and (
+        Code.new %(yy_string(#{to_ruby_code(string_body)})), true
       )
     } or
     # any char.
@@ -379,15 +378,15 @@ class PEGParserGenerator
     string "$" and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ } and pws
   end
   
-  # returns +[body, quote]+ or nil.
+  # returns string body or nil.
   def pstring
     quote = nil
     body = nil
     (
-      try { quote = string('"') and body = capture { many { char_except('"') } } and string('"') and pws } or
-      try { quote = string("'") and body = capture { many { char_except("'") } } and string("'") and pws }
+      try { string('"') and body = capture { many { char_except('"') } } and string('"') and pws } or
+      try { string("'") and body = capture { many { char_except("'") } } and string("'") and pws }
     ) and
-    [body, quote]
+    body
   end
   
   def pws
@@ -497,14 +496,9 @@ class PEGParserGenerator
     if char_range === c then nil else c end
   end
   
-  # Ruby code which value of is equivalent to
-  # +char+.
-  def to_ruby_code(char)
-    case char
-    when "'" then %("#{char}")
-    when "\\" then %('\\\\')
-    else %('#{char}')
-    end
+  # Ruby code which value of is equivalent to +string+.
+  def to_ruby_code(string)
+    string.dump
   end
   
   # Name of method corresponding to +nonterminal+.
