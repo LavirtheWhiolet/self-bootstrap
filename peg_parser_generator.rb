@@ -379,15 +379,15 @@ class PEGParserGenerator
     string "$" and not follows { char /[a-zA-Z0-9_\.\$\@\-]/ } and pws
   end
   
-  # returns +[body, quote]+ or nil.
+  # returns string body or nil.
   def pstring
     quote = nil
     body = nil
     (
-      try { quote = string('"') and body = capture { many { char_except('"') } } and string('"') and pws } or
-      try { quote = string("'") and body = capture { many { char_except("'") } } and string("'") and pws }
+      try { string('"') and body = capture { many { char_except('"') } } and string('"') and pws } or
+      try { string("'") and body = capture { many { char_except("'") } } and string("'") and pws }
     ) and
-    [body, quote]
+    body
   end
   
   def pws
