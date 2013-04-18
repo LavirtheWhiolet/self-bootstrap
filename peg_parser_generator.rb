@@ -497,14 +497,9 @@ class PEGParserGenerator
     if char_range === c then nil else c end
   end
   
-  # Ruby code which value of is equivalent to
-  # +char+.
-  def to_ruby_code(char)
-    case char
-    when "'" then %("#{char}")
-    when "\\" then %('\\\\')
-    else %('#{char}')
-    end
+  # Ruby code which value of is equivalent to +string+.
+  def to_ruby_code(string)
+    string.dump
   end
   
   # Name of method corresponding to +nonterminal+.
