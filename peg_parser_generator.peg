@@ -82,8 +82,8 @@ newline <-
   # Abstract.
   class Code
     
-    def self.abstract
-      raise %(method is abstract)
+    def self.abstract(method)
+      define_method(method) { |*args| raise %(method `#{method}' is abstract) }
     end
     
     # Abstract.
