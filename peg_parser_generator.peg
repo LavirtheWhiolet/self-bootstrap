@@ -6,6 +6,9 @@
 class PEGParserGenerator
   
   def call(input)
+    # Initialize.
+    @id = 0
+    # Parse!
     p yy_parse(input)
   end
   
