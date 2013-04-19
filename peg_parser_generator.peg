@@ -42,7 +42,7 @@ expr100 <-
 
 # Semantic value is map from rules' left parts to their right parts.
 rules <-
-  { val = Hash.new }
+  { val = HashMap.new }
   (
     r:rule
     {
