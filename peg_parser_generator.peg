@@ -73,6 +73,8 @@ newline <-
     def to_s
       @string
     end
+    
+  end
 
 end
 
