@@ -34,6 +34,7 @@ expr10 <-
     val:expr30 `where` r:rules
   )
   {
+    # TODO: "See expr100, nonterminal section: UnknownCode#id is set to nonterminal."
     rules = r
     method_name = HashMap.new { |nonterminal| method_name[nonterminal] = new_unique_nonterminal_method_name }
     r.each do |rule_nonterminal, rule_code|
