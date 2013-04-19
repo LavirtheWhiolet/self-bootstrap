@@ -90,9 +90,10 @@ newline <-
       @parts.map { |part| part.to_s }.join
     end
     
-    protected
-    
-    attr_reader :parts
+    def + other
+      # Optimization.
+      CodeConcatenation.new([*@parts, other])
+    end
     
   end
 
