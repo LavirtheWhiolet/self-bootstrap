@@ -280,6 +280,9 @@ newline <-
     end
     
     def initialize(code)
+      # Fix common errors.
+      code = CodeAsString[code] if code.is_a? String
+      # 
       @code = code
     end
     
