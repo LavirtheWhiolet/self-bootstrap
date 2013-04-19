@@ -7,7 +7,7 @@ class PEGParserGenerator
   
   def call(input)
     # Initialize.
-    @id = 0
+    @next_unique_number = 0
     # Parse!
     p yy_parse(input)
   end
@@ -131,6 +131,12 @@ newline <-
   U+2029 ;
 
 %%
+  
+  # returns unique value on each call. The value always starts with
+  # "yy_nonterm" and is downcase.
+  def new_nonterminal_method_name()
+    "yy_nonterm#{@unique_id.to_s}"
+  end
   
   # 
   # The Code consists of 2 parts: the code as such (which can be got with #to_s)
