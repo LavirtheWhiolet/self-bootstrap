@@ -154,11 +154,13 @@ newline <-
     
   end
   
-  class FunctionCall < Code
+  class UnknownCode < Code
     
-    def initialize(function_id)
-      @function_id = function_id
+    def initialize(id)
+      @id = id
     end
+    
+    attr_reader :id
     
     def to_s
       # TODO
