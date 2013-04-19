@@ -51,8 +51,14 @@ newline <-
 
 %%
 
+  # Abstract.
+  class Code
+    
+    def to_s
+    end
+    
+  end
   
-
 end
 
 
