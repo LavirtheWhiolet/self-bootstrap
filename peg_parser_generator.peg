@@ -29,7 +29,7 @@ expr100 <-
   n:nonterminal { val = code n } # TODO
   ;
 
----- Vocabulary (lexemes) ----
+---- Lexemes ----
 
 # Semantic value is nonterminal's name.
 nonterminal <-
