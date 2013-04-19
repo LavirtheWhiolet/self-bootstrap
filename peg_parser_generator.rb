@@ -381,8 +381,8 @@ class PEGParserGenerator
     quote = nil
     body = nil
     (
-      try { string('"') and body = capture { many { char_except('"') } } and string('"') and pws } or
-      try { string("'") and body = capture { many { char_except("'") } } and string("'") and pws }
+      try { string('"') and body = capture { many { char_except('"') } } and debug(body) and string('"') and pws } or
+      try { string("'") and body = capture { many { char_except("'") } } and debug(body) and string("'") and pws }
     ) and
     body
   end
