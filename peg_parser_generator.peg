@@ -173,10 +173,6 @@ newline <-
     
   end
   
-  def f(id)
-    FunctionCall.new(id)
-  end
-
 end
 
 
