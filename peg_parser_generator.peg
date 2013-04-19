@@ -33,7 +33,7 @@ expr10 <-
   )
   {
     method_name = HashMap.new { |nonterminal| method_name[nonterminal] = new_unique_nonterminal_method_name }
-    r.each do |left_part, code|
+    r.each do |left_part, right_part_code|
       code = code.replace_unknown_code
     end
   } ;
