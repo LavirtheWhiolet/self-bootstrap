@@ -33,7 +33,8 @@ expr100 <-
 
 # Semantic value is nonterminal's name.
 nonterminal <-
-  val:< nonterminal-start (nonterminal-continue)* > ` ` ;
+  val:< nonterminal-start (nonterminal-continue)* > ` ` /
+  val:< "`" (!"`" char)* "`" > ` `;
 
 nonterminal-start <-
   "a"..."z" /
