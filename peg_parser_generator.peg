@@ -62,6 +62,10 @@ newline <-
       abstract
     end
     
+    def + other
+      CodeConcatenation.new([self, other])
+    end
+    
   end
   
   class CodeString < Code
