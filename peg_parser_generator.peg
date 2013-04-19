@@ -32,9 +32,10 @@ expr10 <-
     val:expr30 `where` r:rules
   )
   {
+    rules = r
     method_name = HashMap.new { |nonterminal| method_name[nonterminal] = new_unique_nonterminal_method_name }
     r.each do |rule_nonterminal, rule_code|
-      
+      val = val.replace_unknown_code(rule_nonterminal, code("#{method_name[rule_nonterminal]"))
     end
   } ;
 
