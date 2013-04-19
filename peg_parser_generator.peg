@@ -164,14 +164,9 @@ newline <-
     end
     # Add definitions from +id_to_code+ to +code+.
     id_to_code.each do |id, code2|
-      code += Definition[code("def #{method_name[id]}\n") + ""
-          
-        end
-      )]
+      code += Definition[ code(%(def #{method_name[id]}\n")) + code2 + code(%(\nend)) ]
     end
   end
-  
-  # TODO: Allow to add String-s to Code.
   
   # 
   # The Code consists of 2 parts: the code as such (which can be got with #to_s)
