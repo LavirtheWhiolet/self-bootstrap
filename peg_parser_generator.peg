@@ -53,14 +53,14 @@ rules <-
   (
     r:rule
     {
-      left_part, right_part = *r
-      raise %(rule "#{left_part}" is already defined) if val.has_key? left_part
-      val[left_part] = right_part
+      nonterminal, code = *r
+      raise %(rule "#{nonterminal}" is already defined) if val.has_key? nonterminal
+      val[nonterminal] = code
     }
   )*
   ;
 
-# Semantic value is [nonterminal name, right part code].
+# Semantic value is [nonterminal, right part code].
 rule <-
   n:nonterminal `<-` c:expr `;`
   { val = [n, c] } ;
