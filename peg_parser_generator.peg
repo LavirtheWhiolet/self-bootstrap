@@ -187,6 +187,12 @@ newline <-
   
   class CodeAsString < Code
     
+    class << self
+      
+      alias [] new
+      
+    end
+    
     def initialize(string)
       @string = string
     end
