@@ -138,6 +138,13 @@ newline <-
     "yy_nonterm#{@unique_id.to_s}"
   end
   
+  # returns unique number on each call.
+  def new_unique_number
+    result = @next_unique_number
+    @next_unique_number += 1
+    return result
+  end
+  
   # 
   # The Code consists of 2 parts: the code as such (which can be got with #to_s)
   # and code of definitions (which can be got with #definitions_to_s).
