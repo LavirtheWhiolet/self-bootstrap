@@ -65,9 +65,9 @@ class PEGParserGenerator
               # Initialize.
               @yy_input = input
               # Parse!
-              (value = #{method_name(rule[:left_part])}) or raise SyntaxError
+              (val = #{method_name(rule[:left_part])}) or raise SyntaxError
               # 
-              return yy_from_pcv(value)
+              return yy_from_pcv(val)
             end
           )
           rule_is_first = false
@@ -122,8 +122,8 @@ class PEGParserGenerator
         left_part: left_part,
         method_code: %(
           def #{method_name(left_part)}
-            value = :yy_nil
-            #{code} and yy_to_pcv(value)
+            val = :yy_nil
+            #{code} and yy_to_pcv(val)
           end
         ).force_encoding(Encoding::default_external)
       }
