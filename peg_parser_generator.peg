@@ -28,11 +28,14 @@ expr <- val:expr30 ;
 expr10 <-
   # Rules introduction.
   (
-    r:rules `in` e:expr10 /
-    e:expr30 `where` r:rules
+    r:rules `in` code:expr10 /
+    code:expr30 `where` r:rules
   )
   {
     method_name = HashMap.new { |nonterminal| method_name[nonterminal] = new_unique_nonterminal_method_name }
+    r.each do |left_part, code|
+      code = code.replace_unknown_code
+    end
   } ;
 
 expr30 <-
