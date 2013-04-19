@@ -20,7 +20,9 @@ grammar <-
 
 expr <- value:expr100 ;
 
-
+expr30 <-
+  # Sequence.
+  value: expr100 (other: expr100 { value += code(" and ") + other })* ;
 
 expr100 <-
   s:string { value = code %(yy_string(#{s.force_encoding("UTF-8").dump})) }
