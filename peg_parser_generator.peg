@@ -133,7 +133,7 @@ newline <-
 %%
   
   # returns unique value on each call. The value always starts with
-  # "yy_nonterm" and is lowcase.
+  # "yy_nonterm" and is always lowcase.
   def new_unique_nonterminal_method_name()
     "yy_nonterm#{new_unique_number.to_s(36)}"
   end
