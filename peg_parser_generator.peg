@@ -153,6 +153,18 @@ newline <-
   end
   
   # 
+  # 
+  # 
+  def link(id_to_code)
+    result = self
+    # 
+    method_name = HashMap.new { |id| method_name[id] = new_unique_nonterminal_method_name }
+    # Replace unknown codes with method calls (where possible).
+    id_to_code.each { |id, code|
+      result = result.replace_unknown_code(id, code "#{method_name[id]}")
+  end
+  
+  # 
   # The Code consists of 2 parts: the code as such (which can be got with #to_s)
   # and code of definitions (which can be got with #definitions_to_s).
   # 
@@ -186,20 +198,6 @@ newline <-
     
     def inspect
       to_s
-    end
-    
-    # 
-    # 
-    # 
-    # Non-overridable.
-    # 
-    def link(id_to_code)
-      result = self
-      # 
-      method_name = HashMap.new { |id| method_name[id] = new_unique_nonterminal_method_name }
-      # Replace unknown codes with method calls (where possible).
-      id_to_code.each { |id, code|
-        result = result.replace_unknown_code(id, code "#{method_name[id]}")
     end
     
   end
