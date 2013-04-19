@@ -164,7 +164,7 @@ newline <-
     end
     # Add definitions from +id_to_code+ to +code+.
     id_to_code.each do |id, code2|
-      code += Definition[ code(%(def #{method_name[id]}\n")) + code2 + code(%(\nend)) ]
+      code += Definition[code(%(def #{method_name[id]}\n")) + code2 + code(%(\nend))]
     end
   end
   
