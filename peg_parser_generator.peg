@@ -28,7 +28,17 @@ expr100 <-
   s:string  { val = code %(yy_string(#{s.force_encoding("UTF-8").dump})) } /
   n:nonterminal  { val = UnknownCode[n] } ;
 
+rule <-
+  left_part:nonterminal `<-` right_part:expr `;`
+  { val = [left_part, right_part] } ;
+
 ---- Lexemes ----
+
+`<-` <-
+  "<-" ` ` /
+  "=" ` ` ;
+
+`;` <- ";" ` ` ;
 
 # Semantic value is nonterminal's name.
 nonterminal <-
