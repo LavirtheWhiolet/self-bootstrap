@@ -6,7 +6,7 @@
 class PEGParserGenerator
   
   def call(input)
-    yy_parse(input)
+    puts yy_parse(input)
   end
   
   private
