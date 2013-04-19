@@ -242,6 +242,10 @@ newline <-
       ""
     end
     
+    def definitions_to_s
+      @code.to_s
+    end
+    
   end
   
 end
