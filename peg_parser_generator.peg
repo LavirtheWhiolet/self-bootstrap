@@ -156,15 +156,16 @@ newline <-
   # 
   # 
   def link(code, id_to_code)
+    result = code
     # Utilities.
     method_name = HashMap.new { |id| method_name[id] = new_unique_nonterminal_method_name }
     # Replace unknown codes with method calls (where possible).
     id_to_code.each do |id, _|
-      code = code.replace_unknown_code(id, code("#{method_name[id]}"))
+      result = result.replace_unknown_code(id, code("#{method_name[id]}"))
     end
-    # Add definitions from +id_to_code+ to +code+.
-    id_to_code.each do |id, code2|
-      code += Definition[code(%(def #{method_name[id]}\n")) + code2 + code(%(\nend))]
+    # Add definitions from +id_to_code+ to result.
+    id_to_code.each do |id, definition_code|
+      result += Definition[code(%(def #{method_name[id]}\n")) + definition_code + code(%(\nend))]
     end
     #
     return code
