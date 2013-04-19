@@ -82,7 +82,7 @@ newline <-
   
   class CodeConcatenation < Code
     
-    def initialize(*parts)
+    def initialize(parts)
       @parts = parts
     end
     
