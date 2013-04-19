@@ -20,6 +20,16 @@ grammar <-
 
 expr <- val:expr30 ;
 
+expr10 <-
+  # Rules introduction.
+  (
+    rules:rules `in` expr:expr10 /
+    expr:expr30 `where` rules:rules
+  )
+  {
+    
+  } ;
+
 expr30 <-
   # Sequence.
   val:expr100 (val2:expr100 { val += code(" and ") + val2 })* ;
