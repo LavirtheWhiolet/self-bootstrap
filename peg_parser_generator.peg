@@ -41,7 +41,7 @@ rule <-
 # Semantic value is nonterminal's name.
 nonterminal <-
   val:< nonterminal-start (nonterminal-middle)* > ` ` /
-  val:< "`" (!"`" char)* "`" > ` `;
+  val:< "`" (!"`" char)* "`" > ` ` ;
 
 nonterminal-start <-
   "a"..."z" /
