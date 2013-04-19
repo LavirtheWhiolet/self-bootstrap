@@ -141,6 +141,10 @@ newline <-
       @parts.map { |part| part.to_s }.join
     end
     
+    def inspect
+      @parts.map { |part| part.inspect }.join
+    end
+    
     def + other
       # Optimization.
       CodeConcatenation.new([*@parts, other])
