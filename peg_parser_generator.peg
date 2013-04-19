@@ -68,7 +68,7 @@ newline <-
     
   end
   
-  class StringCode < Code
+  class CodeAsString < Code
     
     def initialize(string)
       @string = string
