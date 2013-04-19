@@ -25,7 +25,8 @@ expr30 <-
   val:expr100 (val2:expr100 { val += code(" and ") + val2 })* ;
 
 expr100 <-
-  s:string { val = code %(yy_string(#{s.force_encoding("UTF-8").dump})) }
+  s:string  { val = code %(yy_string(#{s.force_encoding("UTF-8").dump})) } /
+  
   ;
 
 ---- Vocabulary (lexemes) ----
