@@ -13,6 +13,12 @@ class PEGParserGenerator
   
 %%
 
+# Semantic value is the string's body.
+string <-
+  "'" value:< (!"'" char)* > "'" ` ` /
+  '"' value:< (!'"' char)* > '"' ` ` /
+  code:Unicode-code ` ` { value = "".force_encoding("UTF-8") << code } ;
+
 # Semantic value is integer code.
 Unicode-code <-
   "U+" code:< ("0"..."9" / "A"..."F")+ >
