@@ -273,6 +273,12 @@ newline <-
   # A code which goes to "definitions" section.
   class Definition < Code
     
+    class << self
+      
+      alias [] new
+      
+    end
+    
     def initialize(code)
       @code = code
     end
