@@ -17,6 +17,11 @@ string <-
   "'" value:< (!"'" char)* > "'" ` ` /
   '"' value:< (!'"' char)* > '"' ` ` ;
 
+# Semantic value is integer code.
+Unicode-code <-
+  "U+" code:< ("0"..."9" / "A"..."F")+ >
+  { value = code.to_i(16) } ;
+
 # Insignificant text.
 ` ` <-
   (white-space / comment)* ;
