@@ -35,10 +35,7 @@ rule <-
 
 ---- Lexemes ----
 
-`<-` <-
-  "<-" ` ` /
-  "=" ` ` ;
-
+`<-` <- ("<-" / "=") ` ` ;
 `;` <- ";" ` ` ;
 
 # Semantic value is nonterminal's name.
