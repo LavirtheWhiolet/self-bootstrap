@@ -21,11 +21,7 @@ grammar <-
 expr <- value:expr100 ;
 
 expr100 <-
-  s:string
-  {
-    s = s.force_encoding("UTF-8")
-    value = code %(yy_string(#{s.dump}))
-  }
+  s:string { value = code %(yy_string(#{s.force_encoding("UTF-8").dump})) }
   ;
 
 ---- Vocabulary (lexemes) ----
