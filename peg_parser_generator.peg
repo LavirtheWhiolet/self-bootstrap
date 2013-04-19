@@ -82,14 +82,12 @@ newline <-
   # Abstract.
   class Code
     
+    # defines abstract method.
     def self.abstract(method)
       define_method(method) { |*args| raise %(method `#{method}' is abstract) }
     end
     
-    # Abstract.
-    def to_s
-      abstract
-    end
+    abstract :to_s
     
     # Non-overridable.
     def + other
