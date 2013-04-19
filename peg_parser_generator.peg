@@ -148,7 +148,7 @@ newline <-
     
   end
   
-  def FunctionCall < Code
+  class FunctionCall < Code
     
     def initialize(function_id)
       @function_id = function_id
