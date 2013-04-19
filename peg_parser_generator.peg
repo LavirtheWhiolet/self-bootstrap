@@ -13,6 +13,9 @@ class PEGParserGenerator
   
 %%
 
+grammar <-
+  ` ` value:string ;
+
 # Semantic value is the string's body.
 string <-
   "'" value:< (!"'" char)* > "'" ` ` /
