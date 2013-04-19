@@ -147,6 +147,27 @@ newline <-
     end
     
   end
+  
+  def FunctionCall < Code
+    
+    def initialize(function_id)
+      @function_id = function_id
+    end
+    
+    def to_s
+      # TODO
+      raise %("#{function_id}" is not defined)
+    end
+    
+    def inspect
+      "...(#{function_id})..."
+    end
+    
+  end
+  
+  def f(id)
+    FunctionCall.new(id)
+  end
 
 end
 
