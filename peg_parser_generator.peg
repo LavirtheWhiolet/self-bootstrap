@@ -200,6 +200,7 @@ newline <-
       @id = id
     end
     
+    # Identifier associated with this UnknownCode.
     attr_reader :id
     
     def to_s
