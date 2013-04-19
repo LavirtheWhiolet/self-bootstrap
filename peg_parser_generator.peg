@@ -64,7 +64,7 @@ newline <-
     
   end
   
-  class CodeString
+  class CodeString < Code
     
     def initialize(string)
       @string = string
@@ -76,7 +76,7 @@ newline <-
     
   end
   
-  class CodeConcatenation
+  class CodeConcatenation < Code
     
     def initialize(*parts)
       @parts = parts
