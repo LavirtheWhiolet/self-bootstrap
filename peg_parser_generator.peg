@@ -94,6 +94,10 @@ newline <-
       CodeConcatenation.new([self, other])
     end
     
+    def inspect
+      to_s
+    end
+    
   end
   
   class CodeAsString < Code
