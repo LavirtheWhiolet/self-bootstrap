@@ -193,7 +193,7 @@ newline <-
     # 
     # Non-overridable.
     # 
-    def link(rules)
+    def link(id_to_code)
       
     end
     
