@@ -80,6 +80,10 @@ newline <-
     
   end
   
+  def code(string)
+    CodeAsString.new(string)
+  end
+  
   class CodeConcatenation < Code
     
     def initialize(parts)
