@@ -26,7 +26,7 @@ expr30 <-
 
 expr100 <-
   s:string  { val = code %(yy_string(#{s.force_encoding("UTF-8").dump})) } /
-  n:nonterminal  { val = f n } # TODO
+  n:nonterminal  { val = UnknownCode[n] } # TODO
   ;
 
 ---- Lexemes ----
@@ -173,7 +173,7 @@ newline <-
     end
     
     def inspect
-      "??? (#{id}) ???"
+      "???(#{id})???"
     end
     
   end
