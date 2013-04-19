@@ -168,7 +168,7 @@ newline <-
       result += Definition[code(%(def #{method_name[id]}\n")) + definition_code + code(%(\nend))]
     end
     #
-    return code
+    return result
   end
   
   # 
