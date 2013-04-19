@@ -13,12 +13,14 @@ class PEGParserGenerator
   
 %%
 
+---- Syntax ----
+
 grammar <-
   ` ` value:string ;
 
 
 
----- Vocabulary ----
+---- Vocabulary (lexemes) ----
 
 # Semantic value is the string's body.
 string <-
