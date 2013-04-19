@@ -173,7 +173,7 @@ newline <-
     end
     
     def inspect
-      "???(#{id})???"
+      "???(#{id})"
     end
     
   end
