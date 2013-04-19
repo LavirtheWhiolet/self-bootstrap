@@ -32,7 +32,7 @@ expr10 <-
     e:expr30 `where` r:rules
   )
   {
-    
+    method_name = HashMap.new { |nonterminal| method_name[nonterminal] = new_unique_nonterminal_method_name }
   } ;
 
 expr30 <-
