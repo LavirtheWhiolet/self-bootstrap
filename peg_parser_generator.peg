@@ -194,7 +194,9 @@ newline <-
     # Non-overridable.
     # 
     def link(id_to_code)
+      # 
       method_name = HashMap.new { |id| method_name[id] = new_unique_nonterminal_method_name }
+      # 
       
     end
     
