@@ -31,6 +31,16 @@ expr100 <-
 
 ---- Vocabulary (lexemes) ----
 
+nonterminal-start <-
+  "a"..."z" /
+  "A"..."Z" /
+  "-" /
+  "_" ;
+
+nonterminal-continue <-
+  nonterminal-start /
+  "0"..."9" ;
+
 # Semantic val is the string's body.
 string <-
   "'" val:< (!"'" char)* > "'" ` ` /
