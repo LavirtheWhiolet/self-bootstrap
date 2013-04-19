@@ -188,6 +188,15 @@ newline <-
       to_s
     end
     
+    # 
+    # 
+    # 
+    # Non-overridable.
+    # 
+    def link(rules)
+      
+    end
+    
   end
   
   class CodeAsString < Code
