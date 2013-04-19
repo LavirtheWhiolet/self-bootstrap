@@ -156,11 +156,11 @@ newline <-
     
     def to_s
       # TODO
-      raise %("#{function_id}" is not defined)
+      raise %("#{@function_id}" is not defined)
     end
     
     def inspect
-      "...(#{function_id})..."
+      "...(#{@function_id})..."
     end
     
   end
