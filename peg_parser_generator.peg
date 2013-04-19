@@ -50,15 +50,30 @@ newline <-
   U+2029 ;
 
 %%
-
+  
   # Abstract.
   class Code
     
+    def self.abstract
+      raise %(method is abstract)
+    end
+    
     def to_s
+      abstract
     end
     
   end
   
+  class CodeString
+    
+    def initialize(string)
+      @string = string
+    end
+    
+    def to_s
+      @string
+    end
+
 end
 
 
