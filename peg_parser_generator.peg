@@ -38,6 +38,7 @@ rule <-
 `<-` <- ("<-" / "=") ` `;
 `;` <- ";" ` `;
 `where` <- "where" !nonterminal-middle ` `;
+`in` <- "in" !nonterminal-middle ` `;
 
 # Semantic value is nonterminal's name.
 nonterminal <-
