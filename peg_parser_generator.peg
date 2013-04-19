@@ -229,6 +229,10 @@ newline <-
     
     attr_reader :id
     
+    def replace_unknown_code(&id_to_code)
+      return id_to_code.call(id)
+    end
+    
     def to_s
       raise UnknownCodeEncountered, self
     end
