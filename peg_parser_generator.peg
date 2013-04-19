@@ -13,6 +13,10 @@ class PEGParserGenerator
   
 %%
 
+string <-
+  "'" value:< (!"'" char)* > "'" /
+  '"' value:< (!'"' char)* > '"' ;
+
 # Insignificant text.
 ` ` <-
   (white-space / comment)* ;
