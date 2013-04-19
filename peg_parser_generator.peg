@@ -175,12 +175,10 @@ newline <-
     end
     
     # 
-    # returns this Code with UnknownCode-s replaced with Code-s returned by
-    # +id_to_code+.
+    # returns this Code with UnknownCode-s having specified
+    # UnknownCode#id (+id+) replaced with +code+.
     # 
-    # +id_to_code+ is passed with UnknownCode#id and returns new Code.
-    # 
-    def replace_unknown_code(&id_to_code)
+    def replace_unknown_code(id, code)
       return self
     end
     
@@ -224,8 +222,8 @@ newline <-
       @parts = parts
     end
     
-    def replace_unknown_code(&id_to_code)
-      CodeConcatenation.new(@parts.map { |part| part.replace_unknown_code(&code) })
+    def replace_unknown_code(id, code)
+      CodeConcatenation.new(@parts.map { |part| part.replace_unknown_code(id, code) })
     end
     
     def to_s
@@ -261,8 +259,10 @@ newline <-
     
     attr_reader :id
     
-    def replace_unknown_code(&id_to_code)
-      return id_to_code.call(id)
+    def replace_unknown_code(id, code)
+      if self.id == id then code
+      else self
+      end
     end
     
     def to_s
@@ -302,8 +302,8 @@ newline <-
       @code = code
     end
     
-    def replace_unknown_code(&id_to_code)
-      Definition.new(code.replace_unknown_code(&id_to_code))
+    def replace_unknown_code(id, code)
+      Definition.new(code.replace_unknown_code(id, code))
     end
     
     def to_s
