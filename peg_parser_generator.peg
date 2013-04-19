@@ -46,7 +46,8 @@ expr100 <-
   s:string  { val = code %(yy_string(#{s.force_encoding("UTF-8").dump})) } /
   n:nonterminal  { val = UnknownCode[n] } ;
 
-# Semantic value is map from rules' left parts to their right parts.
+# Semantic value is map from rule's left part (nonterminal name) to its right
+# part (code).
 rules <-
   { val = HashMap.new }
   (
@@ -59,10 +60,10 @@ rules <-
   )*
   ;
 
-# Semantic value is [left part, right part].
+# Semantic value is [nonterminal name, right part code].
 rule <-
-  left_part:nonterminal `<-` right_part:expr `;`
-  { val = [left_part, right_part] } ;
+  n:nonterminal `<-` c:expr `;`
+  { val = [n, c] } ;
 
 ---- Lexemes ----
 
