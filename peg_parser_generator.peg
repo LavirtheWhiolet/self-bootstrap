@@ -261,6 +261,10 @@ newline <-
       @code = code
     end
     
+    def replace_unknown_code(&id_to_code)
+      Definition.new(code.replace_unknown_code(&id_to_code))
+    end
+    
     def to_s
       ""
     end
