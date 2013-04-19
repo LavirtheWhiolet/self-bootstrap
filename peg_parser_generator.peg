@@ -192,6 +192,10 @@ newline <-
       @parts = parts
     end
     
+    def replace_unknown_code(&id_to_code)
+      CodeConcatenation.new(@parts.map { |part| part.replace_unknown_code(&code) })
+    end
+    
     def to_s
       @parts.map { |part| part.to_s }.join
     end
