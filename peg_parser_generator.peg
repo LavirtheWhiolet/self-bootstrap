@@ -22,7 +22,7 @@ expr <- val:expr30 ;
 
 expr30 <-
   # Sequence.
-  val: expr100 (other: expr100 { val += code(" and ") + other })* ;
+  val:expr100 (val2:expr100 { val += code(" and ") + val2 })* ;
 
 expr100 <-
   s:string { val = code %(yy_string(#{s.force_encoding("UTF-8").dump})) }
