@@ -149,14 +149,14 @@ newline <-
     end
     
     # 
-    # replaces UnknownCode in this Code to Code returned by +id_to_code+.
+    # returns this Code with UnknownCode-s replaced with Code-s returned by
+    # +id_to_code+.
     # 
     # +id_to_code+ is passed with UnknownCode#id and returns new Code.
     # 
     def replace_unknown_code(&id_to_code)
+      return self
     end
-    
-    abstract :replace_unknown_code
     
     # Non-overridable.
     def + other
