@@ -16,9 +16,17 @@ class PEGParserGenerator
 ---- Syntax ----
 
 grammar <-
-  ` ` value:string ;
+  ` ` value:expr ;
 
+expr <- value:expr100 ;
 
+expr100 <-
+  s:string
+  {
+    s = s.force_encoding("UTF-8")
+    value = code %(yy_string(#{s.dump}))
+  }
+  ;
 
 ---- Vocabulary (lexemes) ----
 
