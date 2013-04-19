@@ -163,13 +163,23 @@ newline <-
     attr_reader :id
     
     def to_s
-      # TODO
-      raise %("#{@function_id}" is not defined)
+      raise UnknownCodeEncountered, self
     end
     
     def inspect
       "??? (#{id}) ???"
     end
+    
+  end
+  
+  class UnknownCodeEncountered < Exception
+    
+    def initialize(code)
+      super %(unknown code with id = #{code.id} is encountered)
+      @code = code
+    end
+    
+    attr_reader :code
     
   end
   
