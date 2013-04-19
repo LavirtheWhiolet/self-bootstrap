@@ -6,7 +6,7 @@
 class PEGParserGenerator
   
   def call(input)
-    puts yy_parse(input)
+    p yy_parse(input)
   end
   
   private
@@ -18,7 +18,7 @@ class PEGParserGenerator
 grammar <-
   ` ` value:expr ;
 
-expr <- value:expr100 ;
+expr <- value:expr30 ;
 
 expr30 <-
   # Sequence.
