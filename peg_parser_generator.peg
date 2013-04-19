@@ -41,13 +41,13 @@ nonterminal-continue <-
   nonterminal-start /
   "0"..."9" ;
 
-# Semantic val is the string's body.
+# Semantic value is the string's body.
 string <-
   "'" val:< (!"'" char)* > "'" ` ` /
   '"' val:< (!'"' char)* > '"' ` ` /
   code:Unicode-code ` ` { val = "".force_encoding("UTF-8") << code } ;
 
-# Semantic val is integer code.
+# Semantic value is integer code.
 Unicode-code <-
   "U+" code:< ("0"..."9" / "A"..."F")+ >
   { val = code.to_i(16) } ;
