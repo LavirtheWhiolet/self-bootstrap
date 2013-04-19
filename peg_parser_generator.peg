@@ -75,6 +75,18 @@ newline <-
     end
     
   end
+  
+  class CodeConcatenation
+    
+    def initialize(*parts)
+      @parts = parts
+    end
+    
+    protected
+    
+    attr_reader :parts
+    
+  end
 
 end
 
