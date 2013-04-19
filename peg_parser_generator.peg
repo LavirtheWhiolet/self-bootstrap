@@ -164,7 +164,7 @@ newline <-
     end
     
     def inspect
-      "...(#{@function_id})..."
+      "??? (#{@function_id})"
     end
     
   end
