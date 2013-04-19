@@ -156,6 +156,12 @@ newline <-
   
   class UnknownCode < Code
     
+    class << self
+      
+      alias [] new
+      
+    end
+    
     def initialize(id)
       @id = id
     end
