@@ -63,12 +63,12 @@ rules <-
 
 # Semantic value is [nonterminal, Definition].
 rule <-
-  n:nonterminal `<-` c:expr `;`
+  n:nonterminal `<-/=` c:expr `;`
   { val = [n, to_method_definition(c, new_unique_nonterminal_method_name)] } ;
 
 ---- Lexemes ----
 
-`<-` <- ("<-" / "=") ` `;
+`<-/=` <- ("<-" / "=") ` `;
 `;` <- ";" ` `;
 
 `where` <- "where" !nonterminal-middle ` `;
