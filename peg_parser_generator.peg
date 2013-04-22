@@ -37,7 +37,7 @@ expr10 <-
     )
     { val = link(c, r) }
   ) /
-  val:expr30 ;
+  val:expr20 ;
 
 expr20 <-
   # Ordered choice.
