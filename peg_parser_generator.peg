@@ -8,7 +8,7 @@ class PEGParserGenerator
   def call(input)
     # Initialize.
     @next_unique_number = 0
-    # Parse.
+    # Parse and generate.
     code = yy_parse(input)
     # Generate.
     code = to_method_definition(code, "yy_parse1")
