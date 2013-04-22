@@ -330,8 +330,8 @@ newline <-
       @code = code
     end
     
-    def replace_unknown_code(id, code)
-      Definition.new(code.replace_unknown_code(id, code))
+    def replace_unknown_code(nonterminal, code)
+      Definition.new(code.replace_unknown_code(nonterminal, code))
     end
     
     def to_s
