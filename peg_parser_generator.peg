@@ -195,9 +195,6 @@ newline <-
       define_method(method) { |*args| raise %(method `#{method}' is abstract) }
     end
     
-    # Rename Object#to_s to #inspect.
-    alias inspect to_s
-    
     abstract :to_s
     
     def definitions_to_s
@@ -235,6 +232,10 @@ newline <-
       @string
     end
     
+    def inspect
+      "#<CodeAsString: #{@string}>"
+    end
+    
   end
   
   # returns CodeAsString.
@@ -265,6 +266,10 @@ newline <-
       CodeConcatenation.new([*@parts, other])
     end
     
+    def inspect
+      "#<CodeConcatenation: #{@parts.map { |p| p.inspect }.join}>"
+    end
+    
   end
   
   class UnknownCode < Code
@@ -290,6 +295,10 @@ newline <-
     
     def to_s
       raise UnknownCodeEncountered, self
+    end
+    
+    def inspect
+      "#<UnknownCode: #{@nonterminal}>"
     end
     
   end
@@ -331,6 +340,10 @@ newline <-
     
     def definitions_to_s
       @code.to_s + @code.definitions_to_s
+    end
+    
+    def inspect
+      "#<Definition: #{@code.inspect}>"
     end
     
   end
