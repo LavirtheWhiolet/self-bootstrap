@@ -1,8 +1,4 @@
 # TODO: Delete before merging.
-%%
-# encoding: UTF-8
-
-%%
 
 'a' / abc { puts "Got 'b'!" } where abc <- 'b';
 

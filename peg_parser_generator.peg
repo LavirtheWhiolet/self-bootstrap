@@ -162,7 +162,7 @@ rule <-
 ---- Lexemes ----
 
 code-delimiter <-
-  "%%" (!newline char) newline ;
+  "%%" (!newline char)* newline ;
 
 # Semantic value is action's body.
 action <-
