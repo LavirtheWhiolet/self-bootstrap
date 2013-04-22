@@ -182,6 +182,15 @@ newline <-
     return code
   end
   
+  def to_method_definition(code, method_name)
+    Definition[
+      code("def #{method_name} \n") +
+        code("val = :yy_nil \n") +
+        code + code(" and yy_to_pcv(val) \n") +
+      code("end \n")
+    ]
+  end
+  
   # 
   # The Code consists of 2 parts: the code as such (which can be got with #to_s)
   # and code of definitions (which can be got with #definitions_to_s).
