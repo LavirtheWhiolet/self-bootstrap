@@ -49,7 +49,10 @@ expr30 <-
   { single_expression = true }
   val:expr100 (
     val2:expr100
-    { val += code(" and ") + val2; single_expression = false }
+    {
+      single_expression = false
+      val += code(" and ") + val2
+    }
   )*
   { if not single_expression then val = code("(") + val + code(")") end } ;
 
