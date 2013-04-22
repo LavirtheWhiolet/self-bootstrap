@@ -11,7 +11,7 @@ class PEGParserGenerator
     # Parse.
     code = yy_parse(input)
     # Generate.
-    code = to_method_definition code, "yy_parse1"
+    code = to_method_definition(code, "yy_parse1")
     
     puts %(
       def yy_parse(input)
