@@ -93,7 +93,8 @@ expr30 <-
 expr100 <-
   s:string  { val = code "yy_string(#{s.force_encoding("UTF-8").dump})" } /
   n:nonterminal  { val = UnknownCode[n] } /
-  a:action  { val = code "begin \n #{a} \n true \n end" } ;
+  a:action  { val = code "begin \n #{a} \n true \n end" } /
+  `$`  { val = code "@yy_input.eof?" } ;
 
 # Semantic value is HashMap1 from rule's left part (nonterminal) to
 # its right part (Definition).
@@ -131,6 +132,7 @@ action-body <-
 `<-/=` <- ("<-" / "=") ` `;
 `;` <- ";" ` `;
 `/` <- "/" ` `;
+`$` <- "$" ` `;
 
 `where` <- "where" !nonterminal-middle ` `;
 `in` <- "in" !nonterminal-middle ` `;
