@@ -42,9 +42,11 @@ class PEGParserGenerator
       end
       
       def yy_string(string)
+        # Read string.
         read_string = @yy_input.read(string.bytesize)
         return nil if not read_string
         read_string.force_encoding(string.encoding)
+        # 
         if read_string == string then return string
         else return nil
         end
