@@ -91,8 +91,7 @@ expr20 <-
     if not single_expression then
       val = (code "begin; #{remembered_pos_var} = @yy_input.pos; ") + val + (code "; end")
     end
-  }
-  ;
+  } ;
 
 expr30 <-
   # Sequence.
