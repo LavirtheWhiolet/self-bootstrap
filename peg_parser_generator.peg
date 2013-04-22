@@ -71,9 +71,9 @@ rule <-
     # Convert c to Definition.
     c = Definition[
       (code "def ") + UnknownCode[n] + (code "\n") +
-        (code "val = :yy_nil\n") +
-        c + (code " and yy_to_pcv(val)\n") +
-      (code "end\n")
+        (code "val = :yy_nil \n") +
+        c + (code " and yy_to_pcv(val) \n") +
+      (code "end \n")
     ]
     # 
     val = [n, c]
