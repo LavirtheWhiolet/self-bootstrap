@@ -77,8 +77,8 @@ expr20 <-
 expr30 <-
   # Sequence.
   { single_expression = true }
-  val:expr100 (
-    val2:expr100
+  val:expr90 (
+    val2:expr90
     {
       single_expression = false
       val = val + (code " and ") + val2
@@ -89,8 +89,6 @@ expr30 <-
       val = (code "(") + val + (code ")")
     end
   } ;
-
-
 
 expr90 <-
   # Brackets.
