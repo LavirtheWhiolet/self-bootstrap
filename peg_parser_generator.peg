@@ -58,7 +58,7 @@ rules <-
       raise %(rule "#{nonterminal}" is already defined) if val.has_key? nonterminal
       val[nonterminal] = definition
     }
-  )*
+  )+
   ;
 
 # Semantic value is [nonterminal, Definition].
