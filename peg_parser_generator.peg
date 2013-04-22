@@ -36,7 +36,7 @@ expr10 <-
     )
     { val = link(c, r) }
   ) /
-  val:expr20 ;
+  val:expr30 ;
 
 expr30 <-
   # Sequence.
