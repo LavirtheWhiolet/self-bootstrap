@@ -90,14 +90,14 @@ expr30 <-
     end
   } ;
 
-expr80 <-
-  # Text capture.
-  var:Ruby-variable `:` c:expr { val = capture_text_code(var, c) } /
-  val:expr100 ;
+expr <-
 
 expr90 <-
   # Brackets.
   `(` val:expr `)` /
+  # Text capture.
+  var:Ruby-variable `:` c:expr { val = capture_text_code(var, c) } /
+  # 
   val:expr100 ;
 
 expr100 <-
