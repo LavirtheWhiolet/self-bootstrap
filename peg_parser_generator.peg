@@ -164,7 +164,7 @@ newline <-
   end
   
   # 
-  # 
+  # See source code.
   # 
   def link(code, nonterminal_to_definition)
     # Add all definitions to the code.
