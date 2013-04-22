@@ -267,7 +267,7 @@ newline <-
     end
     
     def inspect
-      "#<CodeConcatenation: #{@parts.map { |p| p.inspect }.join}>"
+      "#<CodeConcatenation: #{@parts.map { |p| p.inspect }.join(", ")}>"
     end
     
   end
