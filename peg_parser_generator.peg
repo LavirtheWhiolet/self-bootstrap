@@ -77,8 +77,8 @@ expr20 <-
 expr30 <-
   # Sequence.
   { single_expression = true }
-  val:expr90 (
-    val2:expr90
+  val:expr80 (
+    val2:expr80
     {
       single_expression = false
       val = val + (code " and ") + val2
