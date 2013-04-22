@@ -8,24 +8,10 @@ class PEGParserGenerator
   def call(input)
     # Initialize.
     @next_unique_number = 0
-    # Parse and generate!
-    yy_parse(input)
-  end
-  
-  private
-  
-  HashMap = Hash
-  
-%%
-
----- Syntax ----
-
-# NOTE: Semantic value of all "expr..." rules is Code.
-
-grammar <-
-  ` ` c:expr $
-  {
-    c = to_method_definition c, "yy_parse1"
+    # Parse.
+    code = yy_parse(input)
+    # Generate.
+    code = to_method_definition code, "yy_parse1"
     
     puts %(
       def yy_parse(input)
@@ -58,7 +44,20 @@ grammar <-
       class YY_SyntaxError < Exception
       end
     )
-  } ;
+  end
+  
+  private
+  
+  HashMap = Hash
+  
+%%
+
+---- Syntax ----
+
+# NOTE: Semantic value of all "expr..." rules is Code.
+
+grammar <-
+  ` ` c:expr $ ;
 
 expr <-
   val:expr10 ;
