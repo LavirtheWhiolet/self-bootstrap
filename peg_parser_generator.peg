@@ -41,6 +41,17 @@ expr10 <-
 
 expr20 <-
   # Ordered choice.
+  (
+    {
+      remembered_pos_var = new_unique_variable_name
+      val = code("(#{remembered_pos_var} = @yy_input.pos; ")
+    }
+    (
+      `/`? c:code
+      { val += c + " or " }
+  ) /
+  val:expr30 ;
+   
   {
     remembered_pos_var = new_unique_variable_name
     need_remember_position = false
