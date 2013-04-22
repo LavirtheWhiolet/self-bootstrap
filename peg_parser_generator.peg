@@ -146,6 +146,9 @@ rule <-
 
 ---- Lexemes ----
 
+code-delimiter <-
+  "%%" (!newline char) newline ;
+
 # Semantic value is action's body.
 action <-
   val:< action-body > ` ` { val = val[1...-1] }
