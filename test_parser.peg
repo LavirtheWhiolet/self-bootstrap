@@ -4,7 +4,8 @@
 
 %%
 
-'a' 'x'...'z' $ / abc $ { puts "Got 'b'!" # Hi! } where abc <- 'b';
+'a' test:<'x'...'z'> { puts test } $ / abc $
+where abc <- 'b';
 
 %%
 
