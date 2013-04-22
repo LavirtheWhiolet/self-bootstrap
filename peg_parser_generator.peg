@@ -161,6 +161,11 @@ nonterminal-middle <-
   nonterminal-start /
   "0"..."9" ;
 
+# Semantic value is Range.
+char-range <-
+  from:string ("..." / ".." / U+2026 / U+2025) to:string
+  { val = from...to } ;
+
 # Semantic value is the string's body.
 string <-
   "'" val:< (!"'" char)* > "'" ` ` /
