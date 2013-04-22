@@ -184,6 +184,7 @@ newline <-
   
   def to_method_definition(code, method_name)
     Definition[
+      method_name,
       code("def #{method_name} \n") +
         code("val = :yy_nil \n") +
         code + code(" and yy_to_pcv(val) \n") +
