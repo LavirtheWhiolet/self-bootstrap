@@ -64,7 +64,7 @@ rules <-
   )*
   ;
 
-# Semantic value is [nonterminal, right part code].
+# Semantic value is [nonterminal, Definition].
 rule <-
   n:nonterminal `<-` c:expr `;`
   { val = [n, c] } ;
