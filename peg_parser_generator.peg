@@ -20,7 +20,7 @@ class PEGParserGenerator
       end
     )
     
-    puts c.definitions_to_s
+    puts code.definitions_to_s
     
     puts %(
       
