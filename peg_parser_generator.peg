@@ -67,7 +67,16 @@ rules <-
 # Semantic value is [nonterminal, Definition].
 rule <-
   n:nonterminal `<-` c:expr `;`
-  { val = [n, c] } ;
+  {
+    # Convert c to Definition.
+    c = Definition[
+      code("def ") + UnknownCode[n] + code("\n") +
+        c + code("\n") +
+      code("end\n")
+    ]
+    # 
+    val = [n, c]
+  } ;
 
 ---- Lexemes ----
 
