@@ -41,33 +41,16 @@ expr10 <-
 
 expr20 <-
   # Ordered choice.
-  (
-    {
-      remembered_pos_var = new_unique_variable_name
-      val = code("(#{remembered_pos_var} = @yy_input.pos; ")
-    }
-    (
-      `/`? c:code
-      { val += c + " or " }
-  ) /
-  val:expr30 ;
-   
-  {
-    remembered_pos_var = new_unique_variable_name
-    need_remember_position = false
-  }
+  { remember_position_code_is_inserted = false }
   val:expr30
   (
     `/` val2:expr30
     {
-      val += " or (@yy_input.pos = #{remembered_pos_var}; " + val2 + ")"
-      need_remember_position = true
+      if not remember_position_code_is_inserted
+        
+        val = code("begin; ")
     }
   )*
-  {
-    if need_remember_position then
-      val = code()
-  }
   ;
 
 expr30 <-
