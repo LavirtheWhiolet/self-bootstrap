@@ -74,8 +74,8 @@ grammar <-
     code-delimiter
     code:< (!code-delimiter char)* >
     code-delimiter
-    { print code }
     ` `
+    { print code }
   )?
   val:expr
   (
