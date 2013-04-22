@@ -254,7 +254,7 @@ newline <-
       parsing_code + (code %( and begin
         #{end_pos_var} = @yy_input.pos
         @yy_input.pos = #{start_pos_var}
-        @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding("UTF-8")
+        #{variable_name} = @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding("UTF-8")
       end
     end))
   end
