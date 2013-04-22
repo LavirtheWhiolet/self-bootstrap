@@ -233,7 +233,7 @@ newline <-
     end
     
     def inspect
-      "#<CodeAsString: #{@string}>"
+      "#<CodeAsString: #{@string.inspect}>"
     end
     
   end
@@ -298,7 +298,7 @@ newline <-
     end
     
     def inspect
-      "#<UnknownCode: #{@nonterminal}>"
+      "#<UnknownCode: @nonterminal=#{@nonterminal.inspect}>"
     end
     
   end
