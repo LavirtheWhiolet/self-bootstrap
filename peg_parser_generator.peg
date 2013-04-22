@@ -49,8 +49,14 @@ expr20 <-
     `/` val2:expr30
     {
       single_expression = false
+      val += " or (@yy_input.pos = #{remembered_pos_var}; " + val2
     }
   )*
+  {
+    if not single_expression then
+      val = code("begin; #{remembered_pos_var} = @yy_input.pos; ") + val + "; end"
+    end
+  }
   ;
 
 expr30 <-
