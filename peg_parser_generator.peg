@@ -111,7 +111,8 @@ expr30 <-
 
 expr100 <-
   s:string  { val = code "yy_string(#{s.force_encoding("UTF-8").dump})" } /
-  n:nonterminal  { val = UnknownCode[n] } ;
+  n:nonterminal  { val = UnknownCode[n] } /
+  a:action  { val = code "#{action}\n" } ;
 
 # Semantic value is HashMap1 from rule's left part (nonterminal) to
 # its right part (Definition).
