@@ -91,6 +91,7 @@ expr30 <-
   } ;
 
 expr100 <-
+  r:char-range  { val = code "yy_char_range(#{r.begin}.dump" }
   s:string  { val = code "yy_string(#{s.force_encoding("UTF-8").dump})" } /
   n:nonterminal  { val = UnknownCode[n] } /
   `char` { val = code "@yy_input.getc" } /  # IO#getc returns nil at end of input. That's OK for us.
