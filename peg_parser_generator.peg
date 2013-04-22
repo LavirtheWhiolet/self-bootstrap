@@ -54,7 +54,11 @@ expr30 <-
       val += code(" and ") + val2
     }
   )*
-  { if not single_expression then val = code("(") + val + code(")") end } ;
+  {
+    if not single_expression then
+      val = code("(") + val + code(")")
+    end
+  } ;
 
 expr100 <-
   s:string  { val = code %(yy_string(#{s.force_encoding("UTF-8").dump})) } /
