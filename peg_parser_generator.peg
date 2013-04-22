@@ -81,7 +81,7 @@ expr30 <-
   )*
   {
     if not single_expression then
-      val = code("(") + val + code(")")
+      val = (code "(") + val + (code ")")
     end
   } ;
 
