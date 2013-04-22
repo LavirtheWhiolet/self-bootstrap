@@ -76,7 +76,7 @@ expr30 <-
     val2:expr100
     {
       single_expression = false
-      val = val + code(" and ") + val2
+      val = val + (code " and ") + val2
     }
   )*
   {
