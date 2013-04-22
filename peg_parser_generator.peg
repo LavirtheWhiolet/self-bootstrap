@@ -51,15 +51,15 @@ expr100 <-
   n:nonterminal  { val = UnknownCode[n] } ;
 
 # Semantic value is map from rule's left part (nonterminal) to
-# its right part (code).
+# its right part (Definition).
 rules <-
   { val = HashMap.new }
   (
     r:rule
     {
-      nonterminal, code = *r
+      nonterminal, definition = *r
       raise %(rule "#{nonterminal}" is already defined) if val.has_key? nonterminal
-      val[nonterminal] = code
+      val[nonterminal] = definition
     }
   )*
   ;
