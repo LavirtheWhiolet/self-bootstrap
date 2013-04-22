@@ -30,17 +30,10 @@ expr <- val:expr30 ;
 expr10 <-
   # Rules introduction.
   (
-    r:rules `in` val:expr10 /
-    val:expr30 `where` r:rules
+    r:rules `in` c:expr10 /
+    c:expr30 `where` r:rules
   )
-  {
-    # TODO: "See expr100, nonterminal section: UnknownCode#id is set to nonterminal."
-    rules = r
-    method_name = HashMap.new { |nonterminal| method_name[nonterminal] = new_unique_nonterminal_method_name }
-    r.each do |rule_nonterminal, rule_code|
-      val = val.replace_unknown_code(rule_nonterminal, code("#{method_name[rule_nonterminal]"))
-    end
-  } ;
+  { val = link(c, r) } ;
 
 expr30 <-
   # Sequence.
