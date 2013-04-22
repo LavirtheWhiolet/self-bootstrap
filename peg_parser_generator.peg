@@ -10,51 +10,6 @@ class PEGParserGenerator
     @next_unique_number = 0
     # Parse and generate.
     code = yy_parse(input)
-    # Generate.
-    code = to_method_definition(code, "yy_parse1")
-    
-    puts %(
-      def yy_parse(input)
-        @yy_input = input
-        x = yy_parse1 or raise YY_SyntaxError
-      end
-    )
-    
-    puts code.definitions_to_s
-    
-    puts %(
-      
-      # converts value to parser-compatible value (which is always non-false and
-      # non-nil).
-      def yy_to_pcv(value)
-        if value.nil? then :yy_nil
-        elsif value == false then :yy_false
-        else value
-        end
-      end
-      
-      # converts value got by #yy_to_pcv() to actual value.
-      def yy_from_pcv(value)
-        if value == :yy_nil then nil
-        elsif value == :yy_false then false
-        else value
-        end
-      end
-      
-      def yy_string(string)
-        # Read string.
-        read_string = @yy_input.read(string.bytesize)
-        return nil if not read_string
-        read_string.force_encoding(string.encoding)
-        # 
-        if read_string == string then return string
-        else return nil
-        end
-      end
-      
-      class YY_SyntaxError < Exception
-      end
-    )
   end
   
   private
@@ -77,7 +32,7 @@ grammar <-
     ` `
     { print code }
   )?
-  val:expr
+  val:expr { generate_parser(val) }
   (
     code-delimiter
     code:< char* >
@@ -249,6 +204,55 @@ newline <-
   U+2029 ;
 
 %%%% Code %%%%
+  
+  def generate_parser_body(code)
+    
+    code = to_method_definition(code, "yy_parse1")
+    
+    puts %(
+      def yy_parse(input)
+        @yy_input = input
+        x = yy_parse1 or raise YY_SyntaxError
+      end
+    )
+    
+    puts code.definitions_to_s
+    
+    puts %(
+      
+      # converts value to parser-compatible value (which is always non-false and
+      # non-nil).
+      def yy_to_pcv(value)
+        if value.nil? then :yy_nil
+        elsif value == false then :yy_false
+        else value
+        end
+      end
+      
+      # converts value got by #yy_to_pcv() to actual value.
+      def yy_from_pcv(value)
+        if value == :yy_nil then nil
+        elsif value == :yy_false then false
+        else value
+        end
+      end
+      
+      def yy_string(string)
+        # Read string.
+        read_string = @yy_input.read(string.bytesize)
+        return nil if not read_string
+        read_string.force_encoding(string.encoding)
+        # 
+        if read_string == string then return string
+        else return nil
+        end
+      end
+      
+      class YY_SyntaxError < Exception
+      end
+    )
+    
+  end
   
   # returns unique value on each call. The value starts with "yy_nonterm" and is
   # lowcase.
