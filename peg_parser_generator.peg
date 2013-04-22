@@ -27,6 +27,8 @@ grammar <-
 
 expr <- val:expr10 ;
 
+# TODO: " :nonterminal " syntax.
+
 expr10 <-
   (
     # Rules introduction.
