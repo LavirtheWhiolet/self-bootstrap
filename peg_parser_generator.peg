@@ -136,7 +136,10 @@ rule <-
 
 # Semantic value is action's body.
 action <-
-  val:< action-body > ` ` { val = val[1...-1] } ;
+  val:< action-body > ` ` { val = val[1...-1] }
+  # Check the action's syntax.
+  { RubyVM::InstructionSequence.compile(val) }
+  ;
 
 action-body <-
   "{" (!"}" (action-body / char))* "}" ;
