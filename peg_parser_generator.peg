@@ -50,6 +50,8 @@ grammar <-
       yy_from_pcv(value)
         if value == :yy_nil then nil
         elsif value == :yy_false then false
+        else value
+        end
       end
     )
   } ;
