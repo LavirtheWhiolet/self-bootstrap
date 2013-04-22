@@ -155,6 +155,18 @@ keyword <-
   `in` /
   `char` ;
 
+# Semantic value is variable's name.
+Ruby-variable <-
+  val:< Ruby-variable-start (Ruby-variable-middle)* > ` `;
+
+Ruby-variable-start <-
+  "a"..."z" /
+  "_" ;
+
+Ruby-variable-middle <-
+  Ruby-variable-start /
+  "0"..."9" ;
+
 # Semantic value is nonterminal's name.
 nonterminal <-
   !keyword
