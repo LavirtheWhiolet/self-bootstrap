@@ -332,7 +332,7 @@ newline <-
       
     end
     
-    def initialize(code, method_name)
+    def initialize(method_name, code)
       # Fix common errors.
       code = CodeAsString[code] if code.is_a? String
       # 
