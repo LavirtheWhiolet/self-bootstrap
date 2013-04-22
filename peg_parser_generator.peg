@@ -71,7 +71,8 @@ rule <-
     # Convert c to Definition.
     c = Definition[
       code("def ") + UnknownCode[n] + code("\n") +
-        c + code("\n") +
+        code("val = :yy_nil\n") +
+        c + code(" and ") +
       code("end\n")
     ]
     # 
