@@ -164,7 +164,7 @@ newline <-
     code = nonterminal_to_definition.values.reduce(code) do |code, definition|
       code + definition
     end
-    # Replace all unknown codes with method names (if possible).
+    # Replace all unknown codes with method calls (if possible).
     code = nonterminal_to_definition.keys.reduce(code) do |code, nonterminal|
       code.replace_unknown_code(nonterminal, code(new_unique_nonterminal_method_name))
     end
