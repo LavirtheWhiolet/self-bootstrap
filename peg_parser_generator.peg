@@ -46,20 +46,18 @@ expr100 <-
   s:string  { val = code %(yy_string(#{s.force_encoding("UTF-8").dump})) } /
   n:nonterminal  { val = UnknownCode[n] } ;
 
-# Semantic value is [map from rule's left part (nonterminal) to
-# its right part (Definition); first rule's right part (Definition)].
+# Semantic value is HashMap1 from rule's left part (nonterminal) to
+# its right part (Definition).
 rules <-
-  { rules = HashMap.new; first_rule = nil }
+  { val = HashMap1.new }
   (
     r:rule
     {
       nonterminal, definition = *r
       raise %(rule "#{nonterminal}" is already defined) if val.has_key? nonterminal
-      rules[nonterminal] = definition
-      first_rule ||= definition
+      val[nonterminal] = definition
     }
   )*
-  { val = [rules, first_rule] }
   ;
 
 # Semantic value is [nonterminal, Definition].
