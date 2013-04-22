@@ -69,6 +69,7 @@ class PEGParserGenerator
 
 # Semantic value is Code.
 grammar <-
+  ` `
   (
     code-delimiter
     code:< (!code-delimiter char)* >
@@ -81,7 +82,7 @@ grammar <-
     code:< char* >
     { print code }
   )?
-  ;
+  $ ;
 
 expr <-
   val:expr10 ;
