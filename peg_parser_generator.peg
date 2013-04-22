@@ -1,4 +1,4 @@
-%%
+%%%% Code %%%%
 #!/usr/bin/ruby
 # encoding: UTF-8
 
@@ -61,7 +61,7 @@ class PEGParserGenerator
   
   HashMap = Hash
   
-%%
+%%%% Grammar %%%%
 
 ---- Syntax ----
 
@@ -230,7 +230,7 @@ newline <-
   U+2028 /
   U+2029 ;
 
-%%
+%%%% Code %%%%
   
   # returns unique value on each call. The value starts with "yy_nonterm" and is
   # lowcase.
