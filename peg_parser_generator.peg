@@ -195,6 +195,9 @@ newline <-
       define_method(method) { |*args| raise %(method `#{method}' is abstract) }
     end
     
+    # Rename Object#to_s to #inspect.
+    alias to_s inspect
+    
     abstract :to_s
     
     def definitions_to_s
@@ -212,10 +215,6 @@ newline <-
     # Non-overridable.
     def + other
       CodeConcatenation.new([self, other])
-    end
-    
-    def inspect
-      to_s
     end
     
   end
@@ -261,10 +260,6 @@ newline <-
       @parts.map { |part| part.definitions_to_s }.join
     end
     
-    def inspect
-      @parts.map { |part| part.inspect }.join
-    end
-    
     def + other
       # Optimization.
       CodeConcatenation.new([*@parts, other])
@@ -295,10 +290,6 @@ newline <-
     
     def to_s
       raise UnknownCodeEncountered, self
-    end
-    
-    def inspect
-      "???(#{nonterminal})"
     end
     
   end
