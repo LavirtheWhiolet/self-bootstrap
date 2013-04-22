@@ -28,14 +28,12 @@ grammar <-
 expr <- val:expr10 ;
 
 expr10 <-
+  # Rules introduction.
   (
-    # Rules introduction.
-    (
-      r:rules `in` c:expr10 /
-      c:expr30 `where` r:rules
-    )
-    { val = link(c, r) }
-  ) /
+    r:rules `in` c:expr10 /
+    c:expr30 `where` r:rules
+  )
+  { val = link(c, r) } /
   val:expr20 ;
 
 expr30 <-
