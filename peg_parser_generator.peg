@@ -159,7 +159,7 @@ newline <-
   def link(code, nonterminal_to_code)
     # Utilities.
     method_name = Hash.new { |this, nonterminal| this[nonterminal] = new_unique_nonterminal_method_name }
-    # 
+    # Convert all codes from nonterminal_to_code to method definitions.
   end
   
   # 
