@@ -1,3 +1,3 @@
 # TODO: Delete before merging.
 
-'a' / abc where abc <- 'b';
+'a' / abc { puts "Got 'b'!" } where abc <- 'b';
