@@ -32,7 +32,25 @@ grammar <-
         yy_parse1
       end
     )
-    print c.definitions_to_s
+    
+    puts c.definitions_to_s
+    
+    puts %(
+      
+      # converts value to parser-compatible value (which is always non-false and
+      # non-nil).
+      yy_to_pcv(value)
+        if value.nil? then :yy_value
+        elsif value == false then :yy_false
+        else value
+        end
+      end
+      
+      # converts value got by #yy_to_pcv() to actual value.
+      yy_from_pcv(value)
+        if value == :yy_value then 
+      end
+    )
   } ;
 
 expr <- val:expr10 ;
