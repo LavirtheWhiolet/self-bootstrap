@@ -70,10 +70,11 @@ rule <-
   {
     # Convert c to Definition.
     c = Definition[
-      code("def ") + UnknownCode[n] + code("\n") +
-        code("val = :yy_nil\n") +
-        c + code(" and ") +
-      code("end\n")
+      (code "def ") + UnknownCode[n] + (code "\n") +
+        (code "val = :yy_nil\n") +
+        c + (code " and 
+      end
+      ")
     ]
     # 
     val = [n, c]
