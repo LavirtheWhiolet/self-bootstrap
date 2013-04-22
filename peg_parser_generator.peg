@@ -270,11 +270,12 @@ newline <-
       
     end
     
-    def initialize(id)
-      @id = id
+    def initialize(nonterminal)
+      @nonterminal = nonterminal
     end
     
-    attr_reader :id
+    # Nonterminal associated with this UnknownCode.
+    attr_reader :nonterminal
     
     def replace_unknown_code(id, code)
       if self.id == id then code
@@ -287,7 +288,7 @@ newline <-
     end
     
     def inspect
-      "???(#{id})"
+      "???(#{nonterminal})"
     end
     
   end
@@ -295,7 +296,7 @@ newline <-
   class UnknownCodeEncountered < Exception
     
     def initialize(code)
-      super %(unknown code with id = #{code.id} is encountered)
+      super %(unknown code with nonterminal #{code.nonterminal} is encountered)
       @code = code
     end
     
