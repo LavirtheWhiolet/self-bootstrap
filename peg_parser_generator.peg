@@ -332,11 +332,12 @@ newline <-
       
     end
     
-    def initialize(code)
+    def initialize(code, method_name)
       # Fix common errors.
       code = CodeAsString[code] if code.is_a? String
       # 
       @code = code
+      @method_name = method_name
     end
     
     def replace_unknown_code(nonterminal, code)
@@ -346,6 +347,9 @@ newline <-
     def to_s
       ""
     end
+    
+    # Method name associated with this Definition.
+    attr_reader :method_name
     
     def definitions_to_s
       @code.to_s + @code.definitions_to_s
