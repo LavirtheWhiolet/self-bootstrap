@@ -26,7 +26,7 @@ class PEGParserGenerator
       
       # converts value to parser-compatible value (which is always non-false and
       # non-nil).
-      yy_to_pcv(value)
+      def yy_to_pcv(value)
         if value.nil? then :yy_nil
         elsif value == false then :yy_false
         else value
@@ -34,7 +34,7 @@ class PEGParserGenerator
       end
       
       # converts value got by #yy_to_pcv() to actual value.
-      yy_from_pcv(value)
+      def yy_from_pcv(value)
         if value == :yy_nil then nil
         elsif value == :yy_false then false
         else value
