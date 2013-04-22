@@ -219,7 +219,7 @@ newline <-
     # Replace all unknown codes with corresponding method calls (where
     # possible).
     nonterminal_to_definition.each do |nonterminal, definition|
-      code = code.replace_unknown_code(nonterminal, definition.method_name)
+      code = code.replace_unknown_code(nonterminal, (code definition.method_name))
     end
     #
     return code
