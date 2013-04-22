@@ -94,7 +94,7 @@ expr90 <-
   # Brackets.
   `(` val:expr `)` /
   # Text capture.
-  var:Ruby-variable `:` c:expr { val = capture_text_code(var, c) } /
+  var:Ruby-variable `:` `<` c:expr `>` { val = capture_text_code(var, c) } /
   # 
   val:expr100 ;
 
@@ -146,6 +146,8 @@ action-body <-
 `(` <- "(" ` `;
 `)` <- ")" ` `;
 `:` <- ":" ` `;
+`<` <- "<" ` `;
+`>` <- ">" ` `;
 
 `char` <- "char" !nonterminal-middle ` `;
 `where` <- "where" !nonterminal-middle ` `;
