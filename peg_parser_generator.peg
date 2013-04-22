@@ -60,7 +60,8 @@ grammar <-
     )
   } ;
 
-expr <- val:expr10 ;
+expr <-
+  val:expr10 ;
 
 expr10 <-
   (
