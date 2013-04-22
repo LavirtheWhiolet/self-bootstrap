@@ -46,10 +46,10 @@ expr100 <-
   s:string  { val = code %(yy_string(#{s.force_encoding("UTF-8").dump})) } /
   n:nonterminal  { val = UnknownCode[n] } ;
 
-# Semantic value is map from rule's left part (nonterminal) to
+# Semantic value is HashMap1 from rule's left part (nonterminal) to
 # its right part (Definition).
 rules <-
-  { val = HashMap.new }
+  { val = HashMap1.new }
   (
     r:rule
     {
@@ -350,6 +350,23 @@ newline <-
     def inspect
       "#<Definition: #{@code.inspect}>"
     end
+    
+  end
+  
+  class HashMap1 < HashMap
+    
+    def initialize(*args, &block)
+      super(*args, &block)
+      @first_value = nil
+    end
+    
+    def []=(key, value)
+      raise %(value can not be nil) if value.nil?
+      @first_value ||= value
+      super(key, value)
+    end
+    
+    attr_reader :first_value
     
   end
   
