@@ -333,7 +333,7 @@ newline <-
     end
     
     def replace_unknown_code(nonterminal, code)
-      Definition.new(@code.replace_unknown_code(nonterminal, code))
+      Definition.new(@method_name, @code.replace_unknown_code(nonterminal, code))
     end
     
     def to_s
