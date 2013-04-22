@@ -173,6 +173,8 @@ newline <-
     code = nonterminal_to_definition.values.reduce(code) do |definition, code|
       code + definition
     end
+    # Replace all unknown codes with method names (if possible).
+#    code = nonterminal_to_definition.keys.reduce(code) do |
   end
   
   # 
