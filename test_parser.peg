@@ -4,7 +4,7 @@
 
 %%
 
-'a' / abc { puts "Got 'b'!" } where abc <- 'b';
+'a' / abc { puts "Got 'b'!" # Hi! } where abc <- 'b';
 
 %%
 
