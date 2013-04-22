@@ -63,17 +63,7 @@ rules <-
 # Semantic value is [nonterminal, Definition].
 rule <-
   n:nonterminal `<-` c:expr `;`
-  {
-    # Convert c to Definition.
-    c = Definition[
-      (code "def ") + UnknownCode[n] + (code "\n") +
-        (code "val = :yy_nil \n") +
-        c + (code " and yy_to_pcv(val) \n") +
-      (code "end \n")
-    ]
-    # 
-    val = [n, c]
-  } ;
+  { val = [n, to_method_definition(c, new_unique_nonterminal_method_name)] } ;
 
 ---- Lexemes ----
 
@@ -171,15 +161,26 @@ newline <-
   # 
   def link(code, nonterminal_to_definition)
     # Add all definitions to the code.
-    code = nonterminal_to_definition.values.reduce(code) do |code, definition|
-      code + definition
+    nonterminal_to_definition.values.each do |definition|
+      code += definition
     end
-    # Replace all unknown codes with method names (if possible).
-    code = nonterminal_to_definition.keys.reduce(code) do |code, nonterminal|
-      code.replace_unknown_code(nonterminal, code(new_unique_nonterminal_method_name))
+    # Replace all unknown codes with corresponding method calls (where
+    # possible).
+    nonterminal_to_definition.each do |nonterminal, definition|
+      code = code.replace_unknown_code(nonterminal, definition.method_name)
     end
     #
     return code
+  end
+  
+  def to_method_definition(code, method_name)
+    Definition[
+      method_name,
+      code("def #{method_name} \n") +
+        code("val = :yy_nil \n") +
+        code + code(" and yy_to_pcv(val) \n") +
+      code("end \n")
+    ]
   end
   
   # 
@@ -323,20 +324,24 @@ newline <-
       
     end
     
-    def initialize(code)
+    def initialize(method_name, code)
       # Fix common errors.
       code = CodeAsString[code] if code.is_a? String
       # 
       @code = code
+      @method_name = method_name
     end
     
     def replace_unknown_code(nonterminal, code)
-      Definition.new(@code.replace_unknown_code(nonterminal, code))
+      Definition.new(@method_name, @code.replace_unknown_code(nonterminal, code))
     end
     
     def to_s
       ""
     end
+    
+    # Method name associated with this Definition.
+    attr_reader :method_name
     
     def definitions_to_s
       @code.to_s + @code.definitions_to_s
