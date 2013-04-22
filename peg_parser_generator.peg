@@ -41,7 +41,18 @@ expr10 <-
 
 expr20 <-
   # Ordered choice.
-  val:expr30 (`/` )
+  {
+    
+    need_remember_position = false
+  }
+  val:expr30
+  (
+    `/` val2:expr30
+    {
+      val += code("")
+    }
+  )*
+  ;
 
 expr30 <-
   # Sequence.
