@@ -166,7 +166,7 @@ nonterminal-middle <-
 char-range <-
   from:string ("..." / ".." / U+2026 / U+2025) to:string ` `
   { raise %("#{from}" or "#{to}" is not a character) if from.length != 1 or to.length != 1 }
-  { val = (from.force_encoding)...(to.force_encoding) } ;
+  { val = (from.force_encoding("UTF-8"))...(to.force_encoding("UTF-8")) } ;
 
 # Semantic value is the string's body.
 string <-
