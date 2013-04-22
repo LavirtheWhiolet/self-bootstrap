@@ -25,7 +25,7 @@ class PEGParserGenerator
 grammar <-
   ` ` val:expr ;
 
-expr <- val:expr30 ;
+expr <- val:expr10 ;
 
 expr10 <-
   # Rules introduction.
