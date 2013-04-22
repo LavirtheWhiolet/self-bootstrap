@@ -32,7 +32,7 @@ expr10 <-
     # Rules introduction.
     (
       r:rules `in` c:expr10 /
-      c:expr30 `where` r:rules /
+      c:expr20 `where` r:rules /
       r:rules { c = code("#{r.first_value.method_name}") }
     )
     { val = link(c, r) }
