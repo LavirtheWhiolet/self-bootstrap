@@ -25,10 +25,11 @@ class PEGParserGenerator
 grammar <-
   ` ` c:expr $
   {
+    c = to_method_definition c, "yy_parse1"
     puts %(
       def yy_parse(input)
         @yy_input = input
-        #{c.to_s}
+        yy_parse1
       end
     )
     print c.definitions_to_s
