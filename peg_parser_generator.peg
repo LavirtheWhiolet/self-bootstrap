@@ -196,7 +196,7 @@ newline <-
     end
     
     # Rename Object#to_s to #inspect.
-    alias to_s inspect
+    alias inspect to_s
     
     abstract :to_s
     
