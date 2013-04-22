@@ -25,7 +25,6 @@ class PEGParserGenerator
 grammar <-
   ` ` c:expr $
   {
-    p c
     puts %(
       def yy_parse(input)
         @yy_input = input
