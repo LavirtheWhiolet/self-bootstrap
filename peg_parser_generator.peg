@@ -39,6 +39,10 @@ expr10 <-
   ) /
   val:expr30 ;
 
+expr20 <-
+  # Ordered choice.
+  val:expr30 (`/` )
+
 expr30 <-
   # Sequence.
   val:expr100 (val2:expr100 { val += code(" and ") + val2 })* ;
@@ -68,8 +72,11 @@ rule <-
 
 ---- Lexemes ----
 
+# TODO: Space before every ";".
+
 `<-/=` <- ("<-" / "=") ` `;
 `;` <- ";" ` `;
+`/` <- "/" ` `;
 
 `where` <- "where" !nonterminal-middle ` `;
 `in` <- "in" !nonterminal-middle ` `;
