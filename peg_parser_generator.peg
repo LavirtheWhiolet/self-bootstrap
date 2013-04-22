@@ -91,7 +91,8 @@ expr30 <-
   } ;
 
 expr90 <-
-  
+  `(` val:expr `)` /
+  val:expr100 ;
 
 expr100 <-
   r:char-range  { val = code "yy_char_range(#{r.begin.dump}, #{r.end.dump})" } /
