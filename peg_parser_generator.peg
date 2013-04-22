@@ -68,7 +68,19 @@ class PEGParserGenerator
 # NOTE: Semantic value of all "expr..." rules is Code.
 
 grammar <-
-  ` ` val:expr $ ;
+  (
+    code-delimiter
+    code:< (!code-delimiter char)* >
+    code-delimiter
+    { print code }
+  )?
+  ` ` val:expr
+  (
+    code-delimiter
+    code:< char* >
+    { print code }
+  )?
+  ;
 
 expr <-
   val:expr10 ;
