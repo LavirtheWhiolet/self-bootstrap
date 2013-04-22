@@ -63,17 +63,7 @@ rules <-
 # Semantic value is [nonterminal, Definition].
 rule <-
   n:nonterminal `<-` c:expr `;`
-  {
-    # Convert c to Definition.
-    c = Definition[
-      (code "def ") + UnknownCode[n] + (code "\n") +
-        (code "val = :yy_nil \n") +
-        c + (code " and yy_to_pcv(val) \n") +
-      (code "end \n")
-    ]
-    # 
-    val = [n, c]
-  } ;
+  { val = [n, to_method_definition(c, new_unique_nonterminal_method_name)] } ;
 
 ---- Lexemes ----
 
