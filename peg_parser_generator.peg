@@ -242,6 +242,7 @@ newline <-
 
 %%%% Code %%%%
   
+  # returns code which captures text to specified variable.
   def capture_text_code(variable_name, parsing_code)
     #
     start_pos_var = new_unique_variable_name
