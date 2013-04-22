@@ -49,7 +49,7 @@ expr20 <-
     `/` val2:expr30
     {
       single_expression = false
-      val += code(" or (@yy_input.pos = #{remembered_pos_var}; ") + val2
+      val = val + code(" or (@yy_input.pos = #{remembered_pos_var}; ") + val2
     }
   )*
   {
@@ -66,7 +66,7 @@ expr30 <-
     val2:expr100
     {
       single_expression = false
-      val += code(" and ") + val2
+      val = val + code(" and ") + val2
     }
   )*
   {
