@@ -42,11 +42,14 @@ expr10 <-
 expr20 <-
   # Ordered choice.
   {
-    single_expression = true;
+    single_expression = true
     remembered_pos_var = new_unique_variable_name
   }
   val:expr30 (
-    `/` 
+    `/` val2:expr30
+    {
+      single_expression = false
+    }
   )*
   ;
 
