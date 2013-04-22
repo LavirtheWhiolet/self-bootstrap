@@ -355,34 +355,20 @@ newline <-
     
   end
   
-  class HashMap1
+  class HashMap1 < HashMap
     
-    include Enumerable
-    
-    def initialize()
-      @impl = HashMap.new
+    def initialize(*args, &block)
+      super(*args, &block)
       @first_value = nil
-    end
-    
-    def [](key)
-      @impl[key]
     end
     
     def []=(key, value)
       raise %(value can not be nil) if value.nil?
       @first_value ||= value
-      @impl[key] = value
+      super(key, value)
     end
     
-    def each(&block)
-      @impl.each(&block)
-    end
-    
-    def has_key?(key)
-      @impl.has_key? key
-    end
-    
-    def first_value
+    attr_reader :first_value
     
   end
   
