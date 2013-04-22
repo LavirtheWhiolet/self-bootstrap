@@ -40,7 +40,7 @@ grammar <-
       # converts value to parser-compatible value (which is always non-false and
       # non-nil).
       yy_to_pcv(value)
-        if value.nil? then :yy_value
+        if value.nil? then :yy_nil
         elsif value == false then :yy_false
         else value
         end
