@@ -134,8 +134,12 @@ rule <-
 
 ---- Lexemes ----
 
+# Semantic value is action's body.
 action <-
-  "{" (!"}" (action / char))* "}" ;
+  val:< action-body > ` ` { val = val[1...-1] } ;
+
+action-body <-
+  "{" (!"}" (action-body / char))* "}" ;
 
 `<-/=` <- ("<-" / "=") ` `;
 `;` <- ";" ` `;
