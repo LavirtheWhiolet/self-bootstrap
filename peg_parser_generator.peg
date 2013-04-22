@@ -26,15 +26,15 @@ class PEGParserGenerator
 grammar <-
   ` `
   (
-    code-delimiter
-    code:< (!code-delimiter char)* >
-    code-delimiter
+    `%%`
+    code:< (!`%%` char)* >
+    `%%`
     ` `
     { print code }
   )?
   val:expr { generate_parser_body(val) }
   (
-    code-delimiter
+    `%%`
     code:< char* >
     { print code }
   )?
@@ -116,7 +116,7 @@ rule <-
 
 ---- Lexemes ----
 
-code-delimiter <-
+`%%` <-
   "%%" (!newline char)* newline ;
 
 # Semantic value is action's body.
