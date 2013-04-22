@@ -193,9 +193,9 @@ newline <-
     
     # 
     # returns this Code with UnknownCode-s having specified
-    # UnknownCode#id (+id+) replaced with +code+.
+    # UnknownCode#nonterminal (+nonterminal+) replaced with +code+.
     # 
-    def replace_unknown_code(id, code)
+    def replace_unknown_code(nonterminal, code)
       return self
     end
     
@@ -239,8 +239,8 @@ newline <-
       @parts = parts
     end
     
-    def replace_unknown_code(id, code)
-      CodeConcatenation.new(@parts.map { |part| part.replace_unknown_code(id, code) })
+    def replace_unknown_code(nonterminal, code)
+      CodeConcatenation.new(@parts.map { |part| part.replace_unknown_code(nonterminal, code) })
     end
     
     def to_s
@@ -277,8 +277,8 @@ newline <-
     # Nonterminal associated with this UnknownCode.
     attr_reader :nonterminal
     
-    def replace_unknown_code(id, code)
-      if self.id == id then code
+    def replace_unknown_code(nonterminal, code)
+      if self.nonterminal == nonterminal then code
       else self
       end
     end
