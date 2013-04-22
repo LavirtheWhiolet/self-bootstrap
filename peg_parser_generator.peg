@@ -164,6 +164,7 @@ nonterminal-middle <-
 # Semantic value is Range.
 char-range <-
   from:string ("..." / ".." / U+2026 / U+2025) to:string
+  { raise %("#{from}" or "#{to}" is not a character) if from.length != 1 or to.length != 1 }
   { val = from...to } ;
 
 # Semantic value is the string's body.
