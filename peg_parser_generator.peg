@@ -29,7 +29,7 @@ grammar <-
     puts %(
       def yy_parse(input)
         @yy_input = input
-        yy_parse1
+        x = yy_parse1 or raise YY_SyntaxError
       end
     )
     
@@ -52,6 +52,9 @@ grammar <-
         elsif value == :yy_false then false
         else value
         end
+      end
+      
+      class YY_SyntaxError < Exception
       end
     )
   } ;
