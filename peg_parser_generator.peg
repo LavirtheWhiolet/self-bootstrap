@@ -49,7 +49,7 @@ grammar <-
       # converts value got by #yy_to_pcv() to actual value.
       yy_from_pcv(value)
         if value == :yy_nil then nil
-        elsif value == :yy_false
+        elsif value == :yy_false then false
       end
     )
   } ;
