@@ -175,6 +175,12 @@ newline <-
     return result
   end
   
+  # returns unique value on each call. The value starts with "yy_var" and is
+  # lowcase.
+  def new_unique_variable_name
+    "yy_var#{new_unique_number.to_s(36)}"
+  end
+  
   # 
   # See source code.
   # 
