@@ -6,6 +6,9 @@
 class PEGParserGenerator
   
   def call(input)
+    # Initialize.
+    @next_unique_number = 0
+    # Parse!
     p yy_parse(input)
   end
   
@@ -17,6 +20,8 @@ class PEGParserGenerator
 
 ---- Syntax ----
 
+# NOTE: Semantic value of all "expr..." rules is Code.
+
 grammar <-
   ` ` val:expr ;
 
@@ -25,11 +30,16 @@ expr <- val:expr30 ;
 expr10 <-
   # Rules introduction.
   (
-    rules:rules `in` expr:expr10 /
-    expr:expr30 `where` rules:rules
+    r:rules `in` val:expr10 /
+    val:expr30 `where` r:rules
   )
   {
-    
+    # TODO: "See expr100, nonterminal section: UnknownCode#id is set to nonterminal."
+    rules = r
+    method_name = HashMap.new { |nonterminal| method_name[nonterminal] = new_unique_nonterminal_method_name }
+    r.each do |rule_nonterminal, rule_code|
+      val = val.replace_unknown_code(rule_nonterminal, code("#{method_name[rule_nonterminal]"))
+    end
   } ;
 
 expr30 <-
@@ -40,23 +50,34 @@ expr100 <-
   s:string  { val = code %(yy_string(#{s.force_encoding("UTF-8").dump})) } /
   n:nonterminal  { val = UnknownCode[n] } ;
 
-# Semantic value is map from rules' left parts to their right parts.
+# Semantic value is map from rule's left part (nonterminal) to
+# its right part (Definition).
 rules <-
   { val = HashMap.new }
   (
     r:rule
     {
-      left_part, right_part = *r
-      raise %(rule "#{left_part}" is already defined) if val.has_key? left_part
-      val[left_part] = right_part
+      nonterminal, definition = *r
+      raise %(rule "#{nonterminal}" is already defined) if val.has_key? nonterminal
+      val[nonterminal] = definition
     }
   )*
   ;
 
-# Semantic value is [left part, right part].
+# Semantic value is [nonterminal, Definition].
 rule <-
-  left_part:nonterminal `<-` right_part:expr `;`
-  { val = [left_part, right_part] } ;
+  n:nonterminal `<-` c:expr `;`
+  {
+    # Convert c to Definition.
+    c = Definition[
+      (code "def ") + UnknownCode[n] + (code "\n") +
+        (code "val = :yy_nil \n") +
+        c + (code " and yy_to_pcv(val) \n") +
+      (code "end \n")
+    ]
+    # 
+    val = [n, c]
+  } ;
 
 ---- Lexemes ----
 
@@ -129,7 +150,41 @@ newline <-
 
 %%
   
+  # returns unique value on each call. The value starts with "yy_nonterm" and is
+  # lowcase.
+  def new_unique_nonterminal_method_name
+    "yy_nonterm#{new_unique_number.to_s(36)}"
+  end
+  
+  # returns unique number on each call.
+  def new_unique_number
+    result = @next_unique_number
+    @next_unique_number += 1
+    return result
+  end
+  
+  # 
+  # See source code.
+  # 
+  def link(code, nonterminal_to_definition)
+    # Add all definitions to the code.
+    code = nonterminal_to_definition.values.reduce(code) do |code, definition|
+      code + definition
+    end
+    # Replace all unknown codes with method names (if possible).
+    code = nonterminal_to_definition.keys.reduce(code) do |code, nonterminal|
+      code.replace_unknown_code(nonterminal, new_unique_nonterminal_method_name)
+    end
+    #
+    return code
+  end
+  
+  # 
+  # The Code consists of 2 parts: the code as such (which can be got with #to_s)
+  # and code of definitions (which can be got with #definitions_to_s).
+  # 
   # Abstract.
+  # 
   class Code
     
     # defines abstract method.
@@ -138,6 +193,18 @@ newline <-
     end
     
     abstract :to_s
+    
+    def definitions_to_s
+      ""
+    end
+    
+    # 
+    # returns this Code with UnknownCode-s having specified
+    # UnknownCode#nonterminal (+nonterminal+) replaced with +code+.
+    # 
+    def replace_unknown_code(nonterminal, code)
+      return self
+    end
     
     # Non-overridable.
     def + other
@@ -151,6 +218,12 @@ newline <-
   end
   
   class CodeAsString < Code
+    
+    class << self
+      
+      alias [] new
+      
+    end
     
     def initialize(string)
       @string = string
@@ -173,8 +246,16 @@ newline <-
       @parts = parts
     end
     
+    def replace_unknown_code(nonterminal, code)
+      CodeConcatenation.new(@parts.map { |part| part.replace_unknown_code(nonterminal, code) })
+    end
+    
     def to_s
       @parts.map { |part| part.to_s }.join
+    end
+    
+    def definitions_to_s
+      @parts.map { |part| part.definitions_to_s }.join
     end
     
     def inspect
@@ -196,19 +277,25 @@ newline <-
       
     end
     
-    def initialize(id)
-      @id = id
+    def initialize(nonterminal)
+      @nonterminal = nonterminal
     end
     
-    # Identifier associated with this UnknownCode.
-    attr_reader :id
+    # Nonterminal associated with this UnknownCode.
+    attr_reader :nonterminal
+    
+    def replace_unknown_code(nonterminal, code)
+      if self.nonterminal == nonterminal then code
+      else self
+      end
+    end
     
     def to_s
       raise UnknownCodeEncountered, self
     end
     
     def inspect
-      "???(#{id})"
+      "???(#{nonterminal})"
     end
     
   end
@@ -216,11 +303,41 @@ newline <-
   class UnknownCodeEncountered < Exception
     
     def initialize(code)
-      super %(unknown code with id = #{code.id} is encountered)
+      super %(unknown code with nonterminal #{code.nonterminal} is encountered)
       @code = code
     end
     
     attr_reader :code
+    
+  end
+  
+  # A code which goes to "definitions" section.
+  class Definition < Code
+    
+    class << self
+      
+      alias [] new
+      
+    end
+    
+    def initialize(code)
+      # Fix common errors.
+      code = CodeAsString[code] if code.is_a? String
+      # 
+      @code = code
+    end
+    
+    def replace_unknown_code(id, code)
+      Definition.new(code.replace_unknown_code(id, code))
+    end
+    
+    def to_s
+      ""
+    end
+    
+    def definitions_to_s
+      @code.to_s + @code.definitions_to_s
+    end
     
   end
   
