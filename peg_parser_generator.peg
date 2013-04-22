@@ -161,12 +161,13 @@ newline <-
   # 
   def link(code, nonterminal_to_definition)
     # Add all definitions to the code.
-    code = nonterminal_to_definition.values.reduce(code) do |code, definition|
-      code + definition
+    nonterminal_to_definition.values.each do |definition|
+      code += definition
     end
-    # Replace all unknown codes with method calls (if possible).
-    code = nonterminal_to_definition.keys.reduce(code) do |code, nonterminal|
-      code.replace_unknown_code(nonterminal, code(new_unique_nonterminal_method_name))
+    # Replace all unknown codes with corresponding method calls (where
+    # possible).
+    nonterminal_to_definition.each do |nonterminal, definition|
+      code = code.replace_unknown_code(nonterminal, definition.method_name)
     end
     #
     return code
