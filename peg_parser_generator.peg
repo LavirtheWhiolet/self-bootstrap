@@ -50,8 +50,13 @@ expr20 <-
     `/` val2:expr30
     {
       val += " or (@yy_input.pos = #{remembered_pos_var}; " + val2 + ")"
+      need_remember_position = true
     }
   )*
+  {
+    if need_remember_position then
+      val = code()
+  }
   ;
 
 expr30 <-
