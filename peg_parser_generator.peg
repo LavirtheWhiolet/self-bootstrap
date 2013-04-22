@@ -57,7 +57,7 @@ class PEGParserGenerator
 # NOTE: Semantic value of all "expr..." rules is Code.
 
 grammar <-
-  ` ` c:expr $ ;
+  ` ` val:expr $ ;
 
 expr <-
   val:expr10 ;
