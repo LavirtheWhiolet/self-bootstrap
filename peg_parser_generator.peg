@@ -8,8 +8,8 @@ class PEGParserGenerator
   def call(input)
     # Initialize.
     @next_unique_number = 0
-    # Parse!
-    p yy_parse(input)
+    # Parse and generate!
+    yy_parse(input)
   end
   
   private
@@ -23,7 +23,16 @@ class PEGParserGenerator
 # NOTE: Semantic value of all "expr..." rules is Code.
 
 grammar <-
-  ` ` val:expr $ ;
+  ` ` val:expr $
+  {
+    puts %(
+      def yy_parse(input)
+        @yy_input = input
+        #{code.to_s}
+      end
+    )
+    print code.definitions_to_s
+  } ;
 
 expr <- val:expr10 ;
 
