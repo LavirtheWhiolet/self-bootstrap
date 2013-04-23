@@ -268,7 +268,13 @@ newline <-
 %%%% Code %%%%
 
   def capture_semantic_value_code(var, code)
-    code("(#{var} = ") + code + code(")")
+    result_var = new_unique_variable_name
+    #
+    code(%(begin
+      #{result_var} = )) + code + code(%(
+      if #{result_var} then #{var} = yy_from_pcv(#{result_var})
+      result_var
+    end))
   end
   
   def positive_predicate_code(code)
