@@ -90,6 +90,10 @@ expr30 <-
     end
   } ;
 
+expr80 <-
+  # Repetition.
+  
+
 expr90 <-
   # Brackets.
   `(` val:expr `)` /
@@ -148,6 +152,9 @@ action-body <-
 `:` <- ":" ` `;
 `<` <- "<" ` `;
 `>` <- ">" ` `;
+`*` <- "*" ` `;
+`?` <- "?" ` `;
+`+` <- "+" ` `;
 
 `char` <- "char" !nonterminal-middle ` `;
 `where` <- "where" !nonterminal-middle ` `;
