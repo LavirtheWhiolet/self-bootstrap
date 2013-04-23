@@ -6,7 +6,7 @@
 
   'a'? test:<'x'...'z'> { puts test } $ /
   abc $ /
-  &'ghi' 'ghi'
+  !'ghi' 'ghj'
 where
   abc <- 'b';
 
