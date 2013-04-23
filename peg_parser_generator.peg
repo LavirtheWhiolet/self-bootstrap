@@ -77,8 +77,8 @@ expr20 <-
 expr30 <-
   # Sequence.
   { single_expression = true }
-  val:expr80 (
-    val2:expr80
+  val:expr70 (
+    val2:expr70
     {
       single_expression = false
       val = val + (code " and ") + val2
@@ -89,6 +89,10 @@ expr30 <-
       val = (code "(") + val + (code ")")
     end
   } ;
+
+expr70 <-
+  # Predicate.
+  
 
 expr80 <-
   # Repetition.
