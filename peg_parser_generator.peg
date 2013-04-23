@@ -92,7 +92,9 @@ expr30 <-
 
 expr70 <-
   # Predicate.
-  `&` val:expr70 { val = positive_predicate_code(val) } ;
+  `&` val:expr70 { val = positive_predicate_code(val) } /
+  `!` val:expr70 { val = code(%(not )) + positive_predicate_code(val) } /
+  val:expr80 ;
 
 expr80 <-
   # Repetition.
