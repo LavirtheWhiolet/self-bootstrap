@@ -270,6 +270,18 @@ newline <-
     code + code(%( and )) + repeat_many_times_code(code)
   end
   
+  def optional_code(code)
+    stored_pos_var = new_unique_variable_name
+    #
+    code(%(begin
+      #{stored_pos_var} = @yy_input.pos
+      if not )) + code + code(%( then
+        @yy_input.pos = #{stored_pos_var}
+      end
+      true
+    end))
+  end
+  
   # returns code which captures text to specified variable.
   def capture_text_code(variable_name, parsing_code)
     #
