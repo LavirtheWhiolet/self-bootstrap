@@ -164,6 +164,8 @@ action-body <-
 `*` <- "*" ` `;
 `?` <- "?" ` `;
 `+` <- "+" ` `;
+`&` <- "&" ` `;
+`!` <- "!" ` `;
 
 `char` <- "char" !nonterminal-middle ` `;
 `where` <- "where" !nonterminal-middle ` `;
