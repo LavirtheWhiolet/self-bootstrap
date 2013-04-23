@@ -255,7 +255,14 @@ newline <-
 %%%% Code %%%%
   
   def repeat_many_times_code(code)
-    
+    stored_pos_var = new_unique_variable_name
+    code(%(while true
+      #{stored_pos_var} = @yy_input.pos
+      if not )) + code + code(%( then
+        @yy_input.pos = #{stored_pos_var}
+        break true
+      end
+    end))
   end
   
   # returns code which captures text to specified variable.
