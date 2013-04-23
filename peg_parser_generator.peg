@@ -266,6 +266,10 @@ newline <-
     end))
   end
   
+  def repeat_at_least_once_code(code)
+    code + code(%( and )) + repeat_many_times_code(code)
+  end
+  
   # returns code which captures text to specified variable.
   def capture_text_code(variable_name, parsing_code)
     #
