@@ -272,7 +272,9 @@ newline <-
     #
     code(%(begin
       #{result_var} = )) + code + code(%(
-      if #{result_var} then #{var} = yy_from_pcv(#{result_var})
+      if #{result_var} then
+        #{var} = yy_from_pcv(#{result_var})
+      end
       result_var
     end))
   end
