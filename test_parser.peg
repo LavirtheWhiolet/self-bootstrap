@@ -5,10 +5,10 @@
 %%
 
   'a'? test:<'x'...'z'> { puts test } $ /
-  abc $ /
+  x:abc { puts x } $ /
   !'ghi' 'ghj'
 where
-  abc <- 'b';
+  abc <- val:<'b'>;
 
 %%
 
