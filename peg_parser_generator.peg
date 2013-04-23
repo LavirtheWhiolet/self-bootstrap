@@ -90,6 +90,15 @@ expr30 <-
     end
   } ;
 
+expr80 <-
+  # Repetition.
+  val:expr90 (
+    `*` { val = repeat_many_times_code(val) } /
+    `+` { val = repeat_at_least_once_code(code) } /
+    `?` { val = optional_code(val) }
+  )*
+  ;
+
 expr90 <-
   # Brackets.
   `(` val:expr `)` /
@@ -148,6 +157,9 @@ action-body <-
 `:` <- ":" ` `;
 `<` <- "<" ` `;
 `>` <- ">" ` `;
+`*` <- "*" ` `;
+`?` <- "?" ` `;
+`+` <- "+" ` `;
 
 `char` <- "char" !nonterminal-middle ` `;
 `where` <- "where" !nonterminal-middle ` `;
