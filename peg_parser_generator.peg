@@ -266,6 +266,10 @@ newline <-
   U+2029 ;
 
 %%%% Code %%%%
+
+  def capture_semantic_value_code(var, code)
+    code("(#{var} = ") + code + code(")")
+  end
   
   def positive_predicate_code(code)
     stored_pos_var = new_unique_variable_name
