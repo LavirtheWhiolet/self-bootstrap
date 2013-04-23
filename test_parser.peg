@@ -4,7 +4,7 @@
 
 %%
 
-'a' test:<'x'...'z'> { puts test } $ / abc $
+'a'* test:<'x'...'z'> { puts test } $ / abc $
 where abc <- 'b';
 
 %%
