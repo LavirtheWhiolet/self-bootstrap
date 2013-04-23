@@ -260,7 +260,7 @@ newline <-
 
 %%%% Code %%%%
   
-  def predicate_code(code)
+  def positive_predicate_code(code)
     stored_pos_var = new_unique_variable_name
     result_var = new_unique_variable_name
     #
