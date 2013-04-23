@@ -93,7 +93,7 @@ expr30 <-
 expr60 <-
   # Capture semantic value.
   var:Ruby-variable `:` c:expr60 { val = capture_semantic_value_code(var, c) } /
-  expr70 ;
+  val:expr70 ;
 
 expr70 <-
   # Predicate.
