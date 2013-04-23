@@ -23,83 +23,83 @@ program <-
   $
   ;
 
-expr <- value:(expr70);
+expr <- val:(expr70);
 
 -- Sum --
 expr70 <-
-  value:(expr80)
+  val:(expr80)
   (
-    `+` other:(expr80) {value += other} /
-    `-` other:(expr80) {value -= other}
+    `+` other:(expr80) {val += other} /
+    `-` other:(expr80) {val -= other}
   )*
   ;
 
 -- Multiplication --
 expr80 <-
-  value:(expr85)
+  val:(expr85)
   (
-    `*` other:(expr85) {value *= other} /
-    `/` other:(expr85) {value /= other}
+    `*` other:(expr85) {val *= other} /
+    `/` other:(expr85) {val /= other}
   )*
   ;
 
 -- Power --
 expr85 <-
-  value:(expr86) (
-    `^` value2:(expr85) {value = value ** value2}
+  val:(expr86) (
+    `^` val2:(expr85) {val = val ** val2}
   )*
   ;
 
 -- Function --
 expr86 <-
-  sin v:expr86 {value = Math.sin(v)} /
-  cos v:expr86 {value = Math.cos(v)} /
-  tan v:expr86 {value = Math.tan(v)} /
-  arcsin v:expr86 {value = Math.asin(v)} /
-  arccos v:expr86 {value = Math.acos(v)} /
-  arctan v:expr86 {value = Math.atan(v)} /
-  ln v:expr86 {value = Math.log(v)} /
-  sqrt v:expr86 {value = Math.sqrt(v)} /
-  sqrt3 v:expr86 {value = Math.cbrt(v.abs); value = -value if v < 0} /
-  sqrt4 v:expr86 {value = Math.sqrt(Math.sqrt(v))} /
-  degrees:expr87 `°` {value = degrees * Math::PI / 180} (minutes:expr87 `'` {value += minutes * Math::PI / 180 / 60} ( seconds:expr87 `"` {value += seconds * Math::PI / 180 / 3600} )? )? /
-  value:expr87
+  sin v:expr86 {val = Math.sin(v)} /
+  cos v:expr86 {val = Math.cos(v)} /
+  tan v:expr86 {val = Math.tan(v)} /
+  arcsin v:expr86 {val = Math.asin(v)} /
+  arccos v:expr86 {val = Math.acos(v)} /
+  arctan v:expr86 {val = Math.atan(v)} /
+  ln v:expr86 {val = Math.log(v)} /
+  sqrt v:expr86 {val = Math.sqrt(v)} /
+  sqrt3 v:expr86 {val = Math.cbrt(v.abs); val = -val if v < 0} /
+  sqrt4 v:expr86 {val = Math.sqrt(Math.sqrt(v))} /
+  degrees:expr87 `°` {val = degrees * Math::PI / 180} (minutes:expr87 `'` {val += minutes * Math::PI / 180 / 60} ( seconds:expr87 `"` {val += seconds * Math::PI / 180 / 3600} )? )? /
+  val:expr87
   ;
 
 -- Minus (unary) --
 expr87 <-
   {invert = false}
-  ( `-` {invert = true} )? value:expr90
-  { if invert then value = -value end };
+  ( `-` {invert = true} )? val:expr90
+  { if invert then val = -val end };
 
 -- Brackets --
 expr90 <-
-  `(` value:(expr) `)` /
-  `[` value:(expr) `]` /
-  `{` value:(expr) `}` /
-  value:(expr100)
+  `(` val:(expr) `)` /
+  `[` val:(expr) `]` /
+  `{` val:(expr) `}` /
+  val:(expr100)
   ;
 
 -- Atomic --
 expr100 <-
-  value:number /
-  value:constant
+  val:number /
+  val:constant
   ;
 
 ---- Lex ----
 
 number <-
-  integer_part:(digits)  { value = integer_part.to_i }
+  integer_part:(digits)  { val = integer_part.to_i }
   (
-    `.` fractional_part:(digits)  { value = (integer_part + fractional_part).to_i / 10**fractional_part.length }
+    `.` fractional_part:(digits)  { val = (integer_part + fractional_part).to_i / 10**fractional_part.length }
   )?
   WS
   ;
 
 constant <-
   (
-    'e'  {value = Math::E} /
-    ('pi' / U+03C0)  {value = Math::PI}
+    'e'  {val = Math::E} /
+    ('pi' / U+03C0)  {val = Math::PI}
   )
   WS
   ;
@@ -132,9 +132,9 @@ arctan <- 'arctan' WS;
 ln <- 'ln' WS;
 
 digits <-
-  {value = ""}
+  {val = ""}
   (
-    digit:'0'...'9'  {value << digit}  digits_delimiter*
+    digit:'0'...'9'  {val << digit}  digits_delimiter*
   )+
   ;
 
