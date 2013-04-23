@@ -3,6 +3,9 @@
 # encoding: UTF-8
 
 
+# This file is both runnable and "require"-able.
+
+
 class PEGParserGenerator
   
   def call(input)
