@@ -275,7 +275,7 @@ newline <-
       if #{result_var} then
         #{var} = yy_from_pcv(#{result_var})
       end
-      result_var
+      #{result_var}
     end))
   end
   
