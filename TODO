@@ -1,3 +1,4 @@
 - Code predicates ("&{ some_code }").
 - Check "U+HHHH" codes with code predicates.
 - "/" in front of first expression in ordered choice.
+- Definitions in the middle of grammar ("{ ... }" among rules).
