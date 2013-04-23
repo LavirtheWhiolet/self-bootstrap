@@ -4,4 +4,4 @@
 - Definitions in the middle of grammar ("{ ... }" among rules).
 - Improve captures syntax.
 - Error reporting (at least position).
-- "many", "many1" and "opt" keywords.
+- Analogues of "+", "*" and "?" in beginning of the expression repeated.
