@@ -77,8 +77,8 @@ expr20 <-
 expr30 <-
   # Sequence.
   { single_expression = true }
-  val:expr70 (
-    val2:expr70
+  val:expr60 (
+    val2:expr60
     {
       single_expression = false
       val = val + (code " and ") + val2
@@ -89,6 +89,11 @@ expr30 <-
       val = (code "(") + val + (code ")")
     end
   } ;
+
+expr60 <-
+  # Semantic value capture.
+  var:Ruby-variable `:` c:expr60 { val = capture_semantic_value_code(var, c) } /
+  expr70 ;
 
 expr70 <-
   # Predicate.
