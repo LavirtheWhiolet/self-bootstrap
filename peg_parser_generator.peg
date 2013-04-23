@@ -254,6 +254,10 @@ newline <-
 
 %%%% Code %%%%
   
+  def repeat_many_times_code(code)
+    
+  end
+  
   # returns code which captures text to specified variable.
   def capture_text_code(variable_name, parsing_code)
     #
