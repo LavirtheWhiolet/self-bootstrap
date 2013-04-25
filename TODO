@@ -6,3 +6,4 @@
 - Improve captures syntax.
 - Error reporting (at least position).
 - Analogues of "+", "*" and "?" in beginning of the expression repeated.
+- Rename the parser generator's executable file to "generate_parser".
