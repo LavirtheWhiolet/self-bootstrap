@@ -4,7 +4,7 @@
 - "/" in front of first expression in ordered choice.
 - Definitions in the middle of grammar ("{ ... }" among rules).
 - Improve captures syntax.
-- Error reporting (at least position).
+- Error reporting (at least position). Idea: @max_pos and @max_error.
 - Analogues of "+", "*" and "?" in beginning of the expression repeated.
 - Rename the parser generator's executable file to "generate_parser" and make it not "require"-able (this property is not needed).
 - Byte parsing expression ("FFh DEh DDh"). Syntax for sequence of byte expressions.
