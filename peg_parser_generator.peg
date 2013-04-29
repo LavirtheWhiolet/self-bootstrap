@@ -376,7 +376,7 @@ newline <-
         # Read string.
         read_string = @yy_input.read(string.bytesize)
         return nil if not read_string
-        read_string.force_encoding(string.encoding)
+        read_string.force_encoding(Encoding::UTF_8)
         # 
         if read_string == string then return string
         else return nil
