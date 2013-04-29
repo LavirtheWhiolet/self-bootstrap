@@ -494,7 +494,7 @@ val = :yy_nil
 end 
 def yy_nontermt0 
 val = :yy_nil 
-(begin; yy_varsz = @yy_input.pos; yy_string("<-") or (@yy_input.pos = yy_varsz; yy_string("=")); end and yy_nonterm12h) and yy_to_pcv(val) 
+(begin; yy_varsz = @yy_input.pos; yy_string("<-") or (@yy_input.pos = yy_varsz; yy_string("=")) or (@yy_input.pos = yy_varsz; yy_string("\u{2190}")); end and yy_nonterm12h) and yy_to_pcv(val) 
 end 
 def yy_nontermt3 
 val = :yy_nil 
