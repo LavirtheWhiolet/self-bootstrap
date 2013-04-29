@@ -1,0 +1,642 @@
+%%
+#!/usr/bin/ruby
+# encoding: UTF-8
+
+# This file is both runnable and "require"-able.
+
+
+# 
+class PEGParserGenerator
+  
+  def call(input)
+    # Initialize.
+    @next_unique_number = 0
+    # Parse grammar and generate the parser.
+    code = yy_parse(input)
+  end
+  
+  private
+  
+  HashMap = Hash
+  
+%%%% Grammar %%%%
+
+---- Syntax ----
+
+# NOTE: Semantic value of all "expr..." rules is Code.
+
+# Semantic value is Code.
+grammar <-
+  ` `
+  (
+    `%%`
+    code:< (!`%%` char)* >
+    `%%`
+    ` `
+    { print code }
+  )?
+  val:expr { generate_parser_body(val) }
+  (
+    `%%`
+    code:< char* >
+    { print code }
+  )?
+  $ ;
+
+expr <-
+  val:expr10 ;
+
+expr10 <-
+  (
+    # Rules introduction.
+    (
+      r:rules `in` c:expr10 /
+      c:expr20 `where` r:rules /
+      r:rules { c = code "#{r.first_value.method_name}" }
+    )
+    { val = link(c, r) }
+  ) /
+  val:expr20 ;
+
+expr20 <-
+  # Ordered choice.
+  {
+    single_expression = true
+    remembered_pos_var = new_unique_variable_name
+  }
+  `/`? val:expr30 (
+    `/` val2:expr30
+    {
+      single_expression = false
+      val = val + (code " or (@yy_input.pos = #{remembered_pos_var}; ") + val2 + (code ")")
+    }
+  )*
+  {
+    if not single_expression then
+      val = (code "begin; #{remembered_pos_var} = @yy_input.pos; ") + val + (code "; end")
+    end
+  } ;
+
+expr30 <-
+  # Sequence.
+  { single_expression = true }
+  val:expr60 (
+    val2:expr60
+    {
+      single_expression = false
+      val = val + (code " and ") + val2
+    }
+  )*
+  {
+    if not single_expression then
+      val = (code "(") + val + (code ")")
+    end
+  } ;
+
+expr60 <-
+  # Capture semantic value.
+  var:Ruby-variable `:` c:expr60 { val = capture_semantic_value_code(var, c) } /
+  val:expr70 ;
+
+expr70 <-
+  # Predicate.
+  `&` val:expr70 { val = positive_predicate_code(val) } /
+  `!` val:expr70 { val = code(%(not )) + positive_predicate_code(val) } /
+  val:expr80 ;
+
+expr80 <-
+  # Repetition.
+  val:expr90 (
+    `*` { val = repeat_many_times_code(val) } /
+    `+` { val = repeat_at_least_once_code(val) } /
+    `?` { val = optional_code(val) }
+  )*
+  ;
+
+expr90 <-
+  # Brackets.
+  `(` val:expr `)` /
+  # Text capture.
+  var:Ruby-variable `:` `<` c:expr `>` { val = capture_text_code(var, c) } /
+  # 
+  val:expr100 ;
+
+expr100 <-
+  r:char-range  { val = code "yy_char_range(#{r.begin.dump}, #{r.end.dump})" } /
+  s:string  { val = code "yy_string(#{s.force_encoding("UTF-8").dump})" } /
+  n:nonterminal  { val = UnknownCode[n] } /
+  `char` { val = code "@yy_input.getc" } /  # IO#getc returns nil at end of input. That's OK for us.
+  a:action  { val = code "begin \n #{a} \n true \n end" } /  # Newline must be present after action's body because it may include comments.
+  `$`  { val = code "@yy_input.eof?" } ;
+
+# Semantic value is HashMap1 from rule's left part (nonterminal) to
+# its right part (Definition).
+rules <-
+  { val = HashMap1.new }
+  (
+    r:rule
+    {
+      nonterminal, definition = *r
+      raise %(rule "#{nonterminal}" is already defined) if val.has_key? nonterminal
+      val[nonterminal] = definition
+    }
+  )+
+  ;
+
+# Semantic value is [nonterminal, Definition].
+rule <-
+  n:nonterminal `<-/=` c:expr `;`
+  { val = [n, to_method_definition(c, new_unique_nonterminal_method_name)] } ;
+
+---- Lexemes ----
+
+`%%` <-
+  "%%" (!newline char)* newline ;
+
+# Semantic value is action's body.
+action <-
+  val:< action-body > ` ` { val = val[1...-1] }
+  # Check the action's syntax.
+  { RubyVM::InstructionSequence.compile(val) } ;
+
+action-body <-
+  "{" (!"}" (action-body / char))* "}" ;
+
+`<-/=` <- ("<-" / "=") ` `;
+`;` <- ";" ` `;
+`/` <- "/" ` `;
+`$` <- "$" ` `;
+`(` <- "(" ` `;
+`)` <- ")" ` `;
+`:` <- ":" ` `;
+`<` <- "<" ` `;
+`>` <- ">" ` `;
+`*` <- "*" ` `;
+`?` <- "?" ` `;
+`+` <- "+" ` `;
+`&` <- "&" ` `;
+`!` <- "!" ` `;
+
+`char` <- "char" !nonterminal-middle ` `;
+`where` <- "where" !nonterminal-middle ` `;
+`in` <- "in" !nonterminal-middle ` `;
+keyword <-
+  `where` /
+  `in` /
+  `char` ;
+
+# Semantic value is variable's name.
+Ruby-variable <-
+  val:< Ruby-variable-start (Ruby-variable-middle)* > ` `;
+
+Ruby-variable-start <-
+  "a"..."z" /
+  "_" ;
+
+Ruby-variable-middle <-
+  Ruby-variable-start /
+  "0"..."9" ;
+
+# Semantic value is nonterminal's name.
+nonterminal <-
+  !keyword
+  (
+    val:< nonterminal-start (nonterminal-middle)* > ` ` /
+    val:< "`" (!"`" char)* "`" > ` `
+  ) ;
+
+nonterminal-start <-
+  "a"..."z" /
+  "A"..."Z" /
+  "-" /
+  "_" ;
+
+nonterminal-middle <-
+  nonterminal-start /
+  "0"..."9" ;
+
+# Semantic value is Range.
+char-range <-
+  from:string ("..." / ".." / U+2026 / U+2025) to:string ` `
+  { raise %("#{from}" or "#{to}" is not a character) if from.length != 1 or to.length != 1 }
+  { val = (from.force_encoding("UTF-8"))...(to.force_encoding("UTF-8")) } ;
+
+# Semantic value is the string's body.
+string <-
+  "'" val:< (!"'" char)* > "'" ` ` /
+  '"' val:< (!'"' char)* > '"' ` ` /
+  code:Unicode-code ` ` { val = "".force_encoding("UTF-8") << code } ;
+
+# Semantic value is integer number.
+Unicode-code <-
+  "U+" code:< ("0"..."9" / "A"..."F")+ >
+  { val = code.to_i(16) } ;
+
+# Insignificant text.
+` ` <-
+  (white-space / comment)* ;
+
+comment <-
+  ("#" / "--") (!newline char)* newline ;
+
+# White space as specified in "Unicode Standard Annex #44: Unicode Character
+# Database" (http://www.unicode.org/reports/tr44, specifically
+# http://www.unicode.org/Public/UNIDATA/PropList.txt).
+white-space <-
+  U+0009...U+000D /
+  U+0020 /
+  U+0085 /
+  U+00A0 /
+  U+1680 /
+  U+180E /
+  U+2000...U+200A /
+  U+2028 /
+  U+2029 /
+  U+202F /
+  U+205F /
+  U+3000 ;
+
+# Newline as specified in "Unicode Technical Report #13: Unicode Newline
+# Guidelines" (http://unicode.org/unicode/standard/reports/tr13/tr13-5.html).
+newline <-
+  U+000D U+000A /
+  U+000D /
+  U+000A /
+  U+0085 /
+  U+000B /
+  U+000C /
+  U+2028 /
+  U+2029 ;
+
+%%%% Code %%%%
+
+  def capture_semantic_value_code(var, code)
+    result_var = new_unique_variable_name
+    #
+    code(%(begin
+      #{result_var} = )) + code + code(%(
+      if #{result_var} then
+        #{var} = yy_from_pcv(#{result_var})
+      end
+      #{result_var}
+    end))
+  end
+  
+  def positive_predicate_code(code)
+    stored_pos_var = new_unique_variable_name
+    result_var = new_unique_variable_name
+    #
+    code(%(begin
+      #{stored_pos_var} = @yy_input.pos
+      #{result_var} = )) + code + code(%(
+      @yy_input.pos = #{stored_pos_var}
+      #{result_var}
+    end))
+  end
+  
+  def repeat_many_times_code(code)
+    stored_pos_var = new_unique_variable_name
+    #
+    code(%(while true
+      #{stored_pos_var} = @yy_input.pos
+      if not )) + code + code(%( then
+        @yy_input.pos = #{stored_pos_var}
+        break true
+      end
+    end))
+  end
+  
+  def repeat_at_least_once_code(code)
+    code + code(%( and )) + repeat_many_times_code(code)
+  end
+  
+  def optional_code(code)
+    stored_pos_var = new_unique_variable_name
+    #
+    code(%(begin
+      #{stored_pos_var} = @yy_input.pos
+      if not )) + code + code(%( then
+        @yy_input.pos = #{stored_pos_var}
+      end
+      true
+    end))
+  end
+  
+  # returns code which captures text to specified variable.
+  def capture_text_code(variable_name, parsing_code)
+    #
+    start_pos_var = new_unique_variable_name
+    end_pos_var = new_unique_variable_name
+    # 
+    (code %(begin
+      #{start_pos_var} = @yy_input.pos
+      )) +
+      parsing_code + (code %( and begin
+        #{end_pos_var} = @yy_input.pos
+        @yy_input.pos = #{start_pos_var}
+        #{variable_name} = @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding("UTF-8")
+      end
+    end))
+  end
+  
+  def generate_parser_body(code)
+    
+    code = to_method_definition(code, "yy_parse1")
+    
+    puts %(
+      def yy_parse(input)
+        @yy_input = input
+        @yy_input.set_encoding("UTF-8", "UTF-8")
+        x = yy_parse1 or raise YY_SyntaxError
+      end
+    )
+    
+    puts code.definitions_to_s
+    
+    puts %(
+      
+      # converts value to parser-compatible value (which is always non-false and
+      # non-nil).
+      def yy_to_pcv(value)
+        if value.nil? then :yy_nil
+        elsif value == false then :yy_false
+        else value
+        end
+      end
+      
+      # converts value got by #yy_to_pcv() to actual value.
+      def yy_from_pcv(value)
+        if value == :yy_nil then nil
+        elsif value == :yy_false then false
+        else value
+        end
+      end
+      
+      def yy_string(string)
+        # Read string.
+        read_string = @yy_input.read(string.bytesize)
+        return nil if not read_string
+        read_string.force_encoding(string.encoding)
+        # 
+        if read_string == string then return string
+        else return nil
+        end
+      end
+      
+      def yy_char_range(from, to)
+        # 
+        c = @yy_input.getc
+        return nil if not c
+        #
+        if from <= c and c <= to then return c
+        else return nil
+        end
+      end
+      
+      class YY_SyntaxError < Exception
+      end
+    )
+    
+  end
+  
+  # returns unique value on each call. The value starts with "yy_nonterm" and is
+  # lowcase.
+  def new_unique_nonterminal_method_name
+    "yy_nonterm#{new_unique_number.to_s(36)}"
+  end
+  
+  # returns unique number on each call.
+  def new_unique_number
+    result = @next_unique_number
+    @next_unique_number += 1
+    return result
+  end
+  
+  # returns unique value on each call. The value starts with "yy_var" and is
+  # lowcase.
+  def new_unique_variable_name
+    "yy_var#{new_unique_number.to_s(36)}"
+  end
+  
+  # 
+  # See source code.
+  # 
+  def link(code, nonterminal_to_definition)
+    # Add all definitions to the code.
+    nonterminal_to_definition.values.each do |definition|
+      code += definition
+    end
+    # Replace all unknown codes with corresponding method calls (where
+    # possible).
+    nonterminal_to_definition.each do |nonterminal, definition|
+      code = code.replace_unknown_code(nonterminal, (code definition.method_name))
+    end
+    #
+    return code
+  end
+  
+  def to_method_definition(code, method_name)
+    Definition[
+      method_name,
+      code("def #{method_name} \n") +
+        code("val = :yy_nil \n") +
+        code + code(" and yy_to_pcv(val) \n") +
+      code("end \n")
+    ]
+  end
+  
+  # 
+  # The Code consists of 2 parts: the code as such (which can be got with #to_s)
+  # and code of definitions (which can be got with #definitions_to_s).
+  # 
+  # Abstract.
+  # 
+  class Code
+    
+    # defines abstract method.
+    def self.abstract(method)
+      define_method(method) { |*args| raise %(method `#{method}' is abstract) }
+    end
+    
+    abstract :to_s
+    
+    def definitions_to_s
+      ""
+    end
+    
+    # 
+    # returns this Code with UnknownCode-s having specified
+    # UnknownCode#nonterminal (+nonterminal+) replaced with +code+.
+    # 
+    def replace_unknown_code(nonterminal, code)
+      return self
+    end
+    
+    # Non-overridable.
+    def + other
+      CodeConcatenation.new([self, other])
+    end
+    
+  end
+  
+  class CodeAsString < Code
+    
+    class << self
+      
+      alias [] new
+      
+    end
+    
+    def initialize(string)
+      @string = string
+    end
+    
+    def to_s
+      @string
+    end
+    
+    def inspect
+      "#<CodeAsString: #{@string.inspect}>"
+    end
+    
+  end
+  
+  # returns CodeAsString.
+  def code(string)
+    CodeAsString.new(string)
+  end
+  
+  class CodeConcatenation < Code
+    
+    def initialize(parts)
+      @parts = parts
+    end
+    
+    def replace_unknown_code(nonterminal, code)
+      CodeConcatenation.new(@parts.map { |part| part.replace_unknown_code(nonterminal, code) })
+    end
+    
+    def to_s
+      @parts.map { |part| part.to_s }.join
+    end
+    
+    def definitions_to_s
+      @parts.map { |part| part.definitions_to_s }.join
+    end
+    
+    def + other
+      # Optimization.
+      CodeConcatenation.new([*@parts, other])
+    end
+    
+    def inspect
+      "#<CodeConcatenation: #{@parts.map { |p| p.inspect }.join(", ")}>"
+    end
+    
+  end
+  
+  class UnknownCode < Code
+    
+    class << self
+      
+      alias [] new
+      
+    end
+    
+    def initialize(nonterminal)
+      @nonterminal = nonterminal
+    end
+    
+    # Nonterminal associated with this UnknownCode.
+    attr_reader :nonterminal
+    
+    def replace_unknown_code(nonterminal, code)
+      if self.nonterminal == nonterminal then code
+      else self
+      end
+    end
+    
+    def to_s
+      raise UnknownCodeEncountered, self
+    end
+    
+    def inspect
+      "#<UnknownCode: @nonterminal=#{@nonterminal.inspect}>"
+    end
+    
+  end
+  
+  class UnknownCodeEncountered < Exception
+    
+    def initialize(code)
+      super %(unknown code with nonterminal #{code.nonterminal} is encountered)
+      @code = code
+    end
+    
+    attr_reader :code
+    
+  end
+  
+  # A code which goes to "definitions" section.
+  class Definition < Code
+    
+    class << self
+      
+      alias [] new
+      
+    end
+    
+    def initialize(method_name, code)
+      # Fix common errors.
+      code = CodeAsString[code] if code.is_a? String
+      # 
+      @code = code
+      @method_name = method_name
+    end
+    
+    def replace_unknown_code(nonterminal, code)
+      Definition.new(@method_name, @code.replace_unknown_code(nonterminal, code))
+    end
+    
+    def to_s
+      ""
+    end
+    
+    # Method name associated with this Definition.
+    attr_reader :method_name
+    
+    def definitions_to_s
+      @code.to_s + @code.definitions_to_s
+    end
+    
+    def inspect
+      "#<Definition: #{@code.inspect}>"
+    end
+    
+  end
+  
+  class HashMap1 < HashMap
+    
+    def initialize(*args, &block)
+      super(*args, &block)
+      @first_value = nil
+    end
+    
+    def []=(key, value)
+      raise %(value can not be nil) if value.nil?
+      @first_value ||= value
+      super(key, value)
+    end
+    
+    attr_reader :first_value
+    
+  end
+  
+end
+
+
+if $0 == __FILE__
+  File.open(ARGV[0]) do |io|
+    PEGParserGenerator.new.call(io)
+  end
+end
