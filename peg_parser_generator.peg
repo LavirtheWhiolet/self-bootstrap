@@ -215,7 +215,7 @@ nonterminal-middle <-
   nonterminal-start /
   "0"..."9" ;
 
-# Semantic value is Range.
+# Semantic value is Range (with limits encoded in UTF-8).
 char-range <-
   from:string ("..." / ".." / U+2026 / U+2025) to:string ` `
   { raise %("#{from}" or "#{to}" is not a character) if from.length != 1 or to.length != 1 }
