@@ -49,7 +49,7 @@ val = :yy_nil
     end and begin
         yy_varm9 = @yy_input.pos
         @yy_input.pos = yy_varm8
-        code = @yy_input.read(yy_varm9 - yy_varm8).force_encoding("UTF-8")
+        code = @yy_input.read(yy_varm9 - yy_varm8).force_encoding(Encoding::UTF_8)
       end
     end and yy_nontermrt and yy_nonterm12h and begin 
   print code  
@@ -80,7 +80,7 @@ val = :yy_nil
     end and begin
         yy_varmp = @yy_input.pos
         @yy_input.pos = yy_varmo
-        code = @yy_input.read(yy_varmp - yy_varmo).force_encoding("UTF-8")
+        code = @yy_input.read(yy_varmp - yy_varmo).force_encoding(Encoding::UTF_8)
       end
     end and begin 
   print code  
@@ -359,7 +359,7 @@ begin; yy_varqn = @yy_input.pos; (begin
       end
       yy_varqp
     end and begin 
-  val = code "yy_string(#{s.force_encoding("UTF-8").dump})"  
+  val = code "yy_string(#{s.dump})"  
  true 
  end)) or (@yy_input.pos = yy_varqn; (begin
       yy_varqq = yy_nontermyz
@@ -467,7 +467,7 @@ val = :yy_nil
       yy_nontermst and begin
         yy_vars3 = @yy_input.pos
         @yy_input.pos = yy_vars2
-        val = @yy_input.read(yy_vars3 - yy_vars2).force_encoding("UTF-8")
+        val = @yy_input.read(yy_vars3 - yy_vars2).force_encoding(Encoding::UTF_8)
       end
     end and yy_nonterm12h and begin 
   val = val[1...-1]  
@@ -592,7 +592,7 @@ val = :yy_nil
     end) and begin
         yy_varvd = @yy_input.pos
         @yy_input.pos = yy_varvc
-        val = @yy_input.read(yy_varvd - yy_varvc).force_encoding("UTF-8")
+        val = @yy_input.read(yy_varvd - yy_varvc).force_encoding(Encoding::UTF_8)
       end
     end and yy_nonterm12h) and yy_to_pcv(val) 
 end 
@@ -622,7 +622,7 @@ val = :yy_nil
     end) and begin
         yy_varyg = @yy_input.pos
         @yy_input.pos = yy_varyf
-        val = @yy_input.read(yy_varyg - yy_varyf).force_encoding("UTF-8")
+        val = @yy_input.read(yy_varyg - yy_varyf).force_encoding(Encoding::UTF_8)
       end
     end and yy_nonterm12h) or (@yy_input.pos = yy_vary6; (begin
       yy_varyx = @yy_input.pos
@@ -640,7 +640,7 @@ val = :yy_nil
     end and yy_string("`")) and begin
         yy_varyy = @yy_input.pos
         @yy_input.pos = yy_varyx
-        val = @yy_input.read(yy_varyy - yy_varyx).force_encoding("UTF-8")
+        val = @yy_input.read(yy_varyy - yy_varyx).force_encoding(Encoding::UTF_8)
       end
     end and yy_nonterm12h)); end) and yy_to_pcv(val) 
 end 
@@ -670,7 +670,7 @@ val = :yy_nil
   raise %("#{from}" or "#{to}" is not a character) if from.length != 1 or to.length != 1  
  true 
  end and begin 
-  val = (from.force_encoding("UTF-8"))...(to.force_encoding("UTF-8"))  
+  val = from...to  
  true 
  end) and yy_to_pcv(val) 
 end 
@@ -692,7 +692,7 @@ begin; yy_var10j = @yy_input.pos; (yy_string("'") and begin
     end and begin
         yy_var111 = @yy_input.pos
         @yy_input.pos = yy_var110
-        val = @yy_input.read(yy_var111 - yy_var110).force_encoding("UTF-8")
+        val = @yy_input.read(yy_var111 - yy_var110).force_encoding(Encoding::UTF_8)
       end
     end and yy_string("'") and yy_nonterm12h) or (@yy_input.pos = yy_var10j; (yy_string("\"") and begin
       yy_var11i = @yy_input.pos
@@ -710,7 +710,7 @@ begin; yy_var10j = @yy_input.pos; (yy_string("'") and begin
     end and begin
         yy_var11j = @yy_input.pos
         @yy_input.pos = yy_var11i
-        val = @yy_input.read(yy_var11j - yy_var11i).force_encoding("UTF-8")
+        val = @yy_input.read(yy_var11j - yy_var11i).force_encoding(Encoding::UTF_8)
       end
     end and yy_string("\"") and yy_nonterm12h)) or (@yy_input.pos = yy_var10j; (begin
       yy_var11k = yy_nonterm128
@@ -719,7 +719,7 @@ begin; yy_var10j = @yy_input.pos; (yy_string("'") and begin
       end
       yy_var11k
     end and yy_nonterm12h and begin 
-  val = "".force_encoding("UTF-8") << code  
+  val = "" << code  
  true 
  end)); end and yy_to_pcv(val) 
 end 
@@ -736,7 +736,7 @@ val = :yy_nil
     end and begin
         yy_var127 = @yy_input.pos
         @yy_input.pos = yy_var126
-        code = @yy_input.read(yy_var127 - yy_var126).force_encoding("UTF-8")
+        code = @yy_input.read(yy_var127 - yy_var126).force_encoding(Encoding::UTF_8)
       end
     end and begin 
   val = code.to_i(16)  
@@ -799,7 +799,7 @@ end
         # Read string.
         read_string = @yy_input.read(string.bytesize)
         return nil if not read_string
-        read_string.force_encoding(string.encoding)
+        read_string.force_encoding(Encoding::UTF_8)
         # 
         if read_string == string then return string
         else return nil
@@ -810,7 +810,8 @@ end
         # 
         c = @yy_input.getc
         return nil if not c
-        #
+        # NOTE: c has UTF-8 encoding.
+        # 
         if from <= c and c <= to then return c
         else return nil
         end
@@ -884,7 +885,7 @@ end
       parsing_code + (code %( and begin
         #{end_pos_var} = @yy_input.pos
         @yy_input.pos = #{start_pos_var}
-        #{variable_name} = @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding("UTF-8")
+        #{variable_name} = @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
       end
     end))
   end
@@ -926,7 +927,7 @@ end
         # Read string.
         read_string = @yy_input.read(string.bytesize)
         return nil if not read_string
-        read_string.force_encoding(string.encoding)
+        read_string.force_encoding(Encoding::UTF_8)
         # 
         if read_string == string then return string
         else return nil
@@ -937,7 +938,8 @@ end
         # 
         c = @yy_input.getc
         return nil if not c
-        #
+        # NOTE: c has UTF-8 encoding.
+        # 
         if from <= c and c <= to then return c
         else return nil
         end
