@@ -9,3 +9,4 @@
 - Rename the parser generator's executable file to "generate_parser" and make it not "require"-able (this property is not needed).
 - Byte parsing expression ("FFh DEh DDh"). Syntax for sequence of byte expressions.
 - Types of semantic values of rules ("nonterm: Type <- expr").
+- Revert capture expressions ("expr:var" instead of "var:expr").
