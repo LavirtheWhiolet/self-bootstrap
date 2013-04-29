@@ -346,7 +346,7 @@ newline <-
     puts %(
       def yy_parse(input)
         @yy_input = input
-        @yy_input.set_encoding("UTF-8", "UTF-8")
+        @yy_input.set_encoding(Encoding::UTF_8, Encoding::UTF_8)
         x = yy_parse1 or raise YY_SyntaxError
       end
     )
