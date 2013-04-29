@@ -145,7 +145,7 @@ rules <-
 
 # Semantic value is [nonterminal, Definition].
 rule <-
-  n:nonterminal `<-/=` c:expr `;`
+  n:nonterminal `<- or =` c:expr `;`
   { val = [n, to_method_definition(c, new_unique_nonterminal_method_name)] } ;
 
 ---- Lexemes ----
@@ -162,7 +162,7 @@ action <-
 action-body <-
   "{" (!"}" (action-body / char))* "}" ;
 
-`<-/=` <- ("<-" / "=") ` `;
+`<- or =` <- ("<-" / "=" / U+2190) ` `;
 `;` <- ";" ` `;
 `/` <- "/" ` `;
 `$` <- "$" ` `;
