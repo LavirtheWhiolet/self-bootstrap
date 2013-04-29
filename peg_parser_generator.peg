@@ -225,7 +225,7 @@ char-range <-
 string <-
   "'" val:< (!"'" char)* > "'" ` ` /
   '"' val:< (!'"' char)* > '"' ` ` /
-  code:Unicode-code ` ` { val = "".force_encoding("UTF-8") << code } ;
+  code:Unicode-code ` ` { val = "" << code } ;
 
 # Semantic value is integer number.
 Unicode-code <-
