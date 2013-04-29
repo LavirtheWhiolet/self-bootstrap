@@ -221,7 +221,7 @@ char-range <-
   { raise %("#{from}" or "#{to}" is not a character) if from.length != 1 or to.length != 1 }
   { val = from...to } ;
 
-# Semantic value is the string's body.
+# Semantic value is the string's body (encoded in UTF-8).
 string <-
   "'" val:< (!"'" char)* > "'" ` ` /
   '"' val:< (!'"' char)* > '"' ` ` /
