@@ -1,4 +1,3 @@
-- Enforce UTF-8 where needed.
 - Code predicates ("&{ some_code }").
 - Check "U+HHHH" codes with code predicates.
 - "/" in front of first expression in ordered choice.
