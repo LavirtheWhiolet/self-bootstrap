@@ -388,7 +388,7 @@ newline <-
         c = @yy_input.getc
         return nil if not c
         # NOTE: c has UTF-8 encoding.
-        #
+        # 
         if from <= c and c <= to then return c
         else return nil
         end
