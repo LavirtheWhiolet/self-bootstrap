@@ -1,4 +1,5 @@
 - Enforce UTF-8 where needed.
+- Ability to set output stream.
 - "to_ruby_code(string)" function.
 - Code predicates ("&{ some_code }").
 - Check "U+HHHH" codes with code predicates.
