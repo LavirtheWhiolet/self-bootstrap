@@ -145,8 +145,11 @@ rules <-
 
 # Semantic value is [nonterminal, Definition].
 rule <-
-  n:nonterminal (`:` type)? `<-/=` c:expr `;`
+  n:nonterminal (`:` rule-value-type)? `<-/=` c:expr `;`
   { val = [n, to_method_definition(c, new_unique_nonterminal_method_name)] } ;
+
+rule-value-type <-
+  (!`<-/=` char)+ ;
 
 ---- Lexemes ----
 
