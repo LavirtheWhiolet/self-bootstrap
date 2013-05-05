@@ -35,7 +35,12 @@ grammar <-
     ` `
     { print code }
   )?
-  val:expr { generate_parser_body(val) }
+  r:rules
+  {
+    c = code "#{r.first_value.method_name}"
+    c = link(c, r)
+    generate_parser_body(val)
+  }
   (
     `%%`
     code:< char* >
