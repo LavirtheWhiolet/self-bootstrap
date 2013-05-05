@@ -37,7 +37,7 @@ grammar <-
   )?
   r:rules
   {
-    c = code "#{r.first_value.method_name}"
+    c = code %(#{r.first_value.method_name})
     c = link(c, r)
     generate_parser_body(val)
   }
