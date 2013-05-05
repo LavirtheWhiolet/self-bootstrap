@@ -49,18 +49,6 @@ grammar <-
   $ ;
 
 expr <-
-  val:expr10 ;
-
-expr10 <-
-  (
-    # Rules introduction.
-    (
-      r:rules `in` c:expr10 /
-      c:expr20 `where` r:rules /
-      r:rules { c = code "#{r.first_value.method_name}" }
-    )
-    { val = link(c, r) }
-  ) /
   val:expr20 ;
 
 expr20 <-
