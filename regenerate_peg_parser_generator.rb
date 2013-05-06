@@ -2,11 +2,11 @@
 
 iteration = 0
 generator = "peg_parser_generator.rb"
-# 
+# Generate new parser generator.
 10.times do
   #
   new_generator = "generated/peg_parser_generator#{iteration}.rb"
-  # Generate the generator again!
+  # Generate yet another generator!
   system %(ruby #{generator} peg_parser_generator.peg > #{new_generator}) or
     exit $?.exitstatus
   # Stop generating if new generators become the same.
