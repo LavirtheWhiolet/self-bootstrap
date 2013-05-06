@@ -286,6 +286,10 @@ newline <-
     end))
   end
   
+  def positive_predicate_with_native_code_code(native_code)
+    code(%(begin \n #{native_code} \n end))  # Newlines are needed because native_code may contain comments.
+  end
+  
   def positive_predicate_code(code)
     stored_pos_var = new_unique_variable_name
     result_var = new_unique_variable_name
