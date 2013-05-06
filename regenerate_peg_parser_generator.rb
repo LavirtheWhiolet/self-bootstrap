@@ -1,7 +1,12 @@
 #!/usr/bin/ruby
+# encoding: UTF-8
 
 def make_line_endings_unix_style(file)
-  content = File.read(file).gsub("\r\n", "\n").gsub("\r", "\n")
+  File.binwrite(file,
+    File.binread(file).
+      gsub("\r\n", "\n").
+      gsub("\r", "\n")
+  )
 end
 
 begin
