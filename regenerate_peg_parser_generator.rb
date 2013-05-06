@@ -1,9 +1,8 @@
 #!/usr/bin/ruby
 
-iteration = 0
 generator = "peg_parser_generator.rb"
 # Generate new parser generator.
-10.times do
+10.times do |iteration|
   #
   new_generator = "generated/peg_parser_generator#{iteration}.rb"
   # Generate yet another generator!
