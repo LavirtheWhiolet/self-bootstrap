@@ -23,9 +23,6 @@ class PEGParserGenerator
 
 ---- Syntax ----
 
-# NOTE: Semantic value of all "expr..." rules is Code.
-
-# Semantic value is Code.
 grammar <-
   ` `
   (
@@ -48,10 +45,10 @@ grammar <-
   )?
   $ ;
 
-expr <-
+expr: Code <-
   val:expr20 ;
 
-expr20 <-
+expr20: Code <-
   # Ordered choice.
   {
     single_expression = true
@@ -70,7 +67,7 @@ expr20 <-
     end
   } ;
 
-expr30 <-
+expr30: Code <-
   # Sequence.
   { single_expression = true }
   val:expr60 (
@@ -86,18 +83,18 @@ expr30 <-
     end
   } ;
 
-expr60 <-
+expr60: Code <-
   # Capture semantic value.
   var:Ruby-variable `:` c:expr60 { val = capture_semantic_value_code(var, c) } /
   val:expr70 ;
 
-expr70 <-
+expr70: Code <-
   # Predicate.
   `&` val:expr70 { val = positive_predicate_code(val) } /
   `!` val:expr70 { val = code(%(not )) + positive_predicate_code(val) } /
   val:expr80 ;
 
-expr80 <-
+expr80: Code <-
   # Repetition.
   val:expr90 (
     `*` { val = repeat_many_times_code(val) } /
@@ -106,7 +103,7 @@ expr80 <-
   )*
   ;
 
-expr90 <-
+expr90: Code <-
   # Brackets.
   `(` val:expr `)` /
   # Text capture.
@@ -114,7 +111,7 @@ expr90 <-
   # 
   val:expr100 ;
 
-expr100 <-
+expr100: Code <-
   r:char-range  { val = code "yy_char_range(#{r.begin.dump}, #{r.end.dump})" } /
   s:string  { val = code "yy_string(#{s.dump})" } /
   n:nonterminal  { val = UnknownCode[n] } /
@@ -122,9 +119,7 @@ expr100 <-
   a:action  { val = code "begin \n #{a} \n true \n end" } /  # Newline must be present after action's body because it may include comments.
   `$`  { val = code "@yy_input.eof?" } ;
 
-# Semantic value is HashMap1 from rule's left part (nonterminal) to
-# its right part (Definition).
-rules <-
+rules: HashMap1[Nonterminal, Definition] <-
   { val = HashMap1.new }
   (
     r:rule
@@ -136,8 +131,7 @@ rules <-
   )+
   ;
 
-# Semantic value is [nonterminal, Definition].
-rule <-
+rule: [Nonterminal, Definition] <-
   n:nonterminal (`:` rule-type)? `<-/=` c:expr `;`
   { val = [n, to_method_definition(c, new_unique_nonterminal_method_name)] } ;
 
@@ -149,11 +143,13 @@ rule-type <-
 `%%` <-
   "%%" (!newline char)* newline ;
 
-# Semantic value is action's body.
-action <-
-  val:< action-body > ` ` { val = val[1...-1] }
-  # Check the action's syntax.
-  { RubyVM::InstructionSequence.compile(val) } ;
+# TODO: Review this rule's readability.
+
+action: String -- action's body
+  <-
+    val:< action-body > ` ` { val = val[1...-1] }
+    # Check the action's syntax.
+    { RubyVM::InstructionSequence.compile(val) } ;
 
 action-body <-
   "{" (!"}" (action-body / char))* "}" ;
@@ -177,8 +173,7 @@ action-body <-
 keyword <-
   `char` ;
 
-# Semantic value is variable's name.
-Ruby-variable <-
+Ruby-variable: String <-
   val:< Ruby-variable-start (Ruby-variable-middle)* > ` `;
 
 Ruby-variable-start <-
@@ -189,8 +184,7 @@ Ruby-variable-middle <-
   Ruby-variable-start /
   "0"..."9" ;
 
-# Semantic value is nonterminal's name.
-nonterminal <-
+nonterminal: Nonterminal <-
   !keyword
   (
     val:< nonterminal-start (nonterminal-middle)* > ` ` /
@@ -207,20 +201,19 @@ nonterminal-middle <-
   nonterminal-start /
   "0"..."9" ;
 
-# Semantic value is Range (with limits encoded in UTF-8).
-char-range <-
+char-range: Range[String] <-
   from:string ("..." / ".." / U+2026 / U+2025) to:string ` `
   { raise %("#{from}" or "#{to}" is not a character) if from.length != 1 or to.length != 1 }
   { val = from...to } ;
 
-# Semantic value is the string's body (encoded in UTF-8).
-string <-
+# TODO: Tell that all String-s are encoded in UTF-8.
+
+string: String <-
   "'" val:< (!"'" char)* > "'" ` ` /
   '"' val:< (!'"' char)* > '"' ` ` /
   code:Unicode-code ` ` { val = "" << code } ;
 
-# Semantic value is integer number.
-Unicode-code <-
+Unicode-code: Integer <-
   "U+" code:< ("0"..."9" / "A"..."F")+ >
   { val = code.to_i(16) } ;
 
@@ -437,6 +430,10 @@ newline <-
       code("end \n")
     ]
   end
+  
+  Nonterminal = String
+  
+  # TODO: Replace String with Nonterminal where it is needed.
   
   # 
   # The Code consists of 2 parts: the code as such (which can be got with #to_s)
