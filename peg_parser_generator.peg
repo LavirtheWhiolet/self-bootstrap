@@ -142,7 +142,7 @@ rule <-
   { val = [n, to_method_definition(c, new_unique_nonterminal_method_name)] } ;
 
 rule-type <-
-  (!`<-/=` (` ` / char))+ ;
+  (!`<-/=` char ` `)+ ;
 
 ---- Lexemes ----
 
