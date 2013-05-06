@@ -963,6 +963,10 @@ end
     ]
   end
   
+  Nonterminal = String
+  
+  # TODO: Replace String with Nonterminal where it is needed.
+  
   # 
   # The Code consists of 2 parts: the code as such (which can be got with #to_s)
   # and code of definitions (which can be got with #definitions_to_s).
