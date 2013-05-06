@@ -48,10 +48,10 @@ grammar <-
   )?
   $ ;
 
-expr <-
+expr: Code <-
   val:expr20 ;
 
-expr20 <-
+expr20: Code <-
   # Ordered choice.
   {
     single_expression = true
@@ -70,7 +70,7 @@ expr20 <-
     end
   } ;
 
-expr30 <-
+expr30: Code <-
   # Sequence.
   { single_expression = true }
   val:expr60 (
@@ -86,18 +86,18 @@ expr30 <-
     end
   } ;
 
-expr60 <-
+expr60: Code <-
   # Capture semantic value.
   var:Ruby-variable `:` c:expr60 { val = capture_semantic_value_code(var, c) } /
   val:expr70 ;
 
-expr70 <-
+expr70: Code <-
   # Predicate.
   `&` val:expr70 { val = positive_predicate_code(val) } /
   `!` val:expr70 { val = code(%(not )) + positive_predicate_code(val) } /
   val:expr80 ;
 
-expr80 <-
+expr80: Code <-
   # Repetition.
   val:expr90 (
     `*` { val = repeat_many_times_code(val) } /
@@ -106,7 +106,7 @@ expr80 <-
   )*
   ;
 
-expr90 <-
+expr90: Code <-
   # Brackets.
   `(` val:expr `)` /
   # Text capture.
@@ -114,7 +114,7 @@ expr90 <-
   # 
   val:expr100 ;
 
-expr100 <-
+expr100: Code <-
   r:char-range  { val = code "yy_char_range(#{r.begin.dump}, #{r.end.dump})" } /
   s:string  { val = code "yy_string(#{s.dump})" } /
   n:nonterminal  { val = UnknownCode[n] } /
