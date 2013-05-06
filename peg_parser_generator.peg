@@ -149,6 +149,8 @@ rule-type <-
 `%%` <-
   "%%" (!newline char)* newline ;
 
+# TODO: Revies this rule's readability.
+
 action: String -- action's body
   <-
     val:< action-body > ` ` { val = val[1...-1] }
