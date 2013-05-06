@@ -189,8 +189,7 @@ Ruby-variable-middle <-
   Ruby-variable-start /
   "0"..."9" ;
 
-# Semantic value is nonterminal's name.
-nonterminal <-
+nonterminal: Nonterminal <-
   !keyword
   (
     val:< nonterminal-start (nonterminal-middle)* > ` ` /
@@ -436,6 +435,8 @@ newline <-
       code("end \n")
     ]
   end
+  
+  Nonterminal = String
   
   # 
   # The Code consists of 2 parts: the code as such (which can be got with #to_s)
