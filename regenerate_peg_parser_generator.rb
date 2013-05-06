@@ -16,7 +16,9 @@ begin
     system %(ruby #{source_generator} peg_parser_generator.peg > #{new_generator}) or
       exit $?.exitstatus
     make_line_endings_unix_style(new_generator)
-    break if File.read(new_generator) == File.read(source_generator)
+    if File.read(new_generator) == File.read(source_generator)
+      break
+    end
     source_generator = new_generator
   end
 end
