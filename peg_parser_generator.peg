@@ -119,7 +119,7 @@ expr100: Code <-
   a:action  { val = code "begin \n #{a} \n true \n end" } /  # Newline must be present after action's body because it may include comments.
   `$`  { val = code "@yy_input.eof?" } ;
 
-rules: Hashmap1[Nonterminal, Definition] <-
+rules: HashMap1[Nonterminal, Definition] <-
   { val = HashMap1.new }
   (
     r:rule
