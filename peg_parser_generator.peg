@@ -119,7 +119,7 @@ expr100: Code <-
   a:action  { val = code "begin \n #{a} \n true \n end" } /  # Newline must be present after action's body because it may include comments.
   `$`  { val = code "@yy_input.eof?" } ;
 
-rules: Hashmap1[Nonterminal, Definition] <-
+rules: Hashmap1<Nonterminal, Definition> <-
   { val = HashMap1.new }
   (
     r:rule
@@ -201,7 +201,7 @@ nonterminal-middle <-
   nonterminal-start /
   "0"..."9" ;
 
-char-range: Range[String] <-
+char-range: Range<String> <-
   from:string ("..." / ".." / U+2026 / U+2025) to:string ` `
   { raise %("#{from}" or "#{to}" is not a character) if from.length != 1 or to.length != 1 }
   { val = from...to } ;
