@@ -102,7 +102,7 @@ expr60 <-
 
 expr70 <-
   # Predicate.
-  / `&` c:action { val = positive_predicate_with_native_code_code(code) }
+  / `&` c:action { val = positive_predicate_with_native_code_code(c) }
   / `&` val:expr70 { val = positive_predicate_code(val) }
   / `!` val:expr70 { val = code(%(not )) + positive_predicate_code(val) }
   / val:expr80
