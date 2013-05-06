@@ -122,9 +122,7 @@ expr100 <-
   a:action  { val = code "begin \n #{a} \n true \n end" } /  # Newline must be present after action's body because it may include comments.
   `$`  { val = code "@yy_input.eof?" } ;
 
-# Semantic value is HashMap1 from rule's left part (nonterminal) to
-# its right part (Definition).
-rules <-
+rules: Hashmap1[Nonterminal, Definition] <-
   { val = HashMap1.new }
   (
     r:rule
