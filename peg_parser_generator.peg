@@ -177,8 +177,7 @@ action-body <-
 keyword <-
   `char` ;
 
-# Semantic value is variable's name.
-Ruby-variable <-
+Ruby-variable: String <-
   val:< Ruby-variable-start (Ruby-variable-middle)* > ` `;
 
 Ruby-variable-start <-
