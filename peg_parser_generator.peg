@@ -100,6 +100,7 @@ expr60 <-
 
 expr70 <-
   # Predicate.
+  `&` c:action { ... } /
   `&` val:expr70 { val = positive_predicate_code(val) } /
   `!` val:expr70 { val = code(%(not )) + positive_predicate_code(val) } /
   val:expr80 ;
