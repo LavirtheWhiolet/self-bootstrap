@@ -98,6 +98,8 @@ expr60 <-
   var:Ruby-variable `:` c:expr60 { val = capture_semantic_value_code(var, c) } /
   val:expr70 ;
 
+# TODO: Rename "action" rule to "Ruby-code".
+
 expr70 <-
   # Predicate.
   `&` c:action { val = code(%(begin \n )) + c + code(%( \n end )) } /
