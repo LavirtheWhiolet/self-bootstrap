@@ -174,11 +174,7 @@ action-body <-
 `!` <- "!" ` `;
 
 `char` <- "char" !nonterminal-middle ` `;
-`where` <- "where" !nonterminal-middle ` `;
-`in` <- "in" !nonterminal-middle ` `;
 keyword <-
-  `where` /
-  `in` /
   `char` ;
 
 # Semantic value is variable's name.
