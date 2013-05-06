@@ -11,7 +11,7 @@ class PEGParserGenerator
     # Initialize.
     @next_unique_number = 0
     # Parse grammar and generate the parser.
-    code = yy_parse(input)
+    yy_parse(input)
   end
   
   private
