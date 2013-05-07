@@ -213,8 +213,8 @@ string: String <-
   code:Unicode-code ` ` { val = "" << code } ;
 
 Unicode-code: Integer <-
-  "U+" code:< ("0"..."9" / "A"..."F")+ >
-  { val = code.to_i(16) } ;
+  "U+" code:< ("0"..."9" / "A"..."F")+ > { code  = code.to_i(16); raise %(U+#{code.to_s(16).upcase} is not supported) if code > 0x10FFFF }
+  { val = code } ;
 
 # Insignificant text.
 ` ` <-
@@ -253,7 +253,7 @@ newline <-
   U+2029 ;
 
 %%%% Code %%%%
-
+  
   def capture_semantic_value_code(var, code)
     result_var = new_unique_variable_name
     #
