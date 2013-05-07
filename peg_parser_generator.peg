@@ -156,10 +156,10 @@ action-body <-
   "{" (!"}" (action-body / char))* "}" ;
 
 `{...` <-
-  "{" whitespace `...` ;
+  "{" whitespace* `...` ;
 
 `...}` <-
-  `...` whitespace "}" ;
+  `...` whitespace* "}" ;
 
 `...` <-
   / "..."
