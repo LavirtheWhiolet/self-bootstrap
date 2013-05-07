@@ -979,6 +979,8 @@ end
     ]
   end
   
+  RubyCode = String
+  
   Nonterminal = String
   
   # TODO: Replace String with Nonterminal where it is needed.
