@@ -143,8 +143,6 @@ rule-type <-
 `%%` <-
   "%%" (!newline char)* newline ;
 
-# TODO: Form comment below well.
-
 action: String (action's body) <-
   val:< action-body > ` ` { val = val[1...-1] }
   # Check the action's syntax.
