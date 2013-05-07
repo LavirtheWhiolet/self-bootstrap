@@ -238,6 +238,9 @@ Unicode-code: Integer <-
 comment <-
   ("#" / "--") (!newline char)* newline ;
 
+white-space-no-newline <-
+  !newline white-space ;
+
 # White space as specified in "Unicode Standard Annex #44: Unicode Character
 # Database" (http://www.unicode.org/reports/tr44, specifically
 # http://www.unicode.org/Public/UNIDATA/PropList.txt).
