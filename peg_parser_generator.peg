@@ -147,7 +147,7 @@ rule-type <-
 `%%` <-
   "%%" (!newline char)* newline ;
 
-action: String (action's body) <-
+action: RubyCode <-
   val:< action-body > ` ` { val = val[1...-1] }
   # Check the action's syntax.
   { RubyVM::InstructionSequence.compile(val) } ;
@@ -435,6 +435,8 @@ newline <-
       code("end \n")
     ]
   end
+  
+  RubyCode = String
   
   Nonterminal = String
   
