@@ -705,7 +705,10 @@ val = :yy_nil
         code = @yy_input.read(yy_var5b - yy_var5a).force_encoding(Encoding::UTF_8)
       end
     end and begin 
-  val = code.to_i(16)  
+  code  = code.to_i(16); raise %(U+#{code.to_s(16).upcase} is not supported) if code > 0x10FFFF  
+ true 
+ end and begin 
+  val = code  
  true 
  end) and yy_to_pcv(val) 
 end 
@@ -786,7 +789,7 @@ end
       class YY_SyntaxError < Exception
       end
     
-
+  
   def capture_semantic_value_code(var, code)
     result_var = new_unique_variable_name
     #
