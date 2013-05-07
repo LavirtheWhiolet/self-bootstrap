@@ -203,7 +203,7 @@ nonterminal-middle <-
   "0"..."9" ;
 
 char-range: Range[String] <-
-  from:string ("..." / ".." / U+2026 / U+2025) to:string ` `
+  from:string ("..." / ".." / U+2026 / U+2025) ` ` to:string ` `
   { raise %("#{from}" or "#{to}" is not a character) if from.length != 1 or to.length != 1 }
   { val = from...to } ;
 

@@ -635,7 +635,7 @@ val = :yy_nil
         from = yy_from_pcv(yy_var4m)
       end
       yy_var4m
-    end and begin; yy_var4n = @yy_input.pos; yy_string("...") or (@yy_input.pos = yy_var4n; yy_string("..")) or (@yy_input.pos = yy_var4n; yy_string("\u{2026}")) or (@yy_input.pos = yy_var4n; yy_string("\u{2025}")); end and begin
+    end and begin; yy_var4n = @yy_input.pos; yy_string("...") or (@yy_input.pos = yy_var4n; yy_string("..")) or (@yy_input.pos = yy_var4n; yy_string("\u{2026}")) or (@yy_input.pos = yy_var4n; yy_string("\u{2025}")); end and yy_nonterm5h and begin
       yy_var4o = yy_nonterm56
       if yy_var4o then
         to = yy_from_pcv(yy_var4o)
