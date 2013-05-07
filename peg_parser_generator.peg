@@ -146,9 +146,9 @@ rule-type <-
 # TODO: Review this rule's readability.
 
 action: String (action's body) <-
-    val:< action-body > ` ` { val = val[1...-1] }
-    # Check the action's syntax.
-    { RubyVM::InstructionSequence.compile(val) } ;
+  val:< action-body > ` ` { val = val[1...-1] }
+  # Check the action's syntax.
+  { RubyVM::InstructionSequence.compile(val) } ;
 
 action-body <-
   "{" (!"}" (action-body / char))* "}" ;
