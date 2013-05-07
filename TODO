@@ -13,3 +13,4 @@
 - "{... <code> ...}".
 - Use "RubyCode" as value of "action" rule.
 - Block comments.
+- Allow to set error message in code predicates.
