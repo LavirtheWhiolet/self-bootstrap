@@ -1,7 +1,6 @@
 - Enforce UTF-8 encoding in output stream.
 - Ability to set output file or stream.
 - "to_ruby_code(string)" function.
-- Code predicates ("&{ some_code }").
 - Check "U+HHHH" codes with code predicates.
 - Definitions in the middle of grammar ("{ ... }" among rules).
 - Error reporting (at least position). Idea: @max_pos and @max_error.
