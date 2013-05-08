@@ -1,7 +1,7 @@
 
 xml = ` ` tag ` ` $ ;
 
-tag = s:tag-start (!end-tag (tag / char))* e:tag-end &{ s == e } ;
+tag = s:tag-start (!tag-end (tag / char))* e:tag-end &{ s == e } ;
 
 tag-start: TagName = "[" val:< (!"]" char)* > "]" ;
 
@@ -29,6 +29,10 @@ white-space <-
   U+3000 ;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+TagName = String
+
 
 begin
   File.open(ARGV[0]) { |io| yy_parse(io) }
