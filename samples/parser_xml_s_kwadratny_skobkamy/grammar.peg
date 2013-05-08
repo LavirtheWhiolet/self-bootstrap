@@ -1,5 +1,5 @@
 
-xml = tag $ ;
+xml = ` ` tag ` ` $ ;
 
 tag = s:tag-start (!end-tag (tag / char))* e:tag-end &{ s == e } ;
 
@@ -8,6 +8,25 @@ tag-start: TagName = "[" val:< (!"]" char)* > "]" ;
 tag-end: TagName = "[/" val:< (!"]" char)* > "]" ;
 
 # TODO: Tag attributes.
+
+` ` = white-space* ;
+
+# White space as specified in "Unicode Standard Annex #44: Unicode Character
+# Database" (http://www.unicode.org/reports/tr44, specifically
+# http://www.unicode.org/Public/UNIDATA/PropList.txt).
+white-space <-
+  U+0009...U+000D /
+  U+0020 /
+  U+0085 /
+  U+00A0 /
+  U+1680 /
+  U+180E /
+  U+2000...U+200A /
+  U+2028 /
+  U+2029 /
+  U+202F /
+  U+205F /
+  U+3000 ;
 
 %%
 
