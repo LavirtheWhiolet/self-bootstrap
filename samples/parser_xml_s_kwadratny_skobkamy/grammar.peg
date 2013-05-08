@@ -1,0 +1,19 @@
+
+xml = tag $ ;
+
+tag = s:tag-start (!end-tag (tag / char))* e:tag-end &{ s == e } ;
+
+tag-start: TagName = "[" val:< (!"]" char)* > "]" ;
+
+tag-end: TagName = "[/" val:< (!"]" char)* > "]" ;
+
+# TODO: Tag attributes.
+
+%%
+
+begin
+  File.open(ARGV[0]) { |io| yy_parse(io) }
+  STDERR.puts %(Horoshy XML, pravilno oformlenny)
+rescue YY_SyntaxError
+  abort %(Plohoy XML, oche plohoy, ya dumal, namnogo luche budet eto vse)
+end

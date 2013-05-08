@@ -1,0 +1,3 @@
+[root]
+  Text [i]Italic text[/i] [b]Bold text[/b]
+[/root]
