@@ -1,0 +1,3 @@
+[root]
+[x][y]Pereputany [/x] tegi[/y]
+[/root]
