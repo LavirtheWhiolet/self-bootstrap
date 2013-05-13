@@ -33,8 +33,15 @@ grammar <-
   (
     / r:rule
       {
+        # 
         nonterminal, method_name, method_code = *r
-        
+        method_names[nonterminal] = method_name
+        code += method_code
+        # 
+        if rule_is_first
+          code += auxiliary_methods
+          rule_is_first = false
+        end
       }
     / x:action
       {
