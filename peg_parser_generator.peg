@@ -51,7 +51,7 @@ grammar <-
   )*
   $
   {
-    code = link(code)
+    code = link(code, method_names)
     print code
   } ;
 
