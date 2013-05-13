@@ -136,9 +136,12 @@ rules: HashMap1[Nonterminal, Definition] <-
   )+
   ;
 
-rule: [Nonterminal, Definition] <-
+rule: [Nonterminal, MethodName, Code] <-
   n:nonterminal (`:` rule-type)? `<-/=` c:expr `;`
-  { val = [n, to_method_definition(c, new_unique_nonterminal_method_name)] } ;
+  {
+    method_name = new_unique_nonterminal_method_name
+    val = [n, method_name, to_method_definition(c, method_name)]
+  } ;
 
 rule-type <-
   ((!`<-/=` char) ` `)+ ;
