@@ -24,15 +24,14 @@ class PEGParserGenerator
 ---- Syntax ----
 
 grammar <-
+  { code = code("") }
   ` `
   (
-    `%%`
-    code:< (!`%%` char)* >
-    `%%`
-    ` `
-    { print code }
-  )?
-  r:rules
+    / 
+    / x:action { code += Definition[x] }
+  )*
+  $
+  ;
   {
     main_method_code = code "#{r.first_value.method_name}"
     main_method_code = link(main_method_code, r)
