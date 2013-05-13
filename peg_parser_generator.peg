@@ -27,7 +27,7 @@ grammar <-
   { code = code(""); rules = HashMap.new }
   ` `
   (
-    / r:rule { nonterminal, definition = *r; code += definition; rules[nonterminal] = definition }
+    / r:rule { nonterminal, definition = *r; rules[nonterminal] = definition; code += definition }
     / x:action { code += Definition[x] }
   )*
   $
