@@ -39,7 +39,7 @@ grammar <-
         code += method_code
         # 
         if rule_is_first
-          code += auxiliary_code
+          code += auxiliary_code(method_name)
           rule_is_first = false
         end
       }
