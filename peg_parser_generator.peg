@@ -24,11 +24,20 @@ class PEGParserGenerator
 ---- Syntax ----
 
 grammar <-
-  { code = code(""); rules = HashMap1.new }
+  {
+    code = code("")
+    rule_is_first = true
+  }
   ` `
   (
-    / r:rule { nonterminal, definition = *r; rules[nonterminal] = definition; code += definition }
-    / x:action { code += Definition[x] }
+    / r:rule
+      {
+        
+      }
+    / x:action
+      {
+        code += code(x)
+      }
   )*
   $
   {
