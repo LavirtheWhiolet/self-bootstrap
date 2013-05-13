@@ -27,11 +27,13 @@ grammar <-
   {
     code = code("")
     rule_is_first = true
+    method_names = HashMap.new
   }
   ` `
   (
     / r:rule
       {
+        nonterminal, method_name, method_code = *r
         
       }
     / x:action
