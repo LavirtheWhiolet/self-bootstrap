@@ -430,17 +430,10 @@ newline <-
   # 
   # See source code.
   # 
-  def link(code, nonterminal_to_definition)
-    # Add all definitions to the code.
-    nonterminal_to_definition.values.each do |definition|
-      code += definition
+  def link(code, method_names)
+    method_names.each_pair do |nonterminal, method_name|
+      code = code.replace_unknown_code(nonterminal, code(method_name))
     end
-    # Replace all unknown codes with corresponding method calls (where
-    # possible).
-    nonterminal_to_definition.each do |nonterminal, definition|
-      code = code.replace_unknown_code(nonterminal, (code definition.method_name))
-    end
-    #
     return code
   end
   
