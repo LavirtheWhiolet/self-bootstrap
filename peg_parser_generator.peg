@@ -39,7 +39,7 @@ grammar <-
         code += method_code
         # 
         if rule_is_first
-          code += auxiliary_methods
+          code += auxiliary_code
           rule_is_first = false
         end
       }
@@ -354,21 +354,14 @@ newline <-
     end))
   end
   
-  def generate_parser_body(code)
-    
-    code = to_method_definition(code, "yy_parse1")
-    
-    puts %(
+  def auxiliary_code(main_parsing_method_name)
+    code %(
+      
       def yy_parse(input)
         @yy_input = input
         @yy_input.set_encoding("UTF-8", "UTF-8")
-        x = yy_parse1 or raise YY_SyntaxError
+        x = #{main_parsing_method_name} or raise YY_SyntaxError
       end
-    )
-    
-    puts code.definitions_to_s
-    
-    puts %(
       
       # converts value to parser-compatible value (which is always non-false and
       # non-nil).
@@ -412,7 +405,6 @@ newline <-
       class YY_SyntaxError < Exception
       end
     )
-    
   end
   
   # returns unique value on each call. The value starts with "yy_nonterm" and is
