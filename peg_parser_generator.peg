@@ -51,9 +51,8 @@ grammar <-
   )*
   $
   {
-    main_method_code = code "#{rules.first_value.method_name}"
-    main_method_code = link(main_method_code, rules)
-    generate_parser_body(main_method_code)
+    code = link(code)
+    print code
   } ;
 
 expr: Code <-
