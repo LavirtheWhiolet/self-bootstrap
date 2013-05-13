@@ -455,7 +455,7 @@ val = :yy_nil
 end 
 def yy_nonterm30 
 val = :yy_nil 
-begin; yy_var2f = @yy_input.pos; (yy_string("{") and while true
+(begin; yy_var2f = @yy_input.pos; (yy_string("{") and while true
       yy_var2g = @yy_input.pos
       if not yy_nonterm68 then
         @yy_input.pos = yy_var2g
@@ -515,10 +515,10 @@ begin; yy_var2f = @yy_input.pos; (yy_string("{") and while true
         @yy_input.pos = yy_var2y
         val = @yy_input.read(yy_var2z - yy_var2y).force_encoding(Encoding::UTF_8)
       end
-    end and yy_nonterm5z and begin 
+    end and begin 
   val = val[1...-1]  
  true 
- end)); end and yy_to_pcv(val) 
+ end)); end and yy_nonterm5z) and yy_to_pcv(val) 
 end 
 def yy_nonterm37 
 val = :yy_nil 
