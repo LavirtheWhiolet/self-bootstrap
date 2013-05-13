@@ -149,7 +149,7 @@ rule-type <-
 
 action: RubyCode <-
   (
-    / "{" white-space* ellipsis:<"..." / U+2026> (white-space-no-newline* newline)? val:<  >
+    / "{" white-space* "..." (white-space-no-newline* newline)? val:<  >
   )
   val:< action-body > ` ` { val = val[1...-1] }
   # Check the action's syntax.
