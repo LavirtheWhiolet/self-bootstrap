@@ -150,6 +150,7 @@ rule-type <-
 action: RubyCode <-
   (
     / "{" white-space* "..." ((!newline white-space)* newline)? val:< (!("..." white-space* "}") char)* > "..." white-space* "}"
+    / "{" val:< action-body >
   )
   val:< action-body > ` ` { val = val[1...-1] }
   # Check the action's syntax.
