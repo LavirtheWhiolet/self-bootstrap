@@ -24,7 +24,7 @@ class PEGParserGenerator
 ---- Syntax ----
 
 grammar <-
-  { code = code(""); rules = HashMap.new }
+  { code = code(""); rules = HashMap1.new }
   ` `
   (
     / r:rule { nonterminal, definition = *r; rules[nonterminal] = definition; code += definition }
