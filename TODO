@@ -8,4 +8,3 @@
 - Revert capture expressions ("expr:var" instead of "var:expr").
 - Capture expressions: variables in brackets ("expr:(var)"). It will help when variables will get types ("expr:(var:Type)"). May be use square brackets?
 - Code#+(string).
-- "{... <code> ...}".
