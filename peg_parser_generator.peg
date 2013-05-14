@@ -24,26 +24,36 @@ class PEGParserGenerator
 ---- Syntax ----
 
 grammar <-
+  {
+    code = code("")
+    rule_is_first = true
+    method_names = HashMap.new
+  }
   ` `
   (
-    `%%`
-    code:< (!`%%` char)* >
-    `%%`
-    ` `
-    { print code }
-  )?
-  r:rules
+    / r:rule
+      {
+        # 
+        nonterminal, method_name, method_code = *r
+        # 
+        if rule_is_first
+          code += auxiliary_code(method_name)
+          rule_is_first = false
+        end
+        # 
+        method_names[nonterminal] = method_name
+        code += method_code
+      }
+    / x:action
+      {
+        code += code(x)
+      }
+  )*
+  $
   {
-    main_method_code = code "#{r.first_value.method_name}"
-    main_method_code = link(main_method_code, r)
-    generate_parser_body(main_method_code)
-  }
-  (
-    `%%`
-    code:< char* >
-    { print code }
-  )?
-  $ ;
+    code = link(code, method_names)
+    print code
+  } ;
 
 expr: Code <-
   val:expr20 ;
@@ -123,21 +133,12 @@ expr100: Code <-
   a:action  { val = code "begin \n #{a} \n true \n end" } /  # Newline must be present after action's body because it may include comments.
   `$` { val = code "@yy_input.eof?" } ;
 
-rules: HashMap1[Nonterminal, Definition] <-
-  { val = HashMap1.new }
-  (
-    r:rule
-    {
-      nonterminal, definition = *r
-      raise %(rule "#{nonterminal}" is already defined) if val.has_key? nonterminal
-      val[nonterminal] = definition
-    }
-  )+
-  ;
-
-rule: [Nonterminal, Definition] <-
+rule: [Nonterminal, MethodName, Code] <-
   n:nonterminal (`:` rule-type)? `<-/=` c:expr `;`
-  { val = [n, to_method_definition(c, new_unique_nonterminal_method_name)] } ;
+  {
+    method_name = new_unique_nonterminal_method_name
+    val = [n, method_name, to_method_definition(c, method_name)]
+  } ;
 
 rule-type <-
   ((!`<-/=` char) ` `)+ ;
@@ -151,6 +152,16 @@ action: RubyCode <-
   (
     / "{" white-space* "..." ((!newline white-space)* newline)? val:< (!("..." white-space* "}") char)* > "..." white-space* "}"
     / val:< action-body > { val = val[1...-1] }
+    / (
+        `%%`
+        val:< (!`%%` char)* >
+        `%%`
+      )
+    / (
+        `%%`
+        val:< char* >
+        $
+      )
   )
   ` ` ;
 
@@ -331,21 +342,14 @@ newline <-
     end))
   end
   
-  def generate_parser_body(code)
-    
-    code = to_method_definition(code, "yy_parse1")
-    
-    puts %(
+  def auxiliary_code(main_parsing_method_name)
+    code %(
+      
       def yy_parse(input)
         @yy_input = input
         @yy_input.set_encoding("UTF-8", "UTF-8")
-        x = yy_parse1 or raise YY_SyntaxError
+        x = #{main_parsing_method_name} or raise YY_SyntaxError
       end
-    )
-    
-    puts code.definitions_to_s
-    
-    puts %(
       
       # converts value to parser-compatible value (which is always non-false and
       # non-nil).
@@ -389,7 +393,6 @@ newline <-
       class YY_SyntaxError < Exception
       end
     )
-    
   end
   
   # returns unique value on each call. The value starts with "yy_nonterm" and is
@@ -414,28 +417,18 @@ newline <-
   # 
   # See source code.
   # 
-  def link(code, nonterminal_to_definition)
-    # Add all definitions to the code.
-    nonterminal_to_definition.values.each do |definition|
-      code += definition
+  def link(code, method_names)
+    method_names.each_pair do |nonterminal, method_name|
+      code = code.replace_unknown_code(nonterminal, code(method_name))
     end
-    # Replace all unknown codes with corresponding method calls (where
-    # possible).
-    nonterminal_to_definition.each do |nonterminal, definition|
-      code = code.replace_unknown_code(nonterminal, (code definition.method_name))
-    end
-    #
     return code
   end
   
   def to_method_definition(code, method_name)
-    Definition[
-      method_name,
-      code("def #{method_name} \n") +
-        code("val = :yy_nil \n") +
-        code + code(" and yy_to_pcv(val) \n") +
-      code("end \n")
-    ]
+    code("def #{method_name} \n") +
+      code("val = :yy_nil \n") +
+      code + code(" and yy_to_pcv(val) \n") +
+    code("end \n")
   end
   
   RubyCode = String
@@ -458,10 +451,6 @@ newline <-
     end
     
     abstract :to_s
-    
-    def definitions_to_s
-      ""
-    end
     
     # 
     # returns this Code with UnknownCode-s having specified
@@ -519,10 +508,6 @@ newline <-
       @parts.map { |part| part.to_s }.join
     end
     
-    def definitions_to_s
-      @parts.map { |part| part.definitions_to_s }.join
-    end
-    
     def + other
       # Optimization.
       CodeConcatenation.new([*@parts, other])
@@ -573,61 +558,6 @@ newline <-
     end
     
     attr_reader :code
-    
-  end
-  
-  # A code which goes to "definitions" section.
-  class Definition < Code
-    
-    class << self
-      
-      alias [] new
-      
-    end
-    
-    def initialize(method_name, code)
-      # Fix common errors.
-      code = CodeAsString[code] if code.is_a? String
-      # 
-      @code = code
-      @method_name = method_name
-    end
-    
-    def replace_unknown_code(nonterminal, code)
-      Definition.new(@method_name, @code.replace_unknown_code(nonterminal, code))
-    end
-    
-    def to_s
-      ""
-    end
-    
-    # Method name associated with this Definition.
-    attr_reader :method_name
-    
-    def definitions_to_s
-      @code.to_s + @code.definitions_to_s
-    end
-    
-    def inspect
-      "#<Definition: #{@code.inspect}>"
-    end
-    
-  end
-  
-  class HashMap1 < HashMap
-    
-    def initialize(*args, &block)
-      super(*args, &block)
-      @first_value = nil
-    end
-    
-    def []=(key, value)
-      raise %(value can not be nil) if value.nil?
-      @first_value ||= value
-      super(key, value)
-    end
-    
-    attr_reader :first_value
     
   end
   
