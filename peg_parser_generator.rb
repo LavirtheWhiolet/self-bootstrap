@@ -1033,6 +1033,12 @@ end
       block.(self)
     end
     
+    def reduce(initial = nil, &block)
+      result = initial
+      self.map { |code_part| result = block.(result, code_part); code_part }
+      return result
+    end
+    
   end
   
   class CodeAsString < Code
