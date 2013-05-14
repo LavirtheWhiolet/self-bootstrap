@@ -422,7 +422,7 @@ newline <-
       if code_part.is_a? UnknownMethodCall and method_names.has_key? code_part.nonterminal
         code "#{method_names[code_part.nonterminal]}()"
       else
-        part
+        code_part
       end
     end
   end
