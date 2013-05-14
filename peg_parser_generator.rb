@@ -1034,9 +1034,9 @@ end
     end
     
     # 
-    # The same as Enumerable#reduce(initial) +{ |memo, obj| block }+ or
-    # Enumerable#reduce +{ |memo, obj| block }+ where +obj+ is one of atomic
-    # Code-s comprising this Code.
+    # The same as Enumerable#reduce(initial) <tt>{ |memo, obj| block }</tt> or
+    # Enumerable#reduce <tt>{ |memo, obj| block }</tt> where +obj+ is one of
+    # atomic Code-s comprising this Code.
     # 
     # Not overridable.
     # 
