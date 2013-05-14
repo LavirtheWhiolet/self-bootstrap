@@ -686,6 +686,40 @@ newline <-
     
   end
   
+  class UnknownVar < Code
+    
+    class << self
+      
+      alias [] new
+      
+    end
+    
+    def initialize(role, requested_name = nil)
+      @role = role
+      @requested_name = requested_name
+    end
+    
+    attr_reader :role
+    
+    attr_reader :requested_name
+    
+    def to_s
+      raise UnknownVarEncountered.new self
+    end
+    
+  end
+  
+  class UnknownVarEncountered < Exception
+    
+    def initialize(unknown_var)
+      super %(unknown variable is encountered (role: #{unknown_var.role}, requested name: "#{unknown_var.requested_name}")
+      @unknown_var = unknown_var
+    end
+    
+    attr_reader :unknown_var
+    
+  end
+  
 end
 
 
