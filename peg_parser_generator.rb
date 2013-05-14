@@ -997,12 +997,6 @@ end
   
   # TODO: Replace String with Nonterminal where it is needed.
   
-  # 
-  # The Code consists of 2 parts: the code as such (which can be got with #to_s)
-  # and code of definitions (which can be got with #definitions_to_s).
-  # 
-  # Abstract.
-  # 
   class Code
     
     # defines abstract method.
@@ -1012,12 +1006,15 @@ end
     
     abstract :to_s
     
-    # Non-overridable.
+    # Not overridable.
     def + other
       CodeConcatenation.new([self, other])
     end
     
-    # +block+ is passed with every Code this Code comprises.
+    # 
+    # passes every atomic Code comprising this Code and returns this Code with
+    # the atomic Code-s replaced with what +block+ returns.
+    # 
     def map(&block)
       block.(self)
     end
