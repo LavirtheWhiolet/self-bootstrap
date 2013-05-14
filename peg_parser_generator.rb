@@ -1022,6 +1022,11 @@ end
       CodeConcatenation.new([self, other])
     end
     
+    # +block+ is passed with every Code this Code comprises.
+    def map(&block)
+      block.(self)
+    end
+    
   end
   
   class CodeAsString < Code
@@ -1068,6 +1073,10 @@ end
     def + other
       # Optimization.
       CodeConcatenation.new([*@parts, other])
+    end
+    
+    def map(&block)
+      CodeConcatenation.new(@parts.map { |part| part.map(&block) })
     end
     
     def inspect
