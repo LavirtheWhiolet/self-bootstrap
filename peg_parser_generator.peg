@@ -419,22 +419,12 @@ newline <-
   # 
   def link(code, method_names)
     code.map do |part|
-      if part.is_a? UnknownCode and part.nonterminal_associated?
-        
+      if part.is_a? UnknownCode and method_names.has_key? part.nonterminal
+        code(method_names[part.nonterminal])
       else
         part
       end
     end
-    method_names.each_pair do |nonterminal, method_name|
-      code = code.map do |part|
-        if part.is_a? UnknownCode and part.nonterminal == nonterminal then
-          code(method_name)
-        else
-          part
-        end
-      end
-    end
-    return code
   end
   
   def to_method_definition(code, method_name)
