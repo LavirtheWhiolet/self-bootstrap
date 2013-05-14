@@ -128,7 +128,7 @@ expr90: Code <-
 expr100: Code <-
   r:char-range  { val = code "yy_char_range(#{r.begin.dump}, #{r.end.dump})" } /
   s:string  { val = code "yy_string(#{s.dump})" } /
-  n:nonterminal  { val = UnknownCode[n] } /
+  n:nonterminal  { val = UnknownMethodCall[n] } /
   `char` { val = code "@yy_input.getc" } /  # IO#getc returns nil at end of input. That's OK for us.
   a:action  { val = code "begin \n #{a} \n true \n end" } /  # Newline must be present after action's body because it may include comments.
   `$` { val = code "@yy_input.eof?" } ;
@@ -418,11 +418,11 @@ newline <-
   # See source code.
   # 
   def link(code, method_names)
-    code.map do |part|
-      if part.is_a? UnknownCode and method_names.has_key? part.nonterminal
-        code(method_names[part.nonterminal])
+    code.map do |code_part|
+      if code_part.is_a? UnknownMethodCall and method_names.has_key? code_part.nonterminal
+        code "#{method_names[code_part.nonterminal]}()"
       else
-        part
+        code_part
       end
     end
   end
@@ -519,7 +519,7 @@ newline <-
     
   end
   
-  class UnknownCode < Code
+  class UnknownMethodCall < Code
     
     class << self
       
@@ -531,27 +531,27 @@ newline <-
       @nonterminal = nonterminal
     end
     
-    # Nonterminal associated with this UnknownCode. It may be nil.
+    # Nonterminal associated with this UnknownMethodCall.
     attr_reader :nonterminal
     
     def to_s
-      raise UnknownCodeEncountered, self
+      raise UnknownMethodCallEncountered, self
     end
     
     def inspect
-      "#<UnknownCode: @nonterminal=#{@nonterminal.inspect}>"
+      "#<UnknownMethodCall: @nonterminal=#{@nonterminal.inspect}>"
     end
     
   end
   
-  class UnknownCodeEncountered < Exception
+  class UnknownMethodCallEncountered < Exception
     
-    def initialize(code)
-      super %(unknown code with nonterminal #{code.nonterminal} is encountered)
-      @code = code
+    def initialize(method_call)
+      super %(unknown method call with associated nonterminal #{code.nonterminal} is encountered)
+      @method_call = method_call
     end
     
-    attr_reader :code
+    attr_reader :method_call
     
   end
   
