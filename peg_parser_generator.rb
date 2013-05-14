@@ -90,7 +90,7 @@ val = :yy_nil
         nonterminal, method_name, method_code = *r
         # 
         if rule_is_first
-          code += auxiliary_code(method_name)
+          code += auxiliary_parser_code(method_name)
           rule_is_first = false
         end
         # 
@@ -899,7 +899,7 @@ end
     end))
   end
   
-  def auxiliary_code(main_parsing_method_name)
+  def auxiliary_parser_code(main_parsing_method_name)
     code %(
       
       def yy_parse(input)
