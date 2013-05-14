@@ -455,7 +455,7 @@ newline <-
     
     abstract :to_s
     
-    # Non-overridable.
+    # Not overridable.
     def + other
       CodeConcatenation.new([self, other])
     end
