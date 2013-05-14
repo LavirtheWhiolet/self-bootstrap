@@ -519,7 +519,7 @@ newline <-
     end
     
     def map(&block)
-      CodeConcatenation.new(@parts.map(&block))
+      CodeConcatenation.new(@parts.map { |part| part.map(&block) })
     end
     
     def inspect
