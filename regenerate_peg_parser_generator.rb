@@ -14,6 +14,8 @@ begin
   source_generator = resultant_generator = "peg_parser_generator.rb"
   10.times do |iteration|
     new_generator = "generated/peg_parser_generator#{iteration}.rb"
+    STDERR.puts %(Iteration #{iteration}...)
+    STDERR.puts %(Generating "#{new_generator}"...)
     system %(ruby #{source_generator} peg_parser_generator.peg > #{new_generator}) or
       exit $?.exitstatus
     make_line_endings_unix_style(new_generator)
