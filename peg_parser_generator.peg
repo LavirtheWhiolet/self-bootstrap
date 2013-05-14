@@ -419,7 +419,13 @@ newline <-
   # 
   def link(code, method_names)
     method_names.each_pair do |nonterminal, method_name|
-      code = code.replace_unknown_code(nonterminal, code(method_name))
+      code = code.map do |part|
+        if part.is_a? UnknownCode and part.nonterminal == nonterminal then
+          code(method_name)
+        else
+          part
+        end
+      end
     end
     return code
   end
