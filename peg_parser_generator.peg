@@ -519,7 +519,7 @@ newline <-
     
   end
   
-  class UnknownCode < Code
+  class UnknownMethodCall < Code
     
     class << self
       
@@ -531,27 +531,27 @@ newline <-
       @nonterminal = nonterminal
     end
     
-    # Nonterminal associated with this UnknownCode. It may be nil.
+    # Nonterminal associated with this UnknownMethodCall.
     attr_reader :nonterminal
     
     def to_s
-      raise UnknownCodeEncountered, self
+      raise UnknownMethodCallEncountered, self
     end
     
     def inspect
-      "#<UnknownCode: @nonterminal=#{@nonterminal.inspect}>"
+      "#<UnknownMethodCall: @nonterminal=#{@nonterminal.inspect}>"
     end
     
   end
   
-  class UnknownCodeEncountered < Exception
+  class UnknownMethodCallEncountered < Exception
     
-    def initialize(code)
-      super %(unknown code with nonterminal #{code.nonterminal} is encountered)
-      @code = code
+    def initialize(method_call)
+      super %(unknown method call with associated nonterminal #{code.nonterminal} is encountered)
+      @method_call = method_call
     end
     
-    attr_reader :code
+    attr_reader :method_call
     
   end
   
