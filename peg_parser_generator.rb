@@ -1033,7 +1033,9 @@ end
       block.(self)
     end
     
+    # Non-overridable.
     def reduce(initial = nil, &block)
+      # TODO: Optimize.
       result = initial
       self.map { |code_part| result = block.(result, code_part); code_part }
       return result
