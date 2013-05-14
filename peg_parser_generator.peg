@@ -411,8 +411,7 @@ newline <-
     code(%(begin
       )) + UnknownVariable[:target, variable_name] + code(%( = ""
       )) + UnknownVariable[:start_pos] + code(%( = @yy_input.pos
-      )) +
-      parsing_code + code(%( and begin
+      )) + parsing_code + code(%( and begin
         )) + UnknownVariable[:end_pos] + code(%( = @yy_input.pos
         @yy_input.pos = )) + UnknownVariable[:start_pos] + code(%(
         )) + UnknownVariable[:target] + code(" << @yy_input.read(") + UnknownVariable[:end_pos] + code(" - ") + UnknownVariable[:start_pos_var] + code(")") + code(%(.force_encoding(Encoding::UTF_8)
