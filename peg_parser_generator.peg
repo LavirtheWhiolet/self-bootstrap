@@ -534,10 +534,6 @@ newline <-
     # Nonterminal associated with this UnknownCode. It may be nil.
     attr_reader :nonterminal
     
-    def nonterminal_associated?
-      not nonterminal.nil?
-    end
-    
     def to_s
       raise UnknownCodeEncountered, self
     end
