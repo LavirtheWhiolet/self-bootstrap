@@ -418,6 +418,13 @@ newline <-
   # See source code.
   # 
   def link(code, method_names)
+    code.map do |part|
+      if part.is_a? UnknownCode and part.nonterminal
+        
+      else
+        part
+      end
+    end
     method_names.each_pair do |nonterminal, method_name|
       code = code.map do |part|
         if part.is_a? UnknownCode and part.nonterminal == nonterminal then
