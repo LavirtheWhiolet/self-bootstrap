@@ -1110,20 +1110,36 @@ end
   
   # returns code which captures text to specified variable.
   def capture_text_code(variable_name, parsing_code)
-    #
+    # 
     start_pos_var = new_unique_variable_name
     end_pos_var = new_unique_variable_name
-    # 
-    code(%(begin
-      #{variable_name} = ""
-      #{start_pos_var} = @yy_input.pos
-      )) +
-      parsing_code + code(%( and begin
-        #{end_pos_var} = @yy_input.pos
-        @yy_input.pos = #{start_pos_var}
-        #{variable_name} << @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
+    # Compile.
+    code = code(%(begin
+      )) + UnknownVariable[:target, variable_name] + code(%( = ""
+      )) + UnknownVariable[:start_pos] + code(%( = @yy_input.pos
+      )) + parsing_code + code(%( and begin
+        )) + UnknownVariable[:end_pos] + code(%( = @yy_input.pos
+        @yy_input.pos = )) + UnknownVariable[:start_pos] + code(%(
+        )) + UnknownVariable[:target] + code(%[ << @yy_input.read(]) + UnknownVariable[:end_pos] + code(%( - )) + UnknownVariable[:start_pos] + code(%[)]) + code(%(.force_encoding(Encoding::UTF_8)
       end
     end))
+    # Link.
+    code = code.map do |code|
+      # 
+      if code.is_a? UnknownVariable
+        # 
+        unknown_variable = code
+        # 
+        case unknown_variable.role
+        when :start_pos then code(start_pos_var)
+        when :end_pos then code(end_pos_var)
+        when :target then code(variable_name)
+        end
+      # 
+      else
+        code
+      end
+    end
   end
   
   def auxiliary_parser_code(main_parsing_method_name)
@@ -1389,6 +1405,40 @@ end
     end
     
     attr_reader :code
+    
+  end
+  
+  class UnknownVariable < Code
+    
+    class << self
+      
+      alias [] new
+      
+    end
+    
+    def initialize(role, requested_name = nil)
+      @role = role
+      @requested_name = requested_name
+    end
+    
+    attr_reader :role
+    
+    attr_reader :requested_name
+    
+    def to_s
+      raise UnknownVarEncountered.new self
+    end
+    
+  end
+  
+  class UnknownVariableEncountered < Exception
+    
+    def initialize(unknown_variable)
+      super %(unknown variable is encountered (role: #{unknown_var.role}, requested name: "#{unknown_variable.requested_name}"))
+      @unknown_variable = unknown_variable
+    end
+    
+    attr_reader :unknown_variable
     
   end
   
