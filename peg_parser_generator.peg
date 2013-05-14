@@ -452,10 +452,6 @@ newline <-
     
     abstract :to_s
     
-    def definitions_to_s
-      ""
-    end
-    
     # 
     # returns this Code with UnknownCode-s having specified
     # UnknownCode#nonterminal (+nonterminal+) replaced with +code+.
