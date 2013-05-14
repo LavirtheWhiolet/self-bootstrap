@@ -128,7 +128,7 @@ expr90: Code <-
 expr100: Code <-
   r:char-range  { val = code "yy_char_range(#{r.begin.dump}, #{r.end.dump})" } /
   s:string  { val = code "yy_string(#{s.dump})" } /
-  n:nonterminal  { val = UnknownCode[n] } /
+  n:nonterminal  { val = UnknownMethodCall[n] } /
   `char` { val = code "@yy_input.getc" } /  # IO#getc returns nil at end of input. That's OK for us.
   a:action  { val = code "begin \n #{a} \n true \n end" } /  # Newline must be present after action's body because it may include comments.
   `$` { val = code "@yy_input.eof?" } ;
@@ -419,7 +419,7 @@ newline <-
   # 
   def link(code, method_names)
     code.map do |part|
-      if part.is_a? UnknownCode and method_names.has_key? part.nonterminal
+      if part.is_a? UnknownMethodCall and method_names.has_key? part.nonterminal
         code(method_names[part.nonterminal])
       else
         part
