@@ -419,7 +419,7 @@ newline <-
   # 
   def link(code, method_names)
     code.map do |part|
-      if part.is_a? UnknownCode and part.nonterminal
+      if part.is_a? UnknownCode and part.nonterminal_associated?
         
       else
         part
