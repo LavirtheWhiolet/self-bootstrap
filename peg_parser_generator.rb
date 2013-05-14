@@ -898,11 +898,11 @@ end
     start_pos_var = new_unique_variable_name
     end_pos_var = new_unique_variable_name
     # 
-    (code %(begin
+    code(%(begin
       #{variable_name} = ""
       #{start_pos_var} = @yy_input.pos
       )) +
-      parsing_code + (code %( and begin
+      parsing_code + code(%( and begin
         #{end_pos_var} = @yy_input.pos
         @yy_input.pos = #{start_pos_var}
         #{variable_name} << @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
