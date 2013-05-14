@@ -518,6 +518,10 @@ newline <-
       CodeConcatenation.new([*@parts, other])
     end
     
+    def map(&block)
+      CodeConcatenation.new(@parts.map(&block))
+    end
+    
     def inspect
       "#<CodeConcatenation: #{@parts.map { |p| p.inspect }.join(", ")}>"
     end
