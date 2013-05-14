@@ -975,10 +975,13 @@ end
   # See source code.
   # 
   def link(code, method_names)
-    method_names.each_pair do |nonterminal, method_name|
-      code = code.replace_unknown_code(nonterminal, code(method_name))
+    code.map do |part|
+      if part.is_a? UnknownCode and method_names.has_key? part.nonterminal
+        code(method_names[part.nonterminal])
+      else
+        part
+      end
     end
-    return code
   end
   
   def to_method_definition(code, method_name)
@@ -1008,14 +1011,6 @@ end
     end
     
     abstract :to_s
-    
-    # 
-    # returns this Code with UnknownCode-s having specified
-    # UnknownCode#nonterminal (+nonterminal+) replaced with +code+.
-    # 
-    def replace_unknown_code(nonterminal, code)
-      return self
-    end
     
     # Non-overridable.
     def + other
@@ -1062,10 +1057,6 @@ end
       @parts = parts
     end
     
-    def replace_unknown_code(nonterminal, code)
-      CodeConcatenation.new(@parts.map { |part| part.replace_unknown_code(nonterminal, code) })
-    end
-    
     def to_s
       @parts.map { |part| part.to_s }.join
     end
@@ -1097,14 +1088,8 @@ end
       @nonterminal = nonterminal
     end
     
-    # Nonterminal associated with this UnknownCode.
+    # Nonterminal associated with this UnknownCode. It may be nil.
     attr_reader :nonterminal
-    
-    def replace_unknown_code(nonterminal, code)
-      if self.nonterminal == nonterminal then code
-      else self
-      end
-    end
     
     def to_s
       raise UnknownCodeEncountered, self
