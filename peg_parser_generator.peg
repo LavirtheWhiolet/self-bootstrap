@@ -133,18 +133,6 @@ expr100: Code <-
   a:action  { val = code "begin \n #{a} \n true \n end" } /  # Newline must be present after action's body because it may include comments.
   `$` { val = code "@yy_input.eof?" } ;
 
-rules: HashMap1[Nonterminal, Definition] <-
-  { val = HashMap1.new }
-  (
-    r:rule
-    {
-      nonterminal, definition = *r
-      raise %(rule "#{nonterminal}" is already defined) if val.has_key? nonterminal
-      val[nonterminal] = definition
-    }
-  )+
-  ;
-
 rule: [Nonterminal, MethodName, Code] <-
   n:nonterminal (`:` rule-type)? `<-/=` c:expr `;`
   {
@@ -464,10 +452,6 @@ newline <-
     
     abstract :to_s
     
-    def definitions_to_s
-      ""
-    end
-    
     # 
     # returns this Code with UnknownCode-s having specified
     # UnknownCode#nonterminal (+nonterminal+) replaced with +code+.
@@ -524,10 +508,6 @@ newline <-
       @parts.map { |part| part.to_s }.join
     end
     
-    def definitions_to_s
-      @parts.map { |part| part.definitions_to_s }.join
-    end
-    
     def + other
       # Optimization.
       CodeConcatenation.new([*@parts, other])
@@ -578,61 +558,6 @@ newline <-
     end
     
     attr_reader :code
-    
-  end
-  
-  # A code which goes to "definitions" section.
-  class Definition < Code
-    
-    class << self
-      
-      alias [] new
-      
-    end
-    
-    def initialize(method_name = nil, code)
-      # Fix common errors.
-      code = CodeAsString[code] if code.is_a? String
-      # 
-      @code = code
-      @method_name = method_name
-    end
-    
-    def replace_unknown_code(nonterminal, code)
-      Definition.new(@method_name, @code.replace_unknown_code(nonterminal, code))
-    end
-    
-    def to_s
-      ""
-    end
-    
-    # Method name associated with this Definition.
-    attr_reader :method_name
-    
-    def definitions_to_s
-      @code.to_s + @code.definitions_to_s
-    end
-    
-    def inspect
-      "#<Definition: #{@code.inspect}>"
-    end
-    
-  end
-  
-  class HashMap1 < HashMap
-    
-    def initialize(*args, &block)
-      super(*args, &block)
-      @first_value = nil
-    end
-    
-    def []=(key, value)
-      raise %(value can not be nil) if value.nil?
-      @first_value ||= value
-      super(key, value)
-    end
-    
-    attr_reader :first_value
     
   end
   
