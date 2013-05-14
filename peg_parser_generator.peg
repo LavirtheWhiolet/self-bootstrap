@@ -468,8 +468,8 @@ newline <-
     
     # 
     # The same as Enumerable#reduce(initial) +{ |memo, obj| block }+ or
-    # Enumerable#reduce +{ |memo, obj| block }+ where +obj+ is one of Code-s
-    # comprising this Code.
+    # Enumerable#reduce +{ |memo, obj| block }+ where +obj+ is one of atomic
+    # Code-s comprising this Code.
     # 
     # Non-overridable.
     # 
