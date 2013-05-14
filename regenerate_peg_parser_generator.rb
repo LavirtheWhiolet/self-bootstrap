@@ -19,6 +19,7 @@ begin
       exit $?.exitstatus
     make_line_endings_unix_style(new_generator)
     if File.binread(new_generator) == File.binread(source_generator)
+      STDERR.puts %(Moving new generator to "#{resultant_generator}"...)
       FileUtils.mv new_generator, resultant_generator
       STDERR.puts %(Done.)
       break
