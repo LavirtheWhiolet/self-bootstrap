@@ -1023,17 +1023,23 @@ end
     
     abstract :to_s
     
-    # Non-overridable.
+    # Not overridable.
     def + other
       CodeConcatenation.new([self, other])
     end
     
-    # +block+ is passed with every Code this Code comprises.
+    # +block+ is passed with every atomic Code this Code comprises.
     def map(&block)
       block.(self)
     end
     
-    # Non-overridable.
+    # 
+    # The same as Enumerable#reduce(initial) +{ |memo, obj| block }+ or
+    # Enumerable#reduce +{ |memo, obj| block }+ where +obj+ is one of atomic
+    # Code-s comprising this Code.
+    # 
+    # Not overridable.
+    # 
     def reduce(initial = nil, &block)
       # TODO: Optimize.
       result = initial
