@@ -728,7 +728,7 @@ newline <-
   class UnknownVariableEncountered < Exception
     
     def initialize(unknown_variable)
-      super %(unknown variable is encountered (role: #{unknown_var.role}, requested name: "#{unknown_variable.requested_name}")
+      super %(unknown variable is encountered (role: #{unknown_var.role}, requested name: "#{unknown_variable.requested_name}"))
       @unknown_variable = unknown_variable
     end
     
