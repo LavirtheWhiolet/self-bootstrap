@@ -686,7 +686,7 @@ newline <-
     
   end
   
-  class UnknownVar < Code
+  class UnknownVariable < Code
     
     class << self
       
@@ -709,14 +709,14 @@ newline <-
     
   end
   
-  class UnknownVarEncountered < Exception
+  class UnknownVariableEncountered < Exception
     
-    def initialize(unknown_var)
-      super %(unknown variable is encountered (role: #{unknown_var.role}, requested name: "#{unknown_var.requested_name}")
-      @unknown_var = unknown_var
+    def initialize(unknown_variable)
+      super %(unknown variable is encountered (role: #{unknown_var.role}, requested name: "#{unknown_variable.requested_name}")
+      @unknown_variable = unknown_variable
     end
     
-    attr_reader :unknown_var
+    attr_reader :unknown_variable
     
   end
   
