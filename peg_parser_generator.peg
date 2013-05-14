@@ -465,6 +465,11 @@ newline <-
       CodeConcatenation.new([self, other])
     end
     
+    # +block+ is passed with every Code this Code comprises.
+    def map(&block)
+      block.(self)
+    end
+    
   end
   
   class CodeAsString < Code
