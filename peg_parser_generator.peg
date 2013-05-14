@@ -407,8 +407,8 @@ newline <-
     # 
     start_pos_var = new_unique_variable_name
     end_pos_var = new_unique_variable_name
-    # 
-    code(%(begin
+    # Compile.
+    code = code(%(begin
       )) + UnknownVariable[:target, variable_name] + code(%( = ""
       )) + UnknownVariable[:start_pos] + code(%( = @yy_input.pos
       )) + parsing_code + code(%( and begin
@@ -417,6 +417,19 @@ newline <-
         )) + UnknownVariable[:target] + code(%[ << @yy_input.read(]) + UnknownVariable[:end_pos] + code(%( - )) + UnknownVariable[:start_pos_var] + code(%[)]) + code(%(.force_encoding(Encoding::UTF_8)
       end
     end))
+    # Link.
+    code = code.map do |code|
+      if code.is_a? UnknownVariable
+        unknown_variable = code
+        case unknown_variable.role
+        when :start_pos then code(start_pos_var)
+        when :end_pos then code(end_pos_var)
+        when :target then code(variable_name)
+        end
+      else
+        code
+      end
+    end
   end
   
   def auxiliary_parser_code(main_parsing_method_name)
