@@ -508,10 +508,6 @@ newline <-
       @parts.map { |part| part.to_s }.join
     end
     
-    def definitions_to_s
-      @parts.map { |part| part.definitions_to_s }.join
-    end
-    
     def + other
       # Optimization.
       CodeConcatenation.new([*@parts, other])
