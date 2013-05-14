@@ -561,44 +561,6 @@ newline <-
     
   end
   
-  # A code which goes to "definitions" section.
-  class Definition < Code
-    
-    class << self
-      
-      alias [] new
-      
-    end
-    
-    def initialize(method_name = nil, code)
-      # Fix common errors.
-      code = CodeAsString[code] if code.is_a? String
-      # 
-      @code = code
-      @method_name = method_name
-    end
-    
-    def replace_unknown_code(nonterminal, code)
-      Definition.new(@method_name, @code.replace_unknown_code(nonterminal, code))
-    end
-    
-    def to_s
-      ""
-    end
-    
-    # Method name associated with this Definition.
-    attr_reader :method_name
-    
-    def definitions_to_s
-      @code.to_s + @code.definitions_to_s
-    end
-    
-    def inspect
-      "#<Definition: #{@code.inspect}>"
-    end
-    
-  end
-  
   class HashMap1 < HashMap
     
     def initialize(*args, &block)
