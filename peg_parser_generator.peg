@@ -418,9 +418,9 @@ newline <-
   # See source code.
   # 
   def link(code, method_names)
-    code.map do |part|
-      if part.is_a? UnknownMethodCall and method_names.has_key? part.nonterminal
-        code(method_names[part.nonterminal])
+    code.map do |code_part|
+      if code_part.is_a? UnknownMethodCall and method_names.has_key? code_part.nonterminal
+        code "#{method_names[code_part.nonterminal]}()"
       else
         part
       end
