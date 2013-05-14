@@ -541,7 +541,7 @@ newline <-
       @nonterminal = nonterminal
     end
     
-    # Nonterminal associated with this UnknownCode.
+    # Nonterminal associated with this UnknownCode. It may be nil.
     attr_reader :nonterminal
     
     def nonterminal_associated?
