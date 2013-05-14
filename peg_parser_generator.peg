@@ -561,23 +561,6 @@ newline <-
     
   end
   
-  class HashMap1 < HashMap
-    
-    def initialize(*args, &block)
-      super(*args, &block)
-      @first_value = nil
-    end
-    
-    def []=(key, value)
-      raise %(value can not be nil) if value.nil?
-      @first_value ||= value
-      super(key, value)
-    end
-    
-    attr_reader :first_value
-    
-  end
-  
 end
 
 
