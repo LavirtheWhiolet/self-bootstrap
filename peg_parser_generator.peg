@@ -456,6 +456,10 @@ newline <-
     return code
   end
   
+  # returns Code which 
+  def skip_text_code(parsing_code, variable_name = nil)
+  end
+  
   def auxiliary_parser_code(main_parsing_method_name)
     code %(
       
