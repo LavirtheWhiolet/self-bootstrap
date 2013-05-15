@@ -416,6 +416,20 @@ newline <-
         )) + UnknownVariable[:target] + code(%[ << @yy_input.read(]) + UnknownVariable[:end_pos] + code(%( - )) + UnknownVariable[:start_pos] + code(%[)]) + code(%(.force_encoding(Encoding::UTF_8)
       end
     end))
+    # Determine target variable.
+    target_var = code.reduce(nil) do |target_var, code_part|
+      # 
+      if code_part.is_a? UnknownVariable and not code_part.requested_name.nil?
+        # If target variable is not determined yet...
+        if target_var.nil?
+          target_var = code_part.requested_name
+        # If target variable is already determined...
+        else
+          raise %(conflict: it is specified to capture text into "#{target_var}" and into "#{code_part.requested_name}")
+        end
+      end
+      target_var
+    end
     # Link.
     code = code.map do |code|
       # 
@@ -426,7 +440,7 @@ newline <-
         case unknown_variable.role
         when :start_pos then code(start_pos_var)
         when :end_pos then code(end_pos_var)
-        when :target then code(variable_name)
+        when :target then code(target_var)
         end
       # 
       else
