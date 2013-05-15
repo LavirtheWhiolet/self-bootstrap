@@ -404,10 +404,9 @@ newline <-
   
   # returns code which captures text to specified variable.
   def capture_text_code(variable_name, parsing_code)
-    # 
+    # Compile.
     start_pos_var = new_unique_variable_name
     end_pos_var = new_unique_variable_name
-    # Compile.
     code = code(%(begin
       )) + UnknownVariable[:target, variable_name] + code(%( = ""
       )) + UnknownVariable[:start_pos] + code(%( = @yy_input.pos
