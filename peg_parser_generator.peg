@@ -463,7 +463,8 @@ newline <-
       # Remember position before stopping capture.
       )) + UnknownVariable[:end_pos] + code(%( = @yy_input.pos
       # Parse!
-      )) + parsing_code + code(%( and begin
+      )) + parsing_code + code(%( and
+      begin
         # Capture what has been read before the parse.
         @yy_input.pos = )) + UnknownVariable[:start_pos] + code(%(
         )) + UnknownVariable[:target, variable_name] + code(" << @yy_input.read(") + UnknownVariable[:end_pos] + code(" - ") + UnknownVariable[:start_pos] + code(")") + code(%(.force_encoding(Encoding::UTF_8)
