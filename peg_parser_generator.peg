@@ -461,7 +461,7 @@ newline <-
   def skip_text_code(parsing_code, variable_name = nil)
     code(%(begin
       # Remember position before stopping capture.
-      @yy_input.pos = )) + UnknownVariable[:end_pos] + code(%(
+      )) + UnknownVariable[:end_pos] + code(%( = @yy_input.pos
       # Parse!
       )) + parsing_code + code(%( and begin
         # Capture what has been read before the parse.
@@ -469,7 +469,7 @@ newline <-
         # Restart capturing from the end of the parse.
         )) + UnknownVariable[:start_pos] + code(%( = @yy_input.pos
       end
-    end)
+    end))
   end
   
   def auxiliary_parser_code(main_parsing_method_name)
