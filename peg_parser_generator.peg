@@ -427,8 +427,10 @@ newline <-
         else
           raise %(conflict: it is specified to capture text into "#{target_var}" and into "#{code_part.requested_name}")
         end
+      #
+      else
+        target_var
       end
-      target_var
     end
     # Link.
     code = code.map do |code|
