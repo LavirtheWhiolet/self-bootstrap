@@ -404,7 +404,7 @@ newline <-
   end
   
   # returns code which captures text to specified variable.
-  def capture_text_code(variable_name, parsing_code)
+  def capture_text_code(parsing_code, variable_name = nil)
     # Compile.
     start_pos_var = new_unique_variable_name
     end_pos_var = new_unique_variable_name
