@@ -409,11 +409,11 @@ newline <-
     end_pos_var = new_unique_variable_name
     code = code(%(begin
       )) + UnknownVariable[:target, variable_name] + code(%( = ""
-      )) + UnknownVariable[:start_pos] + code(%( = @yy_input.pos
+      #{start_pos_var} = @yy_input.pos
       )) + parsing_code + code(%( and begin
-        )) + UnknownVariable[:end_pos] + code(%( = @yy_input.pos
-        @yy_input.pos = )) + UnknownVariable[:start_pos] + code(%(
-        )) + UnknownVariable[:target] + code(%[ << @yy_input.read(]) + UnknownVariable[:end_pos] + code(%( - )) + UnknownVariable[:start_pos] + code(%[)]) + code(%(.force_encoding(Encoding::UTF_8)
+        #{end_pos_var} = @yy_input.pos
+        @yy_input.pos = #{start_pos_var}
+        )) + UnknownVariable[:target] + code(%( << @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
       end
     end))
     # Determine target variable.
