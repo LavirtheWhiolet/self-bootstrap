@@ -1110,19 +1110,34 @@ end
   
   # returns code which captures text to specified variable.
   def capture_text_code(variable_name, parsing_code)
-    # 
+    # Compile.
     start_pos_var = new_unique_variable_name
     end_pos_var = new_unique_variable_name
-    # Compile.
     code = code(%(begin
       )) + UnknownVariable[:target, variable_name] + code(%( = ""
-      )) + UnknownVariable[:start_pos] + code(%( = @yy_input.pos
+      #{start_pos_var} = @yy_input.pos
       )) + parsing_code + code(%( and begin
-        )) + UnknownVariable[:end_pos] + code(%( = @yy_input.pos
-        @yy_input.pos = )) + UnknownVariable[:start_pos] + code(%(
-        )) + UnknownVariable[:target] + code(%[ << @yy_input.read(]) + UnknownVariable[:end_pos] + code(%( - )) + UnknownVariable[:start_pos] + code(%[)]) + code(%(.force_encoding(Encoding::UTF_8)
+        #{end_pos_var} = @yy_input.pos
+        @yy_input.pos = #{start_pos_var}
+        )) + UnknownVariable[:target] + code(%( << @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
       end
     end))
+    # Determine target variable.
+    target_var = code.reduce(nil) do |target_var, code_part|
+      # 
+      if code_part.is_a? UnknownVariable and not code_part.requested_name.nil?
+        # If target variable is not determined yet...
+        if target_var.nil?
+          target_var = code_part.requested_name
+        # If target variable is already determined...
+        else
+          raise %(conflict: it is specified to capture text into "#{target_var}" and into "#{code_part.requested_name}")
+        end
+      #
+      else
+        target_var
+      end
+    end
     # Link.
     code = code.map do |code|
       # 
@@ -1133,7 +1148,7 @@ end
         case unknown_variable.role
         when :start_pos then code(start_pos_var)
         when :end_pos then code(end_pos_var)
-        when :target then code(variable_name)
+        when :target then code(target_var)
         end
       # 
       else
