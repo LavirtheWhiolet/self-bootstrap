@@ -449,6 +449,8 @@ newline <-
         code
       end
     end
+    #
+    return code
   end
   
   def auxiliary_parser_code(main_parsing_method_name)
