@@ -118,7 +118,7 @@ expr80: Code <-
   ;
 
 expr90: Code <-
-  # Brackets.
+  # Parentheses.
   `(` val:expr `)` /
   # Text capture.
   var:Ruby-variable `:` `<` c:expr `>` { val = capture_text_code(var, c) } /
