@@ -548,7 +548,7 @@ newline <-
     attr_reader :nonterminal
     
     def to_s
-      raise UnknownCodeEncountered.new self
+      raise CodeCanNotBeDetermined.new self
     end
     
     def inspect
@@ -573,10 +573,10 @@ newline <-
     
   end
   
-  class UnknownCodeEncountered < Exception
+  class CodeCanNotBeDetermined < Exception
     
     def initialize(code)
-      super %(code is undefined: #{code.inspect})
+      super %(code can not be determined: #{code.inspect})
       @code = code
     end
     
