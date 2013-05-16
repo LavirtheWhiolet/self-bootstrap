@@ -115,8 +115,7 @@ expr80: Code <-
     `*` { val = repeat_many_times_code(val) } /
     `+` { val = repeat_at_least_once_code(val) } /
     `?` { val = optional_code(val) }
-  )*
-  ;
+  )* ;
 
 expr90: Code <-
   # Brackets.
