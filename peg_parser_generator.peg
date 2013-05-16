@@ -333,8 +333,17 @@ newline <-
     #
     code(%(
       while true
+        ###
         #{original_pos_var} = @yy_input.pos
-        #{look_ahead_code_result_var} = )) + LazyRepeat::UnknownLookAheadCode
+        ### Try to look ahead.
+        #{look_ahead_code_result_var} = )) + LazyRepeat::UnknownLookAheadCode.new + code(%(
+        if #{look_ahead_code_result_var} then
+          ### Exit from repetition if the look ahead was successful.
+          break #{look_ahead_code_result_var}
+        end
+        # Repeat one more time.
+          @yy_input.pos = #{original_pos_var}
+        end
       end
     ))
   end
