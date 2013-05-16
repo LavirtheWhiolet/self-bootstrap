@@ -330,14 +330,14 @@ newline <-
     #
     original_pos_var = new_unique_variable_name
     #
-    code(%(
+    code(%[
       begin
         ### Repeat!
         while true
           ###
           #{original_pos_var} = @yy_input.pos
           ### Try to look ahead.
-          if )) + LazyRepeat::UnknownLookAheadCode.new + code(%( then
+          if ]) + LazyRepeat::UnknownLookAheadCode.new + code(%[ then
             ###
             break
           else
@@ -345,7 +345,7 @@ newline <-
             @yy_input.pos = #{original_pos_var}
           end
           ### Repeat one more time.
-          if not )) + parsing_code + code(%( then
+          if not ]) + parsing_code + code(%[ then
             ### Restore everything to position after last repetition.
             @yy_input.pos = #{original_pos_var}
             ###
@@ -355,7 +355,7 @@ newline <-
         ### The repetition is always successful.
         true
       end
-    ))
+    ])
   end
   
   # returns code which captures text to specified variable.
