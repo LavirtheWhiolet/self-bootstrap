@@ -92,12 +92,14 @@ expr30: Code <-
     lazy_kleene_star_part_index =
       code_parts.find_index { |code_part| code_part.is_a? LazyRepeat::UnknownLookAheadCode }
     # 
-    if lazy_kleene_star_part_index
+    if lazy_kleene_star_part_index and lazy_kleene_star_part_index != (code_parts.size - 1)
       code_parts_before_lazy_kleene_star_part = code_parts[0...lazy_kleene_star_part_index]
       lazy_kleene_star_part = code_parts[lazy_kleene_star_part_index]
       code_parts_after_lazy_kleene_star_part = code_parts[(lazy_kleene_star_part_index+1)..-1]
-      lazy_kleene_star_part = lazy_kleene_star_part.map do |code_part|
-      end
+      lazy_kleene_star_part = lazy_kleene_star_part.replace(
+        LazyRepeat::UnknownLookAheadCode,
+        sequence_code(code_parts_after_lazy_kleene_star_part)
+      )
       sequence_code([
         *,
         code_parts[lazy_kleene_star_part_index].map do |inner_code_part|
