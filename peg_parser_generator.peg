@@ -107,7 +107,7 @@ expr30: Code <-
     if code_parts.size == 1
       code_parts.first
     else
-      code("(") + code_parts.reduce(code("")) { |r, code_part| r + code(" and ") + code_part } + code(")")
+      code("(") + code_parts.reduce { |r, code_part| r + code(" and ") + code_part } + code(")")
     end
   end
   
