@@ -87,27 +87,27 @@ expr30: Code <-
 
 {...
   
-  def sequence_code(code_parts)
+  def sequence_code(sequence_parts)
     # 
     lazy_kleene_star_part_index =
-      code_parts.find_index { |code_part| code_part.is_a? LazyRepeat::UnknownLookAheadCode }
+      sequence_parts.find_index { |sequence_part| sequence_part.any? { |code_part| code_part.is_a? LazyRepeat::UnknownLookAheadCode } }
     # Compile parts after "*?" part as look ahead of the "*?" part (if possible)
-    # and remove the parts from code_parts.
-    if lazy_kleene_star_part_index and lazy_kleene_star_part_index != (code_parts.size - 1)
-      code_parts_before_lazy_kleene_star_part = code_parts[0...lazy_kleene_star_part_index]
-      lazy_kleene_star_part = code_parts[lazy_kleene_star_part_index]
-      code_parts_after_lazy_kleene_star_part = code_parts[(lazy_kleene_star_part_index+1)..-1]
+    # and remove the parts from sequence_parts.
+    if lazy_kleene_star_part_index and lazy_kleene_star_part_index != (sequence_parts.size - 1)
+      sequence_parts_before_lazy_kleene_star_part = sequence_parts[0...lazy_kleene_star_part_index]
+      lazy_kleene_star_part = sequence_parts[lazy_kleene_star_part_index]
+      sequence_parts_after_lazy_kleene_star_part = sequence_parts[(lazy_kleene_star_part_index+1)..-1]
       lazy_kleene_star_part = lazy_kleene_star_part.replace(
         LazyRepeat::UnknownLookAheadCode,
-        sequence_code(code_parts_after_lazy_kleene_star_part)
+        sequence_code(sequence_parts_after_lazy_kleene_star_part)
       )
-      code_parts = code_parts_before_lazy_kleene_star_part + [lazy_kleene_star_part]
+      sequence_parts = sequence_parts_before_lazy_kleene_star_part + [lazy_kleene_star_part]
     end
     # Compile the code parts into sequence!
-    if code_parts.size == 1
-      code_parts.first
+    if sequence_parts.size == 1
+      sequence_parts.first
     else
-      code("(") + code_parts.reduce { |r, code_part| r + code(" and ") + code_part } + code(")")
+      code("(") + sequence_parts.reduce { |r, sequence_part| r + code(" and ") + sequence_part } + code(")")
     end
   end
   
