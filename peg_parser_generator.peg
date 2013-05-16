@@ -343,7 +343,12 @@ newline <-
           @yy_input.pos = #{original_pos_var}
         end
         ### Repeat one more time.
-        #{result_var} = 
+        if not )) + parsing_code + code(%( then
+          ### Restore everything to position after last repetition.
+          @yy_input.pos = #{original_pos_var}
+          ### Exit from the repetition
+          break true
+        end
       end
     ))
   end
