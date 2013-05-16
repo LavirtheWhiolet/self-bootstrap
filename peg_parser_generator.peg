@@ -562,7 +562,7 @@ newline <-
     class UnknownLookAheadCode < Code
       
       def to_s
-        
+        raise CodeCanNotBeDetermined.new self
       end
       
       def inspect
