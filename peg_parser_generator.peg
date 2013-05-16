@@ -80,9 +80,22 @@ expr20: Code <-
 expr30: Code <-
   # Sequence.
   { codes = [] }
-  (c:expr60 {codes << c})+
-  { }
-  ;
+  
+  (c:expr60 {codes.add c})+
+  
+  { sequence_code(codes) } ;
+
+{ ...
+  
+  def sequence_code(codes)
+    # 
+    if codes.size == 1 then
+      return codes.first
+    end
+    # 
+  end
+  
+... }
 
 expr60: Code <-
   # Capture semantic value.
