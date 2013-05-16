@@ -79,19 +79,10 @@ expr20: Code <-
 
 expr30: Code <-
   # Sequence.
-  { single_expression = true }
-  val:expr60 (
-    val2:expr60
-    {
-      single_expression = false
-      val = val + (code " and ") + val2
-    }
-  )*
-  {
-    if not single_expression then
-      val = (code "(") + val + (code ")")
-    end
-  } ;
+  { codes = [] }
+  (c:expr60 {codes << c})+
+  { }
+  ;
 
 expr60: Code <-
   # Capture semantic value.
