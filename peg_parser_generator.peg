@@ -513,6 +513,12 @@ newline <-
       return result
     end
     
+    # returns true if +predicate+ returns true for any atomic Code comprising
+    # this code.
+    def any?(&predicate)
+      self.reduce(false) { |result, part| result or predicate.(part) }
+    end
+    
   end
   
   class CodeAsString < Code
