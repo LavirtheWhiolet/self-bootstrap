@@ -91,8 +91,15 @@ expr30: Code <-
       return code_parts.first
     end
     # Extract code parts after "*?".
+    lazy_kleene_star_is_found = false
     code_parts_after_lazy_kleene_star = code_parts.reduce([]) do |result, code_part|
-      
+      if lazy_kleene_star_is_found
+        result.add code_part
+      else
+        if code_part.any? { |c| c.is_a? LazyRepeat::UnknownLookAheadCode } then
+          lazy_kleene_star_is_found = true
+        end
+      end
     end
   end
   
