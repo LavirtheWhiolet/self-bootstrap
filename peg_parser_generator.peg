@@ -329,10 +329,12 @@ newline <-
   def lazy_repeat_code(parsing_code)
     #
     original_pos_var = new_unique_variable_name
+    look_ahead_code_result_var = new_unique_variable_name
     #
     code(%(
       while true
-        
+        #{original_pos_var} = @yy_input.pos
+        #{look_ahead_code_result_var} = )) + LazyRepeat::UnknownLookAheadCode
       end
     ))
   end
