@@ -568,7 +568,21 @@ newline <-
     
   end
   
-  class 
+  module LazyRepeat
+    
+    class UnknownLookAheadCode < Code
+      
+      def to_s
+        
+      end
+      
+      def inspect
+        "#<LazyRepeat::UnknownLookAheadCode>"
+      end
+      
+    end
+    
+  end
   
 end
 
