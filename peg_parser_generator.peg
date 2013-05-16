@@ -89,12 +89,12 @@ expr30: Code <-
   
   def sequence_code(code_parts)
     # 
-    if code_parts.size == 1 then
-      return code_parts.first
-    end
-    # 
     code_parts_after_lazy_kleene_star =
       code_parts.drop_while { |code_part| not code_part.is_a? LazyRepeat::UnknownLookAheadCode }
+    # 
+    if not code_parts_after_lazy_kleene_star.empty?
+      code_parts_up_to_lazy_kleene_star = code_parts[0..-
+    end
   end
   
 ...}
