@@ -344,8 +344,8 @@ newline <-
           ### Restore everything to "before look ahead" state (as far as possible).
           @yy_input.pos = #{original_pos_var}
         end
-        # Repeat one more time.
-        
+        ### Repeat one more time.
+        #{result_var} = 
       end
     ))
   end
