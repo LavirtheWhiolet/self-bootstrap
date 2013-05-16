@@ -228,7 +228,7 @@ end
       )
       sequence_parts[lazy_kleene_star_part_index] = lazy_kleene_star_part
     end
-    # Compile the code parts into sequence!
+    # Compile the code parts into sequence code!
     if sequence_parts.size == 1
       sequence_parts.first
     else
