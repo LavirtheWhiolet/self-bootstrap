@@ -93,7 +93,8 @@ expr30: Code <-
       code_parts.drop_while { |code_part| not code_part.is_a? LazyRepeat::UnknownLookAheadCode }
     # 
     if not code_parts_after_lazy_kleene_star.empty?
-      code_parts_up_to_lazy_kleene_star = code_parts[0..-
+      code_parts_up_to_lazy_kleene_star = code_parts[0..(-code_parts_after_lazy_kleene_star.size + 1)]
+      return sequence_code(
     end
   end
   
