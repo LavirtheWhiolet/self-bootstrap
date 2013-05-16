@@ -103,7 +103,7 @@ expr30: Code <-
       )
       code_parts = code_parts_before_lazy_kleene_star_part + [lazy_kleene_star_part]
     end
-    # Compile the code parts!
+    # Compile the code parts into sequence!
     if code_parts.size == 1
       code_parts.first
     else
