@@ -338,7 +338,7 @@ newline <-
         ### Try to look ahead.
         #{look_ahead_code_result_var} = )) + LazyRepeat::UnknownLookAheadCode.new + code(%(
         if #{look_ahead_code_result_var} then
-          ### Exit from repetition if the look ahead was successful.
+          ### Exit from the repetition if the look ahead was successful.
           break #{look_ahead_code_result_var}
         end
         # Repeat one more time.
