@@ -477,6 +477,20 @@ newline <-
       return result
     end
     
+    # 
+    # replaces each atomic Code which comprises this Code and is case-equal to
+    # +pattern+ with +replacement+.
+    # 
+    def replace(pattern, replacement)
+      self.map do |code_part|
+        if pattern === code_part then
+          replacement
+        else
+          code_part
+        end
+      end
+    end
+    
   end
   
   class CodeAsString < Code
