@@ -92,8 +92,9 @@ expr30: Code <-
     if code_parts.size == 1 then
       return code_parts.first
     end
-    # Extract code parts after "*?".
-    
+    # 
+    code_parts_after_lazy_kleene_star =
+      code_parts.drop_while { |code_part| not code_part.is_a? LazyRepeat::UnknownLookAheadCode }
   end
   
 ...}
