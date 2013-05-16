@@ -477,6 +477,12 @@ newline <-
       return result
     end
     
+    # returns true if +predicate+ returns true for any atomic Code comprising
+    # this code.
+    def any?(&predicate)
+      
+    end
+    
   end
   
   class CodeAsString < Code
