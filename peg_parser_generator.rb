@@ -469,6 +469,7 @@ val = :yy_nil
       end
       true
     end and begin
+      val = ""
       yy_var2d = @yy_input.pos
       while true
       yy_var2c = @yy_input.pos
@@ -490,7 +491,7 @@ val = :yy_nil
     end and begin
         yy_var2e = @yy_input.pos
         @yy_input.pos = yy_var2d
-        val = @yy_input.read(yy_var2e - yy_var2d).force_encoding(Encoding::UTF_8)
+        val << @yy_input.read(yy_var2e - yy_var2d).force_encoding(Encoding::UTF_8)
       end
     end and yy_string("...") and while true
       yy_var2f = @yy_input.pos
@@ -499,16 +500,18 @@ val = :yy_nil
         break true
       end
     end and yy_string("}")) or (@yy_input.pos = yy_var1y; (begin
+      val = ""
       yy_var2h = @yy_input.pos
       yy_nonterm33() and begin
         yy_var2i = @yy_input.pos
         @yy_input.pos = yy_var2h
-        val = @yy_input.read(yy_var2i - yy_var2h).force_encoding(Encoding::UTF_8)
+        val << @yy_input.read(yy_var2i - yy_var2h).force_encoding(Encoding::UTF_8)
       end
     end and begin 
   val = val[1...-1]  
  true 
  end)) or (@yy_input.pos = yy_var1y; (yy_nonterm1w() and begin
+      val = ""
       yy_var2p = @yy_input.pos
       while true
       yy_var2o = @yy_input.pos
@@ -524,9 +527,10 @@ val = :yy_nil
     end and begin
         yy_var2q = @yy_input.pos
         @yy_input.pos = yy_var2p
-        val = @yy_input.read(yy_var2q - yy_var2p).force_encoding(Encoding::UTF_8)
+        val << @yy_input.read(yy_var2q - yy_var2p).force_encoding(Encoding::UTF_8)
       end
     end and yy_nonterm1w())) or (@yy_input.pos = yy_var1y; (yy_nonterm1w() and begin
+      val = ""
       yy_var2u = @yy_input.pos
       while true
       yy_var2t = @yy_input.pos
@@ -537,7 +541,7 @@ val = :yy_nil
     end and begin
         yy_var2v = @yy_input.pos
         @yy_input.pos = yy_var2u
-        val = @yy_input.read(yy_var2v - yy_var2u).force_encoding(Encoding::UTF_8)
+        val << @yy_input.read(yy_var2v - yy_var2u).force_encoding(Encoding::UTF_8)
       end
     end and @yy_input.eof?)); end and yy_nonterm5v()) and yy_to_pcv(val) 
 end 
@@ -628,6 +632,7 @@ end
 def yy_nonterm49 
 val = :yy_nil 
 (begin
+      val = ""
       yy_var47 = @yy_input.pos
       (yy_nonterm4b() and while true
       yy_var46 = @yy_input.pos
@@ -638,7 +643,7 @@ val = :yy_nil
     end) and begin
         yy_var48 = @yy_input.pos
         @yy_input.pos = yy_var47
-        val = @yy_input.read(yy_var48 - yy_var47).force_encoding(Encoding::UTF_8)
+        val << @yy_input.read(yy_var48 - yy_var47).force_encoding(Encoding::UTF_8)
       end
     end and yy_nonterm5v()) and yy_to_pcv(val) 
 end 
@@ -658,6 +663,7 @@ val = :yy_nil
       @yy_input.pos = yy_var4f
       yy_var4g
     end and begin; yy_var4h = @yy_input.pos; (begin
+      val = ""
       yy_var4l = @yy_input.pos
       (yy_nonterm4w() and while true
       yy_var4k = @yy_input.pos
@@ -668,9 +674,10 @@ val = :yy_nil
     end) and begin
         yy_var4m = @yy_input.pos
         @yy_input.pos = yy_var4l
-        val = @yy_input.read(yy_var4m - yy_var4l).force_encoding(Encoding::UTF_8)
+        val << @yy_input.read(yy_var4m - yy_var4l).force_encoding(Encoding::UTF_8)
       end
     end and yy_nonterm5v()) or (@yy_input.pos = yy_var4h; (begin
+      val = ""
       yy_var4s = @yy_input.pos
       (yy_string("`") and while true
       yy_var4r = @yy_input.pos
@@ -686,7 +693,7 @@ val = :yy_nil
     end and yy_string("`")) and begin
         yy_var4t = @yy_input.pos
         @yy_input.pos = yy_var4s
-        val = @yy_input.read(yy_var4t - yy_var4s).force_encoding(Encoding::UTF_8)
+        val << @yy_input.read(yy_var4t - yy_var4s).force_encoding(Encoding::UTF_8)
       end
     end and yy_nonterm5v())); end) and yy_to_pcv(val) 
 end 
@@ -723,6 +730,7 @@ end
 def yy_nonterm5k 
 val = :yy_nil 
 begin; yy_var54 = @yy_input.pos; (yy_string("'") and begin
+      val = ""
       yy_var5a = @yy_input.pos
       while true
       yy_var59 = @yy_input.pos
@@ -738,9 +746,10 @@ begin; yy_var54 = @yy_input.pos; (yy_string("'") and begin
     end and begin
         yy_var5b = @yy_input.pos
         @yy_input.pos = yy_var5a
-        val = @yy_input.read(yy_var5b - yy_var5a).force_encoding(Encoding::UTF_8)
+        val << @yy_input.read(yy_var5b - yy_var5a).force_encoding(Encoding::UTF_8)
       end
     end and yy_string("'") and yy_nonterm5v()) or (@yy_input.pos = yy_var54; (yy_string("\"") and begin
+      val = ""
       yy_var5h = @yy_input.pos
       while true
       yy_var5g = @yy_input.pos
@@ -756,7 +765,7 @@ begin; yy_var54 = @yy_input.pos; (yy_string("'") and begin
     end and begin
         yy_var5i = @yy_input.pos
         @yy_input.pos = yy_var5h
-        val = @yy_input.read(yy_var5i - yy_var5h).force_encoding(Encoding::UTF_8)
+        val << @yy_input.read(yy_var5i - yy_var5h).force_encoding(Encoding::UTF_8)
       end
     end and yy_string("\"") and yy_nonterm5v())) or (@yy_input.pos = yy_var54; (begin
       yy_var5j = yy_nonterm5r()
@@ -772,6 +781,7 @@ end
 def yy_nonterm5r 
 val = :yy_nil 
 (yy_string("U+") and begin
+      code = ""
       yy_var5p = @yy_input.pos
       begin; yy_var5n = @yy_input.pos; yy_char_range("0", "9") or (@yy_input.pos = yy_var5n; yy_char_range("A", "F")); end and while true
       yy_var5o = @yy_input.pos
@@ -782,7 +792,7 @@ val = :yy_nil
     end and begin
         yy_var5q = @yy_input.pos
         @yy_input.pos = yy_var5p
-        code = @yy_input.read(yy_var5q - yy_var5p).force_encoding(Encoding::UTF_8)
+        code << @yy_input.read(yy_var5q - yy_var5p).force_encoding(Encoding::UTF_8)
       end
     end and begin 
   code  = code.to_i(16); raise %(U+#{code.to_s(16).upcase} is not supported) if code > 0x10FFFF  
@@ -888,13 +898,14 @@ end
     start_pos_var = new_unique_variable_name
     end_pos_var = new_unique_variable_name
     # 
-    (code %(begin
+    code(%(begin
+      #{variable_name} = ""
       #{start_pos_var} = @yy_input.pos
       )) +
-      parsing_code + (code %( and begin
+      parsing_code + code(%( and begin
         #{end_pos_var} = @yy_input.pos
         @yy_input.pos = #{start_pos_var}
-        #{variable_name} = @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
+        #{variable_name} << @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
       end
     end))
   end
@@ -1017,6 +1028,20 @@ end
     # 
     def map(&block)
       block.(self)
+    end
+    
+    # 
+    # The same as Enumerable#reduce(initial) <tt>{ |memo, obj| block }</tt> or
+    # Enumerable#reduce <tt>{ |memo, obj| block }</tt> where +obj+ is one of
+    # atomic Code-s comprising this Code.
+    # 
+    # Not overridable.
+    # 
+    def reduce(initial = nil, &block)
+      # TODO: Optimize.
+      result = initial
+      self.map { |code_part| result = block.(result, code_part); code_part }
+      return result
     end
     
   end

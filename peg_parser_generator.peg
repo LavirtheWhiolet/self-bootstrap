@@ -331,13 +331,14 @@ newline <-
     start_pos_var = new_unique_variable_name
     end_pos_var = new_unique_variable_name
     # 
-    (code %(begin
+    code(%(begin
+      #{variable_name} = ""
       #{start_pos_var} = @yy_input.pos
       )) +
-      parsing_code + (code %( and begin
+      parsing_code + code(%( and begin
         #{end_pos_var} = @yy_input.pos
         @yy_input.pos = #{start_pos_var}
-        #{variable_name} = @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
+        #{variable_name} << @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
       end
     end))
   end
@@ -460,6 +461,20 @@ newline <-
     # 
     def map(&block)
       block.(self)
+    end
+    
+    # 
+    # The same as Enumerable#reduce(initial) <tt>{ |memo, obj| block }</tt> or
+    # Enumerable#reduce <tt>{ |memo, obj| block }</tt> where +obj+ is one of
+    # atomic Code-s comprising this Code.
+    # 
+    # Not overridable.
+    # 
+    def reduce(initial = nil, &block)
+      # TODO: Optimize.
+      result = initial
+      self.map { |code_part| result = block.(result, code_part); code_part }
+      return result
     end
     
   end
