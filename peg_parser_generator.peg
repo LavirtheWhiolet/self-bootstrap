@@ -85,7 +85,8 @@ expr30: Code <-
   
   { sequence_code(codes) } ;
 
-{ ...
+{
+...
   
   def sequence_code(codes)
     # 
@@ -95,7 +96,8 @@ expr30: Code <-
     # 
   end
   
-... }
+...
+}
 
 expr60: Code <-
   # Capture semantic value.
