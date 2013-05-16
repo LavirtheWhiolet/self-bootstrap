@@ -326,6 +326,17 @@ newline <-
     end))
   end
   
+  def lazy_repeat_code(parsing_code)
+    #
+    original_pos_var = new_unique_variable_name
+    #
+    code(%(
+      while true
+        
+      end
+    ))
+  end
+  
   # returns code which captures text to specified variable.
   def capture_text_code(variable_name, parsing_code)
     #
