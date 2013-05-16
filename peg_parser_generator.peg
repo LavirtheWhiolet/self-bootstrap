@@ -94,13 +94,17 @@ expr30: Code <-
     # Compile parts after "*?" part as look ahead of the "*?" part
     # (if possible).
     if lazy_kleene_star_part_index and lazy_kleene_star_part_index != (sequence_parts.size - 1)
+      #
       lazy_kleene_star_part = sequence_parts[lazy_kleene_star_part_index]
       sequence_parts_after_lazy_kleene_star_part = sequence_parts[(lazy_kleene_star_part_index+1)..-1]
-      lazy_kleene_star_part = lazy_kleene_star_part.replace(
-        LazyRepeat::UnknownLookAheadCode,
-        sequence_code(sequence_parts_after_lazy_kleene_star_part)
-      )
-      sequence_parts[lazy_kleene_star_part_index] = lazy_kleene_star_part
+      # Compile the parts after "*?" as look ahead!
+      begin
+        lazy_kleene_star_part = lazy_kleene_star_part.replace(
+          LazyRepeat::UnknownLookAheadCode,
+          sequence_code(sequence_parts_after_lazy_kleene_star_part)
+        )
+        sequence_parts[lazy_kleene_star_part_index] = lazy_kleene_star_part
+      end
     end
     # Compile the code parts into sequence!
     if sequence_parts.size == 1
