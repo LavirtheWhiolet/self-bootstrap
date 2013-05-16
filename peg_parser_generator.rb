@@ -932,7 +932,7 @@ end
           #{original_pos_var} = @yy_input.pos
           ### Try to look ahead.
           if ]) + LazyRepeat::UnknownLookAheadCode.new + code(%[ then
-            ###
+            ### Exit from the repetition.
             break
           else
             ### Restore everything to "before look ahead" state (as far as possible).
@@ -942,14 +942,13 @@ end
           if not ]) + parsing_code + code(%[ then
             ### Restore everything to position after last repetition.
             @yy_input.pos = #{original_pos_var}
-            ###
+            ### Exit from the repetition.
             break
           end
         end
         ### The repetition is always successful.
         true
-      end
-    ])
+      end ])
   end
   
   # returns code which captures text to specified variable.
