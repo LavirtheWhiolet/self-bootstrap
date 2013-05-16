@@ -610,6 +610,13 @@ newline <-
 end
 
 
+class Array
+  
+  alias add <<
+  
+end
+
+
 if $0 == __FILE__
   File.open(ARGV[0]) do |io|
     PEGParserGenerator.new.call(io)
