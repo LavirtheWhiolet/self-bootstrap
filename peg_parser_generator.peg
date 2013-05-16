@@ -79,19 +79,21 @@ expr20: Code <-
 
 expr30: Code <-
   # Sequence.
-  {codes = []} 
-  (c:expr60 {codes.add c})+ 
-  {val = sequence_code(codes)} ;
+  {code_parts = []} 
+  (c:expr60 {code_parts.add c})+ 
+  {val = sequence_code(code_parts)} ;
 
 {...
   
-  def sequence_code(codes)
+  def sequence_code(code_parts)
     # 
-    if codes.size == 1 then
-      return codes.first
+    if code_parts.size == 1 then
+      return code_parts.first
     end
-    # Extract codes a
-    
+    # Extract code parts after "*?".
+    code_parts_after_lazy_kleene_star = code_parts.reduce([]) do |result, code_part|
+      
+    end
   end
   
 ...}
