@@ -100,13 +100,7 @@ expr30: Code <-
         LazyRepeat::UnknownLookAheadCode,
         sequence_code(code_parts_after_lazy_kleene_star_part)
       )
-      sequence_code([
-        *,
-        code_parts[lazy_kleene_star_part_index].map do |inner_code_part|
-          if inner_code_part.is_a? LazyRepeat::UnknownLookAheadCode then
-            sequence_code(code_parts[])
-        end
-      ])
+      code_parts = code_parts_before_lazy_kleene_star_part + [lazy_kleene_star_part]
     end
   end
   
