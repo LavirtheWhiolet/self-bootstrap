@@ -329,17 +329,15 @@ newline <-
   def lazy_repeat_code(parsing_code)
     #
     original_pos_var = new_unique_variable_name
-    result_var = new_unique_variable_name
     #
     code(%(
       while true
         ###
         #{original_pos_var} = @yy_input.pos
         ### Try to look ahead.
-        #{result_var} = )) + LazyRepeat::UnknownLookAheadCode.new + code(%(
-        if #{result_var} then
-          ### Exit from the repetition if the look ahead was successful.
-          break #{result_var}
+        if )) + LazyRepeat::UnknownLookAheadCode.new + code(%( then
+          ### Exit from the repetition.
+          break true
         else
           ### Restore everything to "before look ahead" state (as far as possible).
           @yy_input.pos = #{original_pos_var}
