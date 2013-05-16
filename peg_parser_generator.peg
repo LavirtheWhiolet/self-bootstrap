@@ -79,11 +79,8 @@ expr20: Code <-
 
 expr30: Code <-
   # Sequence.
-  { codes = [] }
-  
-  (c:expr60 {codes.add c})+
-  
-  { sequence_code(codes) } ;
+  { codes = [] }  (c:expr60 {codes.add c})+ 
+  {val = sequence_code(codes)} ;
 
 {...
   
