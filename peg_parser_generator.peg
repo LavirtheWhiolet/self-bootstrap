@@ -111,6 +111,7 @@ expr70 <-
 expr80: Code <-
   # Repetition.
   val:expr90 (
+    `*?` { val = lazy_kleene_star_code(val) } /
     `*` { val = repeat_many_times_code(val) } /
     `+` { val = repeat_at_least_once_code(val) } /
     `?` { val = optional_code(val) }
