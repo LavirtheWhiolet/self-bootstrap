@@ -91,17 +91,16 @@ expr30: Code <-
     # 
     lazy_kleene_star_part_index =
       sequence_parts.find_index { |sequence_part| sequence_part.any? { |code_part| code_part.is_a? LazyRepeat::UnknownLookAheadCode } }
-    # Compile parts after "*?" part as look ahead of the "*?" part (if possible)
-    # and remove the parts from sequence_parts.
+    # Compile parts after "*?" part as look ahead of the "*?" part
+    # (if possible).
     if lazy_kleene_star_part_index and lazy_kleene_star_part_index != (sequence_parts.size - 1)
-      sequence_parts_before_lazy_kleene_star_part = sequence_parts[0...lazy_kleene_star_part_index]
       lazy_kleene_star_part = sequence_parts[lazy_kleene_star_part_index]
       sequence_parts_after_lazy_kleene_star_part = sequence_parts[(lazy_kleene_star_part_index+1)..-1]
       lazy_kleene_star_part = lazy_kleene_star_part.replace(
         LazyRepeat::UnknownLookAheadCode,
         sequence_code(sequence_parts_after_lazy_kleene_star_part)
       )
-      sequence_parts = sequence_parts_before_lazy_kleene_star_part + [lazy_kleene_star_part]
+      sequence_parts[lazy_kleene_star_part_index] = lazy_kleene_star_part
     end
     # Compile the code parts into sequence!
     if sequence_parts.size == 1
@@ -349,25 +348,20 @@ newline <-
   def lazy_repeat_code(parsing_code)
     #
     original_pos_var = new_unique_variable_name
+    result_var = new_unique_variable_name
     #
     code(%[ begin
-      ### Repeat!
       while true
         ###
         #{original_pos_var} = @yy_input.pos
-        ### Try to look ahead.
-        if ]) + LazyRepeat::UnknownLookAheadCode.new + code(%[ then
-          ### Stop the repetition.
-          break
-        else
-          ### Restore everything to "before look ahead" state (as far as possible).
+        ### Look ahead.
+        #{result_var} = ]) + LazyRepeat::UnknownLookAheadCode.new + code(%[
+        @yy_input.pos = #{original_pos_var}
+        break if #{result_var}
+        ### Repeat one more time (if possible).
+        #{result_var} = ]) + parsing_code + code(%[
+        if not #{result_var} then
           @yy_input.pos = #{original_pos_var}
-        end
-        ### Repeat one more time.
-        if not ]) + parsing_code + code(%[ then
-          ### Restore everything to position after last repetition.
-          @yy_input.pos = #{original_pos_var}
-          ### Stop the repetition.
           break
         end
       end
