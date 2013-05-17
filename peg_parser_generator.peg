@@ -114,9 +114,20 @@ expr80: Code <-
   val:expr90 (
     `*` { val = repeat_many_times_code(val) } /
     `+` { val = repeat_at_least_once_code(val) } /
-    `?` { val = optional_code(val) }
+    `?` { val = optional_code(val) } /
+    `star of David` { val = star_of_david_code(val) }
   )*
   ;
+
+{...
+  
+  def star_of_david_code(code)
+    raise %(da ty yobu dal, kak ya tebe eto vyrajene zazwezdodavidyu?) unless code.string_to_be_read
+    # 
+    code.string_to_be_read
+  end
+  
+...}
 
 expr90: Code <-
   # Parentheses.
