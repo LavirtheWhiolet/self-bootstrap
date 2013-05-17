@@ -244,9 +244,12 @@ char-range: Range[String] <-
 # TODO: Tell that all String-s are encoded in UTF-8.
 
 string: String <-
-  "'" val:< (!"'" char)* > "'" ` ` /
-  '"' val:< (!'"' char)* > '"' ` ` /
-  code:Unicode-code ` ` { val = "" << code } ;
+  (
+    "'" val:< char*? > "'" /
+    '"' val:< char*? > '"' /
+    code:Unicode-code { val = "" << code }
+  )
+  ` ` ;
 
 Unicode-code: Integer <-
   "U+" code:< ("0"..."9" / "A"..."F")+ > { code  = code.to_i(16); raise %(U+#{code.to_s(16).upcase} is not supported) if code > 0x10FFFF }
