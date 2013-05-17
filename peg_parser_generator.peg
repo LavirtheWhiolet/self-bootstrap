@@ -125,6 +125,9 @@ expr90: Code <-
   # 
   val:expr100 ;
 
+expr95: Code <-
+  # David star
+
 expr100: Code <-
   r:char-range  { val = code "yy_char_range(#{r.begin.dump}, #{r.end.dump})" } /
   s:string  { val = code "yy_string(#{s.dump})" } /
