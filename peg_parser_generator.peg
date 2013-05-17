@@ -124,7 +124,20 @@ expr80: Code <-
   def star_of_david_code(code)
     raise %(da ty yobu dal, kak ya tebe eto vyrajene zazwezdodavidyu?) unless code.string_to_be_read
     # 
-    code.string_to_be_read
+    strings = code.string_to_be_read.chars.reduce([""]) do |strings, char|
+      strings << (strings.last + char)
+    end
+    strings = string.shift
+    #
+    original_pos_var = new_unique_variable_name
+    code(%( begin
+      #{original_pos_var} = @yy_input.pos
+      )) +
+      strings.reduce(code "false") do |code, string|
+        code + code(%( or begin @yy_input.pos = #{original_pos_var}; yy_string(#{string.dump}) end))
+      end +
+      code(%(
+    end))
   end
   
 ...}
