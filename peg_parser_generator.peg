@@ -485,6 +485,7 @@ newline <-
       return result
     end
     
+    # String to be read associated with this Code.
     attr_accessor :string_to_be_read
     
   end
