@@ -31,7 +31,7 @@ grammar <-
   }
   ` `
   (
-    / r:rule
+    / rule:r
       {
         # 
         nonterminal, method_name, method_code = *r
@@ -44,7 +44,7 @@ grammar <-
         method_names[nonterminal] = method_name
         code += method_code
       }
-    / x:action
+    / action:x
       {
         code += code(x)
       }
@@ -56,7 +56,7 @@ grammar <-
   } ;
 
 expr: Code <-
-  val:expr20 ;
+  expr20:val ;
 
 expr20: Code <-
   # Ordered choice.
@@ -64,8 +64,8 @@ expr20: Code <-
     single_expression = true
     remembered_pos_var = new_unique_variable_name
   }
-  `/`? val:expr30 (
-    `/` val2:expr30
+  `/`? expr30:val (
+    `/` expr30:val2
     {
       single_expression = false
       val = val + (code " or (@yy_input.pos = #{remembered_pos_var}; ") + val2 + (code ")")
@@ -82,7 +82,7 @@ expr30: Code <-
   # One-side bracket.
   { code_parts = [] } 
   (
-    / code_part:expr60  { code_parts.add code_part }
+    / expr60:code_part  { code_parts.add code_part }
     / `]`  { code_parts = [sequence_code(code_parts)] }
   )+
   {val = sequence_code(code_parts)} ;
@@ -116,22 +116,22 @@ expr30: Code <-
 
 expr60: Code <-
   # Capture semantic value.
-  c:expr70 `:` var:Ruby-variable { val = capture_semantic_value_code(var, c) } /
-  val:expr70 ;
+  expr70:c `:` Ruby-variable:var { val = capture_semantic_value_code(var, c) } /
+  expr70:val ;
 
 # TODO: Rename "action" rule to "Ruby-code".
 
 expr70 <-
   # Predicate.
-  / `&` c:action { val = positive_predicate_with_native_code_code(c) }
-  / `&` val:expr70 { val = positive_predicate_code(val) }
-  / `!` val:expr70 { val = code(%(not )) + positive_predicate_code(val) }
-  / val:expr80
+  / `&` action:c { val = positive_predicate_with_native_code_code(c) }
+  / `&` expr70:val { val = positive_predicate_code(val) }
+  / `!` expr70:val { val = code(%(not )) + positive_predicate_code(val) }
+  / expr80:val
   ;
 
 expr80: Code <-
   # Repetition.
-  val:expr90 (
+  expr90:val (
     `*?` { val = lazy_repeat_code(val) } /
     `*` { val = repeat_many_times_code(val) } /
     `+` { val = repeat_at_least_once_code(val) } /
@@ -140,22 +140,22 @@ expr80: Code <-
 
 expr90: Code <-
   # Parentheses.
-  `(` val:expr `)` /
+  `(` expr:val `)` /
   # Text capture.
-  `<` c:expr `>` `:` var:Ruby-variable { val = capture_text_code(var, c) } /
+  `<` expr:c `>` `:` Ruby-variable:var { val = capture_text_code(var, c) } /
   # 
-  val:expr100 ;
+  expr100:val ;
 
 expr100: Code <-
-  r:char-range  { val = code "yy_char_range(#{r.begin.dump}, #{r.end.dump})" } /
-  s:string  { val = code "yy_string(#{s.dump})" } /
-  n:nonterminal  { val = UnknownMethodCall[n] } /
+  char-range:r  { val = code "yy_char_range(#{r.begin.dump}, #{r.end.dump})" } /
+  string:s  { val = code "yy_string(#{s.dump})" } /
+  nonterminal:n  { val = UnknownMethodCall[n] } /
   `char` { val = code "@yy_input.getc" } /  # IO#getc returns nil at end of input. That's OK for us.
-  a:action  { val = code "begin \n #{a} \n true \n end" } /  # Newline must be present after action's body because it may include comments.
+  action:a  { val = code "begin \n #{a} \n true \n end" } /  # Newline must be present after action's body because it may include comments.
   `$` { val = code "@yy_input.eof?" } ;
 
 rule: [Nonterminal, MethodName, Code] <-
-  n:nonterminal (`:` rule-type)? `<-/=` c:expr `;`
+  nonterminal:n (`:` rule-type)? `<-/=` expr:c `;`
   {
     method_name = new_unique_nonterminal_method_name
     val = [n, method_name, to_method_definition(c, method_name)]
@@ -171,16 +171,16 @@ rule-type <-
 
 action: RubyCode <-
   (
-    / "{" white-space* "..." (white-space*? newline)? val:< char*? > "..." white-space* "}"
-    / val:< action-body > { val = val[1...-1] }
+    / "{" white-space* "..." (white-space*? newline)? < char*? >:val "..." white-space* "}"
+    / < action-body >:val { val = val[1...-1] }
     / (
         `%%`
-        val:< char*? >
+        < char*? >:val
         `%%`
       )
     / (
         `%%`
-        val:< char* >
+        < char* >:val
         $
       )
   )
@@ -212,7 +212,7 @@ keyword <-
   `char` ;
 
 Ruby-variable: String <-
-  val:< Ruby-variable-start (Ruby-variable-middle)* > ` `;
+  < Ruby-variable-start (Ruby-variable-middle)* >:val ` `;
 
 Ruby-variable-start <-
   "a"..."z" /
@@ -226,8 +226,8 @@ Ruby-variable-middle <-
 nonterminal: Nonterminal <-
   !keyword
   (
-    val:< nonterminal-start (nonterminal-middle)* > ` ` /
-    val:< "`" (!"`" char)* "`" > ` `
+    < nonterminal-start (nonterminal-middle)* >:val ` ` /
+    < "`" (!"`" char)* "`" >:val ` `
   ) ;
 
 nonterminal-start <-
@@ -241,7 +241,7 @@ nonterminal-middle <-
   "0"..."9" ;
 
 char-range: Range[String] <-
-  from:string ("..." / ".." / U+2026 / U+2025) ` ` to:string ` `
+  string:from ("..." / ".." / U+2026 / U+2025) ` ` string:to ` `
   { raise %("#{from}" or "#{to}" is not a character) if from.length != 1 or to.length != 1 }
   { val = from...to } ;
 
