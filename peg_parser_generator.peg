@@ -79,6 +79,7 @@ expr20: Code <-
 
 expr30: Code <-
   # Sequence.
+  # One-side bracket.
   { code_parts = [] } 
   (
     / code_part:expr60  { code_parts.add code_part }
