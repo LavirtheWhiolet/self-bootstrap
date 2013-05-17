@@ -55,15 +55,15 @@ expr86 <-
   sin expr86:v {val = Math.sin(v)} /
   cos expr86:v {val = Math.cos(v)} /
   tan expr86:v {val = Math.tan(v)} /
-  arcsin v:expr86 {val = Math.asin(v)} /
-  arccos v:expr86 {val = Math.acos(v)} /
-  arctan v:expr86 {val = Math.atan(v)} /
-  ln v:expr86 {val = Math.log(v)} /
-  sqrt v:expr86 {val = Math.sqrt(v)} /
-  sqrt3 v:expr86 {val = Math.cbrt(v.abs); val = -val if v < 0} /
-  sqrt4 v:expr86 {val = Math.sqrt(Math.sqrt(v))} /
-  degrees:expr87 `°` {val = degrees * Math::PI / 180} (minutes:expr87 `'` {val += minutes * Math::PI / 180 / 60} ( seconds:expr87 `"` {val += seconds * Math::PI / 180 / 3600} )? )? /
-  val:expr87
+  arcsin expr86:v {val = Math.asin(v)} /
+  arccos expr86:v {val = Math.acos(v)} /
+  arctan expr86:v {val = Math.atan(v)} /
+  ln expr86:v {val = Math.log(v)} /
+  sqrt expr86:v {val = Math.sqrt(v)} /
+  sqrt3 expr86:v {val = Math.cbrt(v.abs); val = -val if v < 0} /
+  sqrt4 expr86:v {val = Math.sqrt(Math.sqrt(v))} /
+  expr87:degrees `°` {val = degrees * Math::PI / 180} (minutes:expr87 `'` {val += minutes * Math::PI / 180 / 60} ( seconds:expr87 `"` {val += seconds * Math::PI / 180 / 3600} )? )? /
+  expr87:val
   ;
 
 -- Minus (unary) --
