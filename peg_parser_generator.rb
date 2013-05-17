@@ -313,7 +313,7 @@ end
     strings = code.string_to_be_read.chars.reduce([""]) do |strings, char|
       strings << (strings.last + char)
     end
-    strings = string.shift
+    strings.shift
     #
     original_pos_var = new_unique_variable_name
     code(%( begin
