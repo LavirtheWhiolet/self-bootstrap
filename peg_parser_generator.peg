@@ -64,8 +64,8 @@ expr20: Code <-
     single_expression = true
     remembered_pos_var = new_unique_variable_name
   }
-  `/`? val:expr30 (
-    `/` val2:expr30
+  `/`? val:expr25 (
+    `/` val2:expr25
     {
       single_expression = false
       val = val + (code " or (@yy_input.pos = #{remembered_pos_var}; ") + val2 + (code ")")
