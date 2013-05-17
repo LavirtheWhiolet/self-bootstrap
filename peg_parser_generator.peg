@@ -173,7 +173,7 @@ action: RubyCode <-
     / val:< action-body > { val = val[1...-1] }
     / (
         `%%`
-        val:< (!`%%` char)* >
+        val:< char*? >
         `%%`
       )
     / (
