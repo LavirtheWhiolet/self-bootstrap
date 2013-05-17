@@ -69,7 +69,7 @@ expr86 <-
 -- Minus (unary) --
 expr87 <-
   {invert = false}
-  ( `-` {invert = true} )? val:expr90
+  ( `-` {invert = true} )? expr90:val
   { if invert then val = -val end };
 
 -- Brackets --
