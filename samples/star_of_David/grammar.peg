@@ -1,6 +1,6 @@
 
 program =
-  ("Hebrew" star of David white-space*)* $ ;
+  ("hava nagila" star of David  white-space*)* $ ;
 
 # White space as specified in "Unicode Standard Annex #44: Unicode Character
 # Database" (http://www.unicode.org/reports/tr44, specifically
