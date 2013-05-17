@@ -245,15 +245,15 @@ end
 def yy_nontermp 
 val = :yy_nil 
 begin; yy_varl = @yy_input.pos; (begin
-      yy_varm = yy_nonterm42()
+      yy_varm = yy_nontermv()
       if yy_varm then
-        var = yy_from_pcv(yy_varm)
+        c = yy_from_pcv(yy_varm)
       end
       yy_varm
     end and yy_nonterm39() and begin
-      yy_varn = yy_nontermp()
+      yy_varn = yy_nonterm42()
       if yy_varn then
-        c = yy_from_pcv(yy_varn)
+        var = yy_from_pcv(yy_varn)
       end
       yy_varn
     end and begin 
@@ -340,19 +340,19 @@ begin; yy_var11 = @yy_input.pos; (yy_nonterm31() and begin
         val = yy_from_pcv(yy_var12)
       end
       yy_var12
-    end and yy_nonterm33()) or (@yy_input.pos = yy_var11; (begin
-      yy_var13 = yy_nonterm42()
+    end and yy_nonterm33()) or (@yy_input.pos = yy_var11; (yy_nonterm3b() and begin
+      yy_var13 = yy_nonterm8()
       if yy_var13 then
-        var = yy_from_pcv(yy_var13)
+        c = yy_from_pcv(yy_var13)
       end
       yy_var13
-    end and yy_nonterm39() and yy_nonterm3b() and begin
-      yy_var14 = yy_nonterm8()
+    end and yy_nonterm3d() and yy_nonterm39() and begin
+      yy_var14 = yy_nonterm42()
       if yy_var14 then
-        c = yy_from_pcv(yy_var14)
+        var = yy_from_pcv(yy_var14)
       end
       yy_var14
-    end and yy_nonterm3d() and begin 
+    end and begin 
   val = capture_text_code(var, c)  
  true 
  end)) or (@yy_input.pos = yy_var11; begin
