@@ -89,9 +89,9 @@ expr100 <-
 ---- Lex ----
 
 number <-
-  integer_part:(digits)  { val = integer_part.to_i }
+  (digits):integer_part  { val = integer_part.to_i }
   (
-    `.` fractional_part:(digits)  { val = (integer_part + fractional_part).to_i / 10**fractional_part.length }
+    `.` (digits):fractional_part  { val = (integer_part + fractional_part).to_i / 10**fractional_part.length }
   )?
   WS
   ;
@@ -134,7 +134,7 @@ ln <- 'ln' WS;
 digits <-
   {val = ""}
   (
-    digit:'0'...'9'  {val << digit}  digits_delimiter*
+    '0'...'9':digit  {val << digit}  digits_delimiter*
   )+
   ;
 
