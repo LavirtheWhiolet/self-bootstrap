@@ -112,7 +112,7 @@ expr30: Code <-
     end
   end
   
-...}
+}...
 
 expr60: Code <-
   # Capture semantic value.
