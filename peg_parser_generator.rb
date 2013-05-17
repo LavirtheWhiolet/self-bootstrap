@@ -76,10 +76,10 @@ val = :yy_nil
     method_names = HashMap.new
    
  true 
- end and yy_nonterm5v() and while true
+ end and yy_nonterm5h() and while true
       yy_var4 = @yy_input.pos
       if not begin; yy_var1 = @yy_input.pos; (begin
-      yy_var2 = yy_nonterm1j()
+      yy_var2 = yy_nonterm1i()
       if yy_var2 then
         r = yy_from_pcv(yy_var2)
       end
@@ -99,7 +99,7 @@ val = :yy_nil
        
  true 
  end) or (@yy_input.pos = yy_var1; (begin
-      yy_var3 = yy_nonterm2w()
+      yy_var3 = yy_nonterm2l()
       if yy_var3 then
         x = yy_from_pcv(yy_var3)
       end
@@ -141,20 +141,20 @@ val = :yy_nil
  true 
  end and begin
       yy_vara = @yy_input.pos
-      if not yy_nonterm3a() then
+      if not yy_nonterm2x() then
         @yy_input.pos = yy_vara
       end
       true
     end and begin
-      yy_varb = yy_nonterml()
+      yy_varb = yy_nontermk()
       if yy_varb then
         val = yy_from_pcv(yy_varb)
       end
       yy_varb
     end and while true
       yy_vare = @yy_input.pos
-      if not (yy_nonterm3a() and begin
-      yy_vard = yy_nonterml()
+      if not (yy_nonterm2x() and begin
+      yy_vard = yy_nontermk()
       if yy_vard then
         val2 = yy_from_pcv(yy_vard)
       end
@@ -178,229 +178,252 @@ val = :yy_nil
  true 
  end) and yy_to_pcv(val) 
 end 
-def yy_nonterml 
+def yy_nontermk 
 val = :yy_nil 
 (begin 
-  single_expression = true  
+  code_parts = []  
  true 
- end and begin
-      yy_varh = yy_nontermq()
-      if yy_varh then
-        val = yy_from_pcv(yy_varh)
+ end and (begin
+      yy_vari = yy_nontermp()
+      if yy_vari then
+        code_part = yy_from_pcv(yy_vari)
       end
-      yy_varh
-    end and while true
-      yy_vark = @yy_input.pos
-      if not (begin
-      yy_varj = yy_nontermq()
-      if yy_varj then
-        val2 = yy_from_pcv(yy_varj)
-      end
-      yy_varj
+      yy_vari
     end and begin 
- 
-      single_expression = false
-      val = val + (code " and ") + val2
-     
+  code_parts.add code_part  
+ true 
+ end) and while true
+      yy_varj = @yy_input.pos
+      if not (begin
+      yy_vari = yy_nontermp()
+      if yy_vari then
+        code_part = yy_from_pcv(yy_vari)
+      end
+      yy_vari
+    end and begin 
+  code_parts.add code_part  
  true 
  end) then
-        @yy_input.pos = yy_vark
+        @yy_input.pos = yy_varj
         break true
       end
     end and begin 
- 
-    if not single_expression then
-      val = (code "(") + val + (code ")")
-    end
-   
+ val = sequence_code(code_parts) 
  true 
  end) and yy_to_pcv(val) 
 end 
-def yy_nontermq 
+  
+  def sequence_code(sequence_parts)
+    # 
+    lazy_kleene_star_part_index =
+      sequence_parts.find_index { |sequence_part| sequence_part.any? { |code_part| code_part.is_a? LazyRepeat::UnknownLookAheadCode } }
+    # Compile parts after "*?" part as look ahead of the "*?" part
+    # (if possible).
+    if lazy_kleene_star_part_index and lazy_kleene_star_part_index != (sequence_parts.size - 1)
+      lazy_kleene_star_part = sequence_parts[lazy_kleene_star_part_index]
+      sequence_parts_after_lazy_kleene_star_part = sequence_parts[(lazy_kleene_star_part_index+1)..-1]
+      lazy_kleene_star_part = lazy_kleene_star_part.replace(
+        LazyRepeat::UnknownLookAheadCode,
+        sequence_code(sequence_parts_after_lazy_kleene_star_part)
+      )
+      sequence_parts[lazy_kleene_star_part_index] = lazy_kleene_star_part
+    end
+    # Compile the code parts into sequence code!
+    if sequence_parts.size == 1
+      sequence_parts.first
+    else
+      code("(") + sequence_parts.reduce { |r, sequence_part| r + code(" and ") + sequence_part } + code(")")
+    end
+  end
+  
+def yy_nontermp 
 val = :yy_nil 
-begin; yy_varm = @yy_input.pos; (begin
-      yy_varn = yy_nonterm49()
+begin; yy_varl = @yy_input.pos; (begin
+      yy_varm = yy_nonterm3y()
+      if yy_varm then
+        var = yy_from_pcv(yy_varm)
+      end
+      yy_varm
+    end and yy_nonterm35() and begin
+      yy_varn = yy_nontermp()
       if yy_varn then
-        var = yy_from_pcv(yy_varn)
+        c = yy_from_pcv(yy_varn)
       end
       yy_varn
-    end and yy_nonterm3i() and begin
-      yy_varo = yy_nontermq()
-      if yy_varo then
-        c = yy_from_pcv(yy_varo)
-      end
-      yy_varo
     end and begin 
   val = capture_semantic_value_code(var, c)  
  true 
- end) or (@yy_input.pos = yy_varm; begin
-      yy_varp = yy_nontermw()
-      if yy_varp then
-        val = yy_from_pcv(yy_varp)
+ end) or (@yy_input.pos = yy_varl; begin
+      yy_varo = yy_nontermv()
+      if yy_varo then
+        val = yy_from_pcv(yy_varo)
       end
-      yy_varp
+      yy_varo
     end); end and yy_to_pcv(val) 
 end 
-def yy_nontermw 
+def yy_nontermv 
 val = :yy_nil 
-begin; yy_varr = @yy_input.pos; (yy_nonterm3u() and begin
-      yy_vars = yy_nonterm2w()
-      if yy_vars then
-        c = yy_from_pcv(yy_vars)
+begin; yy_varq = @yy_input.pos; (yy_nonterm3j() and begin
+      yy_varr = yy_nonterm2l()
+      if yy_varr then
+        c = yy_from_pcv(yy_varr)
       end
-      yy_vars
+      yy_varr
     end and begin 
   val = positive_predicate_with_native_code_code(c)  
  true 
- end) or (@yy_input.pos = yy_varr; (yy_nonterm3u() and begin
-      yy_vart = yy_nontermw()
+ end) or (@yy_input.pos = yy_varq; (yy_nonterm3j() and begin
+      yy_vars = yy_nontermv()
+      if yy_vars then
+        val = yy_from_pcv(yy_vars)
+      end
+      yy_vars
+    end and begin 
+  val = positive_predicate_code(val)  
+ true 
+ end)) or (@yy_input.pos = yy_varq; (yy_nonterm3l() and begin
+      yy_vart = yy_nontermv()
       if yy_vart then
         val = yy_from_pcv(yy_vart)
       end
       yy_vart
     end and begin 
-  val = positive_predicate_code(val)  
+  val = code(%(not )) + positive_predicate_code(val)  
  true 
- end)) or (@yy_input.pos = yy_varr; (yy_nonterm3w() and begin
-      yy_varu = yy_nontermw()
+ end)) or (@yy_input.pos = yy_varq; begin
+      yy_varu = yy_nonterm10()
       if yy_varu then
         val = yy_from_pcv(yy_varu)
       end
       yy_varu
-    end and begin 
-  val = code(%(not )) + positive_predicate_code(val)  
- true 
- end)) or (@yy_input.pos = yy_varr; begin
-      yy_varv = yy_nonterm11()
-      if yy_varv then
-        val = yy_from_pcv(yy_varv)
-      end
-      yy_varv
     end); end and yy_to_pcv(val) 
 end 
-def yy_nonterm11 
+def yy_nonterm10 
 val = :yy_nil 
 (begin
-      yy_vary = yy_nonterm17()
-      if yy_vary then
-        val = yy_from_pcv(yy_vary)
+      yy_varx = yy_nonterm16()
+      if yy_varx then
+        val = yy_from_pcv(yy_varx)
       end
-      yy_vary
+      yy_varx
     end and while true
-      yy_var10 = @yy_input.pos
-      if not begin; yy_varz = @yy_input.pos; (yy_nonterm3o() and begin 
+      yy_varz = @yy_input.pos
+      if not begin; yy_vary = @yy_input.pos; (yy_nonterm3d() and begin 
+  val = lazy_repeat_code(val)  
+ true 
+ end) or (@yy_input.pos = yy_vary; (yy_nonterm3b() and begin 
   val = repeat_many_times_code(val)  
  true 
- end) or (@yy_input.pos = yy_varz; (yy_nonterm3s() and begin 
+ end)) or (@yy_input.pos = yy_vary; (yy_nonterm3h() and begin 
   val = repeat_at_least_once_code(val)  
  true 
- end)) or (@yy_input.pos = yy_varz; (yy_nonterm3q() and begin 
+ end)) or (@yy_input.pos = yy_vary; (yy_nonterm3f() and begin 
   val = optional_code(val)  
  true 
  end)); end then
-        @yy_input.pos = yy_var10
+        @yy_input.pos = yy_varz
         break true
       end
     end) and yy_to_pcv(val) 
 end 
-def yy_nonterm17 
+def yy_nonterm16 
 val = :yy_nil 
-begin; yy_var12 = @yy_input.pos; (yy_nonterm3e() and begin
-      yy_var13 = yy_nonterm8()
+begin; yy_var11 = @yy_input.pos; (yy_nonterm31() and begin
+      yy_var12 = yy_nonterm8()
+      if yy_var12 then
+        val = yy_from_pcv(yy_var12)
+      end
+      yy_var12
+    end and yy_nonterm33()) or (@yy_input.pos = yy_var11; (begin
+      yy_var13 = yy_nonterm3y()
       if yy_var13 then
-        val = yy_from_pcv(yy_var13)
+        var = yy_from_pcv(yy_var13)
       end
       yy_var13
-    end and yy_nonterm3g()) or (@yy_input.pos = yy_var12; (begin
-      yy_var14 = yy_nonterm49()
+    end and yy_nonterm35() and yy_nonterm37() and begin
+      yy_var14 = yy_nonterm8()
       if yy_var14 then
-        var = yy_from_pcv(yy_var14)
+        c = yy_from_pcv(yy_var14)
       end
       yy_var14
-    end and yy_nonterm3i() and yy_nonterm3k() and begin
-      yy_var15 = yy_nonterm8()
-      if yy_var15 then
-        c = yy_from_pcv(yy_var15)
-      end
-      yy_var15
-    end and yy_nonterm3m() and begin 
+    end and yy_nonterm39() and begin 
   val = capture_text_code(var, c)  
  true 
- end)) or (@yy_input.pos = yy_var12; begin
-      yy_var16 = yy_nonterm1d()
-      if yy_var16 then
-        val = yy_from_pcv(yy_var16)
+ end)) or (@yy_input.pos = yy_var11; begin
+      yy_var15 = yy_nonterm1c()
+      if yy_var15 then
+        val = yy_from_pcv(yy_var15)
       end
-      yy_var16
+      yy_var15
     end); end and yy_to_pcv(val) 
 end 
-def yy_nonterm1d 
+def yy_nonterm1c 
 val = :yy_nil 
-begin; yy_var18 = @yy_input.pos; (begin
-      yy_var19 = yy_nonterm53()
-      if yy_var19 then
-        r = yy_from_pcv(yy_var19)
+begin; yy_var17 = @yy_input.pos; (begin
+      yy_var18 = yy_nonterm4s()
+      if yy_var18 then
+        r = yy_from_pcv(yy_var18)
       end
-      yy_var19
+      yy_var18
     end and begin 
   val = code "yy_char_range(#{r.begin.dump}, #{r.end.dump})"  
  true 
- end) or (@yy_input.pos = yy_var18; (begin
-      yy_var1a = yy_nonterm5k()
-      if yy_var1a then
-        s = yy_from_pcv(yy_var1a)
+ end) or (@yy_input.pos = yy_var17; (begin
+      yy_var19 = yy_nonterm56()
+      if yy_var19 then
+        s = yy_from_pcv(yy_var19)
       end
-      yy_var1a
+      yy_var19
     end and begin 
   val = code "yy_string(#{s.dump})"  
  true 
- end)) or (@yy_input.pos = yy_var18; (begin
-      yy_var1b = yy_nonterm4u()
-      if yy_var1b then
-        n = yy_from_pcv(yy_var1b)
+ end)) or (@yy_input.pos = yy_var17; (begin
+      yy_var1a = yy_nonterm4j()
+      if yy_var1a then
+        n = yy_from_pcv(yy_var1a)
       end
-      yy_var1b
+      yy_var1a
     end and begin 
   val = UnknownMethodCall[n]  
  true 
- end)) or (@yy_input.pos = yy_var18; (yy_nonterm40() and begin 
+ end)) or (@yy_input.pos = yy_var17; (yy_nonterm3p() and begin 
   val = code "@yy_input.getc"  
  true 
- end)) or (@yy_input.pos = yy_var18; (begin
-      yy_var1c = yy_nonterm2w()
-      if yy_var1c then
-        a = yy_from_pcv(yy_var1c)
+ end)) or (@yy_input.pos = yy_var17; (begin
+      yy_var1b = yy_nonterm2l()
+      if yy_var1b then
+        a = yy_from_pcv(yy_var1b)
       end
-      yy_var1c
+      yy_var1b
     end and begin 
   val = code "begin \n #{a} \n true \n end"  
  true 
- end)) or (@yy_input.pos = yy_var18; (yy_nonterm3c() and begin 
+ end)) or (@yy_input.pos = yy_var17; (yy_nonterm2z() and begin 
   val = code "@yy_input.eof?"  
  true 
  end)); end and yy_to_pcv(val) 
 end 
-def yy_nonterm1j 
+def yy_nonterm1i 
 val = :yy_nil 
 (begin
-      yy_var1f = yy_nonterm4u()
-      if yy_var1f then
-        n = yy_from_pcv(yy_var1f)
+      yy_var1e = yy_nonterm4j()
+      if yy_var1e then
+        n = yy_from_pcv(yy_var1e)
       end
-      yy_var1f
+      yy_var1e
     end and begin
-      yy_var1h = @yy_input.pos
-      if not (yy_nonterm3i() and yy_nonterm1q()) then
-        @yy_input.pos = yy_var1h
+      yy_var1g = @yy_input.pos
+      if not (yy_nonterm35() and yy_nonterm1p()) then
+        @yy_input.pos = yy_var1g
       end
       true
-    end and yy_nonterm36() and begin
-      yy_var1i = yy_nonterm8()
-      if yy_var1i then
-        c = yy_from_pcv(yy_var1i)
+    end and yy_nonterm2t() and begin
+      yy_var1h = yy_nonterm8()
+      if yy_var1h then
+        c = yy_from_pcv(yy_var1h)
       end
-      yy_var1i
-    end and yy_nonterm38() and begin 
+      yy_var1h
+    end and yy_nonterm2v() and begin 
  
     method_name = new_unique_nonterminal_method_name
     val = [n, method_name, to_method_definition(c, method_name)]
@@ -408,318 +431,352 @@ val = :yy_nil
  true 
  end) and yy_to_pcv(val) 
 end 
-def yy_nonterm1q 
+def yy_nonterm1p 
 val = :yy_nil 
 ((not begin
-      yy_var1n = @yy_input.pos
-      yy_var1o = yy_nonterm36()
-      @yy_input.pos = yy_var1n
-      yy_var1o
-    end and @yy_input.getc) and yy_nonterm5v()) and while true
-      yy_var1p = @yy_input.pos
+      yy_var1m = @yy_input.pos
+      yy_var1n = yy_nonterm2t()
+      @yy_input.pos = yy_var1m
+      yy_var1n
+    end and @yy_input.getc) and yy_nonterm5h()) and while true
+      yy_var1o = @yy_input.pos
       if not ((not begin
-      yy_var1n = @yy_input.pos
-      yy_var1o = yy_nonterm36()
-      @yy_input.pos = yy_var1n
-      yy_var1o
-    end and @yy_input.getc) and yy_nonterm5v()) then
-        @yy_input.pos = yy_var1p
+      yy_var1m = @yy_input.pos
+      yy_var1n = yy_nonterm2t()
+      @yy_input.pos = yy_var1m
+      yy_var1n
+    end and @yy_input.getc) and yy_nonterm5h()) then
+        @yy_input.pos = yy_var1o
         break true
       end
     end and yy_to_pcv(val) 
 end 
-def yy_nonterm1w 
+def yy_nonterm1t 
 val = :yy_nil 
-(yy_string("%%") and while true
-      yy_var1v = @yy_input.pos
-      if not (not begin
-      yy_var1t = @yy_input.pos
-      yy_var1u = yy_nonterm66()
-      @yy_input.pos = yy_var1t
-      yy_var1u
-    end and @yy_input.getc) then
-        @yy_input.pos = yy_var1v
-        break true
+(yy_string("%%") and  begin
+      while true
+        ###
+        yy_var1r = @yy_input.pos
+        ### Look ahead.
+        yy_var1s = yy_nonterm5q()
+        @yy_input.pos = yy_var1r
+        break if yy_var1s
+        ### Repeat one more time (if possible).
+        yy_var1s = @yy_input.getc
+        if not yy_var1s then
+          @yy_input.pos = yy_var1r
+          break
+        end
       end
-    end and yy_nonterm66()) and yy_to_pcv(val) 
+      ### The repetition is always successful.
+      true
+    end  and yy_nonterm5q()) and yy_to_pcv(val) 
 end 
-def yy_nonterm2w 
+def yy_nonterm2l 
 val = :yy_nil 
-(begin; yy_var1y = @yy_input.pos; (yy_string("{") and while true
-      yy_var1z = @yy_input.pos
-      if not yy_nonterm64() then
-        @yy_input.pos = yy_var1z
+(begin; yy_var1v = @yy_input.pos; (yy_string("{") and while true
+      yy_var1w = @yy_input.pos
+      if not yy_nonterm5o() then
+        @yy_input.pos = yy_var1w
         break true
       end
     end and yy_string("...") and begin
-      yy_var25 = @yy_input.pos
-      if not (while true
-      yy_var24 = @yy_input.pos
-      if not (not begin
-      yy_var22 = @yy_input.pos
-      yy_var23 = yy_nonterm66()
-      @yy_input.pos = yy_var22
-      yy_var23
-    end and yy_nonterm64()) then
-        @yy_input.pos = yy_var24
-        break true
+      yy_var20 = @yy_input.pos
+      if not ( begin
+      while true
+        ###
+        yy_var1y = @yy_input.pos
+        ### Look ahead.
+        yy_var1z = yy_nonterm5q()
+        @yy_input.pos = yy_var1y
+        break if yy_var1z
+        ### Repeat one more time (if possible).
+        yy_var1z = yy_nonterm5o()
+        if not yy_var1z then
+          @yy_input.pos = yy_var1y
+          break
+        end
       end
-    end and yy_nonterm66()) then
-        @yy_input.pos = yy_var25
+      ### The repetition is always successful.
+      true
+    end  and yy_nonterm5q()) then
+        @yy_input.pos = yy_var20
       end
       true
     end and begin
       val = ""
-      yy_var2d = @yy_input.pos
+      yy_var24 = @yy_input.pos
+       begin
       while true
-      yy_var2c = @yy_input.pos
-      if not (not begin
-      yy_var2a = @yy_input.pos
-      yy_var2b = (yy_string("...") and while true
-      yy_var29 = @yy_input.pos
-      if not yy_nonterm64() then
-        @yy_input.pos = yy_var29
+        ###
+        yy_var22 = @yy_input.pos
+        ### Look ahead.
+        yy_var23 = (yy_string("...") and while true
+      yy_var26 = @yy_input.pos
+      if not yy_nonterm5o() then
+        @yy_input.pos = yy_var26
         break true
       end
     end and yy_string("}"))
-      @yy_input.pos = yy_var2a
-      yy_var2b
-    end and @yy_input.getc) then
-        @yy_input.pos = yy_var2c
-        break true
+        @yy_input.pos = yy_var22
+        break if yy_var23
+        ### Repeat one more time (if possible).
+        yy_var23 = @yy_input.getc
+        if not yy_var23 then
+          @yy_input.pos = yy_var22
+          break
+        end
       end
-    end and begin
-        yy_var2e = @yy_input.pos
-        @yy_input.pos = yy_var2d
-        val << @yy_input.read(yy_var2e - yy_var2d).force_encoding(Encoding::UTF_8)
+      ### The repetition is always successful.
+      true
+    end  and begin
+        yy_var25 = @yy_input.pos
+        @yy_input.pos = yy_var24
+        val << @yy_input.read(yy_var25 - yy_var24).force_encoding(Encoding::UTF_8)
       end
     end and yy_string("...") and while true
-      yy_var2f = @yy_input.pos
-      if not yy_nonterm64() then
-        @yy_input.pos = yy_var2f
+      yy_var26 = @yy_input.pos
+      if not yy_nonterm5o() then
+        @yy_input.pos = yy_var26
         break true
       end
-    end and yy_string("}")) or (@yy_input.pos = yy_var1y; (begin
+    end and yy_string("}")) or (@yy_input.pos = yy_var1v; (begin
       val = ""
-      yy_var2h = @yy_input.pos
-      yy_nonterm33() and begin
-        yy_var2i = @yy_input.pos
-        @yy_input.pos = yy_var2h
-        val << @yy_input.read(yy_var2i - yy_var2h).force_encoding(Encoding::UTF_8)
+      yy_var28 = @yy_input.pos
+      yy_nonterm2q() and begin
+        yy_var29 = @yy_input.pos
+        @yy_input.pos = yy_var28
+        val << @yy_input.read(yy_var29 - yy_var28).force_encoding(Encoding::UTF_8)
       end
     end and begin 
   val = val[1...-1]  
  true 
- end)) or (@yy_input.pos = yy_var1y; (yy_nonterm1w() and begin
+ end)) or (@yy_input.pos = yy_var1v; (yy_nonterm1t() and begin
       val = ""
-      yy_var2p = @yy_input.pos
+      yy_var2e = @yy_input.pos
+       begin
       while true
-      yy_var2o = @yy_input.pos
-      if not (not begin
-      yy_var2m = @yy_input.pos
-      yy_var2n = yy_nonterm1w()
-      @yy_input.pos = yy_var2m
-      yy_var2n
-    end and @yy_input.getc) then
-        @yy_input.pos = yy_var2o
-        break true
+        ###
+        yy_var2c = @yy_input.pos
+        ### Look ahead.
+        yy_var2d = yy_nonterm1t()
+        @yy_input.pos = yy_var2c
+        break if yy_var2d
+        ### Repeat one more time (if possible).
+        yy_var2d = @yy_input.getc
+        if not yy_var2d then
+          @yy_input.pos = yy_var2c
+          break
+        end
       end
-    end and begin
-        yy_var2q = @yy_input.pos
-        @yy_input.pos = yy_var2p
-        val << @yy_input.read(yy_var2q - yy_var2p).force_encoding(Encoding::UTF_8)
+      ### The repetition is always successful.
+      true
+    end  and begin
+        yy_var2f = @yy_input.pos
+        @yy_input.pos = yy_var2e
+        val << @yy_input.read(yy_var2f - yy_var2e).force_encoding(Encoding::UTF_8)
       end
-    end and yy_nonterm1w())) or (@yy_input.pos = yy_var1y; (yy_nonterm1w() and begin
+    end and yy_nonterm1t())) or (@yy_input.pos = yy_var1v; (yy_nonterm1t() and begin
       val = ""
-      yy_var2u = @yy_input.pos
+      yy_var2j = @yy_input.pos
       while true
-      yy_var2t = @yy_input.pos
+      yy_var2i = @yy_input.pos
       if not @yy_input.getc then
-        @yy_input.pos = yy_var2t
+        @yy_input.pos = yy_var2i
         break true
       end
     end and begin
-        yy_var2v = @yy_input.pos
-        @yy_input.pos = yy_var2u
-        val << @yy_input.read(yy_var2v - yy_var2u).force_encoding(Encoding::UTF_8)
+        yy_var2k = @yy_input.pos
+        @yy_input.pos = yy_var2j
+        val << @yy_input.read(yy_var2k - yy_var2j).force_encoding(Encoding::UTF_8)
       end
-    end and @yy_input.eof?)); end and yy_nonterm5v()) and yy_to_pcv(val) 
+    end and @yy_input.eof?)); end and yy_nonterm5h()) and yy_to_pcv(val) 
+end 
+def yy_nonterm2q 
+val = :yy_nil 
+(yy_string("{") and  begin
+      while true
+        ###
+        yy_var2o = @yy_input.pos
+        ### Look ahead.
+        yy_var2p = yy_string("}")
+        @yy_input.pos = yy_var2o
+        break if yy_var2p
+        ### Repeat one more time (if possible).
+        yy_var2p = begin; yy_var2n = @yy_input.pos; yy_nonterm2q() or (@yy_input.pos = yy_var2n; @yy_input.getc); end
+        if not yy_var2p then
+          @yy_input.pos = yy_var2o
+          break
+        end
+      end
+      ### The repetition is always successful.
+      true
+    end  and yy_string("}")) and yy_to_pcv(val) 
+end 
+def yy_nonterm2t 
+val = :yy_nil 
+(begin; yy_var2s = @yy_input.pos; yy_string("<-") or (@yy_input.pos = yy_var2s; yy_string("=")) or (@yy_input.pos = yy_var2s; yy_string("\u{2190}")); end and yy_nonterm5h()) and yy_to_pcv(val) 
+end 
+def yy_nonterm2v 
+val = :yy_nil 
+(yy_string(";") and yy_nonterm5h()) and yy_to_pcv(val) 
+end 
+def yy_nonterm2x 
+val = :yy_nil 
+(yy_string("/") and yy_nonterm5h()) and yy_to_pcv(val) 
+end 
+def yy_nonterm2z 
+val = :yy_nil 
+(yy_string("$") and yy_nonterm5h()) and yy_to_pcv(val) 
+end 
+def yy_nonterm31 
+val = :yy_nil 
+(yy_string("(") and yy_nonterm5h()) and yy_to_pcv(val) 
 end 
 def yy_nonterm33 
 val = :yy_nil 
-(yy_string("{") and while true
-      yy_var32 = @yy_input.pos
-      if not (not begin
-      yy_var2z = @yy_input.pos
-      yy_var30 = yy_string("}")
-      @yy_input.pos = yy_var2z
-      yy_var30
-    end and begin; yy_var31 = @yy_input.pos; yy_nonterm33() or (@yy_input.pos = yy_var31; @yy_input.getc); end) then
-        @yy_input.pos = yy_var32
+(yy_string(")") and yy_nonterm5h()) and yy_to_pcv(val) 
+end 
+def yy_nonterm35 
+val = :yy_nil 
+(yy_string(":") and yy_nonterm5h()) and yy_to_pcv(val) 
+end 
+def yy_nonterm37 
+val = :yy_nil 
+(yy_string("<") and yy_nonterm5h()) and yy_to_pcv(val) 
+end 
+def yy_nonterm39 
+val = :yy_nil 
+(yy_string(">") and yy_nonterm5h()) and yy_to_pcv(val) 
+end 
+def yy_nonterm3b 
+val = :yy_nil 
+(yy_string("*") and yy_nonterm5h()) and yy_to_pcv(val) 
+end 
+def yy_nonterm3d 
+val = :yy_nil 
+(yy_string("*?") and yy_nonterm5h()) and yy_to_pcv(val) 
+end 
+def yy_nonterm3f 
+val = :yy_nil 
+(yy_string("?") and yy_nonterm5h()) and yy_to_pcv(val) 
+end 
+def yy_nonterm3h 
+val = :yy_nil 
+(yy_string("+") and yy_nonterm5h()) and yy_to_pcv(val) 
+end 
+def yy_nonterm3j 
+val = :yy_nil 
+(yy_string("&") and yy_nonterm5h()) and yy_to_pcv(val) 
+end 
+def yy_nonterm3l 
+val = :yy_nil 
+(yy_string("!") and yy_nonterm5h()) and yy_to_pcv(val) 
+end 
+def yy_nonterm3p 
+val = :yy_nil 
+(yy_string("char") and not begin
+      yy_var3n = @yy_input.pos
+      yy_var3o = yy_nonterm4n()
+      @yy_input.pos = yy_var3n
+      yy_var3o
+    end and yy_nonterm5h()) and yy_to_pcv(val) 
+end 
+def yy_nonterm3r 
+val = :yy_nil 
+yy_nonterm3p() and yy_to_pcv(val) 
+end 
+def yy_nonterm3y 
+val = :yy_nil 
+(begin
+      val = ""
+      yy_var3w = @yy_input.pos
+      (yy_nonterm40() and while true
+      yy_var3v = @yy_input.pos
+      if not yy_nonterm42() then
+        @yy_input.pos = yy_var3v
         break true
       end
-    end and yy_string("}")) and yy_to_pcv(val) 
-end 
-def yy_nonterm36 
-val = :yy_nil 
-(begin; yy_var35 = @yy_input.pos; yy_string("<-") or (@yy_input.pos = yy_var35; yy_string("=")) or (@yy_input.pos = yy_var35; yy_string("\u{2190}")); end and yy_nonterm5v()) and yy_to_pcv(val) 
-end 
-def yy_nonterm38 
-val = :yy_nil 
-(yy_string(";") and yy_nonterm5v()) and yy_to_pcv(val) 
-end 
-def yy_nonterm3a 
-val = :yy_nil 
-(yy_string("/") and yy_nonterm5v()) and yy_to_pcv(val) 
-end 
-def yy_nonterm3c 
-val = :yy_nil 
-(yy_string("$") and yy_nonterm5v()) and yy_to_pcv(val) 
-end 
-def yy_nonterm3e 
-val = :yy_nil 
-(yy_string("(") and yy_nonterm5v()) and yy_to_pcv(val) 
-end 
-def yy_nonterm3g 
-val = :yy_nil 
-(yy_string(")") and yy_nonterm5v()) and yy_to_pcv(val) 
-end 
-def yy_nonterm3i 
-val = :yy_nil 
-(yy_string(":") and yy_nonterm5v()) and yy_to_pcv(val) 
-end 
-def yy_nonterm3k 
-val = :yy_nil 
-(yy_string("<") and yy_nonterm5v()) and yy_to_pcv(val) 
-end 
-def yy_nonterm3m 
-val = :yy_nil 
-(yy_string(">") and yy_nonterm5v()) and yy_to_pcv(val) 
-end 
-def yy_nonterm3o 
-val = :yy_nil 
-(yy_string("*") and yy_nonterm5v()) and yy_to_pcv(val) 
-end 
-def yy_nonterm3q 
-val = :yy_nil 
-(yy_string("?") and yy_nonterm5v()) and yy_to_pcv(val) 
-end 
-def yy_nonterm3s 
-val = :yy_nil 
-(yy_string("+") and yy_nonterm5v()) and yy_to_pcv(val) 
-end 
-def yy_nonterm3u 
-val = :yy_nil 
-(yy_string("&") and yy_nonterm5v()) and yy_to_pcv(val) 
-end 
-def yy_nonterm3w 
-val = :yy_nil 
-(yy_string("!") and yy_nonterm5v()) and yy_to_pcv(val) 
+    end) and begin
+        yy_var3x = @yy_input.pos
+        @yy_input.pos = yy_var3w
+        val << @yy_input.read(yy_var3x - yy_var3w).force_encoding(Encoding::UTF_8)
+      end
+    end and yy_nonterm5h()) and yy_to_pcv(val) 
 end 
 def yy_nonterm40 
 val = :yy_nil 
-(yy_string("char") and not begin
-      yy_var3y = @yy_input.pos
-      yy_var3z = yy_nonterm4y()
-      @yy_input.pos = yy_var3y
-      yy_var3z
-    end and yy_nonterm5v()) and yy_to_pcv(val) 
+begin; yy_var3z = @yy_input.pos; yy_char_range("a", "z") or (@yy_input.pos = yy_var3z; yy_string("_")); end and yy_to_pcv(val) 
 end 
 def yy_nonterm42 
 val = :yy_nil 
-yy_nonterm40() and yy_to_pcv(val) 
+begin; yy_var41 = @yy_input.pos; yy_nonterm40() or (@yy_input.pos = yy_var41; yy_char_range("0", "9")); end and yy_to_pcv(val) 
 end 
-def yy_nonterm49 
-val = :yy_nil 
-(begin
-      val = ""
-      yy_var47 = @yy_input.pos
-      (yy_nonterm4b() and while true
-      yy_var46 = @yy_input.pos
-      if not yy_nonterm4d() then
-        @yy_input.pos = yy_var46
-        break true
-      end
-    end) and begin
-        yy_var48 = @yy_input.pos
-        @yy_input.pos = yy_var47
-        val << @yy_input.read(yy_var48 - yy_var47).force_encoding(Encoding::UTF_8)
-      end
-    end and yy_nonterm5v()) and yy_to_pcv(val) 
-end 
-def yy_nonterm4b 
-val = :yy_nil 
-begin; yy_var4a = @yy_input.pos; yy_char_range("a", "z") or (@yy_input.pos = yy_var4a; yy_string("_")); end and yy_to_pcv(val) 
-end 
-def yy_nonterm4d 
-val = :yy_nil 
-begin; yy_var4c = @yy_input.pos; yy_nonterm4b() or (@yy_input.pos = yy_var4c; yy_char_range("0", "9")); end and yy_to_pcv(val) 
-end 
-def yy_nonterm4u 
+def yy_nonterm4j 
 val = :yy_nil 
 (not begin
-      yy_var4f = @yy_input.pos
-      yy_var4g = yy_nonterm42()
-      @yy_input.pos = yy_var4f
-      yy_var4g
-    end and begin; yy_var4h = @yy_input.pos; (begin
+      yy_var44 = @yy_input.pos
+      yy_var45 = yy_nonterm3r()
+      @yy_input.pos = yy_var44
+      yy_var45
+    end and begin; yy_var46 = @yy_input.pos; (begin
       val = ""
-      yy_var4l = @yy_input.pos
-      (yy_nonterm4w() and while true
-      yy_var4k = @yy_input.pos
-      if not yy_nonterm4y() then
-        @yy_input.pos = yy_var4k
+      yy_var4a = @yy_input.pos
+      (yy_nonterm4l() and while true
+      yy_var49 = @yy_input.pos
+      if not yy_nonterm4n() then
+        @yy_input.pos = yy_var49
         break true
       end
     end) and begin
-        yy_var4m = @yy_input.pos
-        @yy_input.pos = yy_var4l
-        val << @yy_input.read(yy_var4m - yy_var4l).force_encoding(Encoding::UTF_8)
+        yy_var4b = @yy_input.pos
+        @yy_input.pos = yy_var4a
+        val << @yy_input.read(yy_var4b - yy_var4a).force_encoding(Encoding::UTF_8)
       end
-    end and yy_nonterm5v()) or (@yy_input.pos = yy_var4h; (begin
+    end and yy_nonterm5h()) or (@yy_input.pos = yy_var46; (begin
       val = ""
-      yy_var4s = @yy_input.pos
+      yy_var4h = @yy_input.pos
       (yy_string("`") and while true
-      yy_var4r = @yy_input.pos
+      yy_var4g = @yy_input.pos
       if not (not begin
-      yy_var4p = @yy_input.pos
-      yy_var4q = yy_string("`")
-      @yy_input.pos = yy_var4p
-      yy_var4q
+      yy_var4e = @yy_input.pos
+      yy_var4f = yy_string("`")
+      @yy_input.pos = yy_var4e
+      yy_var4f
     end and @yy_input.getc) then
-        @yy_input.pos = yy_var4r
+        @yy_input.pos = yy_var4g
         break true
       end
     end and yy_string("`")) and begin
-        yy_var4t = @yy_input.pos
-        @yy_input.pos = yy_var4s
-        val << @yy_input.read(yy_var4t - yy_var4s).force_encoding(Encoding::UTF_8)
+        yy_var4i = @yy_input.pos
+        @yy_input.pos = yy_var4h
+        val << @yy_input.read(yy_var4i - yy_var4h).force_encoding(Encoding::UTF_8)
       end
-    end and yy_nonterm5v())); end) and yy_to_pcv(val) 
+    end and yy_nonterm5h())); end) and yy_to_pcv(val) 
 end 
-def yy_nonterm4w 
+def yy_nonterm4l 
 val = :yy_nil 
-begin; yy_var4v = @yy_input.pos; yy_char_range("a", "z") or (@yy_input.pos = yy_var4v; yy_char_range("A", "Z")) or (@yy_input.pos = yy_var4v; yy_string("-")) or (@yy_input.pos = yy_var4v; yy_string("_")); end and yy_to_pcv(val) 
+begin; yy_var4k = @yy_input.pos; yy_char_range("a", "z") or (@yy_input.pos = yy_var4k; yy_char_range("A", "Z")) or (@yy_input.pos = yy_var4k; yy_string("-")) or (@yy_input.pos = yy_var4k; yy_string("_")); end and yy_to_pcv(val) 
 end 
-def yy_nonterm4y 
+def yy_nonterm4n 
 val = :yy_nil 
-begin; yy_var4x = @yy_input.pos; yy_nonterm4w() or (@yy_input.pos = yy_var4x; yy_char_range("0", "9")); end and yy_to_pcv(val) 
+begin; yy_var4m = @yy_input.pos; yy_nonterm4l() or (@yy_input.pos = yy_var4m; yy_char_range("0", "9")); end and yy_to_pcv(val) 
 end 
-def yy_nonterm53 
+def yy_nonterm4s 
 val = :yy_nil 
 (begin
-      yy_var50 = yy_nonterm5k()
-      if yy_var50 then
-        from = yy_from_pcv(yy_var50)
+      yy_var4p = yy_nonterm56()
+      if yy_var4p then
+        from = yy_from_pcv(yy_var4p)
       end
-      yy_var50
-    end and begin; yy_var51 = @yy_input.pos; yy_string("...") or (@yy_input.pos = yy_var51; yy_string("..")) or (@yy_input.pos = yy_var51; yy_string("\u{2026}")) or (@yy_input.pos = yy_var51; yy_string("\u{2025}")); end and yy_nonterm5v() and begin
-      yy_var52 = yy_nonterm5k()
-      if yy_var52 then
-        to = yy_from_pcv(yy_var52)
+      yy_var4p
+    end and begin; yy_var4q = @yy_input.pos; yy_string("...") or (@yy_input.pos = yy_var4q; yy_string("..")) or (@yy_input.pos = yy_var4q; yy_string("\u{2026}")) or (@yy_input.pos = yy_var4q; yy_string("\u{2025}")); end and yy_nonterm5h() and begin
+      yy_var4r = yy_nonterm56()
+      if yy_var4r then
+        to = yy_from_pcv(yy_var4r)
       end
-      yy_var52
-    end and yy_nonterm5v() and begin 
+      yy_var4r
+    end and yy_nonterm5h() and begin 
   raise %("#{from}" or "#{to}" is not a character) if from.length != 1 or to.length != 1  
  true 
  end and begin 
@@ -727,72 +784,84 @@ val = :yy_nil
  true 
  end) and yy_to_pcv(val) 
 end 
-def yy_nonterm5k 
+def yy_nonterm56 
 val = :yy_nil 
-begin; yy_var54 = @yy_input.pos; (yy_string("'") and begin
+(begin; yy_var4u = @yy_input.pos; (yy_string("'") and begin
       val = ""
-      yy_var5a = @yy_input.pos
+      yy_var4y = @yy_input.pos
+       begin
       while true
-      yy_var59 = @yy_input.pos
-      if not (not begin
-      yy_var57 = @yy_input.pos
-      yy_var58 = yy_string("'")
-      @yy_input.pos = yy_var57
-      yy_var58
-    end and @yy_input.getc) then
-        @yy_input.pos = yy_var59
-        break true
+        ###
+        yy_var4w = @yy_input.pos
+        ### Look ahead.
+        yy_var4x = yy_string("'")
+        @yy_input.pos = yy_var4w
+        break if yy_var4x
+        ### Repeat one more time (if possible).
+        yy_var4x = @yy_input.getc
+        if not yy_var4x then
+          @yy_input.pos = yy_var4w
+          break
+        end
       end
-    end and begin
-        yy_var5b = @yy_input.pos
-        @yy_input.pos = yy_var5a
-        val << @yy_input.read(yy_var5b - yy_var5a).force_encoding(Encoding::UTF_8)
+      ### The repetition is always successful.
+      true
+    end  and begin
+        yy_var4z = @yy_input.pos
+        @yy_input.pos = yy_var4y
+        val << @yy_input.read(yy_var4z - yy_var4y).force_encoding(Encoding::UTF_8)
       end
-    end and yy_string("'") and yy_nonterm5v()) or (@yy_input.pos = yy_var54; (yy_string("\"") and begin
+    end and yy_string("'")) or (@yy_input.pos = yy_var4u; (yy_string("\"") and begin
       val = ""
-      yy_var5h = @yy_input.pos
+      yy_var53 = @yy_input.pos
+       begin
       while true
-      yy_var5g = @yy_input.pos
-      if not (not begin
-      yy_var5e = @yy_input.pos
-      yy_var5f = yy_string("\"")
-      @yy_input.pos = yy_var5e
-      yy_var5f
-    end and @yy_input.getc) then
-        @yy_input.pos = yy_var5g
-        break true
+        ###
+        yy_var51 = @yy_input.pos
+        ### Look ahead.
+        yy_var52 = yy_string("\"")
+        @yy_input.pos = yy_var51
+        break if yy_var52
+        ### Repeat one more time (if possible).
+        yy_var52 = @yy_input.getc
+        if not yy_var52 then
+          @yy_input.pos = yy_var51
+          break
+        end
       end
-    end and begin
-        yy_var5i = @yy_input.pos
-        @yy_input.pos = yy_var5h
-        val << @yy_input.read(yy_var5i - yy_var5h).force_encoding(Encoding::UTF_8)
+      ### The repetition is always successful.
+      true
+    end  and begin
+        yy_var54 = @yy_input.pos
+        @yy_input.pos = yy_var53
+        val << @yy_input.read(yy_var54 - yy_var53).force_encoding(Encoding::UTF_8)
       end
-    end and yy_string("\"") and yy_nonterm5v())) or (@yy_input.pos = yy_var54; (begin
-      yy_var5j = yy_nonterm5r()
-      if yy_var5j then
-        code = yy_from_pcv(yy_var5j)
+    end and yy_string("\""))) or (@yy_input.pos = yy_var4u; (begin
+      yy_var55 = yy_nonterm5d()
+      if yy_var55 then
+        code = yy_from_pcv(yy_var55)
       end
-      yy_var5j
-    end and yy_nonterm5v() and begin 
+      yy_var55
+    end and begin 
   val = "" << code  
  true 
- end)); end and yy_to_pcv(val) 
+ end)); end and yy_nonterm5h()) and yy_to_pcv(val) 
 end 
-def yy_nonterm5r 
+def yy_nonterm5d 
 val = :yy_nil 
 (yy_string("U+") and begin
       code = ""
-      yy_var5p = @yy_input.pos
-      begin; yy_var5n = @yy_input.pos; yy_char_range("0", "9") or (@yy_input.pos = yy_var5n; yy_char_range("A", "F")); end and while true
-      yy_var5o = @yy_input.pos
-      if not begin; yy_var5n = @yy_input.pos; yy_char_range("0", "9") or (@yy_input.pos = yy_var5n; yy_char_range("A", "F")); end then
-        @yy_input.pos = yy_var5o
+      yy_var5b = @yy_input.pos
+      begin; yy_var59 = @yy_input.pos; yy_char_range("0", "9") or (@yy_input.pos = yy_var59; yy_char_range("A", "F")); end and while true
+      yy_var5a = @yy_input.pos
+      if not begin; yy_var59 = @yy_input.pos; yy_char_range("0", "9") or (@yy_input.pos = yy_var59; yy_char_range("A", "F")); end then
+        @yy_input.pos = yy_var5a
         break true
       end
     end and begin
-        yy_var5q = @yy_input.pos
-        @yy_input.pos = yy_var5p
-        code << @yy_input.read(yy_var5q - yy_var5p).force_encoding(Encoding::UTF_8)
+        yy_var5c = @yy_input.pos
+        @yy_input.pos = yy_var5b
+        code << @yy_input.read(yy_var5c - yy_var5b).force_encoding(Encoding::UTF_8)
       end
     end and begin 
   code  = code.to_i(16); raise %(U+#{code.to_s(16).upcase} is not supported) if code > 0x10FFFF  
@@ -802,38 +871,44 @@ val = :yy_nil
  true 
  end) and yy_to_pcv(val) 
 end 
-def yy_nonterm5v 
+def yy_nonterm5h 
 val = :yy_nil 
 while true
-      yy_var5u = @yy_input.pos
-      if not begin; yy_var5t = @yy_input.pos; yy_nonterm64() or (@yy_input.pos = yy_var5t; yy_nonterm62()); end then
-        @yy_input.pos = yy_var5u
+      yy_var5g = @yy_input.pos
+      if not begin; yy_var5f = @yy_input.pos; yy_nonterm5o() or (@yy_input.pos = yy_var5f; yy_nonterm5m()); end then
+        @yy_input.pos = yy_var5g
         break true
       end
     end and yy_to_pcv(val) 
 end 
-def yy_nonterm62 
+def yy_nonterm5m 
 val = :yy_nil 
-(begin; yy_var5x = @yy_input.pos; yy_string("#") or (@yy_input.pos = yy_var5x; yy_string("--")); end and while true
-      yy_var61 = @yy_input.pos
-      if not (not begin
-      yy_var5z = @yy_input.pos
-      yy_var60 = yy_nonterm66()
-      @yy_input.pos = yy_var5z
-      yy_var60
-    end and @yy_input.getc) then
-        @yy_input.pos = yy_var61
-        break true
+(begin; yy_var5j = @yy_input.pos; yy_string("#") or (@yy_input.pos = yy_var5j; yy_string("--")); end and  begin
+      while true
+        ###
+        yy_var5k = @yy_input.pos
+        ### Look ahead.
+        yy_var5l = yy_nonterm5q()
+        @yy_input.pos = yy_var5k
+        break if yy_var5l
+        ### Repeat one more time (if possible).
+        yy_var5l = @yy_input.getc
+        if not yy_var5l then
+          @yy_input.pos = yy_var5k
+          break
+        end
       end
-    end and yy_nonterm66()) and yy_to_pcv(val) 
+      ### The repetition is always successful.
+      true
+    end  and yy_nonterm5q()) and yy_to_pcv(val) 
 end 
-def yy_nonterm64 
+def yy_nonterm5o 
 val = :yy_nil 
-begin; yy_var63 = @yy_input.pos; yy_char_range("\t", "\r") or (@yy_input.pos = yy_var63; yy_string(" ")) or (@yy_input.pos = yy_var63; yy_string("\u{85}")) or (@yy_input.pos = yy_var63; yy_string("\u{a0}")) or (@yy_input.pos = yy_var63; yy_string("\u{1680}")) or (@yy_input.pos = yy_var63; yy_string("\u{180e}")) or (@yy_input.pos = yy_var63; yy_char_range("\u{2000}", "\u{200a}")) or (@yy_input.pos = yy_var63; yy_string("\u{2028}")) or (@yy_input.pos = yy_var63; yy_string("\u{2029}")) or (@yy_input.pos = yy_var63; yy_string("\u{202f}")) or (@yy_input.pos = yy_var63; yy_string("\u{205f}")) or (@yy_input.pos = yy_var63; yy_string("\u{3000}")); end and yy_to_pcv(val) 
+begin; yy_var5n = @yy_input.pos; yy_char_range("\t", "\r") or (@yy_input.pos = yy_var5n; yy_string(" ")) or (@yy_input.pos = yy_var5n; yy_string("\u{85}")) or (@yy_input.pos = yy_var5n; yy_string("\u{a0}")) or (@yy_input.pos = yy_var5n; yy_string("\u{1680}")) or (@yy_input.pos = yy_var5n; yy_string("\u{180e}")) or (@yy_input.pos = yy_var5n; yy_char_range("\u{2000}", "\u{200a}")) or (@yy_input.pos = yy_var5n; yy_string("\u{2028}")) or (@yy_input.pos = yy_var5n; yy_string("\u{2029}")) or (@yy_input.pos = yy_var5n; yy_string("\u{202f}")) or (@yy_input.pos = yy_var5n; yy_string("\u{205f}")) or (@yy_input.pos = yy_var5n; yy_string("\u{3000}")); end and yy_to_pcv(val) 
 end 
-def yy_nonterm66 
+def yy_nonterm5q 
 val = :yy_nil 
-begin; yy_var65 = @yy_input.pos; (yy_string("\r") and yy_string("\n")) or (@yy_input.pos = yy_var65; yy_string("\r")) or (@yy_input.pos = yy_var65; yy_string("\n")) or (@yy_input.pos = yy_var65; yy_string("\u{85}")) or (@yy_input.pos = yy_var65; yy_string("\v")) or (@yy_input.pos = yy_var65; yy_string("\f")) or (@yy_input.pos = yy_var65; yy_string("\u{2028}")) or (@yy_input.pos = yy_var65; yy_string("\u{2029}")); end and yy_to_pcv(val) 
+begin; yy_var5p = @yy_input.pos; (yy_string("\r") and yy_string("\n")) or (@yy_input.pos = yy_var5p; yy_string("\r")) or (@yy_input.pos = yy_var5p; yy_string("\n")) or (@yy_input.pos = yy_var5p; yy_string("\u{85}")) or (@yy_input.pos = yy_var5p; yy_string("\v")) or (@yy_input.pos = yy_var5p; yy_string("\f")) or (@yy_input.pos = yy_var5p; yy_string("\u{2028}")) or (@yy_input.pos = yy_var5p; yy_string("\u{2029}")); end and yy_to_pcv(val) 
 end 
   
   def capture_semantic_value_code(var, code)
@@ -890,6 +965,31 @@ end
       end
       true
     end))
+  end
+  
+  def lazy_repeat_code(parsing_code)
+    #
+    original_pos_var = new_unique_variable_name
+    result_var = new_unique_variable_name
+    #
+    code(%[ begin
+      while true
+        ###
+        #{original_pos_var} = @yy_input.pos
+        ### Look ahead.
+        #{result_var} = ]) + LazyRepeat::UnknownLookAheadCode.new + code(%[
+        @yy_input.pos = #{original_pos_var}
+        break if #{result_var}
+        ### Repeat one more time (if possible).
+        #{result_var} = ]) + parsing_code + code(%[
+        if not #{result_var} then
+          @yy_input.pos = #{original_pos_var}
+          break
+        end
+      end
+      ### The repetition is always successful.
+      true
+    end ])
   end
   
   # returns code which captures text to specified variable.
@@ -1044,6 +1144,26 @@ end
       return result
     end
     
+    # returns true if +predicate+ returns true for any atomic Code comprising
+    # this code.
+    def any?(&predicate)
+      self.reduce(false) { |result, part| result or predicate.(part) }
+    end
+    
+    # 
+    # replaces each atomic Code which comprises this Code and is case-equal to
+    # +pattern+ with +replacement+.
+    # 
+    def replace(pattern, replacement)
+      self.map do |code_part|
+        if pattern === code_part then
+          replacement
+        else
+          code_part
+        end
+      end
+    end
+    
   end
   
   class CodeAsString < Code
@@ -1114,7 +1234,7 @@ end
     attr_reader :nonterminal
     
     def to_s
-      raise UnknownMethodCallEncountered, self
+      raise CodeCanNotBeDetermined.new self
     end
     
     def inspect
@@ -1123,16 +1243,39 @@ end
     
   end
   
-  class UnknownMethodCallEncountered < Exception
+  module LazyRepeat
     
-    def initialize(method_call)
-      super %(unknown method call with associated nonterminal #{code.nonterminal} is encountered)
-      @method_call = method_call
+    class UnknownLookAheadCode < Code
+      
+      def to_s
+        raise CodeCanNotBeDetermined.new self
+      end
+      
+      def inspect
+        "#<LazyRepeat::UnknownLookAheadCode>"
+      end
+      
     end
     
-    attr_reader :method_call
+  end
+  
+  class CodeCanNotBeDetermined < Exception
+    
+    def initialize(code)
+      super %(code can not be determined: #{code.inspect})
+      @code = code
+    end
+    
+    attr_reader :code
     
   end
+  
+end
+
+
+class Array
+  
+  alias add <<
   
 end
 

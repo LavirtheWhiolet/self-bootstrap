@@ -79,19 +79,38 @@ expr20: Code <-
 
 expr30: Code <-
   # Sequence.
-  { single_expression = true }
-  val:expr60 (
-    val2:expr60
-    {
-      single_expression = false
-      val = val + (code " and ") + val2
-    }
-  )*
-  {
-    if not single_expression then
-      val = (code "(") + val + (code ")")
+  { code_parts = [] } 
+  (
+    code_part:expr60 { code_parts.add code_part }
+  )+ 
+  {val = sequence_code(code_parts)} ;
+
+{...
+  
+  def sequence_code(sequence_parts)
+    # 
+    lazy_kleene_star_part_index =
+      sequence_parts.find_index { |sequence_part| sequence_part.any? { |code_part| code_part.is_a? LazyRepeat::UnknownLookAheadCode } }
+    # Compile parts after "*?" part as look ahead of the "*?" part
+    # (if possible).
+    if lazy_kleene_star_part_index and lazy_kleene_star_part_index != (sequence_parts.size - 1)
+      lazy_kleene_star_part = sequence_parts[lazy_kleene_star_part_index]
+      sequence_parts_after_lazy_kleene_star_part = sequence_parts[(lazy_kleene_star_part_index+1)..-1]
+      lazy_kleene_star_part = lazy_kleene_star_part.replace(
+        LazyRepeat::UnknownLookAheadCode,
+        sequence_code(sequence_parts_after_lazy_kleene_star_part)
+      )
+      sequence_parts[lazy_kleene_star_part_index] = lazy_kleene_star_part
     end
-  } ;
+    # Compile the code parts into sequence code!
+    if sequence_parts.size == 1
+      sequence_parts.first
+    else
+      code("(") + sequence_parts.reduce { |r, sequence_part| r + code(" and ") + sequence_part } + code(")")
+    end
+  end
+  
+...}
 
 expr60: Code <-
   # Capture semantic value.
@@ -111,11 +130,11 @@ expr70 <-
 expr80: Code <-
   # Repetition.
   val:expr90 (
+    `*?` { val = lazy_repeat_code(val) } /
     `*` { val = repeat_many_times_code(val) } /
     `+` { val = repeat_at_least_once_code(val) } /
     `?` { val = optional_code(val) }
-  )*
-  ;
+  )* ;
 
 expr90: Code <-
   # Parentheses.
@@ -146,15 +165,15 @@ rule-type <-
 ---- Lexemes ----
 
 `%%` <-
-  "%%" (!newline char)* newline ;
+  "%%" char*? newline ;
 
 action: RubyCode <-
   (
-    / "{" white-space* "..." ((!newline white-space)* newline)? val:< (!("..." white-space* "}") char)* > "..." white-space* "}"
+    / "{" white-space* "..." (white-space*? newline)? val:< char*? > "..." white-space* "}"
     / val:< action-body > { val = val[1...-1] }
     / (
         `%%`
-        val:< (!`%%` char)* >
+        val:< char*? >
         `%%`
       )
     / (
@@ -166,7 +185,7 @@ action: RubyCode <-
   ` ` ;
 
 action-body <-
-  "{" (!"}" (action-body / char))* "}" ;
+  "{" (action-body / char)*? "}" ;
 
 `<-/=` <- ("<-" / "=" / U+2190) ` `;
 `;` <- ";" ` `;
@@ -178,6 +197,7 @@ action-body <-
 `<` <- "<" ` `;
 `>` <- ">" ` `;
 `*` <- "*" ` `;
+`*?` <- "*?" ` `;
 `?` <- "?" ` `;
 `+` <- "+" ` `;
 `&` <- "&" ` `;
@@ -198,6 +218,7 @@ Ruby-variable-middle <-
   Ruby-variable-start /
   "0"..."9" ;
 
+# TODO: Extract ` ` outside of the parentheses.
 nonterminal: Nonterminal <-
   !keyword
   (
@@ -223,9 +244,12 @@ char-range: Range[String] <-
 # TODO: Tell that all String-s are encoded in UTF-8.
 
 string: String <-
-  "'" val:< (!"'" char)* > "'" ` ` /
-  '"' val:< (!'"' char)* > '"' ` ` /
-  code:Unicode-code ` ` { val = "" << code } ;
+  (
+    "'" val:< char*? > "'" /
+    '"' val:< char*? > '"' /
+    code:Unicode-code { val = "" << code }
+  )
+  ` ` ;
 
 Unicode-code: Integer <-
   "U+" code:< ("0"..."9" / "A"..."F")+ > { code  = code.to_i(16); raise %(U+#{code.to_s(16).upcase} is not supported) if code > 0x10FFFF }
@@ -236,7 +260,7 @@ Unicode-code: Integer <-
   (white-space / comment)* ;
 
 comment <-
-  ("#" / "--") (!newline char)* newline ;
+  ("#" / "--") char*? newline ;
 
 # White space as specified in "Unicode Standard Annex #44: Unicode Character
 # Database" (http://www.unicode.org/reports/tr44, specifically
@@ -323,6 +347,31 @@ newline <-
       end
       true
     end))
+  end
+  
+  def lazy_repeat_code(parsing_code)
+    #
+    original_pos_var = new_unique_variable_name
+    result_var = new_unique_variable_name
+    #
+    code(%[ begin
+      while true
+        ###
+        #{original_pos_var} = @yy_input.pos
+        ### Look ahead.
+        #{result_var} = ]) + LazyRepeat::UnknownLookAheadCode.new + code(%[
+        @yy_input.pos = #{original_pos_var}
+        break if #{result_var}
+        ### Repeat one more time (if possible).
+        #{result_var} = ]) + parsing_code + code(%[
+        if not #{result_var} then
+          @yy_input.pos = #{original_pos_var}
+          break
+        end
+      end
+      ### The repetition is always successful.
+      true
+    end ])
   end
   
   # returns code which captures text to specified variable.
@@ -477,6 +526,26 @@ newline <-
       return result
     end
     
+    # returns true if +predicate+ returns true for any atomic Code comprising
+    # this code.
+    def any?(&predicate)
+      self.reduce(false) { |result, part| result or predicate.(part) }
+    end
+    
+    # 
+    # replaces each atomic Code which comprises this Code and is case-equal to
+    # +pattern+ with +replacement+.
+    # 
+    def replace(pattern, replacement)
+      self.map do |code_part|
+        if pattern === code_part then
+          replacement
+        else
+          code_part
+        end
+      end
+    end
+    
   end
   
   class CodeAsString < Code
@@ -547,7 +616,7 @@ newline <-
     attr_reader :nonterminal
     
     def to_s
-      raise UnknownMethodCallEncountered, self
+      raise CodeCanNotBeDetermined.new self
     end
     
     def inspect
@@ -556,16 +625,39 @@ newline <-
     
   end
   
-  class UnknownMethodCallEncountered < Exception
+  module LazyRepeat
     
-    def initialize(method_call)
-      super %(unknown method call with associated nonterminal #{code.nonterminal} is encountered)
-      @method_call = method_call
+    class UnknownLookAheadCode < Code
+      
+      def to_s
+        raise CodeCanNotBeDetermined.new self
+      end
+      
+      def inspect
+        "#<LazyRepeat::UnknownLookAheadCode>"
+      end
+      
     end
     
-    attr_reader :method_call
+  end
+  
+  class CodeCanNotBeDetermined < Exception
+    
+    def initialize(code)
+      super %(code can not be determined: #{code.inspect})
+      @code = code
+    end
+    
+    attr_reader :code
     
   end
+  
+end
+
+
+class Array
+  
+  alias add <<
   
 end
 
