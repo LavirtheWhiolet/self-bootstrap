@@ -12,4 +12,3 @@
 - Capture expressions: variables in brackets ("expr:(var)"). It will help when variables will get types ("expr:(var:Type)"). May be use square brackets?
 - Code#+(string).
 - Arguments of rules ("rule(arg1, arg2) = ...").
-- "{... <code> }...".
