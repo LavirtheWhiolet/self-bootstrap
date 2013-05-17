@@ -485,6 +485,8 @@ newline <-
       return result
     end
     
+    attr_accessor :string_to_be_read
+    
   end
   
   class CodeAsString < Code
