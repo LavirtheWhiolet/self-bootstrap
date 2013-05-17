@@ -165,15 +165,15 @@ rule-type <-
 ---- Lexemes ----
 
 `%%` <-
-  "%%" (!newline char)* newline ;
+  "%%" char*? newline ;
 
 action: RubyCode <-
   (
-    / "{" white-space* "..." ((!newline white-space)* newline)? val:< (!("..." white-space* "}") char)* > "..." white-space* "}"
+    / "{" white-space* "..." (white-space*? newline)? val:< char*? > "..." white-space* "}"
     / val:< action-body > { val = val[1...-1] }
     / (
         `%%`
-        val:< (!`%%` char)* >
+        val:< char*? >
         `%%`
       )
     / (
@@ -185,7 +185,7 @@ action: RubyCode <-
   ` ` ;
 
 action-body <-
-  "{" (!"}" (action-body / char))* "}" ;
+  "{" (action-body / char)*? "}" ;
 
 `<-/=` <- ("<-" / "=" / U+2190) ` `;
 `;` <- ";" ` `;
@@ -218,6 +218,7 @@ Ruby-variable-middle <-
   Ruby-variable-start /
   "0"..."9" ;
 
+# TODO: Extract ` ` outside of the parentheses.
 nonterminal: Nonterminal <-
   !keyword
   (
@@ -243,9 +244,12 @@ char-range: Range[String] <-
 # TODO: Tell that all String-s are encoded in UTF-8.
 
 string: String <-
-  "'" val:< (!"'" char)* > "'" ` ` /
-  '"' val:< (!'"' char)* > '"' ` ` /
-  code:Unicode-code ` ` { val = "" << code } ;
+  (
+    "'" val:< char*? > "'" /
+    '"' val:< char*? > '"' /
+    code:Unicode-code { val = "" << code }
+  )
+  ` ` ;
 
 Unicode-code: Integer <-
   "U+" code:< ("0"..."9" / "A"..."F")+ > { code  = code.to_i(16); raise %(U+#{code.to_s(16).upcase} is not supported) if code > 0x10FFFF }
@@ -256,7 +260,7 @@ Unicode-code: Integer <-
   (white-space / comment)* ;
 
 comment <-
-  ("#" / "--") (!newline char)* newline ;
+  ("#" / "--") char*? newline ;
 
 # White space as specified in "Unicode Standard Annex #44: Unicode Character
 # Database" (http://www.unicode.org/reports/tr44, specifically
