@@ -187,8 +187,14 @@ action-body <-
 `!` <- "!" ` `;
 
 `char` <- "char" !nonterminal-middle ` `;
+`David star` <-
+  (
+    / "David" !nonterminal-middle ` ` "star" !nonterminal-middle
+  ) ` ` ;
 keyword <-
-  `char` ;
+  / `char`
+  / `David star`
+  ;
 
 Ruby-variable: String <-
   val:< Ruby-variable-start (Ruby-variable-middle)* > ` `;
