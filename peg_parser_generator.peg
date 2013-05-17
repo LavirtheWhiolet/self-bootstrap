@@ -165,7 +165,7 @@ rule-type <-
 ---- Lexemes ----
 
 `%%` <-
-  "%%" (!newline char)* newline ;
+  "%%" char*? newline ;
 
 action: RubyCode <-
   (
