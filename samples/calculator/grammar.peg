@@ -82,8 +82,8 @@ expr90 <-
 
 -- Atomic --
 expr100 <-
-  val:number /
-  val:constant
+  number:val /
+  constant:val
   ;
 
 ---- Lex ----
