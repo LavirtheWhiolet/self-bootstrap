@@ -110,6 +110,7 @@ expr70 <-
 
 expr80: Code <-
   # Repetition.
+  # Star of David.
   val:expr90 (
     `*` { val = repeat_many_times_code(val) } /
     `+` { val = repeat_at_least_once_code(val) } /
