@@ -187,14 +187,14 @@ action-body <-
 `!` <- "!" ` `;
 
 `char` <- "char" !nonterminal-middle ` `;
-`David star` <-
+`star of David` <-
   (
-    / "David" !nonterminal-middle ` ` "star" !nonterminal-middle
+    / "star" white-space+ "of" white-space+ "David"
     / U+2721
   ) ` ` ;
 keyword <-
   / `char`
-  / `David star`
+  / `star of David`
   ;
 
 Ruby-variable: String <-
