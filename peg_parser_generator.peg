@@ -185,6 +185,7 @@ action-body <-
 `+` <- "+" ` `;
 `&` <- "&" ` `;
 `!` <- "!" ` `;
+`star of David` <- (`star` `of` `David` / U+2721) ` `;
 
 `char` <- "char" !nonterminal-middle ` `;
 `star` <- "star" !nonterminal-middle ` `;
