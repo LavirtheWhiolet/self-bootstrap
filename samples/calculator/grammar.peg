@@ -17,44 +17,44 @@ class Calculator
 program <-
   WS
   (
-    expression_text:< result:(expr) > `;`?
+    < result:(expr) >:expression_text `;`?
     { puts "#{expression_text.force_encoding("UTF-8")}\u{2009}=\n  #{result.to_f} (#{result});" }
   )*
   $
   ;
 
-expr <- val:(expr70);
+expr <- (expr70):val;
 
 -- Sum --
 expr70 <-
-  val:(expr80)
+  (expr80):val
   (
-    `+` other:(expr80) {val += other} /
-    `-` other:(expr80) {val -= other}
+    `+` (expr80):other {val += other} /
+    `-` (expr80):other {val -= other}
   )*
   ;
 
 -- Multiplication --
 expr80 <-
-  val:(expr85)
+  (expr85):val
   (
-    `*` other:(expr85) {val *= other} /
-    `/` other:(expr85) {val /= other}
+    `*` (expr85):other {val *= other} /
+    `/` (expr85):other {val /= other}
   )*
   ;
 
 -- Power --
 expr85 <-
-  val:(expr86) (
-    `^` val2:(expr85) {val = val ** val2}
+  (expr86):val (
+    `^` (expr85):val2 {val = val ** val2}
   )*
   ;
 
 -- Function --
 expr86 <-
-  sin v:expr86 {val = Math.sin(v)} /
-  cos v:expr86 {val = Math.cos(v)} /
-  tan v:expr86 {val = Math.tan(v)} /
+  sin expr86:v {val = Math.sin(v)} /
+  cos expr86:v {val = Math.cos(v)} /
+  tan expr86:v {val = Math.tan(v)} /
   arcsin v:expr86 {val = Math.asin(v)} /
   arccos v:expr86 {val = Math.acos(v)} /
   arctan v:expr86 {val = Math.atan(v)} /
