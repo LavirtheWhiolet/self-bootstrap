@@ -25,7 +25,7 @@ begin
   File.open(ARGV[0]) { |io| yy_parse(io) }
   STDERR.puts "TEXT OBREZANY"
 rescue YY_SyntaxError
-  STDERR.puts "TEXT NEOBREZANY, GOISKY"
+  STDERR.puts "TEXT NEOBREZANY"
 end
 
 ...}
