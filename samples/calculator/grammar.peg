@@ -74,10 +74,10 @@ expr87 <-
 
 -- Brackets --
 expr90 <-
-  `(` val:(expr) `)` /
-  `[` val:(expr) `]` /
-  `{` val:(expr) `}` /
-  val:(expr100)
+  `(` (expr):val `)` /
+  `[` (expr):val `]` /
+  `{` (expr):val `}` /
+  (expr100):val
   ;
 
 -- Atomic --
