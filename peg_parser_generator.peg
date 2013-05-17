@@ -260,7 +260,7 @@ Unicode-code: Integer <-
   (white-space / comment)* ;
 
 comment <-
-  ("#" / "--") (!newline char)* newline ;
+  ("#" / "--") char*? newline ;
 
 # White space as specified in "Unicode Standard Annex #44: Unicode Character
 # Database" (http://www.unicode.org/reports/tr44, specifically
