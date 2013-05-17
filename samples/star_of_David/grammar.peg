@@ -5,7 +5,7 @@ program =
 # White space as specified in "Unicode Standard Annex #44: Unicode Character
 # Database" (http://www.unicode.org/reports/tr44, specifically
 # http://www.unicode.org/Public/UNIDATA/PropList.txt).
-white-space <-
+white-space =
   U+0009...U+000D /
   U+0020 /
   U+0085 /
