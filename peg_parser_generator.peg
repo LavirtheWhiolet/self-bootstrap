@@ -79,7 +79,8 @@ expr20: Code <-
 
 expr25: Code <-
   # One-side bracket.
-  
+  val:expr30 `]` /
+  val:expr30 ;
 
 expr30: Code <-
   # Sequence.
