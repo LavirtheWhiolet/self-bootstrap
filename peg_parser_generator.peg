@@ -169,7 +169,7 @@ rule-type <-
 
 action: RubyCode <-
   (
-    / "{" white-space* "..." (white-space*? newline)? val:< (!("..." white-space* "}") char)* > "..." white-space* "}"
+    / "{" white-space* "..." (white-space*? newline)? val:< char*? > "..." white-space* "}"
     / val:< action-body > { val = val[1...-1] }
     / (
         `%%`
