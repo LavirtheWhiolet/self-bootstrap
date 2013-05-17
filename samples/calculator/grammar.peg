@@ -17,7 +17,7 @@ class Calculator
 program <-
   WS
   (
-    < result:(expr) >:expression_text `;`?
+    < (expr):result >:expression_text `;`?
     { puts "#{expression_text.force_encoding("UTF-8")}\u{2009}=\n  #{result.to_f} (#{result});" }
   )*
   $
