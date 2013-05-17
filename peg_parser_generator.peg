@@ -227,7 +227,7 @@ nonterminal: Nonterminal <-
   !keyword
   (
     val:< nonterminal-start (nonterminal-middle)* > ` ` /
-    val:< "`" (!"`" char)* "`" > ` `
+    val:< "`" char*? "`" > ` `
   ) ;
 
 nonterminal-start <-
