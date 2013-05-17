@@ -1,0 +1,9 @@
+
+program <-
+  ("Hebrew" star of David)* ;
+
+{...
+
+File.open(ARGV[0]) { |io| yy_parse(io) }
+
+...}
