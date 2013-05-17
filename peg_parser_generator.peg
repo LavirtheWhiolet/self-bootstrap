@@ -82,7 +82,7 @@ expr30: Code <-
   { code_parts = [] } 
   (
     / code_part:expr60  { code_parts.add code_part }
-    / `]`  { code_parts = [sequence_code(code_parts)]
+    / `]`  { code_parts = [sequence_code(code_parts)] }
   )+
   {val = sequence_code(code_parts)} ;
 
