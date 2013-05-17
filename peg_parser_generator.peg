@@ -64,8 +64,8 @@ expr20: Code <-
     single_expression = true
     remembered_pos_var = new_unique_variable_name
   }
-  `/`? val:expr25 (
-    `/` val2:expr25
+  `/`? val:expr30 (
+    `/` val2:expr30
     {
       single_expression = false
       val = val + (code " or (@yy_input.pos = #{remembered_pos_var}; ") + val2 + (code ")")
@@ -76,11 +76,6 @@ expr20: Code <-
       val = (code "begin; #{remembered_pos_var} = @yy_input.pos; ") + val + (code "; end")
     end
   } ;
-
-expr25: Code <-
-  # One-side bracket.
-  val:expr30 `]` /
-  val:expr30 ;
 
 expr30: Code <-
   # Sequence.
