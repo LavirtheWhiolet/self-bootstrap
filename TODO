@@ -2,7 +2,9 @@
 - Enforce UTF-8 encoding in output stream.
 - Ability to set output file or stream.
 - "to_ruby_code(string)" function.
-- Error reporting (at least position). Idea: @yy_max_pos, @yy_max_error, @yy_file.
+- Error reporting (at least position).
+  Idea: @yy_max_pos, @yy_max_error, @yy_file.
+  Idea: "@" literal with semantic value equal to position.
 - Analogues of "+", "*" and "?" in beginning of the expression repeated. Maybe "?:expr", "*:expr", "+:expr"?
 - Rename the parser generator's executable file to "generate_parser" and make it not "require"-able (this property is not needed).
 - Byte parsing expression ("FF DE DDh"). Interpret the expression as a single big number.
