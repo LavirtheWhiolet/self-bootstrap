@@ -190,6 +190,7 @@ action-body <-
 `David star` <-
   (
     / "David" !nonterminal-middle ` ` "star" !nonterminal-middle
+    / U+2721
   ) ` ` ;
 keyword <-
   / `char`
