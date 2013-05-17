@@ -185,7 +185,7 @@ action: RubyCode <-
   ` ` ;
 
 action-body <-
-  "{" (!"}" (action-body / char))* "}" ;
+  "{" (action-body / char)*? "}" ;
 
 `<-/=` <- ("<-" / "=" / U+2190) ` `;
 `;` <- ";" ` `;
