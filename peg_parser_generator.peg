@@ -142,7 +142,7 @@ expr90: Code <-
   # Parentheses.
   `(` val:expr `)` /
   # Text capture.
-  var:Ruby-variable `:` `<` c:expr `>` { val = capture_text_code(var, c) } /
+  `<` c:expr `>` `:` var:Ruby-variable { val = capture_text_code(var, c) } /
   # 
   val:expr100 ;
 
