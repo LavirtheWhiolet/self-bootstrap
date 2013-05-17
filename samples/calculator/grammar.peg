@@ -18,7 +18,7 @@ program <-
   WS
   (
     expression_text:< result:(expr) > `;`?
-    { puts "#{expression_text.force_encoding("UTF-8")}\u{2009}=\n  #{result.to_f} (#{result});" }
+    { puts "#{expression_text.force_encoding("UTF-8")}\u{2009}=\n  =u{2009}#{result.to_f} (#{result});" }
   )*
   $
   ;
