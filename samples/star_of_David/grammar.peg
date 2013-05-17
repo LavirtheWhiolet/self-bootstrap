@@ -1,5 +1,5 @@
 
-program <-
+program =
   ("Hebrew" star of David)* $ ;
 
 # White space as specified in "Unicode Standard Annex #44: Unicode Character
