@@ -116,7 +116,7 @@ expr30: Code <-
 
 expr60: Code <-
   # Capture semantic value.
-  expr70:c `:` Ruby-variable:var { val = capture_semantic_value_code(var, c) } /
+  expr70:c capture-target:var { val = capture_semantic_value_code(var, c) } /
   expr70:val ;
 
 # Semantic value is Ruby variable.
