@@ -7,6 +7,10 @@
 # 
 class PEGParserGenerator
   
+  # 
+  # +input+ is IO. It must have working IO#pos, IO#pos= and IO#set_encoding()
+  # methods.
+  # 
   def call(input)
     # Initialize.
     @next_unique_number = 0
@@ -20,6 +24,12 @@ class PEGParserGenerator
   
 
       
+      # 
+      # +input+ is IO. It must have working IO#pos, IO#pos= and
+      # IO#set_encoding() methods.
+      # 
+      # It may raise YY_SyntaxError.
+      # 
       def yy_parse(input)
         @yy_input = input
         @yy_input.set_encoding("UTF-8", "UTF-8")
@@ -1061,6 +1071,12 @@ end
   def auxiliary_parser_code(main_parsing_method_name)
     code %(
       
+      # 
+      # +input+ is IO. It must have working IO#pos, IO#pos= and
+      # IO#set_encoding() methods.
+      # 
+      # It may raise YY_SyntaxError.
+      # 
       def yy_parse(input)
         @yy_input = input
         @yy_input.set_encoding("UTF-8", "UTF-8")
