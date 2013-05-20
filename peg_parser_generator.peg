@@ -165,7 +165,7 @@ rule-type <-
   ((!`<-/=` char) ` `)+ ;
 
 capture-target-variable: String <-
-  / Ruby-variable:val /
+  / Ruby-variable:val
   / `(` Ruby-variable:val `)`
   ;
 
