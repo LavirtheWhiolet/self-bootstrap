@@ -119,6 +119,13 @@ expr60: Code <-
   expr70:c `:` Ruby-variable:var { val = capture_semantic_value_code(var, c) } /
   expr70:val ;
 
+# Semantic value is Ruby variable.
+capture-target: String <-
+  `:` (
+    Ruby-variable:val /
+    `(` Ruby-variable:val `)`
+  ) ;
+
 # TODO: Rename "action" rule to "Ruby-code".
 
 expr70 <-
