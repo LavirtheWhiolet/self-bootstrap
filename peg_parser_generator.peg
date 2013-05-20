@@ -82,7 +82,7 @@ expr30: Code <-
   # One-side bracket.
   { code_parts = [] } 
   (
-    / expr60:code_part  { code_parts.add code_part }
+    / expr60:[code_part]  { code_parts.add code_part }
     / `]`  { code_parts = [sequence_code(code_parts)] }
   )+
   {val = sequence_code(code_parts)} ;
@@ -116,7 +116,7 @@ expr30: Code <-
 
 expr60: Code <-
   # Capture semantic value.
-  expr70:c `:` capture-target-variable:var { val = capture_semantic_value_code(var, c) } /
+  expr70:c `:` capture-target-variable:[var] { val = capture_semantic_value_code(var, c) } /
   expr70:val ;
 
 # TODO: Rename "action" rule to "Ruby-code".
@@ -142,7 +142,7 @@ expr90: Code <-
   # Parentheses.
   `(` expr:val `)` /
   # Text capture.
-  `<` expr:c `>` `:` capture-target-variable:var { val = capture_text_code(var, c) } /
+  `<` expr:c `>` `:` capture-target-variable:[var] { val = capture_text_code(var, c) } /
   # 
   expr100:val ;
 
@@ -165,9 +165,9 @@ rule-type <-
   ((!`<-/=` char) ` `)+ ;
 
 capture-target-variable: String <-
-  / Ruby-variable:val
-  / `(` Ruby-variable:val `)`
-  / `[` Ruby-variable:val `]`
+  / Ruby-variable:[val]
+  / `(` Ruby-variable:[val] `)`
+  / `[` Ruby-variable:[val] `]`
   ;
 
 ---- Lexemes ----
