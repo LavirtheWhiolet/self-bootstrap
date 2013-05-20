@@ -215,6 +215,7 @@ action-body <-
 `+` <- "+" ` `;
 `&` <- "&" ` `;
 `!` <- "!" ` `;
+`@` <- "@" ` `;
 
 `char` <- "char" !nonterminal-middle ` `;
 keyword <-
