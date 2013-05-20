@@ -142,7 +142,7 @@ expr90: Code <-
   # Parentheses.
   `(` expr:val `)` /
   # Text capture.
-  `<` expr:c `>` `:` capture-target-variable:var { val = capture_text_code(var, c) } /
+  `<` expr:c `>` `:` capture-target-variable:(var) { val = capture_text_code(var, c) } /
   # 
   expr100:val ;
 
