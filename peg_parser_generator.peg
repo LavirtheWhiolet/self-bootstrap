@@ -629,12 +629,16 @@ newline <-
       
     end
     
-    def initialize(nonterminal)
+    def initialize(nonterminal, source_pos)
       @nonterminal = nonterminal
+      @source_pos = source_pos
     end
     
     # Nonterminal associated with this UnknownMethodCall.
     attr_reader :nonterminal
+    
+    # Position in source which resulted in this UnknownMethodCall.
+    attr_reader :source_pos
     
     def to_s
       raise CodeCanNotBeDetermined.new self
