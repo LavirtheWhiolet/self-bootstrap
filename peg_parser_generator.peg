@@ -153,7 +153,7 @@ expr90: Code <-
 expr100: Code <-
   char-range:r  { val = code "yy_char_range(#{r.begin.dump}, #{r.end.dump})" } /
   string:s  { val = code "yy_string(#{s.dump})" } /
-  nonterminal:n  { val = UnknownMethodCall[n] } /
+  @:pos nonterminal:n  { val = UnknownMethodCall[n, pos] } /
   `char` { val = code "@yy_input.getc" } /  # IO#getc returns nil at end of input. That's OK for us.
   action:a  { val = code "begin \n #{a} \n true \n end" } /  # Newline must be present after action's body because it may include comments.
   `$` { val = code "@yy_input.eof?" } /
