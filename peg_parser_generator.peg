@@ -56,7 +56,7 @@ grammar <-
   } ;
 
 expr: Code <-
-  expr20:val ;
+  expr20:(val) ;
 
 expr20: Code <-
   # Ordered choice.
@@ -82,7 +82,7 @@ expr30: Code <-
   # One-side bracket.
   { code_parts = [] } 
   (
-    / expr60:code_part  { code_parts.add code_part }
+    / expr60:(code_part)  { code_parts.add code_part }
     / `]`  { code_parts = [sequence_code(code_parts)] }
   )+
   {val = sequence_code(code_parts)} ;
