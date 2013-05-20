@@ -10,5 +10,4 @@
 - Byte parsing expression ("FF DE DDh"). Interpret the expression as a single big number.
 - Code#+(string).
 - Arguments of rules ("rule(arg1, arg2) = ...").
-- Unicode ellipsis character (U+2026) as alternative to "..." in
-  "{... <code> ...}" literal.
+- Unicode ellipsis character (U+2026) as alternative to "..." in "{... <code> ...}" literal.
