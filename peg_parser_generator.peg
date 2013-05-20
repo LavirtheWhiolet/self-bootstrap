@@ -412,6 +412,8 @@ newline <-
       # +input+ is IO. It must have working IO#pos, IO#pos= and
       # IO#set_encoding() methods.
       # 
+      # It may raise YY_SyntaxError.
+      # 
       def yy_parse(input)
         @yy_input = input
         @yy_input.set_encoding("UTF-8", "UTF-8")
