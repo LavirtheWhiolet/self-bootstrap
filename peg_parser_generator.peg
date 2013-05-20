@@ -8,6 +8,10 @@
 # 
 class PEGParserGenerator
   
+  # 
+  # +input+ is IO. It must have working IO#pos, IO#pos= and IO#set_encoding()
+  # methods.
+  # 
   def call(input)
     # Initialize.
     @next_unique_number = 0
