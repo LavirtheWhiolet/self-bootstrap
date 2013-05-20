@@ -645,7 +645,7 @@ newline <-
     end
     
     def inspect
-      "#<UnknownMethodCall: @nonterminal=#{@nonterminal.inspect}>"
+      "#<UnknownMethodCall: @nonterminal=#{@nonterminal.inspect}, @source_pos=#{@source_pos}>"
     end
     
   end
