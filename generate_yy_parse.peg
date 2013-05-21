@@ -1,4 +1,2 @@
-ctor CodeString str:String;
-ctor UnknownMethodCall nonterminal:String source_pos:Pos;
-
-ctor Pos pos:Unsi;
+ctor code_string string:(string)
+ctor code_concatenation parts:(list code)
