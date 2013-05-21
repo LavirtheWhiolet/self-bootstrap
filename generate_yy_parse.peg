@@ -1,4 +1,4 @@
-ctor CodeString str
-ctor UnknownMethodCall nonterminal source_pos
+ctor CodeString str:String;
+ctor UnknownMethodCall nonterminal:String source_pos:Pos;
 
-ctor Pos 
+ctor Pos pos:Unsi;
