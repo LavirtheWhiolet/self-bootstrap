@@ -1,2 +1,9 @@
-ctor CodeString string:(String);
-ctor CodeConcatenation parts:(List Code);
+
+CodeString: String -> Code
+CodeString string = value
+
+CodeConcatenation: List Code -> Code
+CodeConcatenation parts = value
+
+Pos: Integer -> Pos
+Pos pos = value
