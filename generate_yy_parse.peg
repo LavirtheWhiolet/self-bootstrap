@@ -8,7 +8,7 @@ Axiom: for all x: CodeConcatenation, (parts x): List and all (parts x) (`:` _ Co
 (code1: CodeConcatenation) ++ (code2: CodeConcatenation) =
   CodeConcatenation ((parts code1) ++ (parts code2))
 (code1: CodeConcatenation) ++ (code2: Code) =
-  CodeConcatenation (add (parts2 code1) code2)
+  CodeConcatenation (add (parts code1) code2)
 (code1: Code) ++ (code2: CodeConcatenation) =
   CodeConcatenation (code1 :: (parts code2))
 (code1: Code) ++ (code2: Code) =
