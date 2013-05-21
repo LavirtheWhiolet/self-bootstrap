@@ -1,11 +1,8 @@
 
-CodeString: String -> Code
-CodeString string = value
+Ctor CodeString string.
+Axiom: for all x: CodeString, (string x): String.
 
-CodeConcatenation: List Code -> Code
-CodeConcatenation parts = value
+Ctor CodeConcatenation parts.
+Axiom: for all x: CodeConcatenation, (parts x): List and all (parts x) (`:` _ Code).
 
-Pos: Integer -> Pos
-Pos pos = value
-
-List: 
+Ctor Pos pos.
