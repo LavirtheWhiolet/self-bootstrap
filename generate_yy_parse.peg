@@ -1,2 +1,2 @@
-ctor CodeString string:(String)
-ctor CodeConcatenation parts:(List Code)
+ctor CodeString string:(String);
+ctor CodeConcatenation parts:(List Code);
