@@ -23,3 +23,4 @@ all list predicate =
   is x :: xs then (predicate x) and all xs predicate
   is EmptyList then true
 .
+
