@@ -39,4 +39,3 @@ read input:IO n:Natural = ...
 --
 Ctor List x xs.
 ->
-[name List][x][xs]
