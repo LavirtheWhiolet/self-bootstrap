@@ -45,7 +45,7 @@ Ctor List type.
 
 Enumerable type = {Array type, List type}.
 
-x `:` t:(Enumerable type) = all x (\item => item is type).
+x `:` (Enumerable type) = all x (\item => item is type).
 
 select list:(Enumerable _) predicate =
   if empty list then
