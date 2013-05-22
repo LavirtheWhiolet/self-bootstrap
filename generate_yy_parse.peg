@@ -11,4 +11,3 @@ code1:(Code) + code2:(Code) =
   CodeConcatenation (code1 :: code2 :: EmptyList).
 
 Ctor Pos pos:Natural.
-
