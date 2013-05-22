@@ -20,7 +20,7 @@ Ctor item :: list.
 
 all list predicate =
   if list:
-  is x :: xs then (predicate x) and all xs predicate
-  is EmptyList then true
+    is x :: xs then (predicate x) and all xs predicate
+    is EmptyList then true
 .
 
