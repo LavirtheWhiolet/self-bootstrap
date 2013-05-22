@@ -39,3 +39,21 @@ read input:IO n:Natural = ...
 --
 Ctor List x xs.
 ->
+
+Ctor Array type.
+Ctor List type.
+
+Enumerable type = Array type | List type.
+
+x `:` t:(Enumerable type) = all x (\item => item is type).
+
+select list:(Enumerable _) predicate =
+  if empty list then
+    []
+  else
+    item = first list
+    rest_result = select (rest list) predicate
+    if predicate item then
+      item :: rest_result
+    else
+      rest_result
