@@ -1,23 +1,10 @@
+Code = CodeString | CodeConcatenation.
 
-Ctor CodeString string.
-Axiom: for all x: CodeString, (string x): String.
+Ctor CodeString str.
 
 Ctor CodeConcatenation parts.
-Axiom: for all x: CodeConcatenation, (parts x): List and all (parts x) (`:` _ Code).
+Theorem: c = CodeConcatenation parts -> all (parts c) (_ `is` Code)
 
-(code1 @ CodeConcatenation) ++ (code2 @ CodeConcatenation) =
-  CodeConcatenation ((parts code1) ++ (parts code2))
-(code1 @ CodeConcatenation) ++ (code2 @ Code) =
-  CodeConcatenation (add (parts code1) code2)
-(code1 @ Code) ++ (code2 @ CodeConcatenation) =
-  CodeConcatenation (code1 :: (parts code2))
-(code1 @ Code) ++ (code2 @ Code) =
-  CodeConcatenation (code1 :: code2 :: EmptyList)
-
-Ctor Pos pos.
-
---
-x match y ???
-
---
+code1:(CodeConcatenation) + code2:(Code) =
+  CodeConcatenation (append (parts code1) code2).
 
