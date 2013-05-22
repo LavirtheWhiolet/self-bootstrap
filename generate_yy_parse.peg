@@ -11,3 +11,6 @@ code1:(Code) + code2:(Code) =
   CodeConcatenation (code1 :: code2 :: EmptyList).
 
 Ctor Pos pos:Natural.
+
+Ctor List type.
+x `is` List type = all x (\item -> item `is` type).
