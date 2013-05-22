@@ -18,9 +18,9 @@ x `is` List type = all x (\item -> item `is` type).
 Ctor EmptyList.
 Ctor item :: list.
 
-all list predicate =
+all list predicate = (
   if list:
     is x :: xs then (predicate x) and all xs predicate
     is EmptyList then true
-.
+)
 
