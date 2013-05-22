@@ -29,3 +29,9 @@ link data codes:(List Code) =
     x :: xs then ...
     EmptyList then EmptyList
 .
+
+Native ctor IO.
+
+open World filename:String : IO = ...
+
+read input:IO n:Natural = ...
