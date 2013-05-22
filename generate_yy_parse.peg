@@ -35,3 +35,8 @@ Native ctor IO.
 open World filename:String : IO = ...
 
 read input:IO n:Natural = ...
+
+--
+Ctor List x xs.
+->
+[name List][x][xs]
