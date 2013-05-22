@@ -3,8 +3,13 @@ Code = CodeString | CodeConcatenation.
 Ctor CodeString str.
 
 Ctor CodeConcatenation parts.
-Theorem: c = CodeConcatenation parts -> all (parts c) (_ `is` Code)
+Theorem: forall c, parts: c = CodeConcatenation parts -> all (parts c) (_ `is` Code)
 
-code1:(CodeConcatenation) + code2:(Code) =
+code1:(CodeConcatenation) + code2:(Code) : Code =
   CodeConcatenation (append (parts code1) code2).
+code1:(Code) + code2:(Code) =
+  CodeConcatenation (code1 :: code2 :: EmptyList).
+
+Ctor Pos pos.
+Theorem: forall p, pos: p = Pos pos -> pos `is` Natural.
 
