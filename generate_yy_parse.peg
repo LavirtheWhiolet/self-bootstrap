@@ -43,7 +43,7 @@ Ctor List x xs.
 Ctor Array type.
 Ctor List type.
 
-Enumerable type = Array type | List type.
+Enumerable type = {Array type, List type}.
 
 x `:` t:(Enumerable type) = all x (\item => item is type).
 
