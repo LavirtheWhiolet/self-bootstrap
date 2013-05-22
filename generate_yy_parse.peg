@@ -24,3 +24,4 @@ all list predicate =
     is EmptyList then true
 .
 
+link data (x:(Code) :: xs:(List Code)) = ...
