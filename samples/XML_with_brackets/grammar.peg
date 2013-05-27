@@ -6,11 +6,11 @@
 
 xml = ` ` tag ` ` $ ;
 
-tag = s:tag-start (!tag-end (tag / char))* e:tag-end &{ s == e } ;
+tag = tag-start:s (!tag-end (tag / char))* tag-end:e &{ s == e } ;
 
-tag-start: TagName = "[" val:< (!"]" char)* > "]" ;
+tag-start: TagName = "[" < (!"]" char)* >:val "]" ;
 
-tag-end: TagName = "[/" val:< (!"]" char)* > "]" ;
+tag-end: TagName = "[/" < (!"]" char)* >:val "]" ;
 
 # TODO: Tag attributes.
 
