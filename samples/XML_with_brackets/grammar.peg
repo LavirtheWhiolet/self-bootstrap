@@ -44,5 +44,5 @@ begin
   File.open(file) { |io| yy_parse(io) }
   STDERR.puts %("#{file}": XML is well-formed)
 rescue YY_SyntaxError
-  abort %(#{file}": XML is NOT well-formed)
+  abort %("#{file}": XML is NOT well-formed)
 end
