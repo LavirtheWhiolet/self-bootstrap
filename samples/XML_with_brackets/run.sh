@@ -1,6 +1,6 @@
 #!/bin/sh
 
-dir=samples/parser_xml_s_kwadratny_skobkamy
+dir=samples/XML_with_brackets
 parser=generated/parser.rb
 
 ruby peg_parser_generator.rb ${dir}/grammar.peg > ${parser} &&
