@@ -41,7 +41,7 @@ TagName = String
 
 begin
   File.open(ARGV[0]) { |io| yy_parse(io) }
-  STDERR.puts %(Horoshy XML, batya govorit malaca)
+  STDERR.puts %(XML is well-formed)
 rescue YY_SyntaxError
-  abort %(Plohoy XML, oche plohoy, ya dumal, namnogo luche budet eto vse)
+  abort %(XML is NOT well-formed)
 end
