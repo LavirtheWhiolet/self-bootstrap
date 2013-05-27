@@ -10,7 +10,7 @@ class Value
 end
 
 
-def ctor(name)
+def ctor(name, *args)
   eval %(
     def #{name}(*args)
     end
