@@ -40,8 +40,9 @@ TagName = String
 
 
 begin
-  File.open(ARGV[0]) { |io| yy_parse(io) }
-  STDERR.puts %(XML is well-formed)
+  file = ARGV[0] or raise %(file is not specified)
+  File.open(file) { |io| yy_parse(io) }
+  STDERR.puts %("#{file}": XML is well-formed)
 rescue YY_SyntaxError
-  abort %(XML is NOT well-formed)
+  abort %(#{file}": XML is NOT well-formed)
 end
