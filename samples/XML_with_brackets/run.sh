@@ -5,6 +5,8 @@ parser=generated/parser.rb
 
 ruby peg_parser_generator.rb ${dir}/grammar.peg > ${parser} &&
 (
-  ruby ${parser} ${dir}/sample_input.txt
-  ruby ${parser} ${dir}/bad_sample_input.txt
+  file=${dir}/sample_input.txt
+  echo "${file}: " && ruby ${parser} ${file}
+  file=${dir}/bad_sample_input.txt
+  echo "${file}: " && ruby ${parser} ${file}
 )
