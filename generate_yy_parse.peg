@@ -4,8 +4,10 @@ module Concatenable
   
   def + other
     case other
-    when Concatenation then Concatenation.new([self] + other.parts)
-    else Concatenation.new([self, other])
+    when Concatenation
+      Concatenation.new([self] + other.parts)
+    else
+      Concatenation.new([self, other])
     end
   end
   
@@ -21,8 +23,10 @@ class Concatenation
   
   def + other
     case other
-    when Concatenation then Concatenation.new(self.parts + other.parts)
-    else Concatenation.new(self.parts + [other])
+    when Concatenation then
+      Concatenation.new(self.parts + other.parts)
+    else
+      Concatenation.new(self.parts + [other])
     end
   end
   
