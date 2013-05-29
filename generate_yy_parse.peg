@@ -17,6 +17,9 @@ class Concatenation
   
   include Concatenable
   
+  # 
+  # +parts+ is value for #parts.
+  # 
   def initialize(parts)
     @parts = parts
   end
@@ -30,6 +33,7 @@ class Concatenation
     end
   end
   
+  # Array of Concatenable.
   attr_reader :parts
   
 end
