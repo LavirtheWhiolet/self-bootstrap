@@ -13,6 +13,7 @@ module Concatenable
   
 end
 
+
 class Concatenation
   
   include Concatenable
