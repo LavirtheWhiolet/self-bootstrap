@@ -1,0 +1,33 @@
+{...
+
+module Concatenable
+  
+  def + other
+    case other
+    when Concatenation then Concatenation.new([self] + other.parts)
+    else Concatenation.new([self, other])
+    end
+  end
+  
+end
+
+class Concatenation
+  
+  include Concatenable
+  
+  def initialize(parts)
+    @parts = parts
+  end
+  
+  def + other
+    case other
+    when Concatenation then Concatenation.new(self.parts + other.parts)
+    else Concatenation.new(self.parts + [other])
+    end
+  end
+  
+  attr_reader :parts
+  
+end
+
+}...
