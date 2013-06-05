@@ -10,3 +10,4 @@
 - Code#+(string).
 - Arguments of rules ("rule(arg1, arg2) = ...").
 - Unicode ellipsis character (U+2026) as alternative to "..." in "{... <code> ...}" literal.
+- "^" nonterminal which succeeds at the beginning of input only.
