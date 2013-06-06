@@ -13,3 +13,17 @@ macro-name-middle =
   / "0"..."9"
   ;
 
+` ` = (white-space / comment)* ;
+
+commnet =
+  / "//" char*? (newline / $)
+  / "/*" char*? "*/"
+  ;
+
+white-space = " " ;
+
+newline =
+  / U+000D U+000A
+  / U+000D
+  / U+000A
+  ;
