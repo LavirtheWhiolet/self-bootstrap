@@ -1,4 +1,7 @@
 
+macro-name: String =
+  < macro-name-start macro-name-middle* >:val ;
+
 macro-name-start =
   / "a"..."z"
   / "A"..."Z"
