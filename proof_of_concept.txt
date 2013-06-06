@@ -2,8 +2,8 @@
 text =
   text-element* ;
 
-text-element: String =
+text-element =
   / <=(newline) "#define" white-space+ macro-name `(` ... `)`
-  / macro-call:(call) { ... }
+  / macro-call:(call)
   / char:(val)
   ;
