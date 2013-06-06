@@ -1,4 +1,7 @@
 
+macro-definition =
+  (^ / 
+
 string: String =
   < '"' (("\" char) / (!'"' char))* '"' >:val ;
 
