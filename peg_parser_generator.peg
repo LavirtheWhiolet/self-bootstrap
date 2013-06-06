@@ -157,6 +157,7 @@ expr100: Code <-
   `char` { val = code "@yy_input.getc" } /  # IO#getc returns nil at end of input. That's OK for us.
   action:a  { val = code "begin \n #{a} \n true \n end" } /  # Newline must be present after action's body because it may include comments.
   `$` { val = code "@yy_input.eof?" } /
+  `^` { val = code "(@yy_input.pos == 0)" } /
   `@` { val = code "@yy_input.pos" } ;
 
 rule: [Nonterminal, MethodName, Code] <-
