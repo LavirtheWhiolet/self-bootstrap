@@ -1,5 +1,12 @@
 
-
+list: JSON =
+  / (
+      { val = [] }
+      (
+        < white-space* >:indent { common_indent ||= indent } &{ indent == common_indent } "-" white-space+ value:(item) { val << item }
+      )+
+    )
+  ;
 
 comment =
   "#" char*? newline ;
@@ -33,3 +40,8 @@ newline =
   U+2028 /
   U+2029 ;
 
+{...
+
+JSON = String
+
+}...
