@@ -9,6 +9,8 @@ list: JSON =
     )
   ;
 
+` ` = (comment / white-space)* ;
+
 comment =
   "#" char*? newline ;
 
