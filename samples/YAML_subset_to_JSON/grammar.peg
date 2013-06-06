@@ -1,13 +1,5 @@
 
-list: JSON =
-  / (
-      { val = [] }
-      (
-        < white-space* >:indent { common_indent ||= indent } &{ indent == common_indent } "-" white-space+ value:(item) { val << item }
-      )+
-      { val = "[" + val.join(", ") + "]" }
-    )
-  ;
+
 
 ` ` = (comment / white-space)* ;
 
