@@ -2,6 +2,11 @@
 macro-definition =
   (^ / 
 
+comment: String =
+  / < "//" char*? (newline / $) >:val
+  / < "/*" char*? "*/" >:val
+  ;
+
 string: String =
   < '"' (("\" char) / (!'"' char))* '"' >:val ;
 
@@ -17,11 +22,6 @@ macro-name-start =
 macro-name-middle =
   / macro-name-start
   / "0"..."9"
-  ;
-
-comment =
-  / "//" char*? (newline / $)
-  / "/*" char*? "*/"
   ;
 
 white-space = " " ;
