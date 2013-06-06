@@ -1,6 +1,0 @@
-
-text-element: String =
-  / <=newline "#define" white-space+ macro-name `(` ... `)`
-  / macro-call:(call) { ... }
-  / char:(val)
-  ;
