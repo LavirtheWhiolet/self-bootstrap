@@ -15,7 +15,7 @@ macro-name-middle =
 
 ` ` = (white-space / comment)* ;
 
-commnet =
+comment =
   / "//" char*? (newline / $)
   / "/*" char*? "*/"
   ;
