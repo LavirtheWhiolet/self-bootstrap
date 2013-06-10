@@ -466,8 +466,15 @@ newline <-
       
       class YY_LookBehindPositions
         
+        require 'set'
+        
         def initialize(ids_count)
           @ids_count = ids_count
+          @positions = []
+        end
+        
+        def << position
+          @positions << 
         end
         
       end
