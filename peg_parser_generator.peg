@@ -463,6 +463,14 @@ newline <-
       
       class YY_SyntaxError < Exception
       end
+      
+      class YY_LookBehindPositions
+        
+        def initialize()
+          
+        end
+        
+      end
     )
   end
   
