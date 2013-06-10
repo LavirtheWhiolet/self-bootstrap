@@ -10,6 +10,5 @@
 - Code#+(string).
 - Arguments of rules ("rule(arg1, arg2) = ...").
 - Unicode ellipsis character (U+2026) as alternative to "..." in "{... <code> ...}" literal.
-- "^" nonterminal which succeeds at the beginning of input only.
 - "insert { ... }" which inserts result of specified code into input right after current position. Think about its syntax (I think "insert(...)" or even " insert ..." is better).
 - "{ lang: ... }" - a code which is inserted into resultant parser only if "lang" coincides with specified one".
