@@ -1,6 +1,6 @@
 
 macro-definition =
-  (^ / &(at @last_newline_pos: newline)) `#define` macro-name:(macro_name) ;
+  (^ / &(at @last_newline_pos: newline)) "#define" white-space* macro-name:(macro_name) ;
 
 comment: String =
   / < "//" char*? (@:(@last_newline_pos) newline / $) >:val
