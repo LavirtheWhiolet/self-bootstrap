@@ -29,7 +29,10 @@ macro-name-middle =
 white-space = " " ;
 
 newline =
-  / U+000D U+000A
-  / U+000D
-  / U+000A
-  ;
+  @:x
+  (
+    / U+000D U+000A
+    / U+000D
+    / U+000A
+  )
+  { @last_newline_pos = x } ;
