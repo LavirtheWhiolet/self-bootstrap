@@ -464,26 +464,18 @@ newline <-
       class YY_SyntaxError < Exception
       end
       
-      class YY_LookBehindPosition
+      class YY_PotentialLookBehindPositions
         
-        
-        
-      end
-      
-      class YY_LookBehindPositions
-        
-        require 'set'
-        
-        def initialize(ids_count)
-          @ids_count = ids_count
-          @positions = []
+        def initialize()
+          @impl = []
         end
         
         def << position
-          @positions << 
+          @impl << position
         end
         
       end
+      
     )
   end
   
