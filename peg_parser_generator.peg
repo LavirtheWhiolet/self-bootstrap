@@ -158,11 +158,17 @@ expr100: Code <-
   / action:a  { val = code "begin \n #{a} \n true \n end" }  # Newline must be present after action's body because it may include comments.
   / `$` { val = code "@yy_input.eof?" }
   / `^` { val = code "(@yy_input.pos == 0)" }
-  / ( `@``=` Ruby-variable:(pos_variable) / `at` Ruby-variable:(pos_variable) ) `:`? { val = code "(@yy_input.pos = #{pos_variable}; true)" }
+  / set-position:(val)
   / `@` { val = code "@yy_input.pos" }
   ;
 
-
+set-position: Code <-
+  (
+    / `@``=` Ruby-variable:(pos_variable)
+    / `at` Ruby-variable:(pos_variable)
+  ) `:`?
+  { val = code "(@yy_input.pos = #{pos_variable}; true)" }
+  ;
 
 rule: [Nonterminal, MethodName, Code] <-
   nonterminal:n (`:` rule-type)? `<-/=` expr:c `;`
