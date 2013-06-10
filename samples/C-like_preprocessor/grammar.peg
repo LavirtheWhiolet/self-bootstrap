@@ -1,4 +1,9 @@
 
+any-char: String =
+  / newline:(val)
+  / char:(val)
+  ;
+
 comment: String =
   / < "//" char*? ($ / @:(@last_newline_pos) newline) >:val
   / < "/*" char*? "*/" >:val
