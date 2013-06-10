@@ -224,6 +224,7 @@ action-body <-
 `&` <- "&" ` `;
 `!` <- "!" ` `;
 `@` <- "@" ` `;
+`=` <- "=" ` `;
 
 `char` <- "char" !nonterminal-middle ` `;
 `at` <- "at" !nonterminal-middle ` `;
