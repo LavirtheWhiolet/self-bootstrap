@@ -5,5 +5,5 @@ text =
 text-element =
   / <=(newline) "#define" white-space+ macro-name `(` ... `)`
   / macro-call:(call)
-  / char:(val)
+  / (<=|) char:(val)
   ;
