@@ -464,6 +464,12 @@ newline <-
       class YY_SyntaxError < Exception
       end
       
+      class YY_LookBehindPosition
+        
+        
+        
+      end
+      
       class YY_LookBehindPositions
         
         require 'set'
