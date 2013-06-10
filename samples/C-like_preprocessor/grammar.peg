@@ -28,6 +28,7 @@ macro-name-middle =
 
 white-space = " " ;
 
+# Sets @last_newline_pos in case of success.
 newline =
   @:x
   (
