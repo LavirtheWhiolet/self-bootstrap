@@ -1,5 +1,13 @@
+{...
+#!/usr/bin/ruby
+# encoding: UTF-8
 
+@last_newline_pos = 0
 
+}..
+
+macro-definition =
+  (^ / &(at @last_newline_pos: newline))
 
 any-char: String =
   / newline:(val)  # It is made separate for tracing newline positions.
