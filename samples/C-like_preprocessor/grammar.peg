@@ -13,7 +13,7 @@ string: String =
 `#define` = "#" white-space* "define" white-space* ;
 
 macro-name: String =
-  < macro-name-start macro-name-middle* >:val ` ` ;
+  < macro-name-start macro-name-middle* >:val ;
 
 macro-name-start =
   / "a"..."z"
