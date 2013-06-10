@@ -9,6 +9,8 @@
 macro-definition =
   (^ / &(at @last_newline_pos: newline))
 
+` ` = (" " / newline)* ;
+
 any-char: String =
   / newline:(val)  # It is made separate for tracing newline positions.
   / char:(val)
