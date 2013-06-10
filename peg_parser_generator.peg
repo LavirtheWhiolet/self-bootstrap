@@ -151,14 +151,20 @@ expr90: Code <-
   expr100:val ;
 
 expr100: Code <-
-  char-range:r  { val = code "yy_char_range(#{r.begin.dump}, #{r.end.dump})" } /
-  string:s  { val = code "yy_string(#{s.dump})" } /
-  nonterminal:n  { val = UnknownMethodCall[n] } /
-  `char` { val = code "@yy_input.getc" } /  # IO#getc returns nil at end of input. That's OK for us.
-  action:a  { val = code "begin \n #{a} \n true \n end" } /  # Newline must be present after action's body because it may include comments.
-  `$` { val = code "@yy_input.eof?" } /
-  `^` { val = code "(@yy_input.pos == 0)" } /
-  `@` { val = code "@yy_input.pos" } ;
+  / char-range:r  { val = code "yy_char_range(#{r.begin.dump}, #{r.end.dump})" }
+  / string:s  { val = code "yy_string(#{s.dump})" }
+  / nonterminal:n  { val = UnknownMethodCall[n] }
+  / `char` { val = code "@yy_input.getc" }  # IO#getc returns nil at end of input. That's OK for us.
+  / action:a  { val = code "begin \n #{a} \n true \n end" }  # Newline must be present after action's body because it may include comments.
+  / `$` { val = code "@yy_input.eof?" }
+  / `^` { val = code "(@yy_input.pos == 0)" }
+  / (
+      / `@``=` Ruby-variable:(pos_variable)
+      / `at` Ruby-variable:(pos_variable)
+    ) `:`?
+    { val = code "(@yy_input.pos = #{pos_variable}; true)" }
+  / `@` { val = code "@yy_input.pos" }
+  ;
 
 rule: [Nonterminal, MethodName, Code] <-
   nonterminal:n (`:` rule-type)? `<-/=` expr:c `;`
@@ -201,6 +207,7 @@ action-body <-
   "{" (action-body / char)*? "}" ;
 
 `<-/=` <- ("<-" / "=" / U+2190) ` `;
+`:` <- ":" ` `;
 `;` <- ";" ` `;
 `/` <- "/" ` `;
 `$` <- "$" ` `;
@@ -219,10 +226,14 @@ action-body <-
 `&` <- "&" ` `;
 `!` <- "!" ` `;
 `@` <- "@" ` `;
+`=` <- "=" ` `;
 
 `char` <- "char" !nonterminal-middle ` `;
+`at` <- "at" !nonterminal-middle ` `;
 keyword <-
-  `char` ;
+  / `char`
+  / `at`
+  ;
 
 Ruby-variable: String <-
   < "@"? Ruby-variable-start (Ruby-variable-middle)* >:val ` `;
