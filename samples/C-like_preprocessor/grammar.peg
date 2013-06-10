@@ -3,7 +3,7 @@ macro-definition =
   (^ / 
 
 comment: String =
-  / < "//" char*? (newline / $) >:val
+  / < "//" char*? (@:(@last_newline_pos) newline / $) >:val
   / < "/*" char*? "*/" >:val
   ;
 
