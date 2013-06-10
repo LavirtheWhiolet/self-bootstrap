@@ -5,7 +5,7 @@ comment: String =
   ;
 
 string: String =
-  < '"' (("\" char) / (!'"' char))* '"' >:val ;
+  < '"' ("\" char / char)*? '"' >:val ;
 
 macro-name: String =
   < macro-name-start macro-name-middle* >:val ;
