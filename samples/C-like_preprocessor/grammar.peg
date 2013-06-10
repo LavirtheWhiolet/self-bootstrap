@@ -1,6 +1,6 @@
 
 macro-definition =
-  (^ / 
+  (^ / &(at @last_newline_pos: newline)) 
 
 comment: String =
   / < "//" char*? (@:(@last_newline_pos) newline / $) >:val
