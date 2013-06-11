@@ -14,7 +14,8 @@ end
 text-element: String =
   / macro-definition:(val)
   / macro-name:(macro_name) { val = @macros[macro_name] or macro_name }
-  / newline:(val)  # 
+  / newline:(val)  # It is required to track last newline position.
+  / char:(val)
   ;
 
 macro-definition: String =
