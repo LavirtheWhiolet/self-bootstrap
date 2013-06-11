@@ -16,7 +16,7 @@ text =
 # Semantic value is processed text element.
 text-element: String =
   / macro-definition
-  / macro-name:(macro_name) { val = @macros[macro_name] or macro_name }
+  / macro-name:(macro_name) { val = (@macros[macro_name] or macro_name) }
   / < newline >:val  # It is required to track last newline position.
   / < char >:val
   ;
