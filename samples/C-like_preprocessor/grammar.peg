@@ -5,7 +5,7 @@
 @last_newline_pos = 0
 @macros = Hash
 
-}..
+}...
 
 macro-definition =
   { macro_args = [] }
