@@ -22,3 +22,5 @@ typedef struct
         size_t size;
 }
 list_t;
+
+#undef __INPUT_H_
