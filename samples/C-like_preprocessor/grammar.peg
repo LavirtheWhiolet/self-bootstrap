@@ -2,12 +2,15 @@
 #!/usr/bin/ruby
 # encoding: UTF-8
 
-def process input
-  @last_newline_pos = 0
-  @macros = Hash.new
-  yy_parse(input)
-end
 
+class Preprocessor
+
+  def process(input, macros = Hash.new)
+    @last_newline_pos = 0
+    @macros = macros
+    yy_parse(input)
+  end
+  
 }...
 
 text =
