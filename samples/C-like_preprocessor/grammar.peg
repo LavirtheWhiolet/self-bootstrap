@@ -16,7 +16,6 @@ macro-definition =
   (
     / " "
     / newline
-    / comment
   )* ;
 
 macro-body: String =
