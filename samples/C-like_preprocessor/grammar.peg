@@ -15,8 +15,8 @@ text =
 
 # Semantic value is processed text element.
 text-element: String =
-  / macro-definition
-  / macro-undefinition
+  / macro-definition { val = "" }
+  / macro-undefinition { val = "" }
   / macro-name:(macro_name) { val = (@macros[macro_name] or macro_name) }
   / string:(val)
   / comment:(val)
