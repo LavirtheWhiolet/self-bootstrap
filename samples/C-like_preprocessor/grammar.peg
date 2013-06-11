@@ -5,7 +5,7 @@
 
 class Preprocessor
 
-  def process(input, macros = Hash.new)
+  def call(input, macros = Hash.new)
     @last_newline_pos = 0
     @macros = macros
     yy_parse(input)
@@ -94,8 +94,10 @@ line-end =
 end
 
 
-File.open(ARGV[0]) do |input|
-  
+begin
+  File.open(ARGV[0]) do |input|
+    Preprocessor.new.(input)
+  end
 end
 
 }...
