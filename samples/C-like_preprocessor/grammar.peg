@@ -9,8 +9,7 @@
 
 macro-definition: String =
   { macro_args = [] }
-  (^ / &(at @last_newline_pos: newline))
-  "#" ` ` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body)
+  (^ / &(at @last_newline_pos: newline)) "#" ` ` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body)
   newline
   { @macros[macro_name] = macro_body }
   { val = "" }
@@ -21,17 +20,6 @@ macro-definition: String =
     / " "
     / newline
   )* ;
-
-macro-body: String =
-  < ("\" char / !newline char)* >:val ;
-
-comment: String =
-  / < "//" char*? ($ / @:(@last_newline_pos) newline) >:val
-  / < "/*" char*? "*/" >:val
-  ;
-
-string: String =
-  < '"' ("\" char / char)*? '"' >:val ;
 
 macro-name: String =
   < macro-name-start macro-name-middle* >:val ;
@@ -46,6 +34,17 @@ macro-name-middle =
   / macro-name-start
   / "0"..."9"
   ;
+
+macro-body: String =
+  < ("\" char / !newline char)* >:val ;
+
+comment: String =
+  / < "//" char*? ($ / @:(@last_newline_pos) newline) >:val
+  / < "/*" char*? "*/" >:val
+  ;
+
+string: String =
+  < '"' ("\" char / char)*? '"' >:val ;
 
 # NOTE: It also sets @last_newline_pos in case of success.
 newline =
