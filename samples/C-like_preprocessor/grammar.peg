@@ -11,11 +11,9 @@ macro-definition =
   (^ / &(at @last_newline_pos: newline))
   "#define" ` ` macro-name:(macro_name)
 
-` ` = (" " / newline)* ;
-
-any-char: String =
-  / newline:(val)  # It is made separate for tracing newline positions.
-  / char:(val)
+white-space =
+  / " "
+  / newline
   ;
 
 comment: String =
