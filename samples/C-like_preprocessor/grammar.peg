@@ -15,7 +15,8 @@ class Preprocessor
 }...
 
 text =
-  (text-element:(element) { print element })* ;
+  { val = "" }
+  (text-element:e { val << e })* ;
 
 # Semantic value is processed text element.
 text-element: String =
@@ -105,10 +106,8 @@ line-end =
 end
 
 
-begin
-  File.open(ARGV[0]) do |input|
-    Preprocessor.new.(input)
-  end
+File.open(ARGV[0]) do |input|
+  print Preprocessor.new.(input)
 end
 
 }...
