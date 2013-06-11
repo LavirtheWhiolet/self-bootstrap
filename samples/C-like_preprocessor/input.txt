@@ -6,24 +6,24 @@
 #define COPYRIGHT_FIELD \
         const char copyright[] = COPYRIGHT;
 
-#define COMMON_ATTRIBUTES \
+#define COMMON_FIELDS \
         COPYRIGHT_FIELD \
         int field1; \
         int field2;
 
 typedef struct
 {
-        /* COMMON_ATTRIBUTES start here */
-        COMMON_ATTRIBUTES
-        /* COMMON_ATTRIBUTES end here */
+        /* COMMON_FIELDS start here */
+        COMMON_FIELDS
+        /* COMMON_FIELDS end here */
         const char *data;
 }
 buffer_t;
 
 typedef struct
 {
-        COMMON_ATTRIBUTES
-        const char eye_catcher[] = "COMMON_ATTRIBUTES end here";
+        COMMON_FIELDS
+        const char eye_catcher[] = "COMMON_FIELDS end here";
         size_t size;
 }
 list_t;
