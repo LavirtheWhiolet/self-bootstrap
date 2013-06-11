@@ -30,7 +30,10 @@ macro-definition =
   ;
 
 macro-undefinition =
-  `#` ;
+  `#` "undef" ` ` macro-name:(macro_name)
+  newline
+  { @macros.delete macro_name }
+  ;
 
 `#` =
   (^ / &(at @last_newline_pos: newline)) ` ` ;
