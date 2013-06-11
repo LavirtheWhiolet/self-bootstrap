@@ -26,14 +26,12 @@ text-element: String =
 macro-definition =
   `#` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body)
   newline
-  { @macros[macro_name] = macro_body }
-  ;
+  { @macros[macro_name] = macro_body } ;
 
 macro-undefinition =
   `#` "undef" ` ` macro-name:(macro_name)
   newline
-  { @macros.delete macro_name }
-  ;
+  { @macros.delete macro_name } ;
 
 `#` =
   (^ / &(at @last_newline_pos: newline)) ` ` ;
