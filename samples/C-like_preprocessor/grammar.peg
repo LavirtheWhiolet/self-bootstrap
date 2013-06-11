@@ -23,7 +23,7 @@ text-element: String =
   / macro-undefinition { val = "" }
   / macro-name:(macro_name)
     { 
-      if @macros.has_key macro_name then
+      if @macros.has_key? macro_name then
         val = Preprocessor.new.(StringIO.new(@macros[macro_name]), @macros.dup)
       else
         val = macro_name
