@@ -106,10 +106,8 @@ line-end =
 end
 
 
-begin
-  File.open(ARGV[0]) do |input|
-    Preprocessor.new.(input)
-  end
+File.open(ARGV[0]) do |input|
+  print Preprocessor.new.(input)
 end
 
 }...
