@@ -466,7 +466,7 @@ newline <-
       begin
         # Capture what has been parsed before the skipping.
         @yy_input.pos = )) + UnknownVariable[:start_pos] + code(%(
-        )) + UnknownVariable[:target, variable_name] + code(" << @yy_input.read(") + UnknownVariable[:end_pos] + code(" - ") + UnknownVariable[:start_pos] + code(")") + code(%(.force_encoding(Encoding::UTF_8)
+        )) + UnknownVariable[:target] + code(" << @yy_input.read(") + UnknownVariable[:end_pos] + code(" - ") + UnknownVariable[:start_pos] + code(")") + code(%(.force_encoding(Encoding::UTF_8)
         # Restart capturing from the end of the skipping.
         )) + UnknownVariable[:start_pos] + code(%( = @yy_input.pos
       end
