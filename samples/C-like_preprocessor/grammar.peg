@@ -1,6 +1,7 @@
 {...
 #!/usr/bin/ruby
 # encoding: UTF-8
+require 'stringio'
 
 
 class Preprocessor
@@ -20,7 +21,14 @@ text =
 text-element: String =
   / macro-definition { val = "" }
   / macro-undefinition { val = "" }
-  / macro-name:(macro_name) { val = (@macros[macro_name] or macro_name) }
+  / macro-name:(macro_name)
+    { 
+      if @macros.has_key macro_name then
+        val = Preprocessor.new.(StringIO.new(@macros[macro_name]), @macros.dup)
+      else
+        val = macro_name
+      end
+    }
   / string:(val)
   / comment:(val)
   / < newline >:val  # It is required to track last newline position.
