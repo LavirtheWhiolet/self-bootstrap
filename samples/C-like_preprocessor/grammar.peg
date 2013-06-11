@@ -32,6 +32,9 @@ macro-definition =
 macro-undefinition =
   `#` ;
 
+`#` =
+  (^ / &(at @last_newline_pos: newline)) ` ` ;
+
 ` ` =
   " "* ;
 
@@ -58,9 +61,6 @@ macro-body: String =
     )
     { val << c }
   )* ;
-
-preprocessor-directive-start =
-  (^ / &(at @last_newline_pos: newline)) "#" ;
 
 comment: String =
   / < "//" char*? ($ / newline) >:val
