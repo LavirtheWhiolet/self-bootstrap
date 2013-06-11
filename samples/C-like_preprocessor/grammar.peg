@@ -14,7 +14,7 @@ end
 text-element: String =
   / macro-definition:(val)
   / macro-name:(macro_name) { val = @macros[macro_name] or macro_name }
-  / char:(val)
+  / newline:(val)  # 
   ;
 
 macro-definition: String =
