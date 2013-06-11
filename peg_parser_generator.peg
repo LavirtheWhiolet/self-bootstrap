@@ -418,7 +418,7 @@ newline <-
         #{target_var} << @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
       end
     end))
-    # Link.
+    # Replace inner unknown variables (if possible).
     code = code.map do |code|
       # 
       if code.is_a? UnknownVariable
