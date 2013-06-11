@@ -15,7 +15,8 @@ class Preprocessor
 }...
 
 text =
-  (text-element:e { print e })* ;
+  { val = "" }
+  (text-element:e { val << e })* ;
 
 # Semantic value is processed text element.
 text-element: String =
