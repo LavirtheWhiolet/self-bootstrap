@@ -2,15 +2,18 @@
 #!/usr/bin/ruby
 # encoding: UTF-8
 
-@last_newline_pos = 0
-@macros = Hash.new
+def parse(input)
+  @last_newline_pos = 0
+  @macros = Hash.new
+  yy_parse(input)
+end
 
 }...
 
 # Semantic value is processed text element.
 text-element: String =
   / macro-definition:(val)
-  / macro-name:(macro_name) { val = ...
+  / macro-name:(macro_name) { val = @macros
 
 macro-definition: String =
   { macro_args = [] }
@@ -60,3 +63,6 @@ newline =
     / U+000A
   )
   { @last_newline_pos = x } ;
+
+{
+}
