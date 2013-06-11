@@ -67,6 +67,8 @@ macro-body: String =
   { val = "" }
   (
     (  
+      / < string >:c
+      / < comment >:c
       / "\" < newline >:c
       / < !newline char >:c
     )
