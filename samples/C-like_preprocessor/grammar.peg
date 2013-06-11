@@ -10,6 +10,9 @@ end
 
 }...
 
+text =
+  (text-element:(element) { print element })* ;
+
 # Semantic value is processed text element.
 text-element: String =
   / macro-definition:(val)
