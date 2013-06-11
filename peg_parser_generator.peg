@@ -147,8 +147,9 @@ expr90: Code <-
   `(` expr:val `)` /
   # Text capture.
   `<` expr:c `>` `:` capture-target-variable:var { val = capture_text_code(var, c) } /
-  # Skip text.
   { var = nil } (var:Ruby-variable `:`)? `<` c:expr `>` { val = capture_text_code(c, var) } /
+  # Skip text.
+  { var = nil } `>` c:expr `<` { val = skip_text_code(c, var) } /
   # 
   expr100:val ;
 
