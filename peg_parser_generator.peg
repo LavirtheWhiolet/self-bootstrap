@@ -146,7 +146,9 @@ expr90: Code <-
   # Parentheses.
   `(` expr:val `)` /
   # Text capture.
-  `<` expr:c `>` `:` capture-target-variable:var { val = capture_text_code(var, c) } /
+  `<` expr:c `>` `:` capture-target-variable:var { val = capture_text_code(c, var) } /
+  # Skip text.
+  `>` expr:c `<` { val = skip_text_code(c) } /
   # 
   expr100:val ;
 
@@ -236,7 +238,7 @@ keyword <-
   ;
 
 Ruby-variable: String <-
-  < "@"? Ruby-variable-start (Ruby-variable-middle)* >:val ` `;
+  < ("@" / "$")? Ruby-variable-start (Ruby-variable-middle)* >:val ` `;
 
 Ruby-variable-start <-
   "a"..."z" /
@@ -403,19 +405,54 @@ newline <-
   end
   
   # returns code which captures text to specified variable.
-  def capture_text_code(variable_name, parsing_code)
-    #
+  def capture_text_code(parsing_code, target_var)
+    # Compile.
     start_pos_var = new_unique_variable_name
     end_pos_var = new_unique_variable_name
-    # 
-    code(%(begin
-      #{variable_name} = ""
+    code = code(%(begin
+      #{target_var} = ""
       #{start_pos_var} = @yy_input.pos
-      )) +
-      parsing_code + code(%( and begin
+      )) + parsing_code + code(%( and begin
         #{end_pos_var} = @yy_input.pos
         @yy_input.pos = #{start_pos_var}
-        #{variable_name} << @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
+        #{target_var} << @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
+      end
+    end))
+    # Replace inner unknown variables (if possible).
+    code = code.map do |code|
+      # 
+      if code.is_a? UnknownVariable
+        # 
+        unknown_variable = code
+        # 
+        case unknown_variable.role
+        when :start_pos then code(start_pos_var)
+        when :end_pos then code(end_pos_var)
+        when :target then code(target_var)
+        end
+      # 
+      else
+        code
+      end
+    end
+    #
+    return code
+  end
+  
+  # returns Code which skips text being captured. The Code contains
+  # UnknownVariable-s.
+  def skip_text_code(parsing_code)
+    code(%(begin
+      # Remember position before stopping capture.
+      )) + UnknownVariable[:end_pos] + code(%( = @yy_input.pos
+      # Parse!
+      )) + parsing_code + code(%( and
+      begin
+        # Capture what has been parsed before the skipping.
+        @yy_input.pos = )) + UnknownVariable[:start_pos] + code(%(
+        )) + UnknownVariable[:target] + code(" << @yy_input.read(") + UnknownVariable[:end_pos] + code(" - ") + UnknownVariable[:start_pos] + code(")") + code(%(.force_encoding(Encoding::UTF_8)
+        # Restart capturing from the end of the skipping.
+        )) + UnknownVariable[:start_pos] + code(%( = @yy_input.pos
       end
     end))
   end
@@ -683,6 +720,37 @@ newline <-
     end
     
     attr_reader :code
+    
+  end
+  
+  class UnknownVariable < Code
+    
+    class << self
+      
+      alias [] new
+      
+    end
+    
+    def initialize(role)
+      @role = role
+    end
+    
+    attr_reader :role
+    
+    def to_s
+      raise UnknownVarEncountered.new self
+    end
+    
+  end
+  
+  class UnknownVariableEncountered < Exception
+    
+    def initialize(unknown_variable)
+      super %(unknown variable is encountered (role: #{unknown_var.role}, requested name: "#{unknown_variable.requested_name}"))
+      @unknown_variable = unknown_variable
+    end
+    
+    attr_reader :unknown_variable
     
   end
   
