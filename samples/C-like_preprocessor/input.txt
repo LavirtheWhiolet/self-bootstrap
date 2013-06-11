@@ -1,0 +1,19 @@
+#include <stdlib.h>
+
+#define COMMON_ATTRIBUTES \
+        int field1; \
+        int field2;
+
+typedef struct
+{
+        COMMON_ATTRIBUTES
+        const char *data;
+}
+buffer_t;
+
+typedef struct
+{
+        COMMON_ATTRIBUTES
+        size_t size;
+}
+list_t;
