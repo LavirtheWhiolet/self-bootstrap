@@ -52,7 +52,7 @@ macro-body: String =
   { val = "" }
   (
     / "\" newline
-    / < !newline char >:c { val << char }
+    / < !newline char >:c { val << c }
   )* ;
 
 comment: String =
