@@ -40,7 +40,7 @@ macro-name-middle =
   / "0"..."9"
   ;
 
-# NOTE: Also sets @last_newline_pos in case of success.
+# NOTE: It also sets @last_newline_pos in case of success.
 newline =
   @:(x)
   (
