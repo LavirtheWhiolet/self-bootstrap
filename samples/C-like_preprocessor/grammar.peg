@@ -51,8 +51,11 @@ macro-name-middle =
 macro-body: String =
   { val = "" }
   (
-    / "\" newline
-    / < !newline char >:c { val << c }
+    (  
+      / "\" < newline >:c
+      / < !newline char >:c
+    )
+    { val << c }
   )* ;
 
 comment: String =
