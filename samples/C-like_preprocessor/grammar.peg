@@ -25,7 +25,7 @@ text-element: String =
     { 
       if @macros.has_key? macro_name then
         val = @macros[macro_name]
-        val = Preprocessor.new.(val, @macros.dup)
+        val = Preprocessor.new.(StringIO.new(@macros[macro_name]), @macros.dup)
       else
         val = macro_name
       end
