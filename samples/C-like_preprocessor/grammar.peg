@@ -12,15 +12,15 @@ macro-definition =
   "#" ` ` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body)
   ;
 
-macro-body: String =
-  < ("\" char / !newline char)* >:val ;
-
 ` ` =
   (
     / " "
     / newline
     / comment
   )* ;
+
+macro-body: String =
+  < ("\" char / !newline char)* >:val ;
 
 comment: String =
   / < "//" char*? ($ / @:(@last_newline_pos) newline) >:val
