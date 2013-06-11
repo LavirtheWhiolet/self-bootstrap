@@ -4,7 +4,7 @@
 #define COPYRIGHT "© Vector Software, Inc. 2013"
 
 #define COMMON_ATTRIBUTES \
-        const char copyright[] = COPYRIGHT;
+        const char copyright[] = COPYRIGHT; \
         int field1; \
         int field2;
 
