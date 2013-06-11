@@ -12,6 +12,8 @@ class Preprocessor
     yy_parse(input)
   end
   
+  private
+  
 }...
 
 text =
