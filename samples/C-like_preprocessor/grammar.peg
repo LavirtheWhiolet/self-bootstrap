@@ -6,9 +6,9 @@ require 'stringio'
 
 class Preprocessor
 
-  def call(input, macros = Hash.new)
+  def call(input, already_defined_macros = Hash.new)
     @last_newline_pos = 0
-    @macros = macros
+    @macros = already_defined_macros
     yy_parse(input)
   end
   
