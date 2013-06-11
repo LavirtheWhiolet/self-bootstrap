@@ -1,6 +1,14 @@
 #define __INPUT_H_
 #include <stdlib.h>
 
+typedef enum
+{
+        LIST,
+        ARRAY,
+        BUFFER
+}
+type_t;
+
 #define COPYRIGHT "© Vector Software, Inc. 2013"
 
 #define COPYRIGHT_FIELD \
@@ -8,8 +16,8 @@
 
 #define COMMON_FIELDS \
         COPYRIGHT_FIELD \
-        int field1; \
-        int field2;
+        type_t type; \
+        unsigned long timestamp;
 
 typedef struct
 {
