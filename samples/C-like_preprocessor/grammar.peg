@@ -17,6 +17,8 @@ text =
 text-element: String =
   / macro-definition
   / macro-name:(macro_name) { val = (@macros[macro_name] or macro_name) }
+  / string:(val)
+  / comment:(val)
   / < newline >:val  # It is required to track last newline position.
   / < char >:val
   ;
