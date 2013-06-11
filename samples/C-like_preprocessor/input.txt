@@ -36,4 +36,14 @@ typedef struct
 }
 list_t;
 
+#undef COMMON_FIELDS
+
+int main(int argc, char **argv)
+{
+        const char *COMMON_FIELDS = "common fields";
+        buffer_t buff;
+        buff.data = COMMON_FIELDS;
+        return 0;
+}
+
 #undef __INPUT_H_
