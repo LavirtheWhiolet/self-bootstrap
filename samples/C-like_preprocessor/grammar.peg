@@ -12,7 +12,7 @@ macro-definition =
   (^ / &(at @last_newline_pos: newline))
   "#" ` ` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body)
   newline
-  { 
+  { @macros[macro_name] = macro_body }
   ;
 
 ` ` =
