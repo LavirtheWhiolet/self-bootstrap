@@ -8,9 +8,9 @@
 
 typedef struct
 {
-        // COMMON_ATTRIBUTES start here
+        /* COMMON_ATTRIBUTES start here */
         COMMON_ATTRIBUTES
-        // COMMON_ATTRIBUTES end here
+        /* COMMON_ATTRIBUTES end here */
         const char *data;
 }
 buffer_t;
