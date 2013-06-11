@@ -15,6 +15,7 @@ macro-definition =
   (
     / " "
     / newline
+    / comment
   )* ;
 
 comment: String =
