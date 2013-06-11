@@ -49,7 +49,7 @@ macro-body: String =
   < ("\" newline / !newline char)* >:val ;
 
 comment: String =
-  / < "//" char*? ($ / @:(@last_newline_pos) newline) >:val
+  / < "//" char*? ($ / newline) >:val
   / < "/*" char*? "*/" >:val
   ;
 
