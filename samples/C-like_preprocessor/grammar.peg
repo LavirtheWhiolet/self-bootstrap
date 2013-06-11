@@ -1,13 +1,17 @@
 {...
 #!/usr/bin/ruby
 # encoding: UTF-8
+require 'stringio'
 
-def process input
-  @last_newline_pos = 0
-  @macros = Hash.new
-  yy_parse(input)
-end
 
+class Preprocessor
+
+  def call(input, already_defined_macros = Hash.new)
+    @last_newline_pos = 0
+    @macros = already_defined_macros
+    yy_parse(input)
+  end
+  
 }...
 
 text =
@@ -17,7 +21,15 @@ text =
 text-element: String =
   / macro-definition { val = "" }
   / macro-undefinition { val = "" }
-  / macro-name:(macro_name) { val = (@macros[macro_name] or macro_name) }
+  / macro-name:(macro_name)
+    { 
+      if @macros.has_key? macro_name then
+        val = @macros[macro_name]
+        val = Preprocessor.new.(StringIO.new(@macros[macro_name]), @macros.dup)
+      else
+        val = macro_name
+      end
+    }
   / string:(val)
   / comment:(val)
   / < newline >:val  # It is required to track last newline position.
@@ -55,11 +67,13 @@ macro-name-middle =
 macro-body: String =
   { val = "" }
   (
-    (  
-      / "\" < newline >:c
-      / < !newline char >:c
+    (
+      / < string >:s
+      / < comment >:s
+      / "\" < newline >:s
+      / < !newline char >:s
     )
-    { val << c }
+    { val << s }
   )* ;
 
 comment: String =
@@ -88,8 +102,13 @@ line-end =
 
 {...
 
-File.open(ARGV[0]) do |input|
-  process input
+end
+
+
+begin
+  File.open(ARGV[0]) do |input|
+    Preprocessor.new.(input)
+  end
 end
 
 }...
