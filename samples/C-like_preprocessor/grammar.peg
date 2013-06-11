@@ -3,6 +3,7 @@
 # encoding: UTF-8
 
 @last_newline_pos = 0
+@macros = Hash
 
 }..
 
@@ -10,6 +11,8 @@ macro-definition =
   { macro_args = [] }
   (^ / &(at @last_newline_pos: newline))
   "#" ` ` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body)
+  newline
+  { 
   ;
 
 ` ` =
