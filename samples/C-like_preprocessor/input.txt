@@ -20,7 +20,7 @@ buffer_t;
 typedef struct
 {
         COMMON_ATTRIBUTES
-        const char eye_catcher[] = "\"COMMON_ATTRIBUTES\" end here";
+        const char eye_catcher[] = "COMMON_ATTRIBUTES end here";
         size_t size;
 }
 list_t;
