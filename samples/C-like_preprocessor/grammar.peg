@@ -86,7 +86,7 @@ line-start =
   ^ / &(at @last_newline_pos: newline) ;
 
 line-end =
-  &newline / $ ;
+  newline / $ ;
 
 {...
 
