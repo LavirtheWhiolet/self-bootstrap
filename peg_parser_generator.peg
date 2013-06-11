@@ -455,9 +455,9 @@ newline <-
     return code
   end
   
-  # returns Code which skips text being captured to specified (or already
-  # mentioned) variable.
-  def skip_text_code(parsing_code, variable_name = nil)
+  # returns Code which skips text being captured. The Code contains
+  # UnknownVariable-s.
+  def skip_text_code(parsing_code)
     code(%(begin
       # Remember position before stopping capture.
       )) + UnknownVariable[:end_pos] + code(%( = @yy_input.pos
