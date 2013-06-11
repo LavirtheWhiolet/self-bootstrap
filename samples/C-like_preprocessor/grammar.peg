@@ -35,7 +35,7 @@ macro-undefinition =
   { @macros.delete macro_name } ;
 
 `#` =
-  (^ / &(at @last_newline_pos: newline)) ` ` ;
+  (^ / &(at @last_newline_pos: newline)) "#" ` ` ;
 
 ` ` =
   " "* ;
