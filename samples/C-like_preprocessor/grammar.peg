@@ -22,20 +22,25 @@ text =
 text-element: String =
   / macro-definition { val = "" }
   / macro-undefinition { val = "" }
-  / macro-name:(macro_name)
-    { 
-      if @macros.has_key? macro_name then
-        val = @macros[macro_name]
-        val = Preprocessor.new.(StringIO.new(@macros[macro_name]), @macros.dup)
-      else
-        val = macro_name
-      end
-    }
+  / macro-name:(macro_name) { val = expand(macro_name) }
   / string:(val)
   / comment:(val)
   / < newline >:val  # It is required to track last newline position.
   / < char >:val
   ;
+
+{...
+  
+  def expand_macro(macro_name)
+    if @macros.has_key? macro_name then
+      val = @macros[macro_name]
+      val = Preprocessor.new.(StringIO.new(@macros[macro_name]), @macros.dup)
+    else
+      val = macro_name
+    end
+  end
+  
+}...
 
 macro-definition =
   `#` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body) line-end
