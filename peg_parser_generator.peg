@@ -405,35 +405,19 @@ newline <-
   end
   
   # returns code which captures text to specified variable.
-  def capture_text_code(parsing_code, variable_name)
+  def capture_text_code(parsing_code, target_var)
     # Compile.
     start_pos_var = new_unique_variable_name
     end_pos_var = new_unique_variable_name
     code = code(%(begin
-      )) + UnknownVariable[:target, variable_name] + code(%( = ""
+      #{target_var} = ""
       #{start_pos_var} = @yy_input.pos
       )) + parsing_code + code(%( and begin
         #{end_pos_var} = @yy_input.pos
         @yy_input.pos = #{start_pos_var}
-        )) + UnknownVariable[:target] + code(%( << @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
+        #{target_var} << @yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
       end
     end))
-    # Determine target variable.
-    target_var = code.reduce(nil) do |target_var, code_part|
-      # 
-      if code_part.is_a? UnknownVariable and not code_part.requested_name.nil?
-        # If target variable is already determined...
-        if not target_var.nil?
-          raise %(conflict: it is specified to capture text into "#{target_var}" and into "#{code_part.requested_name}")
-        # If target variable is not determined yet...
-        else
-          target_var = code_part.requested_name
-        end
-      #
-      else
-        target_var
-      end
-    end
     # Link.
     code = code.map do |code|
       # 
