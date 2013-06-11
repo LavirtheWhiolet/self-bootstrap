@@ -31,7 +31,7 @@ macro-definition =
 
 macro-undefinition =
   `#` "undef" ` ` macro-name:(macro_name)
-  (newline / $)
+  line-end
   { @macros.delete macro_name } ;
 
 `#` =
