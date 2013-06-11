@@ -22,7 +22,6 @@ text-element: String =
   / < newline >:val  # It is required to track last newline position.
   / < char >:val
   ;
-  # TODO: Write strings and comments as is.
 
 macro-definition =
   (^ / &(at @last_newline_pos: newline)) "#" ` ` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body)
