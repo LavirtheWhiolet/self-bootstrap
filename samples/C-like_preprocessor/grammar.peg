@@ -11,10 +11,11 @@ macro-definition =
   (^ / &(at @last_newline_pos: newline))
   "#define" ` ` macro-name:(macro_name)
 
-white-space =
-  / " "
-  / newline
-  ;
+` ` =
+  (
+    / " "
+    / newline
+  )* ;
 
 comment: String =
   / < "//" char*? ($ / @:(@last_newline_pos) newline) >:val
