@@ -67,12 +67,12 @@ macro-body: String =
   { val = "" }
   (
     (  
-      / < string >:c
-      / < comment >:c
-      / "\" < newline >:c
-      / < !newline char >:c
+      / < string >:s
+      / < comment >:s
+      / "\" < newline >:s
+      / < !newline char >:s
     )
-    { val << c }
+    { val << s }
   )* ;
 
 comment: String =
