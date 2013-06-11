@@ -26,7 +26,7 @@ text-element: String =
 
 macro-definition =
   `#` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body)
-  (newline / $)
+  line-end
   { @macros[macro_name] = macro_body } ;
 
 macro-undefinition =
