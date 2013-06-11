@@ -9,7 +9,8 @@
 macro-definition =
   { macro_args = [] }
   (^ / &(at @last_newline_pos: newline))
-  "#" ` ` "define" ` ` macro-name:(macro_name)
+  "#" ` ` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body)
+  ;
 
 ` ` =
   (
