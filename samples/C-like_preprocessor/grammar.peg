@@ -7,10 +7,10 @@
 
 }...
 
-text =
-  (
-    
-  )* ;
+# Semantic value is processed text element.
+text-element: String =
+  / macro-definition:(val)
+  / macro-name:(macro_name) { val = ...
 
 macro-definition: String =
   { macro_args = [] }
