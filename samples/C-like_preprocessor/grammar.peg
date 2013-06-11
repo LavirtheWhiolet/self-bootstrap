@@ -63,7 +63,7 @@ macro-body: String =
   )* ;
 
 comment: String =
-  / < "//" char*? ($ / newline) >:val
+  / < "//" char*? line-end >:val
   / < "/*" char*? "*/" >:val
   ;
 
