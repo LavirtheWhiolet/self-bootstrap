@@ -747,14 +747,11 @@ newline <-
       
     end
     
-    def initialize(role, requested_name = nil)
+    def initialize(role)
       @role = role
-      @requested_name = requested_name
     end
     
     attr_reader :role
-    
-    attr_reader :requested_name
     
     def to_s
       raise UnknownVarEncountered.new self
