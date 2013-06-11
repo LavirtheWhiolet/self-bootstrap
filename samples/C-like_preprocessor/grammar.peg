@@ -2,7 +2,7 @@
 #!/usr/bin/ruby
 # encoding: UTF-8
 
-def parse(input)
+def process input
   @last_newline_pos = 0
   @macros = Hash.new
   yy_parse(input)
@@ -70,3 +70,10 @@ newline =
   )
   { @last_newline_pos = x } ;
 
+{...
+
+File.open(ARGV[0]) do |input|
+  process input
+end
+
+}...
