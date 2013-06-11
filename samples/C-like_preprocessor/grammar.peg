@@ -32,6 +32,9 @@ macro-definition =
 ` ` =
   " "* ;
 
+macro-undefinition =
+  ;
+
 macro-name: String =
   < macro-name-start macro-name-middle* >:val ;
 
