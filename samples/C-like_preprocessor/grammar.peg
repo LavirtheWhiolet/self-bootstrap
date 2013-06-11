@@ -17,8 +17,6 @@ macro-definition =
     / newline
   )* ;
 
-white-space = " " ;
-
 comment: String =
   / < "//" char*? ($ / @:(@last_newline_pos) newline) >:val
   / < "/*" char*? "*/" >:val
