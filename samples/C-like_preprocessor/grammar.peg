@@ -24,7 +24,7 @@ text-element: String =
   ;
 
 macro-definition =
-  preprocessor-directive-start ` ` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body)
+  `#` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body)
   newline
   { @macros[macro_name] = macro_body }
   ;
