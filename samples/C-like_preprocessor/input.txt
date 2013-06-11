@@ -40,7 +40,7 @@ list_t;
 
 int main(int argc, char **argv)
 {
-        const char *COMMON_FIELDS = "common fields";
+        const char *COMMON_FIELDS = "All fields are common!";
         buffer_t buff;
         buff.data = COMMON_FIELDS;
         return 0;
