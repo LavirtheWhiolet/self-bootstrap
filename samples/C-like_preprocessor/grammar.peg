@@ -24,16 +24,16 @@ text-element: String =
   ;
 
 macro-definition =
-  (^ / &(at @last_newline_pos: newline)) "#" ` ` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body)
+  preprocessor-directive-start ` ` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body)
   newline
   { @macros[macro_name] = macro_body }
   ;
 
+macro-undefinition =
+  `#` ;
+
 ` ` =
   " "* ;
-
-macro-undefinition =
-  ;
 
 macro-name: String =
   < macro-name-start macro-name-middle* >:val ;
@@ -58,6 +58,9 @@ macro-body: String =
     )
     { val << c }
   )* ;
+
+preprocessor-directive-start =
+  (^ / &(at @last_newline_pos: newline)) "#" ;
 
 comment: String =
   / < "//" char*? ($ / newline) >:val
