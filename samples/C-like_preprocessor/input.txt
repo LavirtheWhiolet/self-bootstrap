@@ -1,4 +1,4 @@
-#define __INPUT_H_
+//#define __INPUT_H_
 
 #include <stdlib.h>
 
