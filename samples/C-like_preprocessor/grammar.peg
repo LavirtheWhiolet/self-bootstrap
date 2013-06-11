@@ -74,13 +74,10 @@ string: String =
 
 # NOTE: It also sets @last_newline_pos in case of success.
 newline =
-  @:(x)
-  (
-    / U+000D U+000A
-    / U+000D
-    / U+000A
-  )
-  { @last_newline_pos = x } ;
+  / U+000D U+000A
+  / U+000D
+  / U+000A
+  ;
 
 {...
 
