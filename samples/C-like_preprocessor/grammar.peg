@@ -49,7 +49,11 @@ macro-name-middle =
   ;
 
 macro-body: String =
-  < ("\" newline / !newline char)* >:val ;
+  { val = "" }
+  (
+    / "\" newline
+    / < !newline char >:c { val << char }
+  )* ;
 
 comment: String =
   / < "//" char*? ($ / newline) >:val
