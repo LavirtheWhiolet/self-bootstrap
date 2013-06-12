@@ -21,9 +21,9 @@ type_t;
 
 typedef struct
 {
-        /* COMMON_FIELDS start here */
+        // COMMON_FIELDS start here
         COMMON_FIELDS
-        /* COMMON_FIELDS end here */
+        // COMMON_FIELDS end here
         const char *data;
 }
 buffer_t;
