@@ -10,7 +10,7 @@ typedef enum
 type_t;
 
 // Simple macro.
-#define COPYRIGHT "й Vector Software, Inc. 2013"
+#define COPYRIGHT "© Vector Software, Inc. 2013"
 
 // Multiline macro.
 #define COPYRIGHT_FIELD \
