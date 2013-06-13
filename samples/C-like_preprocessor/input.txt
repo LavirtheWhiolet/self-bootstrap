@@ -9,16 +9,21 @@ typedef enum
 }
 type_t;
 
-#define COPYRIGHT "© Vector Software, Inc. 2013"
+// Simple macro.
+#define COPYRIGHT "й Vector Software, Inc. 2013"
 
+// Multiline macro.
 #define COPYRIGHT_FIELD \
         const char copyright[] = COPYRIGHT;
 
+// Long multiline macro with nested macro calls.
 #define COMMON_FIELDS \
         COPYRIGHT_FIELD \
         type_t type; \
         unsigned long timestamp;
 
+/* Notice that macro calls inside comments and string literals are */
+/* not expanded. */
 typedef struct
 {
         // COMMON_FIELDS start here
@@ -36,6 +41,8 @@ typedef struct
 }
 list_t;
 
+/* Undefinition of the macro. Further calls to the macro undefined are */
+/* not expanded. */
 #undef COMMON_FIELDS
 
 int main(int argc, char **argv)
