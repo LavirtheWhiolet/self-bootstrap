@@ -1,0 +1,56 @@
+#define __INPUT_H_
+#include <stdlib.h>
+
+typedef enum
+{
+        LIST,
+        ARRAY,
+        BUFFER
+}
+type_t;
+
+// Simple macro.
+#define COPYRIGHT "© Vector Software, Inc. 2013"
+
+// Multiline macro.
+#define COPYRIGHT_FIELD \
+        const char copyright[] = COPYRIGHT;
+
+// Long multiline macro with nested macro calls.
+#define COMMON_FIELDS \
+        COPYRIGHT_FIELD \
+        type_t type; \
+        unsigned long timestamp;
+
+/* Notice that macro calls inside comments and string literals are */
+/* not expanded. */
+typedef struct
+{
+        // COMMON_FIELDS start here
+        COMMON_FIELDS
+        // COMMON_FIELDS end here
+        const char *data;
+}
+buffer_t;
+
+typedef struct
+{
+        COMMON_FIELDS
+        const char eye_catcher[] = "COMMON_FIELDS end here";
+        size_t size;
+}
+list_t;
+
+/* Undefinition of the macro. Further calls to the macro undefined are */
+/* not expanded. */
+#undef COMMON_FIELDS
+
+int main(int argc, char **argv)
+{
+        const char *COMMON_FIELDS = "All fields are common!";
+        buffer_t buff;
+        buff.data = COMMON_FIELDS;
+        return 0;
+}
+
+#undef __INPUT_H_
