@@ -1,4 +1,28 @@
 
   
   
+  struct Pos
+    
+    pos
+    
+    input = nil
+    
+  end
   
+  struct StringCode
+    
+    str
+    
+  end
+  
+  struct UnknownMethodCall
+    
+    pos
+    
+    nonterminal
+    
+  end
+  
+  def main
+    pos 10, input
+  end
