@@ -26,3 +26,17 @@
   def main
     pos 10, input
   end
+  
+-----
+  
+  struct UnknownMethodCall pos, nonterminal
+  
+  class UnknownMethodCall
+    
+    def resolved?
+      true
+    end
+    
+  end
+  
+  
