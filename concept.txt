@@ -24,7 +24,7 @@
   end
   
   def main
-    pos 10, input
+    Pos[10, input]
   end
   
 -----
