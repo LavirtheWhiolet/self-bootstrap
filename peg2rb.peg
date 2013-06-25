@@ -14,7 +14,9 @@ class Code
     @parts = parts
   end
   
-  
+  def self.from x
+    
+  end
   
   protected
   
