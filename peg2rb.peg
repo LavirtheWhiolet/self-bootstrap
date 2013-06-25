@@ -15,7 +15,9 @@ class Code
   end
   
   def self.from x
-    
+    case x
+    when Code then x
+    when String then Code.new([x])
   end
   
   protected
