@@ -26,9 +26,7 @@ class Code
     Code.new(self.parts + Code.from(other).parts)
   end
   
-  protected
-  
-  # Private.
+  # Immutable Array.
   attr_reader :parts
   
 end
