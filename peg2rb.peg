@@ -14,8 +14,11 @@ class Code
     @parts = parts
   end
   
+  
+  
   protected
   
+  # Private.
   attr_reader :parts
   
 end
