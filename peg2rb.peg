@@ -9,6 +9,15 @@
 
 
 class Code
+  
+  def initialize(parts)
+    @parts = parts
+  end
+  
+  protected
+  
+  attr_reader :parts
+  
 end
 
 
