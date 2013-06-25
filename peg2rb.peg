@@ -23,7 +23,7 @@ class Code
   end
   
   def + other
-    
+    Code.new(self.parts + Code.from(other).parts)
   end
   
   protected
