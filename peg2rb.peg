@@ -22,6 +22,10 @@ class Code
     end
   end
   
+  def + other
+    
+  end
+  
   protected
   
   # Private.
