@@ -18,6 +18,8 @@ class Code
     case x
     when Code then x
     when String then Code.new([x])
+    else raise %(can not convert #{x.inspect} to #{Code})
+    end
   end
   
   protected
