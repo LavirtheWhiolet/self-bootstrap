@@ -34,4 +34,9 @@ class Code
 end
 
 
+def empty_code
+  Code.new([])
+end
+
+
 ...}
