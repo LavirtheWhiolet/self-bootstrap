@@ -32,7 +32,8 @@ class Code
 end
 
 
-def empty_code
+# returns empty Code.
+def code
   Code.new([])
 end
 
