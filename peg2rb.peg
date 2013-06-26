@@ -20,7 +20,7 @@ class Code
     case other
     when Code then other
     when String then Code.new([other])
-    else raise %(can not convert #{x.inspect} to #{Code})
+    else raise %(can not convert #{other.inspect} to #{Code})
     end
   end
   
