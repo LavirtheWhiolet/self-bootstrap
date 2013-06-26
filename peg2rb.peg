@@ -26,7 +26,7 @@ class Code
     Code.new(self.parts + Code.from(other).parts)
   end
   
-  # Immutable Array.
+  # Immutable Enumerable.
   attr_reader :parts
   
 end
