@@ -5,6 +5,15 @@
 # This file is both runnable and "require"-able.
 
 
+class String
+  
+  def to_ruby_code
+    self.dump
+  end
+  
+end
+
+
 # 
 class PEGParserGenerator
   
