@@ -28,6 +28,12 @@ class Code
     Code.new(self.parts + Code.from(other).parts)
   end
   
+  def each_part(&block)
+    parts.each(&block)
+  end
+  
+  alias each each_part
+  
   protected
   
   # Private.
