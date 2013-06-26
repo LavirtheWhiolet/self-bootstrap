@@ -16,8 +16,7 @@ file "peg2rb.rb" => ["peg2rb.peg"] do
   end
 end
 
-# executes +block+ once. Inside +block+ one may use +break+, +next+, +redo+ and
-# +continue+.
+# executes +block+ once. Inside +block+ one may use +break+, +next+ and +redo+.
 def once(&block)
   while true
     block.()
