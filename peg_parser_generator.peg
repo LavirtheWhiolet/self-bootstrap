@@ -9,7 +9,7 @@
 class String
   
   # returns Ruby code which evaluates to this String.
-  def to_ruby_code
+  def to_ruby
     self.dump
   end
   
@@ -162,8 +162,8 @@ expr90: Code <-
   expr100:val ;
 
 expr100: Code <-
-  / char-range:r  { val = code "yy_char_range(#{r.begin.dump}, #{r.end.dump})" }
-  / string:s  { val = code "yy_string(#{s.dump})" }
+  / char-range:r  { val = code "yy_char_range(#{r.begin.to_ruby_code}, #{r.end.to_ruby_code})" }
+  / string:s  { val = code "yy_string(#{s.to_ruby_code})" }
   / nonterminal:n  { val = UnknownMethodCall[n] }
   / `char` { val = code "@yy_input.getc" }  # IO#getc returns nil at end of input. That's OK for us.
   / action:a  { val = code "begin \n #{a} \n true \n end" }  # Newline must be present after action's body because it may include comments.
