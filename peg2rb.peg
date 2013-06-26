@@ -10,6 +10,8 @@
 
 class Code
   
+  include Enumerable
+  
   def initialize(parts)
     @parts = parts
   end
