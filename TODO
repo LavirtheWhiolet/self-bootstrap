@@ -1,7 +1,6 @@
 - Allow to use variables as nonterminals. Do not allow to use variables as nonterminals which have name equal to one of existing nonterminals (but still allow them to be used as capture targets).
 - Enforce UTF-8 encoding in output stream.
 - Ability to set output file or stream.
-- "to_ruby_code(string)" function.
 - Error reporting (at least position).
   Idea: @yy_max_pos, @yy_max_error, @yy_file.
 - Analogues of "+", "*" and "?" in beginning of the expression repeated. Maybe "?:expr", "*:expr", "+:expr"?
