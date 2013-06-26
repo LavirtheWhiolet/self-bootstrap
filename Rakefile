@@ -16,9 +16,11 @@ file "peg2rb.rb" => ["peg2rb.peg"] do
   end
 end
 
-def once
+# executes +block+ once. Inside +block+ one may use +break+, +next+, +redo+ and
+# +continue+.
+def once(&block)
   while true
-    yield
+    block.()
     break
   end
 end
