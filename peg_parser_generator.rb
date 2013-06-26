@@ -5,6 +5,17 @@
 
 
 # 
+class String
+  
+  # returns Ruby code which evaluates to this String.
+  def to_ruby_code
+    self.dump
+  end
+  
+end
+
+
+# 
 class PEGParserGenerator
   
   # 
@@ -382,7 +393,7 @@ begin; yy_var1k = @yy_input.pos; (begin
       end
       yy_var1l
     end and begin 
-  val = code "yy_char_range(#{r.begin.dump}, #{r.end.dump})"  
+  val = code "yy_char_range(#{r.begin.to_ruby_code}, #{r.end.to_ruby_code})"  
  true 
  end) or (@yy_input.pos = yy_var1k; (begin
       yy_var1m = yy_nontermf1()
@@ -391,7 +402,7 @@ begin; yy_var1k = @yy_input.pos; (begin
       end
       yy_var1m
     end and begin 
-  val = code "yy_string(#{s.dump})"  
+  val = code "yy_string(#{s.to_ruby_code})"  
  true 
  end)) or (@yy_input.pos = yy_var1k; (begin
       yy_var1n = yy_nontermd1()
