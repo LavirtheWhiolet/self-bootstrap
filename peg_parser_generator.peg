@@ -5,8 +5,10 @@
 # This file is both runnable and "require"-able.
 
 
+# 
 class String
   
+  # returns Ruby code which evaluates to this String.
   def to_ruby_code
     self.dump
   end
