@@ -595,6 +595,9 @@ newline <-
   
   class Code
     
+    # 
+    # +parts+ are String-s or Code::Part-s.
+    # 
     def initialize(parts)
       @parts = parts
     end
