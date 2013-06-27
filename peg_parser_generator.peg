@@ -599,7 +599,9 @@ newline <-
       @parts = parts
     end
     
-    
+    def self.from other
+      case other
+      when Code
     
   end
   
