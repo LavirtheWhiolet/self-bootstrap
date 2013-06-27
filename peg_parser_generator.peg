@@ -593,6 +593,14 @@ newline <-
     
   end
   
+  class Code
+    
+    def initialize(parts)
+      @parts = parts
+    end
+    
+  end
+  
   class CodeAsString < Code
     
     class << self
