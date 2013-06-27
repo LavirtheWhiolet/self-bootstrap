@@ -618,7 +618,7 @@ newline <-
       parts.each(&block)
     end
     
-    # +block+ is passed with each Code::Part
+    # +block+ is passed with each Code::Part TODO
     def map(&block)
       # TODO
     end
