@@ -605,6 +605,11 @@ newline <-
       end
     end
     
+    protected
+    
+    # Private.
+    attr_reader :parts
+    
   end
   
   class CodeAsString < Code
