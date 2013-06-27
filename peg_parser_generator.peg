@@ -606,6 +606,7 @@ newline <-
       case other
       when Code then Code.new(self.parts + other.parts)
       when String, Code::Part then Code.new([other])
+      else raise %(can not convert #{other.inspect} to #{Code})
       end
     end
     
