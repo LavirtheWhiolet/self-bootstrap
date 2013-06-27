@@ -601,7 +601,8 @@ newline <-
     
     def self.from other
       case other
-      when Code
+      when Code then Code.new(self.parts + other.parts)
+      when String, Code::Part then Code.new([other])
       end
     end
     
