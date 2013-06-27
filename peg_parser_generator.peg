@@ -606,6 +606,9 @@ newline <-
       end
     end
     
+    class Part
+    end
+    
     protected
     
     # Private.
