@@ -601,9 +601,8 @@ newline <-
       @parts = parts
     end
     
-    def each_part(&block)
-      @parts.each(&block)
-    end
+    def each(&block)
+      
     
   end
   
