@@ -620,6 +620,8 @@ newline <-
     
     # +block+ is passed with each Code::Part
     def map(&block)
+      # TODO
+    end
     
     class Part
     end
