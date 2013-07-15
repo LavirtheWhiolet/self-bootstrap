@@ -1,7 +1,7 @@
 #!/bin/sh
 
 dir=samples/XML_with_brackets
-parser=generated/parser.rb
+parser=generated/bracketed_XML.rb
 
 ruby peg2rb.rb ${dir}/grammar.peg > ${parser} &&
 (
