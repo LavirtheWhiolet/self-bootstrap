@@ -16,7 +16,9 @@ file "peg2rb.rb" => "peg2rb.peg" do
   end
 end
 
-task :default => "peg2rb.rb"
+task :all => ["peg2rb.rb"]
+
+task :default => :all
 
 # ---- Utilities ----
 
