@@ -18,4 +18,7 @@ You may run this program with the following command of [Bourne shell](http://en.
 
 where `input-grammar` is a file with [input grammar description](#input-grammar) and `output-parser` is a file with [parser](#output-parser) based on the grammar.
 
-The program exits with status 0
+The program exits with [status](http://en.wikipedia.org/wiki/Exit_status) 0 if the parser is generated successfully and with non-zero status otherwise.
+
+### <a id="input-grammar"/> Grammar description ###
+
