@@ -18,7 +18,7 @@ Output parser is a Ruby script containing following definitions:
   * `pos=(...)`
   * `set_encoding(...)`
 * `YY_SyntaxError` class.
-* Various auxiliary functions and class with names starting with `yy_` or `YY_`.
+* Auxiliary functions and classes with names starting with `yy_` or `YY_`.
 
 
 
