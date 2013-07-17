@@ -22,3 +22,4 @@ The program exits with [status](http://en.wikipedia.org/wiki/Exit_status) 0 if t
 
 ### <a id="input-grammar"/> Input grammar descriptions ###
 
+Grammars the output parsers based on are described in extended version of [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar). Grammar of the descriptions is described in [peg2rb.peg](#peg2rb.peg) in terms of itself.
