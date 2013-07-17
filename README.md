@@ -12,4 +12,10 @@ Parser generator. It generates [parsers](#output-parser) from their [description
 
 ### Usage ###
 
-You may run this program with the following command of 
+You may run this program with the following command of [Bourne shell](http://en.wikipedia.org/wiki/Bourne_shell) or [Command Prompt](http://en.wikipedia.org/wiki/CMD.EXE_%28Windows%29):
+
+    ruby peg2rb.rb input-grammar > output-parser
+
+where `input-grammar` is a file with [input grammar description](#input-grammar) and `output-parser` is a file with [parser](#output-parser) based on the grammar.
+
+The program exits with status 0
