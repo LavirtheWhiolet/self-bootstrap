@@ -20,6 +20,6 @@ where `input-grammar` is a file with [input grammar description](#input-grammar)
 
 The program exits with [status](http://en.wikipedia.org/wiki/Exit_status) 0 if the parser is generated successfully and with non-zero status otherwise.
 
-### <a id="input-grammar"/> Input grammar descriptions ###
+### <a id="input-grammar"/> Input grammars ###
 
 Input grammars are described in extended version of [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar). Grammar of the extended PEG is described in [peg2rb.peg](#peg2rb.peg) in terms of the extended PEG itself.
