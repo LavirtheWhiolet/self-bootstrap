@@ -4,9 +4,21 @@ Self-bootstrap
 <a id="peg2rb.rb"/> peg2rb.rb
 -----------------------------
 
+It generates parser based on grammar description.
 
+???
 
+Output parser is a Ruby script containing following definitions:
 
+* `yy_parse(io)` function.<br/>
+  It either returns semantic value of the main rule or raises `YY_SyntaxError` (see below).<br/>
+  `io` is IO supporing following methods:
+  * `read(...)`
+  * `pos`
+  * `pos=(...)`
+  * `set_encoding(...)`
+* `YY_SyntaxError` class.
+* Various auxiliary functions and class with names starting with `yy_` or `YY_`.
 
 
 
