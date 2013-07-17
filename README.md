@@ -4,7 +4,7 @@ Self-bootstrap
 <a id="peg2rb.rb"/> peg2rb.rb
 -----------------------------
 
-Parser generator. It generates [parsers](#output-parser) from their [descriptions](#input-grammar) written in extended version of [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar).
+Parser generator. It generates [parser](#output-parser) based on a [grammar description](#input-grammar).
 
 ### Requirements ###
 
