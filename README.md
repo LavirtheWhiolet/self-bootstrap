@@ -4,9 +4,9 @@ Self-bootstrap
 <a id="peg2rb.rb"/> peg2rb.rb
 -----------------------------
 
-It generates parser based on grammar description.
+Parser generator. It generates parsers from their descriptions 
 
-???
+
 
 Output parser is a Ruby script containing following definitions:
 
