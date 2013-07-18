@@ -9,7 +9,7 @@ A general-purpose parser generator that converts a grammar description for exten
 The grammar description has its own grammar too. You may see its description in [peg2rb.peg](#peg2rb.peg). You may also see samples of the grammar descriptions in [samples](#samples).
 
 Output parser is a [Ruby](http://ruby-lang.org) script containing the following (in order of appearance):
-* Content of `{...}` block before all rules in input grammar (if it is present).
+* Content of `{...}` block before all rules in the input grammar description (if it is present).
 * `yy_parse(io)` method. It either returns semantic value of the first rule of the grammar or raises YY_SyntaxError (see below).<br/>
   `io` is IO which supports following methods:
   * `read(...)`
