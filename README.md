@@ -4,9 +4,20 @@ Self-bootstrap
 <a id="peg2rb.rb"/> peg2rb.rb
 -----------------------------
 
-Parser generator. It generates parser written in [Ruby](http://ruby-lang.org) from grammar description which is extended version of [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar).
+Parser generator. It generates parser written in [Ruby](http://ruby-lang.org) from grammar which is extended version of [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar).
 
+Input grammar is described in [peg2rb.peg](#peg2rb.peg) in terms of [peg2rb.rb](#peg2rb.rb)'s input grammar itself.
 
+Output parser is a Ruby script containing the following (in order):
+* Content of `{...}` block before all rules in input grammar (if it is present).
+* `yy_parse(io)` method. It either returns semantic value of the first rule of the grammar or raises YY_SyntaxError (see below).<br/>
+  `io` is IO which supports following methods:
+  * `read(...)`
+  * `pos`
+  * `pos=(...)`
+  * `set_encoding(...)`
+* YY_SyntaxError class.
+* Content of `{...}` block after all rules in input grammar (if it is present).
 
 
 
