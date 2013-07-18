@@ -44,9 +44,22 @@ Source code for [peg2rb.rb](#peg2rb.rb). You may use [peg2rb.rb](#peg2rb.rb) on 
 Rakefile
 --------
 
-Script for 
+Script for [Rake](http://rake.rubyforge.org/) for building this package.
 
+TODO
+----
 
+Tasks planned to be done on this package.
+
+generated
+---------
+
+All generated files—generated parsers, object files, temporary assets—are put here.
+
+proof
+-----
+
+Formal proof of this package correctness. Not done yet.
 
 
 
