@@ -4,9 +4,7 @@ Self-bootstrap
 <a id="peg2rb.rb"/> peg2rb.rb
 -----------------------------
 
-Parser generator. It generates parser in [Ruby](http://ruby-lang.org) from description of grammar.
-
-
+Parser generator. It generates parser written in [Ruby](http://ruby-lang.org) from grammar description.
 
 
 
