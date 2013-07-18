@@ -1,4 +1,4 @@
-%%
+{...
 #!/usr/bin/ruby
 # encoding: UTF-8
 
@@ -34,7 +34,7 @@ class PEGParserGenerator
   
   HashMap = Hash
   
-%%%% Grammar %%%%
+}...
 
 ---- Syntax ----
 
@@ -330,7 +330,9 @@ newline <-
   U+2028 /
   U+2029 ;
 
-%%%% Code %%%%
+---- Additional code ----
+
+{...
   
   def capture_semantic_value_code(var, code)
     result_var = new_unique_variable_name
@@ -712,3 +714,4 @@ if $0 == __FILE__
     PEGParserGenerator.new.call(io)
   end
 end
+}...
