@@ -10,13 +10,13 @@ The input grammar description has its own grammar which is described in [peg2rb.
 
 The output parser is a [Ruby](http://ruby-lang.org) script containing the following (in order of appearance):
 * Content of the `{...}` block before all rules in the input grammar description (if it is present).
-* `yy_parse(io)` method. It either returns semantic value of the first rule of the grammar or raises YY_SyntaxError (see below).<br/>
+* `yy_parse(io)` method. It either returns a semantic value of the first rule of the grammar or raises YY_SyntaxError (see below).<br/>
   `io` is IO which supports following methods:
   * `read(...)`
   * `pos`
   * `pos=(...)`
   * `set_encoding(...)`
-* YY_SyntaxError class. It is subclass of Exception.
+* YY_SyntaxError class. It is a subclass of Exception.
 * Auxiliary functions and classes with names starting with `yy_` or `YY_`.
 * Content of the `{...}` block after all rules in the input grammar (if it is present).
 
