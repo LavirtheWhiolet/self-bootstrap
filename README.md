@@ -34,12 +34,12 @@ You may run this program with the following command of [Bourne shell](http://en.
 
 where `input-grammar` is a file with input grammar description and `output-parser` is a file which output parser is to be written to.
 
-
+The program exits with [status](http://en.wikipedia.org/wiki/Exit_status) 0 if the parser is generated successfully and with non-zero status otherwise.
 
 <a id="peg2rb.peg"/> peg2rb.peg
 -------------------------------
 
-
+Source code for [peg2rb.rb](#peg2rb.rb). You may use [peg2rb.rb](#peg2rb.rb) on it to generate [peg2rb.rb](#peg2rb.rb) itself.
 
 
 
