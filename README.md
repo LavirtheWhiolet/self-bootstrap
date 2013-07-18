@@ -16,7 +16,7 @@ Output parser is a Ruby script containing the following (in order):
   * `pos`
   * `pos=(...)`
   * `set_encoding(...)`
-* YY_SyntaxError class.
+* YY_SyntaxError class. It is subclass of Exception.
 * Content of `{...}` block after all rules in input grammar (if it is present).
 
 
