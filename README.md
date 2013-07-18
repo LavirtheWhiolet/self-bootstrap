@@ -52,7 +52,7 @@ Tasks planned to be done for this package.
 generated
 ---------
 
-All generated files—generated parsers, object files, temporary assets—are put here.
+All generated files—generated parsers, object files, temporary assets—are put into this directory.
 
 proof
 -----
