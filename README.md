@@ -47,7 +47,7 @@ Script for [Rake](http://rake.rubyforge.org/) for building this package.
 TODO
 ----
 
-Tasks planned to be done on this package.
+Tasks planned to be done for this package.
 
 generated
 ---------
