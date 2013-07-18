@@ -8,38 +8,6 @@ A general-purpose parser generator that converts a description for an extended [
 
 The input grammar description has its own grammar which is described in [peg2rb.peg](#peg2rb.peg) (in terms of [peg2rb.rb](#peg2rb.rb)'s input). You may also see samples of the description in [samples](#samples).
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Output parser is a [Ruby](http://ruby-lang.org) script containing the following (in order of appearance):
 * Content of `{...}` block before all rules in the input grammar description (if it is present).
 * `yy_parse(io)` method. It either returns semantic value of the first rule of the grammar or raises YY_SyntaxError (see below).<br/>
