@@ -20,8 +20,6 @@ Output parser is a [Ruby](http://ruby-lang.org) script containing the following 
 * Auxiliary functions and classes with names starting with `yy_` or `YY_`.
 * Content of `{...}` block after all rules in input grammar (if it is present).
 
-NOTE. The first and the last `{...}` blocks allow you to wrap parsing methods into a class or a module.
-
 ### Requirements ###
 
 * [Ruby 1.9 or higher](http://ruby-lang.org)
