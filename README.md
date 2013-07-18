@@ -19,6 +19,9 @@ Output parser is a Ruby script containing the following (in order):
 * YY_SyntaxError class. It is subclass of Exception.
 * Content of `{...}` block after all rules in input grammar (if it is present).
 
+<a id="peg2rb.peg"/> peg2rb.peg
+-------------------------------
+
 
 
 
