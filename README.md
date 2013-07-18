@@ -18,7 +18,7 @@ Output parser is a [Ruby](http://ruby-lang.org) script containing the following 
   * `set_encoding(...)`
 * YY_SyntaxError class. It is subclass of Exception.
 * Auxiliary functions and classes with names starting with `yy_` or `YY_`.
-* Content of `{...}` block after all rules in input grammar (if it is present).
+* Content of the `{...}` block after all rules in the input grammar (if it is present).
 
 ### Requirements ###
 
