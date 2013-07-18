@@ -78,7 +78,6 @@ Source code for [peg2rb.rb](#peg2rb.rb). You may use [peg2rb.rb](#peg2rb.rb) on 
 
 
 
-
 from grammar descriptions which are extended version of [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar).
 
 
