@@ -30,7 +30,7 @@ You may run this program with the following command of [Bourne shell](http://en.
 
     ruby peg2rb.rb input-grammar > output-parser
 
-where `input-grammar` is a file with input grammar description and `output-parser` is a file which output parser is to be written to.
+where `input-grammar` is a file with the input grammar description and `output-parser` is a file which the output parser is to be written to.
 
 The program exits with [status](http://en.wikipedia.org/wiki/Exit_status) 0 if the parser is generated successfully and with non-zero status otherwise.
 
