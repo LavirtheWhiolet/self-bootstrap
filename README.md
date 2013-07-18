@@ -64,4 +64,11 @@ Formal proof of this package correctness. Not done yet.
 samples
 -------
 
-Sample parsers with sample input data for them and scripts to run them.
+Sample parsers (more precisely, sample grammars to generate the parsers) with sample input data for them and scripts to run them.
+
+How to build
+------------
+
+Install [Rake](http://rake.rubyforge.org/) and run following command in this directory:
+
+    rake
