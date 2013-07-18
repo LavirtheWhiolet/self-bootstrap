@@ -62,7 +62,7 @@ Formal proof of this package correctness. Not done yet.
 <a id="samples"/> samples
 -------------------------
 
-Sample parsers (more precisely, sample grammars to generate the parsers) with sample input data for them and scripts to run them.
+Sample grammar descriptions for [peg2rb.rb](#peg2rb.rb), scripts to generate and run parsers from them and sample input data for the parsers.
 
 How to build
 ------------
