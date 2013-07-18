@@ -4,9 +4,9 @@ Self-bootstrap
 <a id="peg2rb.rb"/> peg2rb.rb
 -----------------------------
 
-A general-purpose parser generator that converts extended [parsing expression grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) into a [Ruby](http://ruby-lang.org) program to parse that grammar.
+A general-purpose parser generator that converts a description for an extended [parsing expression grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) into a [Ruby](http://ruby-lang.org) program to parse that grammar.
 
-The input grammar description has its own grammar which is described in [peg2rb.peg](#peg2rb.peg) (in terms of itself). You may also see samples of the description in [samples](#samples).
+The input grammar description has its own grammar which is described in [peg2rb.peg](#peg2rb.peg) (in terms of [peg2rb.rb](#peg2rb.rb)'s input). You may also see samples of the description in [samples](#samples).
 
 
 
