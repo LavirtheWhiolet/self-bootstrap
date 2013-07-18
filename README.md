@@ -4,7 +4,7 @@ Self-bootstrap
 <a id="peg2rb.rb"/> peg2rb.rb
 -----------------------------
 
-Parser generator. It generates parser written in [Ruby](http://ruby-lang.org) from grammar which is extended version of [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar).
+A general-purpose parser generator that converts a grammar description for extended [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar) into a Ruby program to parse that grammar.
 
 Input grammar is described in [peg2rb.peg](#peg2rb.peg) in terms of [peg2rb.rb](#peg2rb.rb)'s input grammar itself.
 
