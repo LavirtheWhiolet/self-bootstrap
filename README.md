@@ -8,7 +8,7 @@ Parser generator. It generates parser written in [Ruby](http://ruby-lang.org) fr
 
 Input grammar is described in [peg2rb.peg](#peg2rb.peg) in terms of [peg2rb.rb](#peg2rb.rb)'s input grammar itself.
 
-Output parser is a Ruby script containing the following (in order):
+Output parser is a [Ruby](http://ruby-lang.org) script containing the following (in order):
 * Content of `{...}` block before all rules in input grammar (if it is present).
 * `yy_parse(io)` method. It either returns semantic value of the first rule of the grammar or raises YY_SyntaxError (see below).<br/>
   `io` is IO which supports following methods:
@@ -17,7 +17,24 @@ Output parser is a Ruby script containing the following (in order):
   * `pos=(...)`
   * `set_encoding(...)`
 * YY_SyntaxError class. It is subclass of Exception.
+* Auxiliary functions and classes with names starting with `yy_` or `YY_`.
 * Content of `{...}` block after all rules in input grammar (if it is present).
+
+NOTE. The first and the last `{...}` blocks allow you to wrap parsing methods into a class or a module.
+
+### Requirements ###
+
+* [Ruby 1.9 or higher](http://ruby-lang.org)
+
+### Usage ###
+
+You may run this program with the following command of [Bourne shell](http://en.wikipedia.org/wiki/Bourne_shell) or [Command Prompt](http://en.wikipedia.org/wiki/CMD.EXE_%28Windows%29):
+
+    ruby peg2rb.rb input-grammar > output-parser
+
+where `input-grammar` is a file with input grammar description and `output-parser` is a file which output parser is to be written to.
+
+
 
 <a id="peg2rb.peg"/> peg2rb.peg
 -------------------------------
