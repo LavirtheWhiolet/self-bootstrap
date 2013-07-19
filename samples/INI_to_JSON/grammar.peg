@@ -1,0 +1,92 @@
+{...
+#!/usr/bin/ruby
+# encoding: UTF-8
+
+}...
+
+INI =
+  { val = JSON.new }
+  -- global keys --
+  (
+    key-values:(key_values)
+    { val += key_values }
+  )?
+  -- sections --
+  (
+    section:(section)
+    {
+      val += ", " if not val.empty?
+      val += section
+    }
+  )*
+  -- post-process --
+  { val = %({ #{val} }) }
+  $ ;
+  
+section: JSON =
+  -- header --
+  ('[' < char*? >:section ']') EOL
+  -- content --
+  key-values:(content)
+  -- output --
+  { val = %(#{section.escape}: { #{content} }) };
+
+key-values: JSON =
+  { val = JSON.new }
+  (
+    / empty-line
+    / key-value: key_value
+      {
+        key, value = *key_value
+        key = key.strip; value = value.strip
+        val += ", " if not val.empty?
+        val += %("#{key.escape}": "#{value.escape}")
+      }
+  )*
+  ;
+
+key-value: [String, String] =
+  ' '* < char*? >:key "=" ] < char*? >:value EOL
+  { val = [key, value] } ;
+
+empty-line = white-space* EOL ;
+
+comment = white-space* (';' / '#') char*? EOL ;
+
+EOL = newline / $;
+
+white-space = ' ' ;
+
+# Newline as specified in "Unicode Technical Report #13: Unicode Newline
+# Guidelines" (http://unicode.org/unicode/standard/reports/tr13/tr13-5.html).
+newline <-
+  U+000D U+000A /
+  U+000D /
+  U+000A /
+  U+0085 /
+  U+000B /
+  U+000C /
+  U+2028 /
+  U+2029 ;
+
+{...
+
+
+JSON = String
+
+
+class JSON
+  
+  def escape
+    self.gsub("\"", "\\\"")
+  end
+
+end
+
+
+File.open(ARGV[0]) do |io|
+  puts yy_parse(io)
+end
+
+
+}...
