@@ -1,8 +1,8 @@
 Self-bootstrap
 ==============
 
-<a id="peg2rb.rb"/> peg2rb.rb
------------------------------
+<a id="peg2rb.rb"/> "peg2rb.rb"
+-------------------------------
 
 A general-purpose parser generator that converts a grammar description for an extended [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar) into a [Ruby](http://ruby-lang.org) program to parse that grammar.
 
@@ -35,33 +35,33 @@ where `input-grammar` is a file with the input grammar description and `output-p
 
 The program exits with [status](http://en.wikipedia.org/wiki/Exit_status) 0 if the parser is generated successfully and with non-zero status otherwise.
 
-<a id="peg2rb.peg"/> peg2rb.peg
--------------------------------
+<a id="peg2rb.peg"/> "peg2rb.peg"
+---------------------------------
 
 Source code for [peg2rb.rb](#peg2rb.rb). You may use [peg2rb.rb](#peg2rb.rb) on it to generate [peg2rb.rb](#peg2rb.rb) itself.
 
-Rakefile
---------
+"Rakefile"
+----------
 
 Script for [Rake](http://rake.rubyforge.org/) for building this package.
 
-TODO
-----
+"TODO"
+------
 
 Tasks planned to be done for this package.
 
-generated
----------
+"generated"
+-----------
 
 All generated files—generated parsers, object files, temporary assets—are put into this directory.
 
-proof
------
+"proof"
+-------
 
 Formal proof of this package correctness. Not done yet.
 
-<a id="samples"/> samples
--------------------------
+<a id="samples"/> "samples"
+---------------------------
 
 Sample grammar descriptions for [peg2rb.rb](#peg2rb.rb), scripts to generate and run parsers from them and sample input data for the parsers.
 
