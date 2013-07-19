@@ -52,7 +52,7 @@ key-values: JSON =
 key-value: [String, String] =
   white-space*
   -- key "=" --
-  < char*? >:key white-space* "=" ]
+  < (!EOL char)*? >:key white-space* "=" ]
   -- value --
   < char*? >:value white-space* EOL ]
   --
