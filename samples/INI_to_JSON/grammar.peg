@@ -46,7 +46,7 @@ key-values: JSON =
   ;
 
 key-value: [String, String] =
-  ' '* < char*? >:key "=" ] < char*? >:value EOL
+  ' '* < char*? >:(key) "=" ] < char*? >:(value) EOL
   { val = [key, value] } ;
 
 empty-line = white-space* EOL ;
