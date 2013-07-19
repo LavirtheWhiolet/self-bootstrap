@@ -35,6 +35,7 @@ key-values: JSON =
   { val = JSON.new }
   (
     / empty-line
+    / comment
     / key-value: key_value
       {
         key, value = *key_value
