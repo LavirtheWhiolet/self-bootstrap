@@ -8,7 +8,7 @@ A general-purpose parser generator that converts a grammar description for an ex
 
 The input grammar description has its own grammar which is described in [peg2rb.peg](#peg2rb.peg) (in terms of the [peg2rb.rb](#peg2rb.rb)'s input grammar itself). You may also see samples of the input grammar description in [samples](#samples).
 
-This program generates a [Ruby](http://ruby-lang.org) script containing the following (in order of appearance):
+The output program is a [Ruby](http://ruby-lang.org) script containing the following (in order of appearance):
 
 * Content of the `{...}` block before all rules in the input grammar description (if it is present).
 * `yy_parse(io)` method. It either returns a semantic value of the first rule of the grammar or raises YY\_SyntaxError (see below).<br/>
