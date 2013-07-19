@@ -50,8 +50,12 @@ key-values: JSON =
   ;
 
 key-value: [String, String] =
-  ' '* < char*? >:(key) "=" ] < char*? >:(value) EOL
-  { val = [key, value] } ;
+  white-space* key:(key) white-space* '=' white-space value:(value) EOL
+  { val = [key.strip, value.strip] } ;
+
+key = < (!('='/'['/']'/white-space) char)* >:val ;
+
+value = < (!(EOL/white-space) char*) >:val ;
 
 empty-line = white-space* EOL ;
 
