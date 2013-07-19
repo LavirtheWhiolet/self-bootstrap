@@ -34,15 +34,18 @@ section: JSON =
 key-values: JSON =
   { val = JSON.new }
   (
-    / empty-line
-    / comment
-    / key-value: key_value
-      {
-        key, value = *key_value
-        key = key.strip; value = value.strip
-        val += ", " if not val.empty?
-        val += %("#{key.escape}": "#{value.escape}")
-      }
+    !$
+    (
+      / empty-line
+      / comment
+      / key-value: key_value
+        {
+          key, value = *key_value
+          key = key.strip; value = value.strip
+          val += ", " if not val.empty?
+          val += %("#{key.escape}": "#{value.escape}")
+        }
+    )
   )*
   ;
 
