@@ -178,6 +178,10 @@ expr100: Code <-
   ;
 
 rule: [Nonterminal, MethodName, Code] <-
+  -- rule name --
+  (
+    Ruby-method-name
+  )
   nonterminal:n (`:` rule-type)? `<-/=` expr:c `;`
   {
     method_name = new_unique_nonterminal_method_name
