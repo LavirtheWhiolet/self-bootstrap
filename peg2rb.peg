@@ -257,6 +257,19 @@ Ruby-variable-middle <-
   Ruby-variable-start /
   "0"..."9" ;
 
+Ruby-method: String <-
+  < Ruby-method-start (Ruby-method-middle)* >:val ` `;
+
+Ruby-method-start <-
+  / "a"..."z" /
+  / "_"
+  ;
+
+Ruby-method-middle <-
+  / Ruby-method-start
+  / "0"..."9"
+  ;
+
 # TODO: Extract ` ` outside of the parentheses.
 nonterminal: Nonterminal <-
   !keyword
