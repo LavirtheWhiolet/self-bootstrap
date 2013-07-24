@@ -261,7 +261,7 @@ Ruby-method: String <-
   < Ruby-method-start (Ruby-method-middle)* >:val ` `;
 
 Ruby-method-start <-
-  / "a"..."z" /
+  / "a"..."z"
   / "_"
   ;
 
