@@ -180,7 +180,8 @@ expr100: Code <-
 rule: [Nonterminal, MethodName, Code] <-
   -- rule name --
   (
-    Ruby-method-name
+    / Ruby-method-name:(method_name) `(` `)`
+    / nonterminal:(nonterminal)
   )
   nonterminal:n (`:` rule-type)? `<-/=` expr:c `;`
   {
