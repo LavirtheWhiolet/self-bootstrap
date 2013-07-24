@@ -261,15 +261,15 @@ Ruby-variable-middle <-
   Ruby-variable-start /
   "0"..."9" ;
 
-Ruby-method: String <-
-  < Ruby-method-start (Ruby-method-middle)* >:val ` `;
+Ruby-method-name: String <-
+  < Ruby-method-name-start (Ruby-method-name-middle)* >:val ` `;
 
-Ruby-method-start <-
+Ruby-method-name-start <-
   / "a"..."z"
   / "_"
   ;
 
-Ruby-method-middle <-
+Ruby-method-name-middle <-
   / Ruby-method-start
   / "0"..."9"
   ;
