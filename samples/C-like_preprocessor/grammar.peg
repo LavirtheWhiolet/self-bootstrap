@@ -5,50 +5,11 @@ require 'stringio'
 
 }...
 
-line: String =
+# Semantic value is processed lines.
+lines: String =
   { val = "" }
-  (line-item:(li) { val << li })*? end-of-line:(eol) {val << eol}
+  (line:(l) {val << l})*
   ;
-
-process_line(io): String =
-  / "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ macro-body:(macro_body)
-    {
-      @macros[macro_name] = macro_body
-      val = ""
-    }
-  / {val = ""} (line-item:(li) {val << li})*
-  ;
-
-macro-body: String =
-  { val = "" }
-  (
-    line-item:(li)
-    { val << li }
-  )*
-  ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Semantic value is processed line.
 line: String =
