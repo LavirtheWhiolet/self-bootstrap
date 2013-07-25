@@ -34,7 +34,7 @@ line-item: String =
 
 ` ` = " " ;
 
-is_macro_name(): Boolean =
+is_macro_name(io): Boolean =
   / macro-name $ { val = true }
   / { val = false }
   ;
