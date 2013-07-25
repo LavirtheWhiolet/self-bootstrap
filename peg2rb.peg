@@ -564,7 +564,7 @@ newline <-
     )
   end
 
-  def parser_entry_point(entry_method_name, parsing_method_name)
+  def parser_entry_point(method_name, parsing_method_name)
     code %(
 
       # 
@@ -573,7 +573,7 @@ newline <-
       # 
       # It may raise YY_SyntaxError.
       # 
-      def #{entry_method_name}(input)
+      def #{method_name}(input)
         @yy_input = input
         @yy_input.set_encoding("UTF-8", "UTF-8")
         #{parsing_method_name} or raise YY_SyntaxError
