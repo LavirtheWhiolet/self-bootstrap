@@ -81,10 +81,12 @@ grammar <-
         end
         # 
         if rule.need_entry_point?
-
+          code += parser_entry_point(rule.name, rule.method_name)
+        end
+        #
+        code += rule.impl
         # 
         method_names[rule.name] = rule.method_name
-        code += rule.impl
       }
     / action:(action_code)
       {
