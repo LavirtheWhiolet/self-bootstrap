@@ -8,13 +8,12 @@ require 'stringio'
 line: String =
   { val = "" }
   (
-    / "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ macro-body:(macro_body)
-      { @macros[macro_name] = macro_body }
-    / line-item:(s)
-      {
-        
-  }
+    line-item:(li) { val << li }
+  )
   ;
+
+process_line(io): String =
+  / "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ macro-body:(macro_body
 
 macro-body: String =
   { val = "" }
