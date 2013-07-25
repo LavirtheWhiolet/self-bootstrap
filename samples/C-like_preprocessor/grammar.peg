@@ -5,6 +5,10 @@ require 'stringio'
 
 }...
 
+program =
+  { @macros = Hash.new }
+  lines:(val) ;
+
 # Semantic value is processed lines.
 lines: String =
   { val = "" }
@@ -98,7 +102,7 @@ end-of-line =
 {...
 
 File.open(ARGV[0]) do |input|
-  yy_parse(input)
+  puts yy_parse(input)
 end
 
 }...
