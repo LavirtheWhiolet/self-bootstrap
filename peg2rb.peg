@@ -285,7 +285,7 @@ Ruby-method-name-start <-
   ;
 
 Ruby-method-name-middle <-
-  / Ruby-method-start
+  / Ruby-method-name-start
   / "0"..."9"
   ;
 
