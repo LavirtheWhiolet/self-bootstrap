@@ -177,20 +177,60 @@ expr100: Code <-
   / `@` { val = code "@yy_input.pos" }
   ;
 
-rule: [Nonterminal, MethodName, Code] <-
+rule: Rule <-
+  { val = Rule.new }
   -- rule name --
   (
-    / Ruby-method-name:(rule_name) `(` (`...` / Ruby-local-variable)? `)` { method_name = rule_name }
-    / nonterminal:(rule_name) { method_name = new_unique_nonterminal_method_name }
+    / Ruby-method-name:(rule_name) `(` (`...` / Ruby-local-variable)? `)`
+      {
+        val.method_name = val.rule_name = rule_name
+        val.need_entry_point!
+      }
+    / nonterminal:(rule_name)
+      {
+        val.rule_name = rule_name
+        val.method_name = new_unique_nonterminal_method_name
+      }
   )
   -- semantic value type --
   (`:` rule-type)?
   --
   `<-/=`
   -- right part --
-  expr:c `;`
-  -- post-process --
-  { val = [rule_name, method_name, to_method_definition(c, method_name)] } ;
+  expr:(impl) `;`
+  { val.impl = impl }
+  ;
+
+{...
+
+  class Rule
+
+    def initialize()
+      @need_entry_point = false
+    end
+
+    # Nonterminal
+    attr_accessor :name
+    
+    # Code
+    attr_accessor :impl
+
+    # MethodName
+    attr_accessor :method_name
+
+    # Default is false.
+    def need_entry_point?
+      @need_entry_point
+    end
+
+    # sets #need_entry_point? to true.
+    def need_entry_point!
+      @need_entry_point = true
+    end
+
+  end
+
+}...
 
 rule-type <-
   ((!`<-/=` char) ` `)+ ;
