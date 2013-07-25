@@ -56,8 +56,24 @@ line: String =
   (line-item:(l) {val << li})*? end-of-line:(eol) {val << eol} ;
 
 process_line(io): String =
+  -- macro definition --
   / "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ < char* >:(macro_body)
     { @macros[macro_name] = macro_body }
+  -- ordinary line --
+  / { val = ""; need_process_again = false }
+    (
+      line-item:(x)
+      {
+        # Expand macro (if it is macro).
+        if is_macro_name(StringIO.new(x)) and @macros.has_key?(x) then
+          x = @macros[x]
+          need_process_again = true
+        end
+        # 
+        val << x
+      }
+    )*
+  ;
 
 line-item: String =
   / comment:(val)
