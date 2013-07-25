@@ -81,7 +81,7 @@ grammar <-
         end
         # 
         if rule.need_entry_point?
-          code += parser_entry_point(rule.name, rule.method_name)
+          code += parser_entry_point(rule.entry_point_method_name, rule.method_name)
         end
         #
         code += rule.impl
