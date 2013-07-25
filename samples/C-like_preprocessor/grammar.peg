@@ -16,36 +16,13 @@ macro-body: String =
   )*
   ;
 
-line-item: LineItem =
-  { is_macro_name = false }
-  / comment:(s)
-  / string:(s)
-  / "\" newline:(s)
-  / macro-name:(s) { is_macro_name = true }
-  / char:(s)
-  { val = LineItem.new(s, is_macro_name)
+line-item: String =
+  / comment:(val)
+  / string:(val)
+  / "\" newline:(val)
+  / macro-name:(val)
+  / char:(val)
   ;
-
-{...
-
-class LineItem
-  
-  def initialize(str, is_macro_name)
-    @str = str
-    @is_macro_name = is_macro_name
-  end
-
-  def macro_name?
-    @is_macro_name
-  end
-
-  def to_s
-    @str
-  end
-
-end
-
-}...
 
 ` ` = " " ;
 
