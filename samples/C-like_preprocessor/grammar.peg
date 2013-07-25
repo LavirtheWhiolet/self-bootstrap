@@ -15,7 +15,7 @@ lines: String =
 line: String =
   -- read line --
   { line = "" }
-  (line-item:(i) { line << i })*? end-of-line:(eol)
+  (line-item:(i) { line << i })*? < end-of-line >:(eol)
   -- process the line --
   {
     # Process the line until it stops to change.
@@ -93,7 +93,7 @@ newline =
   ;
 
 end-of-line =
-  < newline / $ >:val ;
+  newline / $ ;
 
 {...
 
