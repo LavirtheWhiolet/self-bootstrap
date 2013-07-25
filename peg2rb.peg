@@ -193,7 +193,7 @@ rule: [Nonterminal, MethodName, Code] <-
   {
     method_name = (method_name or new_unique_nonterminal_method_name)
     val = [
-      nonterminal or method_name,
+      (nonterminal or method_name),
       method_name,
       to_method_definition(c, method_name)
     ]
