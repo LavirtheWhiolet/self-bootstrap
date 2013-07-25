@@ -53,7 +53,7 @@ macro-body: String =
 
 line: String =
   {val = ""}
-  (line-item:l {val << li})*? end-of-line:eol {val << eol} ;
+  (line-item:(l) {val << li})*? end-of-line:(eol) {val << eol} ;
 
 line-item: String =
   / comment:(val)
