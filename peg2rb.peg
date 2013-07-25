@@ -16,46 +16,28 @@ class String
 end
 
 
-# Collection of unique items.
-class Unique
+class UniqueNumber
   
-  # returns unique number on each call.
-  def new_unique_number
-    result = @next_unique_number
-    @next_unique_number += 1
-    return result
-  end
-
-  # returns unique value on each call. The value starts with "yy_var" and is
-  # lowcase.
-  def new_unique_variable_name
-    "yy_var#{new_unique_number.to_s(36)}"
-  end
-
-  def initialize()
-    @next_unique_number = 0
-  end
-
-  # The value starts with "yy_nonterm" and is lowcase.
-  def nonterminal_method_name
-    "yy_nonterm#{new_unique_number.to_s(36)}"
-  end
-  
-  def number
-    result = @next_unique_number
-    @next_unique_number += 1
-    return result
-  end
-  
-  # The value starts with "yy_var" and is lowcase.
-  def variable_name
-    "yy_var#{new_unique_number.to_s(36)}"
-  end
-
   begin
-    @@instance = Unique.new
+    @@next = 0
   end
-  
+
+  def self.new
+    @@next.tap { @@next += 1 }
+  end
+
+end
+
+
+# The value starts with "yy_var" and is lowcase.
+def new_unique_variable_name
+  "yy_var#{UniqueNumber.new.to_s(36)}"
+end
+
+
+# The value starts with "yy_nonterm" and is lowcase.
+def new_unique_nonterminal_method_name
+  "yy_nonterm#{UniqueNumber.new.to_s(36)}"
 end
 
 
@@ -250,23 +232,23 @@ rule: Rule <-
 
     def initialize()
       @need_entry_point = false
-      @method_name = PEGParserGenerator.new_unique_nonterminal_method_name
+      @method_name = new_unique_nonterminal_method_name
     end
-
+    
     # Nonterminal
     attr_accessor :name
     
     # Code
     attr_accessor :impl
-
+    
     # MethodName
     attr_reader :method_name
-
+    
     # Default is false.
     def need_entry_point?
       @need_entry_point
     end
-
+    
     # sets #need_entry_point? to true.
     def need_entry_point!
       @need_entry_point = true
