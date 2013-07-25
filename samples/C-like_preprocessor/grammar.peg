@@ -8,14 +8,27 @@ require 'stringio'
 
 # returns processed line.
 line: String =
-  / macro-definition
-  /
   { val = "" }
   (
     (
       / < string >:s
       / < comment >:s
       / "\" < newline >:s
+      / macro-name:(macro_name)
+        {
+          s =
+            if @macros.has_key? macro_name then
+              lines(StringIO.new(@macros[macro_name]))
+            else
+              macro_name
+            end
+        }
+      / macro-definition:(macro_definition)
+        {
+          macro_name, macro_body = *macro_definition
+          @macros[macro_name] = macro_body
+          s = ""
+        }
       / < char >:s
     )
     { val << s }
