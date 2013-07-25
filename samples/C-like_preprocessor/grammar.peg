@@ -27,13 +27,37 @@ macro-body: String =
   )*
   ;
 
-# Semantic value is processed string (with all macros expanded).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 line-item: String =
   / comment:(val)
   / string:(val)
   / "\" newline:(val)
-  / macro-name:(macro_name)
-    { val = (@macros[macro_name] or macro_name) }
+  / macro-name:(val)
   / char:(val)
   ;
 
