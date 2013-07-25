@@ -96,7 +96,7 @@ end-of-line =
 {...
 
 File.open(ARGV[0]) do |input|
-  print Preprocessor.new.(input)
+  yy_parse(input)
 end
 
 }...
