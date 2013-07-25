@@ -498,20 +498,8 @@ newline <-
     end))
   end
   
-  def auxiliary_parser_code(main_parsing_method_name)
+  def auxiliary_parser_code
     code %(
-      
-      # 
-      # +input+ is IO. It must have working IO#pos, IO#pos= and
-      # IO#set_encoding() methods.
-      # 
-      # It may raise YY_SyntaxError.
-      # 
-      def yy_parse(input)
-        @yy_input = input
-        @yy_input.set_encoding("UTF-8", "UTF-8")
-        x = #{main_parsing_method_name} or raise YY_SyntaxError
-      end
       
       # converts value to parser-compatible value (which is always non-false and
       # non-nil).
@@ -553,6 +541,23 @@ newline <-
       end
       
       class YY_SyntaxError < Exception
+      end
+    )
+  end
+
+  def parser_entry_point(main_parsing_method_name)
+    code %(
+      
+      # 
+      # +input+ is IO. It must have working IO#pos, IO#pos= and
+      # IO#set_encoding() methods.
+      # 
+      # It may raise YY_SyntaxError.
+      # 
+      def #{main_parsing_method_name}(input)
+        @yy_input = input
+        @yy_input.set_encoding("UTF-8", "UTF-8")
+        x = #{main_parsing_method_name} or raise YY_SyntaxError
       end
     )
   end
