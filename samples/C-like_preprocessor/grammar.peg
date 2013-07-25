@@ -55,6 +55,9 @@ line: String =
   {val = ""}
   (line-item:(l) {val << li})*? end-of-line:(eol) {val << eol} ;
 
+process_line(io): String =
+  / "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ macro-body:(macro_body)
+
 line-item: String =
   / comment:(val)
   / string:(val)
