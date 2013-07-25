@@ -253,6 +253,10 @@ rule: Rule <-
       @need_entry_point = true
     end
 
+    def entry_point_method_name
+      name
+    end
+
   end
 
 }...
