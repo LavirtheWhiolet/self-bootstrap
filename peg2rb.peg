@@ -73,8 +73,8 @@ grammar <-
   (
     / rule:(rule)
       {
-        # 
-        nonterminal, method_name, method_code = *r
+        # Entry point.
+        
         # 
         if rule_is_first
           code += auxiliary_parser_code(rule.method_name)
