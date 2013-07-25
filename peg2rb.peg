@@ -16,6 +16,49 @@ class String
 end
 
 
+# Collection of unique items.
+class Unique
+  
+  # returns unique number on each call.
+  def new_unique_number
+    result = @next_unique_number
+    @next_unique_number += 1
+    return result
+  end
+
+  # returns unique value on each call. The value starts with "yy_var" and is
+  # lowcase.
+  def new_unique_variable_name
+    "yy_var#{new_unique_number.to_s(36)}"
+  end
+
+  def initialize()
+    @next_unique_number = 0
+  end
+
+  # The value starts with "yy_nonterm" and is lowcase.
+  def nonterminal_method_name
+    "yy_nonterm#{new_unique_number.to_s(36)}"
+  end
+  
+  def number
+    result = @next_unique_number
+    @next_unique_number += 1
+    return result
+  end
+  
+  # The value starts with "yy_var" and is lowcase.
+  def variable_name
+    "yy_var#{new_unique_number.to_s(36)}"
+  end
+
+  begin
+    @@instance = Unique.new
+  end
+  
+end
+
+
 # 
 class PEGParserGenerator
   
@@ -207,6 +250,7 @@ rule: Rule <-
 
     def initialize()
       @need_entry_point = false
+      @method_name = PEGParserGenerator.new_unique_nonterminal_method_name
     end
 
     # Nonterminal
@@ -216,7 +260,7 @@ rule: Rule <-
     attr_accessor :impl
 
     # MethodName
-    attr_accessor :method_name
+    attr_reader :method_name
 
     # Default is false.
     def need_entry_point?
@@ -547,7 +591,7 @@ newline <-
 
   def parser_entry_point(main_parsing_method_name)
     code %(
-      
+
       # 
       # +input+ is IO. It must have working IO#pos, IO#pos= and
       # IO#set_encoding() methods.
@@ -560,25 +604,6 @@ newline <-
         x = #{main_parsing_method_name} or raise YY_SyntaxError
       end
     )
-  end
-  
-  # returns unique value on each call. The value starts with "yy_nonterm" and is
-  # lowcase.
-  def new_unique_nonterminal_method_name
-    "yy_nonterm#{new_unique_number.to_s(36)}"
-  end
-  
-  # returns unique number on each call.
-  def new_unique_number
-    result = @next_unique_number
-    @next_unique_number += 1
-    return result
-  end
-  
-  # returns unique value on each call. The value starts with "yy_var" and is
-  # lowcase.
-  def new_unique_variable_name
-    "yy_var#{new_unique_number.to_s(36)}"
   end
   
   # 
