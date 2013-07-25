@@ -19,13 +19,13 @@ line: String =
   -- process the line --
   {
     # Process the line until it stops to change.
-    new_line = nil
-    until new_line != line
-      line = new_line
-      new_line = process_line_once(StringIO.new(line))
+    old_line = nil
+    until line == old_line
+      old_line = line
+      line = process_line_once(StringIO.new(line))
     end
     # 
-    val = new_line
+    val = line
   }
   -- don't forget end-of-line! --
   { val << eol }
