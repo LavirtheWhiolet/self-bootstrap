@@ -54,7 +54,7 @@ macro-body: String =
 line: String =
   -- read line --
   { line = "" }
-  (line-item:(li) { line << li })*? end-of-line:(eol)
+  (line-item:(i) { line << i })*? end-of-line:(eol)
   -- process the line --
   {
     # Process the line until it stops to change.
