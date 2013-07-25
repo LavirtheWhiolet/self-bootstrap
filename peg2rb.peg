@@ -190,8 +190,7 @@ rule: [Nonterminal, MethodName, Code] <-
   -- right part --
   expr:c `;`
   -- post-process --
-  { val = [ nonterminal, method_name, to_method_definition(c, method_name) ] }
-  ;
+  { val = [rule_name, method_name, to_method_definition(c, method_name)] } ;
 
 rule-type <-
   ((!`<-/=` char) ` `)+ ;
