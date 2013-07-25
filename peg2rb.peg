@@ -52,16 +52,16 @@ grammar <-
         nonterminal, method_name, method_code = *r
         # 
         if rule_is_first
-          code += auxiliary_parser_code(method_name)
+          code += auxiliary_parser_code(rule.method_name)
           rule_is_first = false
         end
         # 
-        method_names[nonterminal] = method_name
-        code += method_code
+        method_names[rule.name] = rule.method_name
+        code += rule.impl
       }
-    / action:x
+    / action:(action_code)
       {
-        code += code(x)
+        code += code(action_code)
       }
   )*
   $
