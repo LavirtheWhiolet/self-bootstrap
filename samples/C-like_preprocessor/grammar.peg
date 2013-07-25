@@ -6,7 +6,10 @@ require 'stringio'
 
 }...
 
-
+line =
+  { val = "" }
+  ()*? line-end
+  ;
 
 macro-definition =
   `#` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body) line-end
