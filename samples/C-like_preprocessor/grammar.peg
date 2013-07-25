@@ -12,7 +12,7 @@ macro-body: String =
   { val = "" }
   (
     line-item:(li)
-    { val << li.to_s }
+    { val << li }
   )*
   ;
 
