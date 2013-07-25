@@ -6,11 +6,19 @@ require 'stringio'
 
 }...
 
-line =
-  { val = "" }
+# returns processed line.
+line: String =
+  { line = "" }
   (
-    / < string >:s
+    (
+      / < string >:s
+      / < comment >:s
+      / "\" < newline >:s
+      / < char >:s
+    )
+    { line << s }
   )*? end-of-line
+  { val = process_line(StringIO.new(line)) }
   ;
 
 macro-definition =
