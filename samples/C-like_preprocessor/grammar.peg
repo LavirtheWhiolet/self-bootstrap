@@ -11,7 +11,9 @@ line: String =
   ;
 
 process_line(io): String =
-  / "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ macro-body:(macro_body
+  / "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ macro-body:(macro_body)
+    { @macros[macro_name] = macro_body }
+  
 
 macro-body: String =
   { val = "" }
