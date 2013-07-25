@@ -235,8 +235,6 @@ rule: Rule <-
     # Nonterminal
     attr_accessor :name
     
-    alias nonterminal name
-
     # Code
     attr_accessor :impl
 
