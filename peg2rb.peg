@@ -81,7 +81,7 @@ grammar <-
         end
         # 
         if rule.need_entry_point?
-          
+
         # 
         method_names[rule.name] = rule.method_name
         code += rule.impl
@@ -233,6 +233,8 @@ rule: Rule <-
     # Nonterminal
     attr_accessor :name
     
+    alias nonterminal name
+
     # Code
     attr_accessor :impl
 
