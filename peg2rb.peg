@@ -224,7 +224,7 @@ rule: Rule <-
   ;
 
 {...
-
+  
   class Rule
     
     def initialize()
