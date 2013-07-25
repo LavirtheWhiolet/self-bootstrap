@@ -178,11 +178,10 @@ expr100: Code <-
   ;
 
 rule: [Nonterminal, MethodName, Code] <-
-  { method_name = new_unique_nonterminal_method_name }
   -- rule name --
   (
-    / Ruby-method-name:(rule_name) (`(` (`...` / Ruby-local-variable)? `)` { method_name = rule_name })?
-    / nonterminal:(rule_name)
+    / Ruby-method-name:(rule_name) `(` (`...` / Ruby-local-variable)? `)` { method_name = rule_name }
+    / nonterminal:(rule_name) { method_name = new_unique_nonterminal_method_name }
   )
   -- semantic value type --
   (`:` rule-type)?
