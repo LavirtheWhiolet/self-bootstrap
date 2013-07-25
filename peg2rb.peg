@@ -84,7 +84,7 @@ grammar <-
           code += parser_entry_point_code(rule.entry_point_method_name, rule.method_name)
         end
         #
-        code += rule.impl
+        code += rule.method_definition
         # 
         method_names[rule.name] = rule.method_name
       }
@@ -226,7 +226,7 @@ rule: Rule <-
 {...
   
   class Rule
-    
+
     def initialize()
       @need_entry_point = false
       @method_name = new_unique_nonterminal_method_name
@@ -240,26 +240,26 @@ rule: Rule <-
     # It is Code.
     # 
     attr_accessor :method_definition
-    
+
     # MethodName
     attr_reader :method_name
-    
+
     # Default is false.
     def need_entry_point?
       @need_entry_point
     end
-    
+
     # sets #need_entry_point? to true.
     def need_entry_point!
       @need_entry_point = true
     end
-    
+
     def entry_point_method_name
       name
     end
-    
+
   end
-  
+
 }...
 
 rule-type <-
