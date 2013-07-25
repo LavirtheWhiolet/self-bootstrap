@@ -51,7 +51,9 @@ macro-body: String =
 
 
 
-
+line: String =
+  {val = ""}
+  (line-item:li {val << li})*? end-of-line
 
 line-item: String =
   / comment:(val)
