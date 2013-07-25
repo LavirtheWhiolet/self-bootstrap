@@ -75,13 +75,13 @@ grammar <-
       {
         # 
         if rule_is_first
-          code += parser_entry_point("yy_parse", rule.method_name)
+          code += parser_entry_point_code("yy_parse", rule.method_name)
           code += auxiliary_parser_code
           rule_is_first = false
         end
         # 
         if rule.need_entry_point?
-          code += parser_entry_point(rule.entry_point_method_name, rule.method_name)
+          code += parser_entry_point_code(rule.entry_point_method_name, rule.method_name)
         end
         #
         code += rule.impl
@@ -572,7 +572,7 @@ newline <-
     )
   end
 
-  def parser_entry_point(method_name, parsing_method_name)
+  def parser_entry_point_code(method_name, parsing_method_name)
     code %(
 
       # 
