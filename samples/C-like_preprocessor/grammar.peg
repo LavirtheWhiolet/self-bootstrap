@@ -50,10 +50,12 @@ macro-body: String =
 
 
 
-
+# Semantic value is processed line.
 line: String =
-  {val = ""}
-  (line-item:(l) {val << li})*? end-of-line:(eol) {val << eol} ;
+  { line = "" }
+  (line-item:(li) { line << li })*? end-of-line:(eol) { val << eol }
+  { val = process_line(StringIO.new(line)) }
+  ;
 
 process_line(io): String =
   -- macro definition --
