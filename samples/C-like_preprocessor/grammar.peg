@@ -5,6 +5,23 @@ require 'stringio'
 
 }...
 
+# returns processed line item.
+line-item: String =
+  / comment:(val)
+  / string:(val)
+  / "\" newline:(val)
+  / macro-name:(macro_name)
+    {
+      val =
+        if @macros.has_key? macro_name
+          lines(StringIO.new(@macros[macro_name]))
+        else
+          macro_name
+        end
+    }
+  / char:(val)
+  ;
+
 `#` =
   "#" ` ` ;
 
