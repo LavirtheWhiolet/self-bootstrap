@@ -46,7 +46,8 @@ comment: String =
   / "/*" char*? "*/"
   ;
 
-string: String = '"' ("\" char / char)*? '"' ;
+string: String =
+  '"' ("\" char / char)*? '"' ;
 
 newline =
   / U+000D U+000A
