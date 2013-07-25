@@ -576,8 +576,10 @@ newline <-
       def #{entry_method_name}(input)
         @yy_input = input
         @yy_input.set_encoding("UTF-8", "UTF-8")
-        x = #{parsing_method_name} or raise YY_SyntaxError
+        #{parsing_method_name} or raise YY_SyntaxError
       end
+
+      # TODO: Allow to pass String to the entry point.
     )
   end
   
