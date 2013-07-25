@@ -219,8 +219,8 @@ rule: Rule <-
   --
   `<-/=`
   -- right part --
-  expr:(impl) `;`
-  { rule.impl = impl }
+  expr:(c) `;`
+  { rule.impl = to_method_definition(c, rule.method_name) }
   ;
 
 {...
