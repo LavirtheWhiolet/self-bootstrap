@@ -254,6 +254,9 @@ keyword <-
 Ruby-variable: String <-
   < ("@" / "$")? Ruby-variable-start (Ruby-variable-middle)* >:val ` `;
 
+Ruby-local-variable <-
+  < Ruby-variable-start (Ruby-variable-middle)* >:val ` `;
+
 Ruby-variable-start <-
   "a"..."z" /
   "_" ;
