@@ -46,7 +46,7 @@ grammar <-
   }
   ` `
   (
-    / rule:r
+    / rule:(rule)
       {
         # 
         nonterminal, method_name, method_code = *r
