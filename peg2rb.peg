@@ -207,20 +207,20 @@ expr100: Code <-
   ;
 
 rule: Rule <-
-  { val = Rule.new }
+  { rule = val = Rule.new }
   -- rule name --
   (
-    / Ruby-method-name:(rule_name) `(` (`...` / Ruby-local-variable)? `)` { val.need_entry_point! }
+    / Ruby-method-name:(rule_name) `(` (`...` / Ruby-local-variable)? `)` { rule.need_entry_point! }
     / nonterminal:(rule_name)
   )
-  { val.rule_name = rule_name }
+  { rule.name = rule_name }
   -- semantic value type --
   (`:` rule-type)?
   --
   `<-/=`
   -- right part --
   expr:(impl) `;`
-  { val.impl = impl }
+  { rule.impl = impl }
   ;
 
 {...
