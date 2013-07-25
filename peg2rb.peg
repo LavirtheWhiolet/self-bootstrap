@@ -220,7 +220,7 @@ rule: Rule <-
   `<-/=`
   -- right part --
   expr:(c) `;`
-  { rule.impl = to_method_definition(c, rule.method_name) }
+  { rule.method_definition = to_method_definition(c, rule.method_name) }
   ;
 
 {...
@@ -235,8 +235,11 @@ rule: Rule <-
     # Nonterminal
     attr_accessor :name
     
-    # Code
-    attr_accessor :impl
+    # Definition of method implementing this Rule.
+    # 
+    # It is Code.
+    # 
+    attr_accessor :method_definition
 
     # MethodName
     attr_reader :method_name
