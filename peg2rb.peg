@@ -190,6 +190,7 @@ rule: [Nonterminal, MethodName, Code] <-
   `<-/=`
   -- right part --
   expr:c `;`
+  -- post-process --
   {
     method_name = (method_name or new_unique_nonterminal_method_name)
     val = [
