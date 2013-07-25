@@ -6,7 +6,15 @@ require 'stringio'
 }...
 
 line: String =
-  / "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ macro-body
+  { val = "" }
+  (
+    / "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ macro-body:(macro_body)
+      { @macros[macro_name] = macro_body }
+    / line-item:(s)
+      {
+        
+  }
+  ;
 
 macro-body: String =
   { val = "" }
@@ -25,6 +33,11 @@ line-item: String =
   ;
 
 ` ` = " " ;
+
+is_macro_name(): Boolean =
+  / macro-name $ { val = true }
+  / { val = false }
+  ;
 
 macro-name: String =
   < macro-name-start macro-name-middle* >:val ;
