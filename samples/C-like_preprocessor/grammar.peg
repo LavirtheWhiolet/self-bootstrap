@@ -8,7 +8,7 @@ require 'stringio'
 
 # returns processed line.
 line: String =
-  { line = "" }
+  { val = "" }
   (
     (
       / < string >:s
@@ -16,9 +16,8 @@ line: String =
       / "\" < newline >:s
       / < char >:s
     )
-    { line << s }
+    { val << s }
   )*? end-of-line
-  { val = process_line(StringIO.new(line)) }
   ;
 
 macro-definition =
