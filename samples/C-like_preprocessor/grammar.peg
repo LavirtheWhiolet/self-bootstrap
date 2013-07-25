@@ -8,6 +8,8 @@ require 'stringio'
 
 # returns processed line.
 line: String =
+  / macro-definition
+  /
   { val = "" }
   (
     (
@@ -20,7 +22,7 @@ line: String =
   )*? end-of-line
   ;
 
-macro-definition =
+macro-definition: [String, String] =
   `#` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body) end-of-line
   { @macros[macro_name] = macro_body } ;
 
