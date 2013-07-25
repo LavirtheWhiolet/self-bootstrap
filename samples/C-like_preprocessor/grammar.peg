@@ -4,45 +4,9 @@
 require 'stringio'
 
 
-class Preprocessor
-
-  def call(input, already_defined_macros = Hash.new)
-    @last_newline_pos = 0
-    @macros = already_defined_macros
-    yy_parse(input)
-  end
-  
-  private
-  
 }...
 
-text =
-  { val = "" }
-  (text-element:e { val << e })* ;
 
-# Semantic value is processed text element.
-text-element: String =
-  / macro-definition { val = "" }
-  / macro-undefinition { val = "" }
-  / macro-name:(macro_name) { val = expand(macro_name) }
-  / string:(val)
-  / comment:(val)
-  / < newline >:val  # It is required to track last newline position.
-  / < char >:val
-  ;
-
-{...
-  
-  def expand(macro_name)
-    if @macros.has_key? macro_name then
-      val = @macros[macro_name]
-      val = Preprocessor.new.(StringIO.new(@macros[macro_name]), @macros.dup)
-    else
-      val = macro_name
-    end
-  end
-  
-}...
 
 macro-definition =
   `#` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body) line-end
@@ -53,7 +17,7 @@ macro-undefinition =
   { @macros.delete macro_name } ;
 
 `#` =
-  line-start "#" ` ` ;
+  "#" ` ` ;
 
 ` ` =
   " "* ;
@@ -92,26 +56,16 @@ comment: String =
 string: String =
   < '"' ("\" char / char)*? '"' >:val ;
 
-# NOTE: It also sets @last_newline_pos in case of success.
 newline =
-  @:(x)
-  (
-    / U+000D U+000A
-    / U+000D
-    / U+000A
-  )
-  { @last_newline_pos = x } ;
-
-line-start =
-  ^ / &(at @last_newline_pos: newline) ;
+  / U+000D U+000A
+  / U+000D
+  / U+000A
+  ;
 
 line-end =
   newline / $ ;
 
 {...
-
-end
-
 
 File.open(ARGV[0]) do |input|
   print Preprocessor.new.(input)
