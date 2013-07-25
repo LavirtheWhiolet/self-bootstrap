@@ -12,8 +12,12 @@ line: String =
 
 process_line(io): String =
   / "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ macro-body:(macro_body)
-    { @macros[macro_name] = macro_body }
-  
+    {
+      @macros[macro_name] = macro_body
+      val = ""
+    }
+  / {val = ""} (line-item:(li) {val << li})*
+  ;
 
 macro-body: String =
   { val = "" }
@@ -23,11 +27,13 @@ macro-body: String =
   )*
   ;
 
+# Semantic value is processed string (with all macros expanded).
 line-item: String =
   / comment:(val)
   / string:(val)
   / "\" newline:(val)
-  / macro-name:(val)
+  / macro-name:(macro_name)
+    { val = (@macros[macro_name] or macro_name) }
   / char:(val)
   ;
 
