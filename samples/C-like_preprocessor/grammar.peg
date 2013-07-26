@@ -109,7 +109,7 @@ end-of-line: String =
 {...
 
 File.open(ARGV[0]) do |input|
-  print yy_parse(input)
+  print preprocess(input)
 end
 
 }...
