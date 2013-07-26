@@ -6,11 +6,17 @@ require 'stringio'
 }...
 
 line: String =
-  { line = "" } (line-item:(li) { line << li })*? end-of-line:(eol)
+  {line = ""} (line-item:(li) {line << li})*? end-of-line:(eol)
   {
   };
 
-
+line0(): String =
+  -- macro definition --
+  / "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ <char*>:(macro_body)
+    { @macros[macro_name] = macro_body }
+    { val = "" }
+  / 
+  ;
 
 line-item: String =
   / comment:(val)
