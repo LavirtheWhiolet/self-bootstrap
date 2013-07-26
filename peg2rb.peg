@@ -435,7 +435,7 @@ newline <-
   # +capture_type+ may be:
   # 
   # [:capture] "Capture the semantic value to +target_var+"
-  # [:append]  "Append semantic value to +var+ using "<<" operator".
+  # [:append]  "Append semantic value to +target_var+ using "<<" operator".
   # 
   def capture_semantic_value_code(target_var, code, capture_type)
     parse_result_var = new_unique_variable_name
