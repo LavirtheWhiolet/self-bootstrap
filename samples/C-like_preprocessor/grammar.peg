@@ -5,6 +5,11 @@ require 'stringio'
 
 }...
 
+line: String =
+  { val = "" } (line-item:(li) { val << li })*? end-of-line:(eol)
+  {
+  };
+
 
 
 line-item: String =
