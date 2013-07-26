@@ -13,4 +13,4 @@
 - "{ lang: ... }" - a code which is inserted into resultant parser only if "lang" coincides with specified one".
 - Look behind. "<= expr".
 - "Append" expression ("expr:+var").
-- Default value of "val" should be "".
+- Default value of all variables should be "".
