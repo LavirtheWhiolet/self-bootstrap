@@ -69,7 +69,7 @@ macro-name-middle =
   ;
 
 comment: String =
-  / < "//" char*? >:(val) end-of-line
+  / < "//" char*? >:(val) &end-of-line
   / < "/*" char*? "*/" >:(val)
   ;
 
