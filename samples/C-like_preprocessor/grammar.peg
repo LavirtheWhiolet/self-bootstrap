@@ -20,12 +20,12 @@ preprocess(): String =
 
 expand_lines(): String =
   { val = "" }
-  (expand_line:+val)*? $
+  (expand_line :>> val)*? $
   ;
 
 expand_line(): String =
   { line = "" }
-  (line-item:+line)*? end-of-line:eol
+  (line-item :>> line)*? end-of-line:eol
   { val = expand_line0(line.to_io) + eol }
   ;
 
