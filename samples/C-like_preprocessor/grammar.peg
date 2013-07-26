@@ -23,7 +23,6 @@ expand_line(...): String =
   / ordinary-line:(val)
     { 
       line, expanded = *val
-      p val
       if expanded then
         line = expand_lines(StringIO.new(line))
       end
