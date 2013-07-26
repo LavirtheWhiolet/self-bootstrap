@@ -193,7 +193,7 @@ expr90: Code <-
 expr100: Code <-
   / char-range:r  { val = code "yy_char_range(yy_input, #{r.begin.to_ruby_code}, #{r.end.to_ruby_code})" }
   / string:s  { val = code "yy_string(yy_input, #{s.to_ruby_code})" }
-  / nonterminal:n  { val = UnknownMethodCall[n] }
+  / nonterminal:n  { val = UnknownMethodCall[n, "yy_input"] }
   / `char` { val = code "yy_input.getc" }  # IO#getc returns nil at end of input. That's OK for us.
   / action:a  { val = code "begin \n #{a} \n true \n end" }  # Newline must be present after action's body because it may include comments.
   / `$` { val = code "yy_input.eof?" }
@@ -600,7 +600,7 @@ newline <-
   def link(code, method_names)
     code.map do |code_part|
       if code_part.is_a? UnknownMethodCall and method_names.has_key? code_part.nonterminal
-        code "#{method_names[code_part.nonterminal]}()"
+        code "#{method_names[code_part.nonterminal]}(#{code_part.args_code.to_s})"
       else
         code_part
       end
@@ -738,13 +738,17 @@ newline <-
       
     end
     
-    def initialize(nonterminal)
+    def initialize(nonterminal, args_code)
       @nonterminal = nonterminal
+      @args_code = args_code
     end
     
     # Nonterminal associated with this UnknownMethodCall.
     attr_reader :nonterminal
     
+    # Code of arguments of this call. It is String.
+    attr_reader :args_code
+
     def to_s
       raise CodeCanNotBeDetermined.new self
     end
