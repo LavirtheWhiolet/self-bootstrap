@@ -10,10 +10,19 @@ lines: String =
   { val = "" } (line:(line) { val << line })*? $ ;
 
 line: String =
-  { line = "" } (line-item:(li) { line << li })*? end-of-line:(eol)
+  -- read a line --
+  { raw_line = "" } (line-item:(li) { raw_line << li })*? end-of-line:(eol)
+  -- expand the line --
   {
-    val = line0(StringIO.new(line)) + eol
-  };
+    old_line = nil
+    until old_line == line
+      old_line = line
+      line = line0(StringIO.new(line))
+    end
+  }
+  -- form resultant value --
+  { val = line + eol }
+  ;
 
 line0(): String =
   / macro-definition {val = ""}
