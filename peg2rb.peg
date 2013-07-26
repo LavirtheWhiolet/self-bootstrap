@@ -186,8 +186,8 @@ expr80: Code <-
 expr90: Code <-
   # Parentheses.
   `(` expr:val `)` /
-  # Text capture.
-  `<` expr:c `>` `:` capture-target-variable:var { val = capture_text_code(var, c) } /
+  # Capture/append text.
+  `<` expr:c `>` (`:` {t = :capture} / `:+` {t = :append}) capture-target-variable:var { val = capture_text_code(var, c, t) } /
   # 
   expr100:val ;
 
@@ -525,19 +525,31 @@ newline <-
   end
   
   # returns code which captures text to specified variable.
-  def capture_text_code(variable_name, parsing_code)
+  # 
+  # +capture_type+ may be one of the following:
+  # 
+  # [:capture] "Capture the text into the variable +target_variable_name+"
+  # [:append]  "Append the text to the variable +target_variable_name+"
+  # 
+  def capture_text_code(target_variable_name, parsing_code, capture_type)
     #
+    init_target_variable_code =
+      case capture_type
+      when :capture then %(#{target_variable_name} = "")
+      when :append then %()
+      else raise %(capture_type #{capture_type.inspect} is not supported)
+      end
     start_pos_var = new_unique_variable_name
     end_pos_var = new_unique_variable_name
     # 
     code(%(begin
-      #{variable_name} = ""
+      #{init_target_variable_code}
       #{start_pos_var} = yy_input.pos
       )) +
       parsing_code + code(%( and begin
         #{end_pos_var} = yy_input.pos
         yy_input.pos = #{start_pos_var}
-        #{variable_name} << yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
+        #{target_variable_name} << yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
       end
     end))
   end
