@@ -7,7 +7,7 @@ require 'stringio'
 
 lines: String =
   { @macros = {} }
-  { val = "" } (line:(line) {val << line})* $ ;
+  { val = "" } (line:(line) {val << line})*? $ ;
 
 line: String =
   { line = "" } (line-item:(li) { line << li })*? end-of-line:(eol)
