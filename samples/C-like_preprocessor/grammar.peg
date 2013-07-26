@@ -6,6 +6,7 @@ require 'stringio'
 }...
 
 lines: String =
+  { @macros = {} }
   { val = "" } (line:(line) {val << line})* $ ;
 
 line: String =
