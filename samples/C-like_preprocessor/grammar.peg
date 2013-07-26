@@ -3,63 +3,82 @@
 # encoding: UTF-8
 require 'stringio'
 
-
-class Preprocessor
-
-  def call(input, already_defined_macros = Hash.new)
-    @last_newline_pos = 0
-    @macros = already_defined_macros
-    yy_parse(input)
-  end
-  
-  private
-  
 }...
 
-text =
-  { val = "" }
-  (text-element:e { val << e })* ;
-
-# Semantic value is processed text element.
-text-element: String =
-  / macro-definition { val = "" }
-  / macro-undefinition { val = "" }
-  / macro-name:(macro_name) { val = expand(macro_name) }
-  / string:(val)
-  / comment:(val)
-  / < newline >:val  # It is required to track last newline position.
-  / < char >:val
+preprocess(): String =
+  { @macros = {} }
+  expand_lines:val
   ;
 
-{...
-  
-  def expand(macro_name)
-    if @macros.has_key? macro_name then
-      val = @macros[macro_name]
-      val = Preprocessor.new.(StringIO.new(@macros[macro_name]), @macros.dup)
-    else
-      val = macro_name
-    end
-  end
-  
-}...
+expand_lines(): String =
+  { val = "" }
+  (expand_line:line { val << line })*? $
+  ;
 
-macro-definition =
-  `#` "define" ` ` macro-name:(macro_name) ` ` macro-body:(macro_body) line-end
-  { @macros[macro_name] = macro_body } ;
+expand_line(): String =
+  { line = "" }
+  (line-item:li { line << li })*? end-of-line:eol
+  { val = expand_line0(StringIO.new(line)) + eol }
+  ;
 
-macro-undefinition =
-  `#` "undef" ` ` macro-name:(macro_name) line-end
-  { @macros.delete macro_name } ;
+expand_line0(): String =
+  / process_macro_definition {val = ""}
+  / process_macro_undefinition {val = ""}
+  / expand_ordinary_line:val
+    { 
+      line, expanded = *val
+      if expanded then
+        line = expand_lines(StringIO.new(line))
+      end
+      val = line
+    }
+  ;
 
-`#` =
-  line-start "#" ` ` ;
+process_macro_definition() =
+  { macro_body = "" }
+  "#" " "* "define" " "+ macro-name:name (" "+ <char*>:body)?
+  { @macros[name] = body }
+  ;
 
-` ` =
-  " "* ;
+process_macro_undefinition() =
+  "#" " "* "undef" " "+ macro-name:name
+  { @macros.delete(name) }
+  ;
+
+# returns expanded line and a flag showing that there were macros in the line.
+expand_ordinary_line(): [String, Boolean] =
+  { val = ""; expanded = false }
+  (
+    line-item:li
+    {
+      val <<
+        if is_macro_name(StringIO.new(li)) and @macros.has_key? li then
+          expanded = true
+          @macros[li]
+        else
+          li
+        end
+    }
+  )*
+  { val = [val, expanded] }
+  ;
+
+line-item: String =
+  / comment:(val)
+  / string:(val)
+  / "\" newline:(val)
+  / macro-name:(val)
+  / char:(val)
+  ;
+
+is_macro_name(io): Boolean =
+  / macro-name $ { val = true }
+  / { val = false }
+  ;
 
 macro-name: String =
-  < macro-name-start macro-name-middle* >:val ;
+  < macro-name-start macro-name-middle* >:val
+  ;
 
 macro-name-start =
   / "a"..."z"
@@ -72,49 +91,31 @@ macro-name-middle =
   / "0"..."9"
   ;
 
-macro-body: String =
-  { val = "" }
-  (
-    (
-      / < string >:s
-      / < comment >:s
-      / "\" < newline >:s
-      / < !newline char >:s
-    )
-    { val << s }
-  )* ;
-
 comment: String =
-  / < "//" char*? line-end >:val
+  / < "//" char*? >:val &end-of-line
   / < "/*" char*? "*/" >:val
   ;
 
 string: String =
-  < '"' ("\" char / char)*? '"' >:val ;
+  < '"' ("\" char / char)*? '"' >:val
+  ;
 
-# NOTE: It also sets @last_newline_pos in case of success.
-newline =
-  @:(x)
-  (
+newline: String =
+  <
     / U+000D U+000A
     / U+000D
     / U+000A
-  )
-  { @last_newline_pos = x } ;
+  >:val
+  ;
 
-line-start =
-  ^ / &(at @last_newline_pos: newline) ;
-
-line-end =
-  newline / $ ;
+end-of-line: String =
+  < newline / $ >:val
+  ;
 
 {...
 
-end
-
-
 File.open(ARGV[0]) do |input|
-  print Preprocessor.new.(input)
+  print preprocess(input)
 end
 
 }...
