@@ -76,10 +76,12 @@ comment: String =
 string: String =
   < '"' ("\" char / char)*? '"' >:(val) ;
 
-newline =
-  / U+000D U+000A
-  / U+000D
-  / U+000A
+newline: String =
+  <
+    / U+000D U+000A
+    / U+000D
+    / U+000A
+  >:(val)
   ;
 
 end-of-line: String =
