@@ -5,29 +5,29 @@ require 'stringio'
 
 }...
 
-lines: String =
+text: String =
   { @macros = {} }
+  expand_lines:(val) ;
+
+expand_lines(): String =
   { val = "" } (line:(line) { val << line })*? $ ;
 
 line: String =
-  -- read a line --
   { line = "" } (line-item:(li) { line << li })*? end-of-line:(eol)
-  -- expand the line --
-  {
-    old_line = nil
-    until old_line == line
-      old_line = line
-      line = expand_line_once(StringIO.new(line))
-    end
-  }
-  -- form resultant value --
-  { val = line + eol }
+  { val = expand_line(StringIO.new(line)) + eol }
   ;
 
-expand_line_once(...): String =
+expand_line(...): String =
   / macro-definition {val = ""}
   / macro-undefinition {val = ""}
   / ordinary-line:(val)
+    { 
+      line, expanded = *val
+      if expanded then
+        line = expand_lines(StringIO.new(line))
+      end
+      val = line
+    }
   ;
 
 macro-definition =
@@ -40,19 +40,22 @@ macro-undefinition =
   { @macros.delete macro_name }
   ;
 
-ordinary-line: String =
-  { val = "" }
+# returns expanded line and a flag showing that there were macros in the line.
+ordinary-line: [String, Boolean] =
+  { val = ""; expanded = false }
   (
     line-item:(li)
     {
       val <<
         if is_macro_name(StringIO.new(li)) and @macros.has_key? li then
           @macros[li]
+          expanded = true
         else
           li
         end
     }
-  )* ;
+  )*
+  { val = [val, expanded] } ;
 
 line-item: String =
   / comment:(val)
