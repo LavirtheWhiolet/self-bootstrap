@@ -5,53 +5,7 @@ require 'stringio'
 
 }...
 
-program =
-  { @macros = Hash.new }
-  lines:(val) ;
 
-# Semantic value is processed lines.
-lines: String =
-  { val = "" }
-  (line:(l) {val << l})*
-  ;
-
-# Semantic value is processed line.
-line: String =
-  -- read line --
-  { line = "" }
-  (line-item:(i) { line << i })*? < end-of-line >:(eol)
-  -- process the line --
-  {
-    # Process the line until it stops to change.
-    old_line = nil
-    until line == old_line
-      old_line = line
-      line = process_line_once(StringIO.new(line))
-    end
-    # 
-    val = line
-  }
-  -- don't forget end-of-line! --
-  { val << eol }
-  ;
-
-process_line_once(io): String =
-  { val = "" }
-  (
-    -- macro definition --
-    / "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ < char* >:(macro_body)
-      { @macros[macro_name] = macro_body }
-    -- macro undefinition --
-    / "#" ` `* "undef" ` `+ macro-name:(macro_name)
-      { @macros.delete macro_name }
-    -- ordinary line --
-    / (
-        line-item:(x)
-        { x = @macros[x] if is_macro_name(StringIO.new(x)) and @macros.has_key?(x) }
-        { val << x }
-      )*
-  )
-  ;
 
 line-item: String =
   / comment:(val)
