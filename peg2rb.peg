@@ -580,6 +580,7 @@ newline <-
 
       # 
       # +input+ may be one of the following:
+      # 
       # 1. IO. It must have working IO#pos, IO#pos= and IO#set_encoding()
       #    methods.
       # 2. String.
