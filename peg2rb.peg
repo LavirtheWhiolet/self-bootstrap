@@ -160,7 +160,7 @@ expr30: Code <-
 
 expr60: Code <-
   # Capture/append semantic value.
-  / expr70:c (`:+` {t = :append} / `:` {t = :capture}) capture-target-variable:var { val = capture_semantic_value_code(var, c, t) }
+  / expr70:c capture-delimiter:t capture-target-variable:var { val = capture_semantic_value_code(var, c, t) }
   / expr70:val
   ;
 
@@ -187,7 +187,7 @@ expr90: Code <-
   # Parentheses.
   `(` expr:val `)` /
   # Capture/append text.
-  `<` expr:c `>` (`:` {t = :capture} / `:+` {t = :append}) capture-target-variable:var { val = capture_text_code(var, c, t) } /
+  `<` expr:c `>` capture-delimiter:t capture-target-variable:var { val = capture_text_code(var, c, t) } /
   # 
   expr100:val ;
 
@@ -271,6 +271,13 @@ capture-target-variable: String <-
   / `(` Ruby-variable:val `)`
   ;
 
+# Semantic value is :capture or :append.
+capture-delimiter: Symbol <-
+  / `:` {val = :capture}
+  / `:+` {val = :append}
+  / `:>>` {val = :append}
+  ;
+
 ---- Lexemes ----
 
 `%%` <-
@@ -297,8 +304,9 @@ action-body <-
   "{" (action-body / char)*? "}" ;
 
 `<-/=` <- ("<-" / "=" / U+2190) ` `;
-`:` <- ":" (!"+") ` `;
+`:` <- ":" (!"+" !">>") ` `;
 `:+` <- ":+" ` `;
+`:>>` <- ":>>" ` `;
 `;` <- ";" ` `;
 `/` <- "/" ` `;
 `$` <- "$" ` `;
