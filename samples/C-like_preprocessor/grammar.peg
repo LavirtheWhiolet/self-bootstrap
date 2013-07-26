@@ -16,8 +16,7 @@ expand_lines(...): String =
 expand_line: String =
   { line = "" }
   (line-item:(li) { line << li })*? end-of-line:(eol)
-  { val = expand_line0(StringIO.new(line)) + eol }
-  ;
+  { val = expand_line0(StringIO.new(line)) + eol } ;
 
 expand_line(...): String =
   / macro-definition {val = ""}
