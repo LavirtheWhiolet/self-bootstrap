@@ -160,7 +160,7 @@ expr30: Code <-
 
 expr60: Code <-
   # Capture/append semantic value.
-  / expr70:c (`:` {action = :capture} / `:+` {action = :append}) capture-target-variable:var { val = capture_semantic_value_code(var, c) }
+  / expr70:c (`:+` {t = :append} / `:` {t = :capture}) capture-target-variable:var { val = capture_semantic_value_code(var, c, t) }
   / expr70:val
   ;
 
@@ -431,7 +431,12 @@ newline <-
 
 {...
   
-  def capture_semantic_value_code(var, code)
+  # 
+  # +type+ may be:
+  # 
+  # 1. :capture (in this case the value must be captured to variable
+  # 
+  def capture_semantic_value_code(var, code, type)
     result_var = new_unique_variable_name
     #
     code(%(begin
