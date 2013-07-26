@@ -3,6 +3,14 @@
 # encoding: UTF-8
 require 'stringio'
 
+class String
+  
+  def to_io
+    StringIO.new(self)
+  end
+
+end
+
 }...
 
 preprocess(): String =
