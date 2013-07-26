@@ -17,14 +17,14 @@ line: String =
     old_line = nil
     until old_line == line
       old_line = line
-      line = line0(StringIO.new(line))
+      line = expand_line(StringIO.new(line))
     end
   }
   -- form resultant value --
   { val = line + eol }
   ;
 
-line0(): String =
+expand_line(...): String =
   / macro-definition {val = ""}
   / macro-undefinition {val = ""}
   / ordinary-line:(val)
