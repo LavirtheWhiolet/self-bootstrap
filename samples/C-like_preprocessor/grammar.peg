@@ -35,6 +35,7 @@ expand_line0(): String =
   / expand_ordinary_line:val
     { 
       line, expanded = *val
+      # If the line is expanded then we may need to expand it once again.
       if expanded then
         line = expand_lines(line.to_io)
       end
