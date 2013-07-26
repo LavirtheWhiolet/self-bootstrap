@@ -43,7 +43,7 @@ expand_line0(): String =
   ;
 
 process_macro_definition() =
-  { macro_body = "" }
+  { body = "" }
   "#" " "* "define" " "+ macro-name:name (" "+ <char*>:body)?
   { @macros[name] = body }
   ;
