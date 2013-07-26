@@ -10,7 +10,7 @@ lines: String =
   { val = "" } (line:(line) {val << line})* $ ;
 
 line: String =
-  { line = "" } (line-item:(li) { line << li })*? <end-of-line>:(eol)
+  { line = "" } (line-item:(li) { line << li })*? end-of-line:(eol)
   {
     val = line0(StringIO.new(line)) + eol
   };
@@ -69,12 +69,12 @@ macro-name-middle =
   ;
 
 comment: String =
-  / "//" char*? end-of-line
-  / "/*" char*? "*/"
+  / < "//" char*? >:(val) end-of-line
+  / < "/*" char*? "*/" >:(val)
   ;
 
 string: String =
-  '"' ("\" char / char)*? '"' ;
+  < '"' ("\" char / char)*? '"' >:(val) ;
 
 newline =
   / U+000D U+000A
@@ -82,8 +82,8 @@ newline =
   / U+000A
   ;
 
-end-of-line =
-  newline / $ ;
+end-of-line: String =
+  < newline / $ >:(val) ;
 
 {...
 
