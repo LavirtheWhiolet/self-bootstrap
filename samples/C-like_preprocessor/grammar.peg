@@ -27,6 +27,7 @@ macro-definition: String =
   ;
 
 ordinary-line: String =
+  { val = "" }
   (
     line-item:(li)
     {
