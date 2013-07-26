@@ -18,7 +18,7 @@ expand_line: String =
   (line-item:(li) { line << li })*? end-of-line:(eol)
   { val = expand_line0(StringIO.new(line)) + eol } ;
 
-expand_line(...): String =
+expand_line0(...): String =
   / macro-definition {val = ""}
   / macro-undefinition {val = ""}
   / ordinary-line:(val)
