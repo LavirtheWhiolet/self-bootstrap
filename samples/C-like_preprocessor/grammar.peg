@@ -5,17 +5,35 @@ require 'stringio'
 
 }...
 
+lines: String =
+  { val = "" } (line:(line) {val << line})* $ ;
+
 line: String =
   { line = "" } (line-item:(li) { line << li })*? end-of-line:(eol)
   {
+    val = line0(StringIO.new(line)) + eol
   };
 
 line0(): String =
-  -- macro definition --
-  / "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ <char*>:(macro_body)
-    { @macros[macro_name] = macro_body }
-    { val = "" }
-  / 
+  { val = "" }
+  (
+    -- macro definition --
+    / "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ <char*>:(macro_body)
+      { @macros[macro_name] = macro_body }
+      { val = "" }
+    -- ordinary string --
+    / (
+        line-item:(li)
+        {
+          val <<
+            if is_macro_name(StringIO.new(li)) and @macros.has_key? li then
+              @macros[li]
+            else
+              li
+            end
+        }
+      )*
+  )
   ;
 
 line-item: String =
@@ -67,7 +85,7 @@ end-of-line =
 {...
 
 File.open(ARGV[0]) do |input|
-  puts yy_parse(input)
+  print yy_parse(input)
 end
 
 }...
