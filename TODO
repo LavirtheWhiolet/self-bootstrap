@@ -4,7 +4,6 @@
 - Error reporting (at least position).
   Idea: @yy_max_pos, @yy_max_error, @yy_file.
 - Analogues of "+", "*" and "?" in beginning of the expression repeated. Maybe "?:expr", "*:expr", "+:expr"?
-- Rename the parser generator's executable file to "generate_parser" and make it not "require"-able (this property is not needed).
 - Byte parsing expression ("FF DE DDh"). Interpret the expression as a single big number.
 - Code#+(string).
 - Arguments of rules ("rule(arg1, arg2) = ...").
