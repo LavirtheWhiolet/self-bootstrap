@@ -5,56 +5,58 @@ require 'stringio'
 
 }...
 
-# TODO: "#define" inside "#define" is not processed.
-
-lines: String =
+preprocess(): String =
   { @macros = {} }
-  { val = "" } (line:(line) { val << line })*? $ ;
+  expand_lines:val ;
 
-line: String =
-  -- read a line --
-  { line = "" } (line-item:(li) { line << li })*? end-of-line:(eol)
-  -- expand the line --
-  {
-    old_line = nil
-    until old_line == line
-      old_line = line
-      line = expand_line_once(StringIO.new(line))
-    end
-  }
-  -- form resultant value --
-  { val = line + eol }
+expand_lines(): String =
+  { val = "" }
+  (expand_line:line { val << line })*? $ ;
+
+expand_line(): String =
+  { line = "" }
+  (line-item:li { line << li })*? end-of-line:eol
+  { val = expand_line0(StringIO.new(line)) + eol } ;
+
+expand_line0(): String =
+  / process_macro_definition {val = ""}
+  / process_macro_undefinition {val = ""}
+  / expand_ordinary_line:(val)
+    { 
+      line, expanded = *val
+      if expanded then
+        line = expand_lines(StringIO.new(line))
+      end
+      val = line
+    }
   ;
 
-expand_line_once(...): String =
-  / macro-definition {val = ""}
-  / macro-undefinition {val = ""}
-  / ordinary-line:(val)
-  ;
-
-macro-definition =
+process_macro_definition() =
   "#" ` `* "define" ` `+ macro-name:(macro_name) (` `+ <char*>:(macro_body) / "":(macro_body))
   { @macros[macro_name] = macro_body }
   ;
 
-macro-undefinition =
+process_macro_undefinition() =
   "#" ` `* "undef" ` `+ macro-name:(macro_name)
   { @macros.delete macro_name }
   ;
 
-ordinary-line: String =
-  { val = "" }
+# returns expanded line and a flag showing that there were macros in the line.
+expand_ordinary_line(): [String, Boolean] =
+  { val = ""; expanded = false }
   (
-    line-item:(li)
+    line-item:li
     {
       val <<
         if is_macro_name(StringIO.new(li)) and @macros.has_key? li then
+          expanded = true
           @macros[li]
         else
           li
         end
     }
-  )* ;
+  )*
+  { val = [val, expanded] } ;
 
 line-item: String =
   / comment:(val)
@@ -86,23 +88,23 @@ macro-name-middle =
   ;
 
 comment: String =
-  / < "//" char*? >:(val) &end-of-line
-  / < "/*" char*? "*/" >:(val)
+  / < "//" char*? >:val &end-of-line
+  / < "/*" char*? "*/" >:val
   ;
 
 string: String =
-  < '"' ("\" char / char)*? '"' >:(val) ;
+  < '"' ("\" char / char)*? '"' >:val ;
 
 newline: String =
   <
     / U+000D U+000A
     / U+000D
     / U+000A
-  >:(val)
+  >:val
   ;
 
 end-of-line: String =
-  < newline / $ >:(val) ;
+  < newline / $ >:val ;
 
 {...
 
