@@ -16,26 +16,28 @@ line: String =
   };
 
 line0(): String =
-  { val = "" }
-  (
-    -- macro definition --
-    / "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ <char*>:(macro_body)
-      { @macros[macro_name] = macro_body }
-      { val = "" }
-    -- ordinary string --
-    / (
-        line-item:(li)
-        {
-          val <<
-            if is_macro_name(StringIO.new(li)) and @macros.has_key? li then
-              @macros[li]
-            else
-              li
-            end
-        }
-      )*
-  )
+  / macro-definition:(val)
+  / ordinary-line:(val)
   ;
+
+macro-definition: String =
+  "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ <char*>:(macro_body)
+  { @macros[macro_name] = macro_body }
+  { val = "" }
+  ;
+
+ordinary-line: String =
+  (
+    line-item:(li)
+    {
+      val <<
+        if is_macro_name(StringIO.new(li)) and @macros.has_key? li then
+          @macros[li]
+        else
+          li
+        end
+    }
+  )* ;
 
 line-item: String =
   / comment:(val)
