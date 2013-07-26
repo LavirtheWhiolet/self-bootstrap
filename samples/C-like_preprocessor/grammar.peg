@@ -5,6 +5,8 @@ require 'stringio'
 
 }...
 
+# TODO: "#define" inside "#define" is not processed.
+
 lines: String =
   { @macros = {} }
   { val = "" } (line:(line) { val << line })*? $ ;
