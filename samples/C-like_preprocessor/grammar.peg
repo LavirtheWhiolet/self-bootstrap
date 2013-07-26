@@ -16,14 +16,13 @@ line: String =
   };
 
 line0(): String =
-  / macro-definition:(val)
+  / macro-definition {val = ""}
   / ordinary-line:(val)
   ;
 
-macro-definition: String =
-  "#" ` `* "define" ` `+ macro-name:(macro_name) ` `+ <char*>:(macro_body)
+macro-definition =
+  "#" ` `* "define" ` `+ macro-name:(macro_name) (` `+ <char*>:(macro_body) / "":(macro_body))
   { @macros[macro_name] = macro_body }
-  { val = "" }
   ;
 
 ordinary-line: String =
