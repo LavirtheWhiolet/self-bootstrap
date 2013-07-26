@@ -21,7 +21,7 @@ expand_line(): String =
 expand_line0(): String =
   / process_macro_definition {val = ""}
   / process_macro_undefinition {val = ""}
-  / expand_ordinary_line:(val)
+  / expand_ordinary_line:val
     { 
       line, expanded = *val
       if expanded then
@@ -32,14 +32,13 @@ expand_line0(): String =
   ;
 
 process_macro_definition() =
-  "#" ` `* "define" ` `+ macro-name:(macro_name) (` `+ <char*>:(macro_body) / "":(macro_body))
-  { @macros[macro_name] = macro_body }
-  ;
+  { macro_body = "" }
+  "#" ` `* "define" ` `+ macro-name:macro_name (` `+ <char*>:macro_body)?
+  { @macros[macro_name] = macro_body } ;
 
 process_macro_undefinition() =
-  "#" ` `* "undef" ` `+ macro-name:(macro_name)
-  { @macros.delete macro_name }
-  ;
+  "#" ` `* "undef" ` `+ macro-name:macro_name
+  { @macros.delete macro_name } ;
 
 # returns expanded line and a flag showing that there were macros in the line.
 expand_ordinary_line(): [String, Boolean] =
