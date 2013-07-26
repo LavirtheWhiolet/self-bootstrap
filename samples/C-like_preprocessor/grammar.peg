@@ -36,12 +36,12 @@ expand_line0(): String =
 
 process_macro_definition() =
   { macro_body = "" }
-  "#" ` `* "define" ` `+ macro-name:name (` `+ <char*>:body)?
+  "#" " "* "define" " "+ macro-name:name (" "+ <char*>:body)?
   { @macros[name] = body }
   ;
 
 process_macro_undefinition() =
-  "#" ` `* "undef" ` `+ macro-name:name
+  "#" " "* "undef" " "+ macro-name:name
   { @macros.delete(name) }
   ;
 
@@ -70,8 +70,6 @@ line-item: String =
   / macro-name:(val)
   / char:(val)
   ;
-
-` ` = " " ;
 
 is_macro_name(io): Boolean =
   / macro-name $ { val = true }
