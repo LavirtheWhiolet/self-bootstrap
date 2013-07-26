@@ -11,7 +11,7 @@ lines: String =
 
 line: String =
   -- read a line --
-  { raw_line = "" } (line-item:(li) { raw_line << li })*? end-of-line:(eol)
+  { line = "" } (line-item:(li) { line << li })*? end-of-line:(eol)
   -- expand the line --
   {
     old_line = nil
