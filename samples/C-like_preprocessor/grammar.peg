@@ -49,8 +49,8 @@ ordinary-line: [String, Boolean] =
     {
       val <<
         if is_macro_name(StringIO.new(li)) and @macros.has_key? li then
-          @macros[li]
           expanded = true
+          @macros[li]
         else
           li
         end
