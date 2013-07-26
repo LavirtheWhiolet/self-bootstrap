@@ -3,6 +3,14 @@
 # encoding: UTF-8
 require 'stringio'
 
+class String
+  
+  def to_io
+    StringIO.new(self)
+  end
+
+end
+
 }...
 
 preprocess(): String =
@@ -18,7 +26,7 @@ expand_lines(): String =
 expand_line(): String =
   { line = "" }
   (line-item:li { line << li })*? end-of-line:eol
-  { val = expand_line0(StringIO.new(line)) + eol }
+  { val = expand_line0(line.to_io) + eol }
   ;
 
 expand_line0(): String =
@@ -28,7 +36,7 @@ expand_line0(): String =
     { 
       line, expanded = *val
       if expanded then
-        line = expand_lines(StringIO.new(line))
+        line = expand_lines(line.to_io)
       end
       val = line
     }
@@ -52,7 +60,7 @@ expand_ordinary_line(): [String, Boolean] =
     line-item:li
     {
       val <<
-        if is_macro_name(StringIO.new(li)) and @macros.has_key? li then
+        if is_macro_name(li.to_io) and @macros.has_key? li then
           expanded = true
           @macros[li]
         else
