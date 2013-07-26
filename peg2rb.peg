@@ -432,17 +432,24 @@ newline <-
 {...
   
   # 
-  # +type+ may be:
+  # +capture_type+ may be:
   # 
-  # 1. :capture (in this case the value must be captured to variable
+  # [:capture] "Capture the semantic value to +var+"
+  # [:append]  "Append semantic value to +var+ using "<<" operator".
   # 
-  def capture_semantic_value_code(var, code, type)
+  def capture_semantic_value_code(var, code, capture_type)
     result_var = new_unique_variable_name
+    capture_operator =
+      case capture_type
+      when :capture then "="
+      when :append then "<<"
+      else raise %(capture_type #{capture_type.inspect} is not supported)
+      end
     #
     code(%(begin
       #{result_var} = )) + code + code(%(
       if #{result_var} then
-        #{var} = yy_from_pcv(#{result_var})
+        #{var} #{capture_operator} yy_from_pcv(#{result_var})
       end
       #{result_var}
     end))
