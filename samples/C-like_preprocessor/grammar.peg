@@ -57,7 +57,7 @@ ordinary-line: String =
 line-item: String =
   / comment:(val)
   / string:(val)
-  / "\" newline:(val)
+  / "\" newline { val = "" }
   / macro-name:(val)
   / char:(val)
   ;
