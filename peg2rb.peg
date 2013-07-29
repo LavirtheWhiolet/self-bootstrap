@@ -73,6 +73,10 @@ grammar <-
   (
     / rule:(rule)
       {
+        # Check that the rule is not defined twice.
+        if method_names.has_key?(rule.name) then
+          raise %(rule #{rule.name} is defined more than once)
+        end
         # 
         if rule_is_first
           code += parser_entry_point_code("yy_parse", rule.method_name)
@@ -315,7 +319,6 @@ action-body <-
 `)` <- ")" ` `;
 `[` <- "[" ` `;
 `]` <- "]" ` `;
-`:` <- ":" ` `;
 `<` <- "<" ` `;
 `>` <- ">" ` `;
 `*` <- "*" ` `;
