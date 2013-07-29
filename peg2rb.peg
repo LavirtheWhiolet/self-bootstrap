@@ -75,7 +75,7 @@ grammar <-
       {
         # Check that the rule is not defined twice.
         if method_names.has_key?(rule.name) then
-          raise %(rule "#{rule.name}" is defined more than once)
+          raise %(rule #{rule.name} is defined more than once)
         end
         # 
         if rule_is_first
