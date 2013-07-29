@@ -7,10 +7,7 @@
 INI =
   { val = JSON.new }
   -- global keys --
-  (
-    key-values:(key_values)
-    { val += key_values }
-  )?
+  ( key-values :>> val )?
   -- sections --
   (
     section:(section)
