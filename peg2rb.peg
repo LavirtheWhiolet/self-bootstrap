@@ -163,9 +163,10 @@ expr30: Code <-
 }...
 
 expr60: Code <-
-  # Capture semantic value.
-  expr70:c `:` capture-target-variable:var { val = capture_semantic_value_code(var, c) } /
-  expr70:val ;
+  # Capture/append semantic value.
+  / expr70:c capture-delimiter:t capture-target-variable:var { val = capture_semantic_value_code(var, c, t) }
+  / expr70:val
+  ;
 
 # TODO: Rename "action" rule to "Ruby-code".
 
@@ -189,8 +190,8 @@ expr80: Code <-
 expr90: Code <-
   # Parentheses.
   `(` expr:val `)` /
-  # Text capture.
-  `<` expr:c `>` `:` capture-target-variable:var { val = capture_text_code(var, c) } /
+  # Capture/append text.
+  `<` expr:c `>` capture-delimiter:t capture-target-variable:var { val = capture_text_code(var, c, t) } /
   # 
   expr100:val ;
 
@@ -274,6 +275,13 @@ capture-target-variable: String <-
   / `(` Ruby-variable:val `)`
   ;
 
+# Semantic value is :capture or :append.
+capture-delimiter: Symbol <-
+  / `:` {val = :capture}
+  / `:+` {val = :append}
+  / `:>>` {val = :append}
+  ;
+
 ---- Lexemes ----
 
 `%%` <-
@@ -300,7 +308,9 @@ action-body <-
   "{" (action-body / char)*? "}" ;
 
 `<-/=` <- ("<-" / "=" / U+2190) ` `;
-`:` <- ":" ` `;
+`:` <- ":" (!"+" !">>") ` `;
+`:+` <- ":+" ` `;
+`:>>` <- ":>>" ` `;
 `;` <- ";" ` `;
 `/` <- "/" ` `;
 `$` <- "$" ` `;
@@ -432,15 +442,27 @@ newline <-
 
 {...
   
-  def capture_semantic_value_code(var, code)
-    result_var = new_unique_variable_name
+  # 
+  # +capture_type+ may be:
+  # 
+  # [:capture] "Capture the semantic value to +target_var+"
+  # [:append]  "Append semantic value to +target_var+ using "<<" operator".
+  # 
+  def capture_semantic_value_code(target_var, code, capture_type)
+    parse_result_var = new_unique_variable_name
+    capture_operator =
+      case capture_type
+      when :capture then "="
+      when :append then "<<"
+      else raise %(capture_type #{capture_type.inspect} is not supported)
+      end
     #
     code(%(begin
-      #{result_var} = )) + code + code(%(
-      if #{result_var} then
-        #{var} = yy_from_pcv(#{result_var})
+      #{parse_result_var} = )) + code + code(%(
+      if #{parse_result_var} then
+        #{target_var} #{capture_operator} yy_from_pcv(#{parse_result_var})
       end
-      #{result_var}
+      #{parse_result_var}
     end))
   end
   
@@ -514,19 +536,31 @@ newline <-
   end
   
   # returns code which captures text to specified variable.
-  def capture_text_code(variable_name, parsing_code)
+  # 
+  # +capture_type+ may be one of the following:
+  # 
+  # [:capture] "Capture the text into the variable +target_variable_name+"
+  # [:append]  "Append the text to the variable +target_variable_name+"
+  # 
+  def capture_text_code(target_variable_name, parsing_code, capture_type)
     #
+    init_target_variable_code =
+      case capture_type
+      when :capture then %(#{target_variable_name} = "")
+      when :append then %()
+      else raise %(capture_type #{capture_type.inspect} is not supported)
+      end
     start_pos_var = new_unique_variable_name
     end_pos_var = new_unique_variable_name
     # 
     code(%(begin
-      #{variable_name} = ""
+      #{init_target_variable_code}
       #{start_pos_var} = yy_input.pos
       )) +
       parsing_code + code(%( and begin
         #{end_pos_var} = yy_input.pos
         yy_input.pos = #{start_pos_var}
-        #{variable_name} << yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
+        #{target_variable_name} << yy_input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
       end
     end))
   end
