@@ -1,4 +1,3 @@
-
 file "peg2rb.rb" => "peg2rb.peg" do
   previous_peg2rb = "peg2rb.rb"
   step = 1
@@ -24,7 +23,7 @@ task :default => :all
 # executes +block+ once. Inside +block+ one may use +break+, +next+ and +redo+.
 def once(&block)
   while true
-    block.()
+    yield
     break
   end
 end
