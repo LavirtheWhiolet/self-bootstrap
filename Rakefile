@@ -1,4 +1,3 @@
-
 file "peg2rb.rb" => "peg2rb.peg" do
   previous_peg2rb = "peg2rb.rb"
   step = 1
