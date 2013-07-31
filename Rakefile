@@ -24,7 +24,7 @@ task :default => :all
 # executes +block+ once. Inside +block+ one may use +break+, +next+ and +redo+.
 def once(&block)
   while true
-    block.()
+    yield
     break
   end
 end
