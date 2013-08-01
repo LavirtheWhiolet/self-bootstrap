@@ -702,6 +702,15 @@ newline <-
           YY_SyntaxError.new(%(\#{self.message} or \#{other.message}), pos)
         end
         
+        # 
+        def row_pos(io)
+          # TODO
+        end
+        
+        def column(io)
+          # TODO
+        end
+        
       end
     )
   end
