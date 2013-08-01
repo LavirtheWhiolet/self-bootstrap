@@ -201,7 +201,7 @@ expr100: Code <-
   / nonterminal:n  { val = UnknownMethodCall[n, %(yy_context)] }
   / `char` { val = code "yy_char(yy_context)" }  # IO#getc returns nil at end of input. That's OK for us.
   / action:a  { val = code "begin \n #{a} \n true \n end" }  # Newline must be present after action's body because it may include comments.
-  / `$` { val = code "yy_context.input.eof?" }
+  / `$` { val = code "yy_eof?(yy_context)" }
   / `^` { val = code "(yy_context.input.pos == 0)" }
   / (
       / `@``=` Ruby-variable:(pos_variable)
@@ -625,6 +625,16 @@ newline <-
         end
         # 
         return read_string
+      end
+      
+      def yy_eof?(context)
+        #
+        if not context.input.eof?
+          context << YY_SyntaxError.new(%(the end is expected), context.input.pos)
+          return nil
+        end
+        #
+        return true
       end
       
       def yy_char(context)

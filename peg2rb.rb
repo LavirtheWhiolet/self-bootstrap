@@ -138,6 +138,16 @@ class PEGParserGenerator
         return read_string
       end
       
+      def yy_eof?(context)
+        #
+        if not context.input.eof?
+          context << YY_SyntaxError.new(%(the end is expected), context.input.pos)
+          return nil
+        end
+        #
+        return true
+      end
+      
       def yy_char(context)
         # Read a char.
         c = context.input.getc
@@ -231,7 +241,7 @@ val = :yy_nil
         yy_context.input.pos = yy_vara
         break true
       end
-    end and yy_context.input.eof? and begin 
+    end and yy_eof?(yy_context) and begin 
  
     code = link(code, method_names)
     print code
@@ -535,7 +545,7 @@ begin; yy_var1p = yy_context.input.pos; (begin
   val = code "begin \n #{a} \n true \n end"  
  true 
  end)) or (yy_context.input.pos = yy_var1p; (yy_nontermac(yy_context) and begin 
-  val = code "yy_context.input.eof?"  
+  val = code "yy_eof?(yy_context)"  
  true 
  end)) or (yy_context.input.pos = yy_var1p; (yy_nontermae(yy_context) and begin 
   val = code "(yy_context.input.pos == 0)"  
@@ -704,7 +714,7 @@ val = :yy_nil
         ###
         yy_var3o = yy_context.input.pos
         ### Look ahead.
-        yy_var3p = begin; yy_var3r = yy_context.input.pos; yy_nontermi6(yy_context) or (yy_context.input.pos = yy_var3r; yy_context.input.eof?); end
+        yy_var3p = begin; yy_var3r = yy_context.input.pos; yy_nontermi6(yy_context) or (yy_context.input.pos = yy_var3r; yy_eof?(yy_context)); end
         yy_context.input.pos = yy_var3o
         break if yy_var3p
         ### Repeat one more time (if possible).
@@ -716,7 +726,7 @@ val = :yy_nil
       end
       ### The repetition is always successful.
       true
-    end  and begin; yy_var3r = yy_context.input.pos; yy_nontermi6(yy_context) or (yy_context.input.pos = yy_var3r; yy_context.input.eof?); end) and yy_to_pcv(val) 
+    end  and begin; yy_var3r = yy_context.input.pos; yy_nontermi6(yy_context) or (yy_context.input.pos = yy_var3r; yy_eof?(yy_context)); end) and yy_to_pcv(val) 
 end 
 def yy_nonterm3s(yy_context) 
 val = :yy_nil 
@@ -848,7 +858,7 @@ val = :yy_nil
         yy_context.input.pos = yy_var96
         val << yy_context.input.read(yy_var97 - yy_var96).force_encoding(Encoding::UTF_8)
       end
-    end and yy_context.input.eof?)); end and yy_nontermho(yy_context)) and yy_to_pcv(val) 
+    end and yy_eof?(yy_context))); end and yy_nontermho(yy_context)) and yy_to_pcv(val) 
 end 
 def yy_nonterm98(yy_context) 
 val = :yy_nil 
@@ -1253,7 +1263,7 @@ val = :yy_nil
         ###
         yy_vari0 = yy_context.input.pos
         ### Look ahead.
-        yy_vari1 = begin; yy_vari3 = yy_context.input.pos; yy_nontermi6(yy_context) or (yy_context.input.pos = yy_vari3; yy_context.input.eof?); end
+        yy_vari1 = begin; yy_vari3 = yy_context.input.pos; yy_nontermi6(yy_context) or (yy_context.input.pos = yy_vari3; yy_eof?(yy_context)); end
         yy_context.input.pos = yy_vari0
         break if yy_vari1
         ### Repeat one more time (if possible).
@@ -1265,7 +1275,7 @@ val = :yy_nil
       end
       ### The repetition is always successful.
       true
-    end  and begin; yy_vari3 = yy_context.input.pos; yy_nontermi6(yy_context) or (yy_context.input.pos = yy_vari3; yy_context.input.eof?); end) and yy_to_pcv(val) 
+    end  and begin; yy_vari3 = yy_context.input.pos; yy_nontermi6(yy_context) or (yy_context.input.pos = yy_vari3; yy_eof?(yy_context)); end) and yy_to_pcv(val) 
 end 
 def yy_nontermi4(yy_context) 
 val = :yy_nil 
@@ -1459,6 +1469,16 @@ end
         end
         # 
         return read_string
+      end
+      
+      def yy_eof?(context)
+        #
+        if not context.input.eof?
+          context << YY_SyntaxError.new(%(the end is expected), context.input.pos)
+          return nil
+        end
+        #
+        return true
       end
       
       def yy_char(context)
