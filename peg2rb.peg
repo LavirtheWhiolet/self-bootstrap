@@ -878,7 +878,11 @@ end
 
 if $0 == __FILE__
   File.open(ARGV[0]) do |io|
-    PEGParserGenerator.new.call(io)
+    begin
+      PEGParserGenerator.new.call(io)
+    rescue PEGParserGenerator::YY_SyntaxError => e
+      STDERR.puts %(#{e.pos}: #{e.message})
+    end
   end
 end
 }...
