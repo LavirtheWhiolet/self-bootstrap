@@ -148,6 +148,16 @@ class PEGParserGenerator
         return true
       end
       
+      def yy_begin?(context)
+        #
+        if not (context.input.pos == 0)
+          context << YY_SyntaxError.new(%(the beginning is expected), context.input.pos)
+          return nil
+        end
+        #
+        return true
+      end
+      
       def yy_char(context)
         # Read a char.
         c = context.input.getc
@@ -548,7 +558,7 @@ begin; yy_var1p = yy_context.input.pos; (begin
   val = code "yy_end?(yy_context)"  
  true 
  end)) or (yy_context.input.pos = yy_var1p; (yy_nontermae(yy_context) and begin 
-  val = code "(yy_context.input.pos == 0)"  
+  val = code "yy_begin?(yy_context)"  
  true 
  end)) or (yy_context.input.pos = yy_var1p; (begin; yy_var1x = yy_context.input.pos; (yy_nontermb4(yy_context) and yy_nontermb6(yy_context) and begin
       yy_var1y = yy_nontermbo(yy_context)
@@ -1475,6 +1485,16 @@ end
         #
         if not context.input.eof?
           context << YY_SyntaxError.new(%(the end is expected), context.input.pos)
+          return nil
+        end
+        #
+        return true
+      end
+      
+      def yy_begin?(context)
+        #
+        if not (context.input.pos == 0)
+          context << YY_SyntaxError.new(%(the beginning is expected), context.input.pos)
           return nil
         end
         #
