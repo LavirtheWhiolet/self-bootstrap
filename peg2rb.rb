@@ -138,6 +138,20 @@ class PEGParserGenerator
         return read_string
       end
       
+      def yy_char(context)
+        # Read a char.
+        c = context.input.getc
+        # 
+        unless c then
+          #
+          context << YY_SyntaxError.new(%(a character is expected), context.input.pos)
+          #
+          return nil
+        end
+        #
+        return c
+      end
+      
       def yy_char_range(context, from, to)
         # Read the char.
         c = context.input.getc
@@ -509,7 +523,7 @@ begin; yy_var1p = yy_context.input.pos; (begin
   val = UnknownMethodCall[n, %(yy_context)]  
  true 
  end)) or (yy_context.input.pos = yy_var1p; (yy_nontermba(yy_context) and begin 
-  val = code "yy_context.input.getc"  
+  val = code "yy_char(yy_context)"  
  true 
  end)) or (yy_context.input.pos = yy_var1p; (begin
       yy_var1t = yy_nonterm3s(yy_context)
@@ -641,14 +655,14 @@ val = :yy_nil
       yy_var3c = yy_nonterm9g(yy_context)
       yy_context.input.pos = yy_var3b
       yy_var3c
-    end and yy_context.input.getc) and yy_nontermho(yy_context)) and while true
+    end and yy_char(yy_context)) and yy_nontermho(yy_context)) and while true
       yy_var3d = yy_context.input.pos
       if not ((not begin
       yy_var3b = yy_context.input.pos
       yy_var3c = yy_nonterm9g(yy_context)
       yy_context.input.pos = yy_var3b
       yy_var3c
-    end and yy_context.input.getc) and yy_nontermho(yy_context)) then
+    end and yy_char(yy_context)) and yy_nontermho(yy_context)) then
         yy_context.input.pos = yy_var3d
         break true
       end
@@ -694,7 +708,7 @@ val = :yy_nil
         yy_context.input.pos = yy_var3o
         break if yy_var3p
         ### Repeat one more time (if possible).
-        yy_var3p = yy_context.input.getc
+        yy_var3p = yy_char(yy_context)
         if not yy_var3p then
           yy_context.input.pos = yy_var3o
           break
@@ -759,7 +773,7 @@ val = :yy_nil
         yy_context.input.pos = yy_var78
         break if yy_var79
         ### Repeat one more time (if possible).
-        yy_var79 = yy_context.input.getc
+        yy_var79 = yy_char(yy_context)
         if not yy_var79 then
           yy_context.input.pos = yy_var78
           break
@@ -807,7 +821,7 @@ val = :yy_nil
         yy_context.input.pos = yy_var8i
         break if yy_var8j
         ### Repeat one more time (if possible).
-        yy_var8j = yy_context.input.getc
+        yy_var8j = yy_char(yy_context)
         if not yy_var8j then
           yy_context.input.pos = yy_var8i
           break
@@ -825,7 +839,7 @@ val = :yy_nil
       yy_var96 = yy_context.input.pos
       while true
       yy_var95 = yy_context.input.pos
-      if not yy_context.input.getc then
+      if not yy_char(yy_context) then
         yy_context.input.pos = yy_var95
         break true
       end
@@ -847,7 +861,7 @@ val = :yy_nil
         yy_context.input.pos = yy_var9e
         break if yy_var9f
         ### Repeat one more time (if possible).
-        yy_var9f = begin; yy_var9d = yy_context.input.pos; yy_nonterm98(yy_context) or (yy_context.input.pos = yy_var9d; yy_context.input.getc); end
+        yy_var9f = begin; yy_var9d = yy_context.input.pos; yy_nonterm98(yy_context) or (yy_context.input.pos = yy_var9d; yy_char(yy_context)); end
         if not yy_var9f then
           yy_context.input.pos = yy_var9e
           break
@@ -1090,7 +1104,7 @@ val = :yy_nil
         yy_context.input.pos = yy_varf4
         break if yy_varf5
         ### Repeat one more time (if possible).
-        yy_varf5 = yy_context.input.getc
+        yy_varf5 = yy_char(yy_context)
         if not yy_varf5 then
           yy_context.input.pos = yy_varf4
           break
@@ -1149,7 +1163,7 @@ val = :yy_nil
         yy_context.input.pos = yy_vargp
         break if yy_vargq
         ### Repeat one more time (if possible).
-        yy_vargq = yy_context.input.getc
+        yy_vargq = yy_char(yy_context)
         if not yy_vargq then
           yy_context.input.pos = yy_vargp
           break
@@ -1174,7 +1188,7 @@ val = :yy_nil
         yy_context.input.pos = yy_varh3
         break if yy_varh4
         ### Repeat one more time (if possible).
-        yy_varh4 = yy_context.input.getc
+        yy_varh4 = yy_char(yy_context)
         if not yy_varh4 then
           yy_context.input.pos = yy_varh3
           break
@@ -1243,7 +1257,7 @@ val = :yy_nil
         yy_context.input.pos = yy_vari0
         break if yy_vari1
         ### Repeat one more time (if possible).
-        yy_vari1 = yy_context.input.getc
+        yy_vari1 = yy_char(yy_context)
         if not yy_vari1 then
           yy_context.input.pos = yy_vari0
           break
@@ -1445,6 +1459,20 @@ end
         end
         # 
         return read_string
+      end
+      
+      def yy_char(context)
+        # Read a char.
+        c = context.input.getc
+        # 
+        unless c then
+          #
+          context << YY_SyntaxError.new(%(a character is expected), context.input.pos)
+          #
+          return nil
+        end
+        #
+        return c
       end
       
       def yy_char_range(context, from, to)
