@@ -675,6 +675,15 @@ newline <-
         
         attr_reader :pos
         
+        # +other+ is another YY_SyntaxError.
+        # 
+        # #pos of this YY_SyntaxError and +other+ must be equal.
+        # 
+        def or other
+          raise %(can not "or" \#{YY_SyntaxError}s with different pos) unless self.pos == other.pos
+          YY_SyntaxError.new(%(\#{self.message} or \#{other.message}), pos)
+        end
+        
       end
     )
   end
