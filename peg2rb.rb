@@ -74,8 +74,7 @@ class PEGParserGenerator
         input.set_encoding("UTF-8", "UTF-8")
         yy_nonterm1(input) or raise YY_SyntaxError
       end
-
-      # TODO: Allow to pass String to the entry point.
+      
     
       
       # converts value to parser-compatible value (which is always non-false and
@@ -1338,8 +1337,7 @@ end
         input.set_encoding("UTF-8", "UTF-8")
         #{parsing_method_name}(input) or raise YY_SyntaxError
       end
-
-      # TODO: Allow to pass String to the entry point.
+      
     )
   end
   
