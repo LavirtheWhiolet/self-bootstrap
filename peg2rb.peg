@@ -488,7 +488,7 @@ newline <-
     code(%(begin
       #{stored_worst_error_var} = yy_context.worst_error
       begin
-        )) + positive_predicate_code(code) + code(%(
+        not )) + positive_predicate_code(code) + code(%(
       ensure
         yy_context.worst_error = #{stored_worst_error_var}
       end
