@@ -97,9 +97,26 @@ class PEGParserGenerator
         # +input+ is IO.
         def initialize(input)
           @input = input
+          @worst_error = nil
         end
 
         attr_reader :input
+
+        # It is YY_SyntaxError or nil.
+        attr_reader :worst_error
+
+        # adds possible error to this YY_ParsingContext.
+        # 
+        # +error+ is YY_SyntaxError.
+        # 
+        def << error
+          # Update worst_error.
+          if worst_error.nil? or worst_error.pos < error.pos then
+            @worst_error = error
+          end
+          # 
+          return self
+        end
 
       end
       
@@ -108,6 +125,9 @@ class PEGParserGenerator
         read_string = context.input.read(string.bytesize)
         # Set the string's encoding; check if it fits the argument.
         unless read_string and (read_string.force_encoding(Encoding::UTF_8)) == string then
+          # 
+          context << YY_SyntaxError.new(%(#{string.inspect} is expected), context.input.pos)
+          # 
           return nil
         end
         # 
@@ -120,6 +140,9 @@ class PEGParserGenerator
         # Check if it fits the range.
         # NOTE: c has UTF-8 encoding.
         unless c and (from <= c and c <= to) then
+          # 
+          context << YY_SyntaxError.new(%(#{from.inspect}...#{to.inspect} is expected), context.input.pos)
+          # 
           return nil
         end
         #
@@ -1383,9 +1406,26 @@ end
         # +input+ is IO.
         def initialize(input)
           @input = input
+          @worst_error = nil
         end
 
         attr_reader :input
+
+        # It is YY_SyntaxError or nil.
+        attr_reader :worst_error
+
+        # adds possible error to this YY_ParsingContext.
+        # 
+        # +error+ is YY_SyntaxError.
+        # 
+        def << error
+          # Update worst_error.
+          if worst_error.nil? or worst_error.pos < error.pos then
+            @worst_error = error
+          end
+          # 
+          return self
+        end
 
       end
       
@@ -1394,6 +1434,9 @@ end
         read_string = context.input.read(string.bytesize)
         # Set the string's encoding; check if it fits the argument.
         unless read_string and (read_string.force_encoding(Encoding::UTF_8)) == string then
+          # 
+          context << YY_SyntaxError.new(%(\#{string.inspect} is expected), context.input.pos)
+          # 
           return nil
         end
         # 
@@ -1406,6 +1449,9 @@ end
         # Check if it fits the range.
         # NOTE: c has UTF-8 encoding.
         unless c and (from <= c and c <= to) then
+          # 
+          context << YY_SyntaxError.new(%(\#{from.inspect}\...\#{to.inspect} is expected), context.input.pos)
+          # 
           return nil
         end
         #
