@@ -202,7 +202,7 @@ expr100: Code <-
   / `char` { val = code "yy_char(yy_context)" }  # IO#getc returns nil at end of input. That's OK for us.
   / action:a  { val = code "begin \n #{a} \n true \n end" }  # Newline must be present after action's body because it may include comments.
   / `$` { val = code "yy_end?(yy_context)" }
-  / `^` { val = code "(yy_context.input.pos == 0)" }
+  / `^` { val = code "yy_begin?(yy_context)" }
   / (
       / `@``=` Ruby-variable:(pos_variable)
       / `at` Ruby-variable:(pos_variable)
@@ -631,6 +631,16 @@ newline <-
         #
         if not context.input.eof?
           context << YY_SyntaxError.new(%(the end is expected), context.input.pos)
+          return nil
+        end
+        #
+        return true
+      end
+      
+      def yy_begin?(context)
+        #
+        if not (context.input.pos == 0)
+          context << YY_SyntaxError.new(%(the beginning is expected), context.input.pos)
           return nil
         end
         #
