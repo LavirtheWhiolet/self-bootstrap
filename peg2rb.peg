@@ -667,14 +667,14 @@ newline <-
       end
       
       class YY_SyntaxError < Exception
-
+        
         def initialize(message, pos)
           super(message)
           @pos = pos
         end
-
+        
         attr_reader :pos
-
+        
       end
     )
   end
