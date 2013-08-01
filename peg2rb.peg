@@ -909,7 +909,7 @@ if $0 == __FILE__
     begin
       PEGParserGenerator.new.call(io)
     rescue PEGParserGenerator::YY_SyntaxError => e
-      STDERR.puts %(#{e.pos}: #{e.message})
+      abort %(#{e.pos}: #{e.message})
     end
   end
 end
