@@ -61,13 +61,16 @@ class PEGParserGenerator
 
 
       # 
-      # +input+ is IO. It must have working IO#pos, IO#pos= and
-      # IO#set_encoding() methods.
+      # +input+ is one of the following:
+      # 
+      # 1. IO. It must have working IO#pos, IO#pos= and IO#set_encoding()
+      #    methods.
+      # 2. String. In this case "stringio" library must be require-d.
       # 
       # It may raise YY_SyntaxError.
       # 
       def yy_parse(input)
-        input = input
+        input = StringIO.new(input) if input.is_a? String
         input.set_encoding("UTF-8", "UTF-8")
         yy_nonterm1(input) or raise YY_SyntaxError
       end
@@ -1322,13 +1325,16 @@ end
     code %(
 
       # 
-      # +input+ is IO. It must have working IO#pos, IO#pos= and
-      # IO#set_encoding() methods.
+      # +input+ is one of the following:
+      # 
+      # 1. IO. It must have working IO#pos, IO#pos= and IO#set_encoding()
+      #    methods.
+      # 2. String. In this case "stringio" library must be require-d.
       # 
       # It may raise YY_SyntaxError.
       # 
       def #{method_name}(input)
-        input = input
+        input = StringIO.new(input) if input.is_a? String
         input.set_encoding("UTF-8", "UTF-8")
         #{parsing_method_name}(input) or raise YY_SyntaxError
       end
