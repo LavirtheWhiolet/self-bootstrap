@@ -174,7 +174,7 @@ expr70 <-
   # Predicate.
   / `&` action:c { val = positive_predicate_with_native_code_code(c) }
   / `&` expr70:val { val = positive_predicate_code(val) }
-  / `!` expr70:val { val = code(%(not )) + positive_predicate_code(val) }
+  / `!` expr70:val { val = negative_predicate_code(val) }
   / expr80:val
   ;
 
@@ -482,6 +482,19 @@ newline <-
     end))
   end
   
+  def negative_predicate_code(code)
+    stored_worst_error_var = new_unique_variable_name
+    # 
+    code(%(begin
+      #{stored_worst_error_var} = yy_context.worst_error
+      begin
+        )) + positive_predicate_code(code) + code(%(
+      ensure
+        yy_context.worst_error = #{stored_worst_error_var}
+      end
+    end))
+  end
+  
   def repeat_many_times_code(code)
     stored_pos_var = new_unique_variable_name
     #
@@ -596,7 +609,7 @@ newline <-
         attr_reader :input
         
         # It is YY_SyntaxError or nil.
-        attr_reader :worst_error
+        attr_accessor :worst_error
         
         # adds possible error to this YY_ParsingContext.
         # 
