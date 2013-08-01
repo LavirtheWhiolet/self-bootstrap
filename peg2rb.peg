@@ -667,7 +667,11 @@ newline <-
       def #{method_name}(input)
         input.set_encoding("UTF-8", "UTF-8")
         context = YY_ParsingContext.new(input)
-        yy_from_pcv(#{parsing_method_name}(context) || raise(context.worst_error))
+        yy_from_pcv(
+          #{parsing_method_name}(context) ||
+          # TODO: context.worst_error can not be nil here. Prove it.
+          raise(context.worst_error)
+        )
       end
 
       # TODO: Allow to pass String to the entry point.
