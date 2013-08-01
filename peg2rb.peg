@@ -584,16 +584,16 @@ newline <-
         else value
         end
       end
-
+      
       class YY_ParsingContext
-
+        
         # +input+ is IO.
         def initialize(input)
           @input = input
         end
-
+        
         attr_reader :input
-
+        
       end
       
       def yy_string(context, string)
@@ -619,6 +619,14 @@ newline <-
       end
       
       class YY_SyntaxError < Exception
+        
+        def initialize(msg, pos)
+          super(msg)
+          @pos = pos
+        end
+        
+        attr_reader :pos
+        
       end
     )
   end
