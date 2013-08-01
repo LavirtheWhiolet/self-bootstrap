@@ -579,15 +579,16 @@ newline <-
     code %(
 
       # 
-      # +input+ may be one of the following:
+      # +input+ is one of the following:
       # 
       # 1. IO. It must have working IO#pos, IO#pos= and IO#set_encoding()
       #    methods.
-      # 2. String.
+      # 2. String. In this case "stringio" library must be require-d.
       # 
       # It may raise YY_SyntaxError.
       # 
       def #{method_name}(input)
+        input = StringIO.new(input) if input.is_a? String
         input.set_encoding("UTF-8", "UTF-8")
         #{parsing_method_name}(input) or raise YY_SyntaxError
       end
