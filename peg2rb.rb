@@ -134,7 +134,7 @@ class PEGParserGenerator
         # Set the string's encoding; check if it fits the argument.
         unless read_string and (read_string.force_encoding(Encoding::UTF_8)) == string then
           # 
-          context << YY_SyntaxError.new(string_start_pos, %(#{string.inspect} is expected))
+          context << YY_SyntaxError.new(string_start_pos, string.inspect)
           # 
           return nil
         end
@@ -145,7 +145,7 @@ class PEGParserGenerator
       def yy_end?(context)
         #
         if not context.input.eof?
-          context << YY_SyntaxError.new(context.input.pos, %(the end is expected))
+          context << YY_SyntaxError.new(context.input.pos, "the end")
           return nil
         end
         #
@@ -155,7 +155,7 @@ class PEGParserGenerator
       def yy_begin?(context)
         #
         if not (context.input.pos == 0)
-          context << YY_SyntaxError.new(context.input.pos, %(the beginning is expected))
+          context << YY_SyntaxError.new(context.input.pos, "the beginning")
           return nil
         end
         #
@@ -170,7 +170,7 @@ class PEGParserGenerator
         # 
         unless c then
           #
-          context << YY_SyntaxError.new(char_start_pos, %(a character is expected))
+          context << YY_SyntaxError.new(char_start_pos, "a character")
           #
           return nil
         end
@@ -187,7 +187,7 @@ class PEGParserGenerator
         # NOTE: c has UTF-8 encoding.
         unless c and (from <= c and c <= to) then
           # 
-          context << YY_SyntaxError.new(char_start_pos, %(#{from.inspect}...#{to.inspect} is expected))
+          context << YY_SyntaxError.new(char_start_pos, %(#{from.inspect}...#{to.inspect}))
           # 
           return nil
         end
@@ -197,8 +197,8 @@ class PEGParserGenerator
       
       class YY_SyntaxError < Exception
         
-        def initialize(pos, message)
-          super(message)
+        def initialize(pos, *expectations)
+          @expectations = expectations
           @pos = pos
         end
         
@@ -210,7 +210,11 @@ class PEGParserGenerator
         # 
         def or other
           raise %(can not "or" #{YY_SyntaxError}s with different pos) unless self.pos == other.pos
-          YY_SyntaxError.new(pos, %(#{self.message} or #{other.message}))
+          YY_SyntaxError.new(pos, self.expectations | other.expectations)
+        end
+        
+        def message
+          [expectations[0...-1].join(", "), expectations[-1]].join(" or ")
         end
         
         # 
@@ -221,6 +225,11 @@ class PEGParserGenerator
         def column(io)
           # TODO
         end
+        
+        protected
+        
+        # Private
+        attr_reader :expectations
         
       end
     def yy_nonterm1(yy_context) 
@@ -1503,7 +1512,7 @@ end
         # Set the string's encoding; check if it fits the argument.
         unless read_string and (read_string.force_encoding(Encoding::UTF_8)) == string then
           # 
-          context << YY_SyntaxError.new(string_start_pos, %(\#{string.inspect} is expected))
+          context << YY_SyntaxError.new(string_start_pos, string.inspect)
           # 
           return nil
         end
@@ -1514,7 +1523,7 @@ end
       def yy_end?(context)
         #
         if not context.input.eof?
-          context << YY_SyntaxError.new(context.input.pos, %(the end is expected))
+          context << YY_SyntaxError.new(context.input.pos, "the end")
           return nil
         end
         #
@@ -1524,7 +1533,7 @@ end
       def yy_begin?(context)
         #
         if not (context.input.pos == 0)
-          context << YY_SyntaxError.new(context.input.pos, %(the beginning is expected))
+          context << YY_SyntaxError.new(context.input.pos, "the beginning")
           return nil
         end
         #
@@ -1539,7 +1548,7 @@ end
         # 
         unless c then
           #
-          context << YY_SyntaxError.new(char_start_pos, %(a character is expected))
+          context << YY_SyntaxError.new(char_start_pos, "a character")
           #
           return nil
         end
@@ -1556,7 +1565,7 @@ end
         # NOTE: c has UTF-8 encoding.
         unless c and (from <= c and c <= to) then
           # 
-          context << YY_SyntaxError.new(char_start_pos, %(\#{from.inspect}\...\#{to.inspect} is expected))
+          context << YY_SyntaxError.new(char_start_pos, %(\#{from.inspect}\...\#{to.inspect}))
           # 
           return nil
         end
@@ -1566,8 +1575,8 @@ end
       
       class YY_SyntaxError < Exception
         
-        def initialize(pos, message)
-          super(message)
+        def initialize(pos, *expectations)
+          @expectations = expectations
           @pos = pos
         end
         
@@ -1579,7 +1588,11 @@ end
         # 
         def or other
           raise %(can not "or" \#{YY_SyntaxError}s with different pos) unless self.pos == other.pos
-          YY_SyntaxError.new(pos, %(\#{self.message} or \#{other.message}))
+          YY_SyntaxError.new(pos, self.expectations | other.expectations)
+        end
+        
+        def message
+          [expectations[0...-1].join(", "), expectations[-1]].join(" or ")
         end
         
         # 
@@ -1590,6 +1603,11 @@ end
         def column(io)
           # TODO
         end
+        
+        protected
+        
+        # Private
+        attr_reader :expectations
         
       end
     )
