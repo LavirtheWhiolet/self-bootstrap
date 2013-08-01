@@ -179,8 +179,8 @@ class PEGParserGenerator
       
       class YY_SyntaxError < Exception
 
-        def initialize(msg, pos)
-          super(msg)
+        def initialize(message, pos)
+          super(message)
           @pos = pos
         end
 
@@ -1512,8 +1512,8 @@ end
       
       class YY_SyntaxError < Exception
 
-        def initialize(msg, pos)
-          super(msg)
+        def initialize(message, pos)
+          super(message)
           @pos = pos
         end
 
