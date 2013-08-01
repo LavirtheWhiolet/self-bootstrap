@@ -606,6 +606,8 @@ newline <-
           # Update worst_error.
           if worst_error.nil? or worst_error.pos < error.pos then
             @worst_error = error
+          elsif worst_error.pos == error.pos then
+            @worst_error = @worst_error.or error
           end
           # 
           return self
