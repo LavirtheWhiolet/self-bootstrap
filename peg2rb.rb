@@ -117,6 +117,8 @@ class PEGParserGenerator
           # Update worst_error.
           if worst_error.nil? or worst_error.pos < error.pos then
             @worst_error = error
+          elsif worst_error.pos == error.pos then
+            @worst_error = @worst_error.or error
           end
           # 
           return self
@@ -178,14 +180,23 @@ class PEGParserGenerator
       end
       
       class YY_SyntaxError < Exception
-
+        
         def initialize(message, pos)
           super(message)
           @pos = pos
         end
-
+        
         attr_reader :pos
-
+        
+        # +other+ is another YY_SyntaxError.
+        # 
+        # #pos of this YY_SyntaxError and +other+ must be equal.
+        # 
+        def or other
+          raise %(can not "or" #{YY_SyntaxError}s with different pos) unless self.pos == other.pos
+          YY_SyntaxError.new(%(#{self.message} or #{other.message}), pos)
+        end
+        
       end
     def yy_nonterm1(yy_context) 
 val = :yy_nil 
@@ -1450,6 +1461,8 @@ end
           # Update worst_error.
           if worst_error.nil? or worst_error.pos < error.pos then
             @worst_error = error
+          elsif worst_error.pos == error.pos then
+            @worst_error = @worst_error.or error
           end
           # 
           return self
@@ -1511,14 +1524,23 @@ end
       end
       
       class YY_SyntaxError < Exception
-
+        
         def initialize(message, pos)
           super(message)
           @pos = pos
         end
-
+        
         attr_reader :pos
-
+        
+        # +other+ is another YY_SyntaxError.
+        # 
+        # #pos of this YY_SyntaxError and +other+ must be equal.
+        # 
+        def or other
+          raise %(can not "or" \#{YY_SyntaxError}s with different pos) unless self.pos == other.pos
+          YY_SyntaxError.new(%(\#{self.message} or \#{other.message}), pos)
+        end
+        
       end
     )
   end
