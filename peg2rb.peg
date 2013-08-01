@@ -627,6 +627,20 @@ newline <-
         return read_string
       end
       
+      def yy_char(context)
+        # Read a char.
+        c = context.input.getc
+        # 
+        unless c then
+          #
+          context << YY_SyntaxError.new(%(a character is expected), context.input.pos)
+          #
+          return nil
+        end
+        #
+        return c
+      end
+      
       def yy_char_range(context, from, to)
         # Read the char.
         c = context.input.getc
