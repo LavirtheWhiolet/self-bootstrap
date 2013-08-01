@@ -214,7 +214,7 @@ class PEGParserGenerator
         end
         
         def message
-          [expectations[0...-1].join(", "), expectations[-1]].join(" or ")
+          [expectations[0...-1].join(", "), expectations[-1]].join(" or ") + " is expected"
         end
         
         # 
@@ -1592,7 +1592,7 @@ end
         end
         
         def message
-          [expectations[0...-1].join(", "), expectations[-1]].join(" or ")
+          [expectations[0...-1].join(", "), expectations[-1]].join(" or ") + " is expected"
         end
         
         # 
