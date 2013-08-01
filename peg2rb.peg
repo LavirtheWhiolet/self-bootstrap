@@ -584,16 +584,16 @@ newline <-
         else value
         end
       end
-      
+
       class YY_ParsingContext
-        
+
         # +input+ is IO.
         def initialize(input)
           @input = input
         end
-        
+
         attr_reader :input
-        
+
       end
       
       def yy_string(context, string)
@@ -619,14 +619,14 @@ newline <-
       end
       
       class YY_SyntaxError < Exception
-        
+
         def initialize(msg, pos)
           super(msg)
           @pos = pos
         end
-        
+
         attr_reader :pos
-        
+
       end
     )
   end
@@ -642,7 +642,8 @@ newline <-
       # 
       def #{method_name}(input)
         input.set_encoding("UTF-8", "UTF-8")
-        #{parsing_method_name}(YY_ParsingContext.new(input)) or raise YY_SyntaxError
+        context = YY_ParsingContext.new(input)
+        #{parsing_method_name}(context) or raise YY_SyntaxError, "syntax error", context.input.pos
       end
 
       # TODO: Allow to pass String to the entry point.
