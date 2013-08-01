@@ -634,7 +634,7 @@ newline <-
         # NOTE: c has UTF-8 encoding.
         unless c and (from <= c and c <= to) then
           # 
-          context << YY_SyntaxError.new($(\#{from.inspect}...\#{to.inspect} is expected), context.input.pos)
+          context << YY_SyntaxError.new(%(\#{from.inspect}\...\#{to.inspect} is expected), context.input.pos)
           # 
           return nil
         end
