@@ -586,18 +586,18 @@ newline <-
       end
 
       class YY_ParsingContext
-
+        
         # +input+ is IO.
         def initialize(input)
           @input = input
           @worst_error = nil
         end
-
+        
         attr_reader :input
-
+        
         # It is YY_SyntaxError or nil.
         attr_reader :worst_error
-
+        
         # adds possible error to this YY_ParsingContext.
         # 
         # +error+ is YY_SyntaxError.
@@ -610,7 +610,7 @@ newline <-
           # 
           return self
         end
-
+        
       end
       
       def yy_string(context, string)
