@@ -210,10 +210,11 @@ class PEGParserGenerator
         # 
         def or other
           raise %(can not "or" #{YY_SyntaxError}s with different pos) unless self.pos == other.pos
-          YY_SyntaxError.new(pos, self.expectations | other.expectations)
+          YY_SyntaxError.new(pos, *(self.expectations + other.expectations))
         end
         
         def message
+          expectations = self.expectations.uniq
           [expectations[0...-1].join(", "), expectations[-1]].join(" or ") + " is expected"
         end
         
@@ -1588,10 +1589,11 @@ end
         # 
         def or other
           raise %(can not "or" \#{YY_SyntaxError}s with different pos) unless self.pos == other.pos
-          YY_SyntaxError.new(pos, self.expectations | other.expectations)
+          YY_SyntaxError.new(pos, *(self.expectations + other.expectations))
         end
         
         def message
+          expectations = self.expectations.uniq
           [expectations[0...-1].join(", "), expectations[-1]].join(" or ") + " is expected"
         end
         
