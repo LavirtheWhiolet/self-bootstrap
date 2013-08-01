@@ -590,12 +590,12 @@ newline <-
         # +input+ is IO.
         def initialize(input)
           @input = input
-          @worst_error = YY_SyntaxError.new("syntax error", 0)
+          @worst_error = nil
         end
         
         attr_reader :input
         
-        # YY_SyntaxError
+        # It is YY_SyntaxError or nil.
         attr_reader :worst_error
         
         # adds possible error to this YY_ParsingContext.
@@ -604,7 +604,7 @@ newline <-
         # 
         def << error
           # Update worst_error.
-          if worst_error.pos < error.pos then
+          if worst_error.nil? or worst_error.pos < error.pos then
             @worst_error = error
           end
           # 
