@@ -69,7 +69,11 @@ class PEGParserGenerator
       def yy_parse(input)
         input.set_encoding("UTF-8", "UTF-8")
         context = YY_ParsingContext.new(input)
-        yy_from_pcv(yy_nonterm1(context) || raise(YY_SyntaxError.new("syntax error", context.input.pos)))
+        yy_from_pcv(
+          yy_nonterm1(context) ||
+          # TODO: context.worst_error can not be nil here. Prove it.
+          raise(context.worst_error)
+        )
       end
 
       # TODO: Allow to pass String to the entry point.
@@ -93,18 +97,18 @@ class PEGParserGenerator
       end
 
       class YY_ParsingContext
-
+        
         # +input+ is IO.
         def initialize(input)
           @input = input
           @worst_error = nil
         end
-
+        
         attr_reader :input
-
+        
         # It is YY_SyntaxError or nil.
         attr_reader :worst_error
-
+        
         # adds possible error to this YY_ParsingContext.
         # 
         # +error+ is YY_SyntaxError.
@@ -117,7 +121,7 @@ class PEGParserGenerator
           # 
           return self
         end
-
+        
       end
       
       def yy_string(context, string)
@@ -1402,18 +1406,18 @@ end
       end
 
       class YY_ParsingContext
-
+        
         # +input+ is IO.
         def initialize(input)
           @input = input
           @worst_error = nil
         end
-
+        
         attr_reader :input
-
+        
         # It is YY_SyntaxError or nil.
         attr_reader :worst_error
-
+        
         # adds possible error to this YY_ParsingContext.
         # 
         # +error+ is YY_SyntaxError.
@@ -1426,7 +1430,7 @@ end
           # 
           return self
         end
-
+        
       end
       
       def yy_string(context, string)
@@ -1483,7 +1487,11 @@ end
       def #{method_name}(input)
         input.set_encoding("UTF-8", "UTF-8")
         context = YY_ParsingContext.new(input)
-        yy_from_pcv(#{parsing_method_name}(context) || raise(YY_SyntaxError.new("syntax error", context.input.pos)))
+        yy_from_pcv(
+          #{parsing_method_name}(context) ||
+          # TODO: context.worst_error can not be nil here. Prove it.
+          raise(context.worst_error)
+        )
       end
 
       # TODO: Allow to pass String to the entry point.
@@ -1694,6 +1702,10 @@ end
 
 if $0 == __FILE__
   File.open(ARGV[0]) do |io|
-    PEGParserGenerator.new.call(io)
+    begin
+      PEGParserGenerator.new.call(io)
+    rescue PEGParserGenerator::YY_SyntaxError => e
+      STDERR.puts %(#{e.pos}: #{e.message})
+    end
   end
 end
