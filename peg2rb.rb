@@ -69,7 +69,7 @@ class PEGParserGenerator
       def yy_parse(input)
         input.set_encoding("UTF-8", "UTF-8")
         context = YY_ParsingContext.new(input)
-        yy_nonterm1(context) or raise YY_SyntaxError.new("syntax error", context.input.pos)
+        yy_from_pcv(yy_nonterm1(context) || raise(YY_SyntaxError.new("syntax error", context.input.pos)))
       end
 
       # TODO: Allow to pass String to the entry point.
@@ -1435,7 +1435,7 @@ end
       def #{method_name}(input)
         input.set_encoding("UTF-8", "UTF-8")
         context = YY_ParsingContext.new(input)
-        #{parsing_method_name}(context) or raise YY_SyntaxError.new("syntax error", context.input.pos)
+        yy_from_pcv(#{parsing_method_name}(context) || raise(YY_SyntaxError.new("syntax error", context.input.pos)))
       end
 
       # TODO: Allow to pass String to the entry point.
