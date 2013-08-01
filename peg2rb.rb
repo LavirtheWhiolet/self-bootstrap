@@ -68,7 +68,8 @@ class PEGParserGenerator
       # 
       def yy_parse(input)
         input.set_encoding("UTF-8", "UTF-8")
-        yy_nonterm1(YY_ParsingContext.new(input)) or raise YY_SyntaxError
+        context = YY_ParsingContext.new(input)
+        yy_nonterm1(context) or raise YY_SyntaxError, "syntax error", context.input.pos
       end
 
       # TODO: Allow to pass String to the entry point.
@@ -125,6 +126,14 @@ class PEGParserGenerator
       end
       
       class YY_SyntaxError < Exception
+
+        def initialize(msg, pos)
+          super(msg)
+          @pos = pos
+        end
+
+        attr_reader :pos
+
       end
     def yy_nonterm1(yy_context) 
 val = :yy_nil 
@@ -1402,6 +1411,14 @@ end
       end
       
       class YY_SyntaxError < Exception
+
+        def initialize(msg, pos)
+          super(msg)
+          @pos = pos
+        end
+
+        attr_reader :pos
+
       end
     )
   end
@@ -1417,7 +1434,8 @@ end
       # 
       def #{method_name}(input)
         input.set_encoding("UTF-8", "UTF-8")
-        #{parsing_method_name}(YY_ParsingContext.new(input)) or raise YY_SyntaxError
+        context = YY_ParsingContext.new(input)
+        #{parsing_method_name}(context) or raise YY_SyntaxError, "syntax error", context.input.pos
       end
 
       # TODO: Allow to pass String to the entry point.
