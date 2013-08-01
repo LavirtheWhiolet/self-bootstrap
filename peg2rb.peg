@@ -616,12 +616,14 @@ newline <-
       end
       
       def yy_string(context, string)
+        # 
+        string_start_pos = context.input.pos
         # Read string.
         read_string = context.input.read(string.bytesize)
         # Set the string's encoding; check if it fits the argument.
         unless read_string and (read_string.force_encoding(Encoding::UTF_8)) == string then
           # 
-          context << YY_SyntaxError.new(%(\#{string.inspect} is expected), context.input.pos)
+          context << YY_SyntaxError.new(%(\#{string.inspect} is expected), string_start_pos)
           # 
           return nil
         end
@@ -650,12 +652,14 @@ newline <-
       end
       
       def yy_char(context)
+        # 
+        char_start_pos = context.input.pos
         # Read a char.
         c = context.input.getc
         # 
         unless c then
           #
-          context << YY_SyntaxError.new(%(a character is expected), context.input.pos)
+          context << YY_SyntaxError.new(%(a character is expected), char_start_pos)
           #
           return nil
         end
@@ -664,13 +668,15 @@ newline <-
       end
       
       def yy_char_range(context, from, to)
+        # 
+        char_start_pos = context.input.pos
         # Read the char.
         c = context.input.getc
         # Check if it fits the range.
         # NOTE: c has UTF-8 encoding.
         unless c and (from <= c and c <= to) then
           # 
-          context << YY_SyntaxError.new(%(\#{from.inspect}\...\#{to.inspect} is expected), context.input.pos)
+          context << YY_SyntaxError.new(%(\#{from.inspect}\...\#{to.inspect} is expected), char_start_pos)
           # 
           return nil
         end
