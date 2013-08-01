@@ -599,23 +599,24 @@ newline <-
       def yy_string(context, string)
         # Read string.
         read_string = context.input.read(string.bytesize)
-        return nil if not read_string
-        read_string.force_encoding(Encoding::UTF_8)
-        # 
-        if read_string == string then return string
-        else return nil
+        # Set the string's encoding; check if it fits the argument.
+        unless read_string and (read_string.force_encoding(Encoding::UTF_8)) == string then
+          return nil
         end
+        # 
+        return read_string
       end
       
       def yy_char_range(context, from, to)
-        # 
+        # Read the char.
         c = context.input.getc
-        return nil if not c
+        # Check if it fits the range.
         # NOTE: c has UTF-8 encoding.
-        # 
-        if from <= c and c <= to then return c
-        else return nil
+        unless c and (from <= c and c <= to) then
+          return nil
         end
+        #
+        return c
       end
       
       class YY_SyntaxError < Exception
