@@ -198,7 +198,7 @@ expr90: Code <-
 expr100: Code <-
   / char-range:r  { val = code "yy_char_range(yy_context, #{r.begin.to_ruby_code}, #{r.end.to_ruby_code})" }
   / string:s  { val = code "yy_string(yy_context, #{s.to_ruby_code})" }
-  / nonterminal:n  { val = UnknownMethodCall[n, %(yy_context)] }
+  / @:(n_pos) nonterminal:n  { val = UnknownMethodCall[n, %(yy_context), n_pos] }
   / `char` { val = code "yy_char(yy_context)" }  # IO#getc returns nil at end of input. That's OK for us.
   / action:a  { val = code "begin \n #{a} \n true \n end" }  # Newline must be present after action's body because it may include comments.
   / `$` { val = code "yy_end?(yy_context)" }
@@ -905,9 +905,10 @@ newline <-
       
     end
     
-    def initialize(nonterminal, args_code)
+    def initialize(nonterminal, args_code, source_pos)
       @nonterminal = nonterminal
       @args_code = args_code
+      @source_pos = source_pos
     end
     
     # Nonterminal associated with this UnknownMethodCall.
@@ -915,6 +916,9 @@ newline <-
     
     # Code of arguments of this call (as String).
     attr_reader :args_code
+    
+    # Position in source code of this UnknownMethodCall.
+    attr_reader :source_pos
 
     def to_s
       raise CodeCanNotBeDetermined.new self
