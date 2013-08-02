@@ -1768,9 +1768,11 @@ end
     # 
     # It returns this Code.
     # 
+    # Not overridable.
+    # 
     def each(&block)
       map do |part|
-        block.()
+        block.(part)
         part
       end
     end
