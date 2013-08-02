@@ -100,6 +100,7 @@ grammar <-
   $
   {
     code = link(code, method_names)
+    check_no_unresolved_nonterminals(code)
     print code
   } ;
 
@@ -770,6 +771,14 @@ newline <-
         code "#{method_names[code_part.nonterminal]}(#{code_part.args_code.to_s})"
       else
         code_part
+      end
+    end
+  end
+  
+  def check_no_unresolved_nonterminals(code)
+    code.each do |code_part|
+      if code_part.is_a? UnknownMethodCall then
+        raise YY_SyntaxError.new(%(rule #{code_part.nonterminal} is not defined), code_part.source_pos)
       end
     end
   end
