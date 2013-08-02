@@ -819,6 +819,18 @@ newline <-
     end
     
     # 
+    # passes every atomic Code comprising this Code to +block+.
+    # 
+    # It returns this Code.
+    # 
+    def each(&block)
+      map do |part|
+        block.()
+        part
+      end
+    end
+    
+    # 
     # The same as Enumerable#reduce(initial) <tt>{ |memo, obj| block }</tt> or
     # Enumerable#reduce <tt>{ |memo, obj| block }</tt> where +obj+ is one of
     # atomic Code-s comprising this Code.
