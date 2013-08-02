@@ -100,7 +100,7 @@ grammar <-
   $
   {
     code = link(code, method_names)
-    check_no_unresolved_nonterminals(code)
+    check_no_unresolved_code_in code
     print code
   } ;
 
@@ -794,10 +794,13 @@ newline <-
     end
   end
   
-  def check_no_unresolved_nonterminals(code)
+  def check_no_unresolved_code_in code
     code.each do |code_part|
-      if code_part.is_a? UnknownMethodCall then
+      case code_part
+      when UnknownMethodCall
         raise YY_SyntaxError.new(%(rule #{code_part.nonterminal} is not defined), code_part.source_pos)
+      when LazyRepeat::UnknownLookAheadCode
+        raise YY_SyntaxError.new(%(at least one expression is expected to be in sequence with "*?" expression), code_part.source_pos)
       end
     end
   end
