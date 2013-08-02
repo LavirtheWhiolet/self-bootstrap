@@ -106,12 +106,12 @@ class PEGParserGenerator
         
         attr_reader :input
         
-        # It is YY_SyntaxError or nil.
+        # It is YY_SyntaxExpectationError or nil.
         attr_accessor :worst_error
         
         # adds possible error to this YY_ParsingContext.
         # 
-        # +error+ is YY_SyntaxError.
+        # +error+ is YY_SyntaxExpectationError.
         # 
         def << error
           # Update worst_error.
@@ -134,7 +134,7 @@ class PEGParserGenerator
         # Set the string's encoding; check if it fits the argument.
         unless read_string and (read_string.force_encoding(Encoding::UTF_8)) == string then
           # 
-          context << YY_SyntaxError.new(string_start_pos, string.inspect)
+          context << YY_SyntaxExpectationError.new(string.inspect, string_start_pos)
           # 
           return nil
         end
@@ -145,7 +145,7 @@ class PEGParserGenerator
       def yy_end?(context)
         #
         if not context.input.eof?
-          context << YY_SyntaxError.new(context.input.pos, "the end")
+          context << YY_SyntaxExpectationError.new("the end", context.input.pos)
           return nil
         end
         #
@@ -155,7 +155,7 @@ class PEGParserGenerator
       def yy_begin?(context)
         #
         if not (context.input.pos == 0)
-          context << YY_SyntaxError.new(context.input.pos, "the beginning")
+          context << YY_SyntaxExpectationError.new("the beginning", context.input.pos)
           return nil
         end
         #
@@ -170,7 +170,7 @@ class PEGParserGenerator
         # 
         unless c then
           #
-          context << YY_SyntaxError.new(char_start_pos, "a character")
+          context << YY_SyntaxExpectationError.new("a character", char_start_pos)
           #
           return nil
         end
@@ -187,7 +187,7 @@ class PEGParserGenerator
         # NOTE: c has UTF-8 encoding.
         unless c and (from <= c and c <= to) then
           # 
-          context << YY_SyntaxError.new(char_start_pos, %(#{from.inspect}...#{to.inspect}))
+          context << YY_SyntaxExpectationError.new(%(#{from.inspect}...#{to.inspect}), char_start_pos)
           # 
           return nil
         end
@@ -197,20 +197,35 @@ class PEGParserGenerator
       
       class YY_SyntaxError < Exception
         
-        def initialize(pos, *expectations)
-          @expectations = expectations
+        def initialize(message, pos)
+          super(message)
           @pos = pos
         end
         
         attr_reader :pos
         
-        # +other+ is another YY_SyntaxError.
+      end
+      
+      class YY_SyntaxExpectationError < YY_SyntaxError
+        
         # 
-        # #pos of this YY_SyntaxError and +other+ must be equal.
+        # +expectations+ are String-s.
+        # 
+        def initialize(*expectations, pos)
+          super(nil, pos)
+          @expectations = expectations
+        end
+        
+        # 
+        # returns other YY_SyntaxExpectationError with #expectations combined.
+        # 
+        # +other+ is another YY_SyntaxExpectationError.
+        # 
+        # #pos of this YY_SyntaxExpectationError and +other+ must be equal.
         # 
         def or other
-          raise %(can not "or" #{YY_SyntaxError}s with different pos) unless self.pos == other.pos
-          YY_SyntaxError.new(pos, *(self.expectations + other.expectations))
+          raise %(can not "or" #{YY_SyntaxExpectationError}s with different pos) unless self.pos == other.pos
+          YY_SyntaxExpectationError.new(*(self.expectations + other.expectations), pos)
         end
         
         def message
@@ -1554,12 +1569,12 @@ end
         
         attr_reader :input
         
-        # It is YY_SyntaxError or nil.
+        # It is YY_SyntaxExpectationError or nil.
         attr_accessor :worst_error
         
         # adds possible error to this YY_ParsingContext.
         # 
-        # +error+ is YY_SyntaxError.
+        # +error+ is YY_SyntaxExpectationError.
         # 
         def << error
           # Update worst_error.
@@ -1582,7 +1597,7 @@ end
         # Set the string's encoding; check if it fits the argument.
         unless read_string and (read_string.force_encoding(Encoding::UTF_8)) == string then
           # 
-          context << YY_SyntaxError.new(string_start_pos, string.inspect)
+          context << YY_SyntaxExpectationError.new(string.inspect, string_start_pos)
           # 
           return nil
         end
@@ -1593,7 +1608,7 @@ end
       def yy_end?(context)
         #
         if not context.input.eof?
-          context << YY_SyntaxError.new(context.input.pos, "the end")
+          context << YY_SyntaxExpectationError.new("the end", context.input.pos)
           return nil
         end
         #
@@ -1603,7 +1618,7 @@ end
       def yy_begin?(context)
         #
         if not (context.input.pos == 0)
-          context << YY_SyntaxError.new(context.input.pos, "the beginning")
+          context << YY_SyntaxExpectationError.new("the beginning", context.input.pos)
           return nil
         end
         #
@@ -1618,7 +1633,7 @@ end
         # 
         unless c then
           #
-          context << YY_SyntaxError.new(char_start_pos, "a character")
+          context << YY_SyntaxExpectationError.new("a character", char_start_pos)
           #
           return nil
         end
@@ -1635,7 +1650,7 @@ end
         # NOTE: c has UTF-8 encoding.
         unless c and (from <= c and c <= to) then
           # 
-          context << YY_SyntaxError.new(char_start_pos, %(\#{from.inspect}\...\#{to.inspect}))
+          context << YY_SyntaxExpectationError.new(%(\#{from.inspect}\...\#{to.inspect}), char_start_pos)
           # 
           return nil
         end
@@ -1645,20 +1660,35 @@ end
       
       class YY_SyntaxError < Exception
         
-        def initialize(pos, *expectations)
-          @expectations = expectations
+        def initialize(message, pos)
+          super(message)
           @pos = pos
         end
         
         attr_reader :pos
         
-        # +other+ is another YY_SyntaxError.
+      end
+      
+      class YY_SyntaxExpectationError < YY_SyntaxError
+        
         # 
-        # #pos of this YY_SyntaxError and +other+ must be equal.
+        # +expectations+ are String-s.
+        # 
+        def initialize(*expectations, pos)
+          super(nil, pos)
+          @expectations = expectations
+        end
+        
+        # 
+        # returns other YY_SyntaxExpectationError with #expectations combined.
+        # 
+        # +other+ is another YY_SyntaxExpectationError.
+        # 
+        # #pos of this YY_SyntaxExpectationError and +other+ must be equal.
         # 
         def or other
-          raise %(can not "or" \#{YY_SyntaxError}s with different pos) unless self.pos == other.pos
-          YY_SyntaxError.new(pos, *(self.expectations + other.expectations))
+          raise %(can not "or" \#{YY_SyntaxExpectationError}s with different pos) unless self.pos == other.pos
+          YY_SyntaxExpectationError.new(*(self.expectations + other.expectations), pos)
         end
         
         def message
