@@ -71,11 +71,11 @@ grammar <-
   }
   ` `
   (
-    / rule:(rule)
+    / @:(rule_pos) rule:(rule)
       {
         # Check that the rule is not defined twice.
         if method_names.has_key?(rule.name) then
-          raise %(rule #{rule.name} is defined more than once)
+          raise YY_SyntaxError.new(%(rule #{rule.name} is defined more than once), rule_pos)
         end
         # 
         if rule_is_first
