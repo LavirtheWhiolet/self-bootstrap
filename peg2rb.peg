@@ -182,7 +182,7 @@ expr70 <-
 expr80: Code <-
   # Repetition.
   expr90:val (
-    `*?` { val = lazy_repeat_code(val) } /
+    @:(p) `*?` { val = lazy_repeat_code(val, p) } /
     `*` { val = repeat_many_times_code(val) } /
     `+` { val = repeat_at_least_once_code(val) } /
     `?` { val = optional_code(val) }
@@ -524,7 +524,11 @@ newline <-
     end))
   end
   
-  def lazy_repeat_code(parsing_code)
+  # 
+  # +source_pos+ is position in source code the "lazy repeat" code is compiled
+  # from.
+  # 
+  def lazy_repeat_code(parsing_code, source_pos)
     #
     original_pos_var = new_unique_variable_name
     result_var = new_unique_variable_name
@@ -534,7 +538,7 @@ newline <-
         ###
         #{original_pos_var} = yy_context.input.pos
         ### Look ahead.
-        #{result_var} = ]) + LazyRepeat::UnknownLookAheadCode.new + code(%[
+        #{result_var} = ]) + LazyRepeat::UnknownLookAheadCode[source_pos] + code(%[
         yy_context.input.pos = #{original_pos_var}
         break if #{result_var}
         ### Repeat one more time (if possible).
@@ -972,9 +976,22 @@ newline <-
     
     class UnknownLookAheadCode < Code
       
+      class << self
+        
+        alias [] new
+        
+      end
+      
+      def initialize(source_pos)
+        @source_pos = source_pos
+      end
+      
       def to_s
         raise CodeCanNotBeDetermined.new self
       end
+      
+      # Position in source code associated with this UnknownLookAheadCode.
+      attr_reader :source_pos
       
       def inspect
         "#<LazyRepeat::UnknownLookAheadCode>"
