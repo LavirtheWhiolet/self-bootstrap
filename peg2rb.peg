@@ -1065,12 +1065,13 @@ end
 
 
 if $0 == __FILE__
-  File.open(ARGV[0]) do |io|
+  grammar_file = ARGV[0] or abort %(Usage: ruby #{__FILE__} grammar-file)
+  File.open(grammar_file) do |io|
     begin
       PEGParserGenerator.new.call(io)
     rescue PEGParserGenerator::YY_SyntaxError => e
       line, column = *(PEGParserGenerator.new.line_and_column(e.pos, io))
-      STDERR.puts %(error at #{line}:#{column}: #{e.message})
+      STDERR.puts %(#{grammar_file}:#{line}:#{column}: error: #{e.message})
       exit 1
     end
   end
