@@ -55,8 +55,6 @@ class PEGParserGenerator
     yy_parse(input)
   end
   
-  private
-  
   HashMap = Hash
   
 }...
@@ -752,15 +750,6 @@ newline <-
           [expectations[0...-1].join(", "), expectations[-1]].join(" or ") + " is expected"
         end
         
-        # 
-        def row_pos(io)
-          # TODO
-        end
-        
-        def column(io)
-          # TODO
-        end
-        
         protected
         
         # Private
@@ -1026,7 +1015,9 @@ if $0 == __FILE__
     begin
       PEGParserGenerator.new.call(io)
     rescue PEGParserGenerator::YY_SyntaxError => e
-      STDERR.puts %(#{e.pos}: #{e.message})
+      io.pos = 0
+      line, column = *(PEGParserGenerator.new.text(io))
+      STDERR.puts %(error at #{line}:#{column}: #{e.message})
       exit 1
     end
   end
