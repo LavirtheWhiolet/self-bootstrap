@@ -285,8 +285,8 @@ capture-delimiter: Symbol <-
 # It expects +@pos+ to be position in input and returns [line, column]
 # corresponding to that position.
 # 
-text(): [Integer, Integer] <-
-  { current = [1, 1] }
+line_and_column(): [Integer, Integer] <-
+  { current_line_and_column = [1, 1] }
   (
     @:current_pos
     { if current_pos == @pos then val = current_line_and_column.dup; end }
@@ -1016,7 +1016,7 @@ if $0 == __FILE__
       PEGParserGenerator.new.call(io)
     rescue PEGParserGenerator::YY_SyntaxError => e
       io.pos = 0
-      line, column = *(PEGParserGenerator.new.text(io))
+      line, column = *(PEGParserGenerator.new.line_and_column(io))
       STDERR.puts %(error at #{line}:#{column}: #{e.message})
       exit 1
     end
