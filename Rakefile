@@ -19,6 +19,10 @@ task :all => ["peg2rb.rb"]
 
 task :default => :all
 
+task :clean do
+  FileList["generated/*", "doc/*"].each { |entry| rm_r entry }
+end
+
 # ---- Utilities ----
 
 # executes +block+ once. Inside +block+ one may use +break+, +next+ and +redo+.
