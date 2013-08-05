@@ -281,11 +281,22 @@ capture-delimiter: Symbol <-
   / `:>>` {val = :append}
   ;
 
+{...
+
+# [line, column] corresponding to position in +io+ (+pos+).
+def line_and_column(pos, io)
+  @pos = pos
+  io.pos = 0
+  return line_and_column0(io)
+end
+
+}...
+
 # 
 # It expects +@pos+ to be position in input and returns [line, column]
 # corresponding to that position.
 # 
-line_and_column(): [Integer, Integer] <-
+line_and_column0(): [Integer, Integer] <-
   { current_line_and_column = [1, 1] }
   (
     @:current_pos
@@ -1015,8 +1026,7 @@ if $0 == __FILE__
     begin
       PEGParserGenerator.new.call(io)
     rescue PEGParserGenerator::YY_SyntaxError => e
-      io.pos = 0
-      line, column = *(PEGParserGenerator.new.line_and_column(io))
+      line, column = *(PEGParserGenerator.new.line_and_column(e.pos, io))
       STDERR.puts %(error at #{line}:#{column}: #{e.message})
       exit 1
     end
