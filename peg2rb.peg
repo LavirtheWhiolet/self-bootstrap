@@ -5,7 +5,10 @@
 # This file is both runnable and "require"-able.
 
 
-# 
+#
+INF = Float::INFINITY
+
+
 class String
   
   # returns Ruby code which evaluates to this String.
@@ -14,7 +17,22 @@ class String
   end
   
   def to_displayed_string
-    inspect  # TODO
+    if length == 1 then
+      char = self[0]
+      char_code = char.ord
+      case char_code
+      when 0x00...0x20 then %(#{unicode_s char_code})
+      when 0x80...INF  then %("#{char}" (#{unicode_s char_code}))
+      end
+    else
+      dump
+    end
+  end
+  
+  private
+  
+  def unicode_s char_code
+    "U+#{"%04X" % char_code}"
   end
   
 end
