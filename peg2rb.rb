@@ -792,7 +792,7 @@ end
       # 
       # It may raise YY_SyntaxError.
       # 
-      def text(input)
+      def line_and_column(input)
         input.set_encoding("UTF-8", "UTF-8")
         context = YY_ParsingContext.new(input)
         yy_from_pcv(
@@ -806,7 +806,7 @@ end
     def yy_nonterm3v(yy_context) 
 val = :yy_nil 
 (begin 
-  current = [1, 1]  
+  current_line_and_column = [1, 1]  
  true 
  end and while true
       yy_var46 = yy_context.input.pos
@@ -2004,7 +2004,7 @@ if $0 == __FILE__
       PEGParserGenerator.new.call(io)
     rescue PEGParserGenerator::YY_SyntaxError => e
       io.pos = 0
-      line, column = *(PEGParserGenerator.new.text(io))
+      line, column = *(PEGParserGenerator.new.line_and_column(io))
       STDERR.puts %(error at #{line}:#{column}: #{e.message})
       exit 1
     end
