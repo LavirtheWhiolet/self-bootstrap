@@ -281,6 +281,33 @@ capture-delimiter: Symbol <-
   / `:>>` {val = :append}
   ;
 
+{...
+
+# [line, column] corresponding to position in +io+ (+pos+).
+def line_and_column(pos, io)
+  @pos = pos
+  io.pos = 0
+  return line_and_column0(io)
+end
+
+}...
+
+# 
+# It expects +@pos+ to be position in input and returns [line, column]
+# corresponding to that position.
+# 
+line_and_column0(): [Integer, Integer] <-
+  { current_line_and_column = [1, 1] }
+  (
+    @:current_pos
+    { if current_pos == @pos then val = current_line_and_column.dup; end }
+    (
+      / newline { current_line_and_column[0] += 1; current_line_and_column[1] = 1 }
+      / char { current_line_and_column[1] += 1 }
+    )
+  )*
+  ;
+
 ---- Lexemes ----
 
 `%%` <-
@@ -738,15 +765,6 @@ newline <-
           [expectations[0...-1].join(", "), expectations[-1]].join(" or ") + " is expected"
         end
         
-        # 
-        def row_pos(io)
-          # TODO
-        end
-        
-        def column(io)
-          # TODO
-        end
-        
         protected
         
         # Private
@@ -1028,7 +1046,8 @@ if $0 == __FILE__
     begin
       PEGParserGenerator.new.call(io)
     rescue PEGParserGenerator::YY_SyntaxError => e
-      STDERR.puts %(#{e.pos}: #{e.message})
+      line, column = *(PEGParserGenerator.new.line_and_column(e.pos, io))
+      STDERR.puts %(error at #{line}:#{column}: #{e.message})
       exit 1
     end
   end
