@@ -290,12 +290,14 @@ capture-delimiter: Symbol <-
 text(): [Integer, Integer] <-
   { current = [1, 1] }
   (
+    @:current_pos
     { if current_pos == @pos then val = current_line_and_column.dup; end }
     (
       / newline { current_line_and_column[0] += 1; current_line_and_column[1] = 1 }
       / char { current_line_and_column[1] += 1 }
     )
   )*
+  ;
 
 ---- Lexemes ----
 
