@@ -22,10 +22,10 @@ class String
       char_code = char.ord
       case char_code
       when 0x00...0x20 then %(#{unicode_s char_code})
-      when 0x80...INF  then %("#{char}" (#{unicode_s char_code}))
+      when 0x80...INF  then %("#{char} (#{unicode_s char_code})")
       end
     else
-      dump
+      %("#{self}")
     end
   end
   
