@@ -13,6 +13,10 @@ class String
     self.dump
   end
   
+  def to_displayed_string
+    inspect  # TODO
+  end
+  
 end
 
 
@@ -666,7 +670,7 @@ newline <-
         # Set the string's encoding; check if it fits the argument.
         unless read_string and (read_string.force_encoding(Encoding::UTF_8)) == string then
           # 
-          context << YY_SyntaxExpectationError.new(string.inspect, string_start_pos)
+          context << YY_SyntaxExpectationError.new(string.to_displayed_string, string_start_pos)
           # 
           return nil
         end
@@ -719,7 +723,7 @@ newline <-
         # NOTE: c has UTF-8 encoding.
         unless c and (from <= c and c <= to) then
           # 
-          context << YY_SyntaxExpectationError.new(%(\#{from.inspect}\...\#{to.inspect}), char_start_pos)
+          context << YY_SyntaxExpectationError.new(%(\#{from.to_displayed_string}\...\#{to.to_displayed_string}), char_start_pos)
           # 
           return nil
         end
