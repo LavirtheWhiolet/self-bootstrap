@@ -55,8 +55,6 @@ class PEGParserGenerator
     yy_parse(input)
   end
   
-  private
-  
   HashMap = Hash
   
 }...
