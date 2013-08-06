@@ -42,6 +42,223 @@ end
 HashMap = Hash
 
 
+RubyCode = String
+
+
+Nonterminal = String
+
+
+class Code
+  
+  # defines abstract method.
+  def self.abstract(method)
+    define_method(method) { |*args| raise %(method `#{method}' is abstract) }
+  end
+  
+  abstract :to_s
+  
+  # Not overridable.
+  def + other
+    CodeConcatenation.new([self, other])
+  end
+  
+  # 
+  # passes every atomic Code comprising this Code and returns this Code with
+  # the atomic Code-s replaced with what +block+ returns.
+  # 
+  def map(&block)
+    block.(self)
+  end
+  
+  # 
+  # passes every atomic Code comprising this Code to +block+.
+  # 
+  # It returns this Code.
+  # 
+  # Not overridable.
+  # 
+  def each(&block)
+    map do |part|
+      block.(part)
+      part
+    end
+  end
+  
+  # 
+  # The same as Enumerable#reduce(initial) <tt>{ |memo, obj| block }</tt> or
+  # Enumerable#reduce <tt>{ |memo, obj| block }</tt> where +obj+ is one of
+  # atomic Code-s comprising this Code.
+  # 
+  # Not overridable.
+  # 
+  def reduce(initial = nil, &block)
+    # TODO: Optimize.
+    result = initial
+    self.map { |code_part| result = block.(result, code_part); code_part }
+    return result
+  end
+  
+  # returns true if +predicate+ returns true for any atomic Code comprising
+  # this code.
+  def any?(&predicate)
+    self.reduce(false) { |result, part| result or predicate.(part) }
+  end
+  
+  # 
+  # replaces each atomic Code which comprises this Code and is case-equal to
+  # +pattern+ with +replacement+.
+  # 
+  def replace(pattern, replacement)
+    self.map do |code_part|
+      if pattern === code_part then
+        replacement
+      else
+        code_part
+      end
+    end
+  end
+  
+end
+
+
+class CodeAsString < Code
+  
+  class << self
+    
+    alias [] new
+    
+  end
+  
+  def initialize(string)
+    @string = string
+  end
+  
+  def to_s
+    @string
+  end
+  
+  def inspect
+    "#<CodeAsString: #{@string.inspect}>"
+  end
+  
+end
+
+
+# returns CodeAsString.
+def code(string)
+  CodeAsString.new(string)
+end
+
+
+class CodeConcatenation < Code
+  
+  def initialize(parts)
+    @parts = parts
+  end
+  
+  def to_s
+    @parts.map { |part| part.to_s }.join
+  end
+  
+  def + other
+    # Optimization.
+    CodeConcatenation.new([*@parts, other])
+  end
+  
+  def map(&block)
+    CodeConcatenation.new(@parts.map { |part| part.map(&block) })
+  end
+  
+  def inspect
+    "#<CodeConcatenation: #{@parts.map { |p| p.inspect }.join(", ")}>"
+  end
+  
+end
+
+
+class UnknownMethodCall < Code
+  
+  class << self
+    
+    alias [] new
+    
+  end
+  
+  def initialize(nonterminal, args_code, source_pos)
+    @nonterminal = nonterminal
+    @args_code = args_code
+    @source_pos = source_pos
+  end
+  
+  # Nonterminal associated with this UnknownMethodCall.
+  attr_reader :nonterminal
+  
+  # Code of arguments of this call (as String).
+  attr_reader :args_code
+  
+  # Position in source code of this UnknownMethodCall.
+  attr_reader :source_pos
+
+  def to_s
+    raise CodeCanNotBeDetermined.new self
+  end
+  
+  def inspect
+    "#<UnknownMethodCall: @nonterminal=#{@nonterminal.inspect}>"
+  end
+  
+end
+
+
+module LazyRepeat
+  
+  class UnknownLookAheadCode < Code
+    
+    class << self
+      
+      alias [] new
+      
+    end
+    
+    def initialize(source_pos)
+      @source_pos = source_pos
+    end
+    
+    def to_s
+      raise CodeCanNotBeDetermined.new self
+    end
+    
+    # Position in source code associated with this UnknownLookAheadCode.
+    attr_reader :source_pos
+    
+    def inspect
+      "#<LazyRepeat::UnknownLookAheadCode>"
+    end
+    
+  end
+  
+end
+
+
+class CodeCanNotBeDetermined < Exception
+  
+  def initialize(code)
+    super %(code can not be determined: #{code.inspect})
+    @code = code
+  end
+  
+  attr_reader :code
+  
+end
+
+
+class Array
+  
+  alias add <<
+  
+end
+
+
 }...
 
 ---- Syntax ----
@@ -849,231 +1066,20 @@ newline <-
   U+2028 /
   U+2029 ;
 
----- Additional code ----
+---- Launching code ----
 
 {...
 
-RubyCode = String
-
-Nonterminal = String
-
 # TODO: Replace String with Nonterminal where it is needed.
 
-class Code
-  
-  # defines abstract method.
-  def self.abstract(method)
-    define_method(method) { |*args| raise %(method `#{method}' is abstract) }
-  end
-  
-  abstract :to_s
-  
-  # Not overridable.
-  def + other
-    CodeConcatenation.new([self, other])
-  end
-  
-  # 
-  # passes every atomic Code comprising this Code and returns this Code with
-  # the atomic Code-s replaced with what +block+ returns.
-  # 
-  def map(&block)
-    block.(self)
-  end
-  
-  # 
-  # passes every atomic Code comprising this Code to +block+.
-  # 
-  # It returns this Code.
-  # 
-  # Not overridable.
-  # 
-  def each(&block)
-    map do |part|
-      block.(part)
-      part
-    end
-  end
-  
-  # 
-  # The same as Enumerable#reduce(initial) <tt>{ |memo, obj| block }</tt> or
-  # Enumerable#reduce <tt>{ |memo, obj| block }</tt> where +obj+ is one of
-  # atomic Code-s comprising this Code.
-  # 
-  # Not overridable.
-  # 
-  def reduce(initial = nil, &block)
-    # TODO: Optimize.
-    result = initial
-    self.map { |code_part| result = block.(result, code_part); code_part }
-    return result
-  end
-  
-  # returns true if +predicate+ returns true for any atomic Code comprising
-  # this code.
-  def any?(&predicate)
-    self.reduce(false) { |result, part| result or predicate.(part) }
-  end
-  
-  # 
-  # replaces each atomic Code which comprises this Code and is case-equal to
-  # +pattern+ with +replacement+.
-  # 
-  def replace(pattern, replacement)
-    self.map do |code_part|
-      if pattern === code_part then
-        replacement
-      else
-        code_part
-      end
-    end
-  end
-  
-end
-
-class CodeAsString < Code
-  
-  class << self
-    
-    alias [] new
-    
-  end
-  
-  def initialize(string)
-    @string = string
-  end
-  
-  def to_s
-    @string
-  end
-  
-  def inspect
-    "#<CodeAsString: #{@string.inspect}>"
-  end
-  
-end
-
-# returns CodeAsString.
-def code(string)
-  CodeAsString.new(string)
-end
-
-class CodeConcatenation < Code
-  
-  def initialize(parts)
-    @parts = parts
-  end
-  
-  def to_s
-    @parts.map { |part| part.to_s }.join
-  end
-  
-  def + other
-    # Optimization.
-    CodeConcatenation.new([*@parts, other])
-  end
-  
-  def map(&block)
-    CodeConcatenation.new(@parts.map { |part| part.map(&block) })
-  end
-  
-  def inspect
-    "#<CodeConcatenation: #{@parts.map { |p| p.inspect }.join(", ")}>"
-  end
-  
-end
-
-class UnknownMethodCall < Code
-  
-  class << self
-    
-    alias [] new
-    
-  end
-  
-  def initialize(nonterminal, args_code, source_pos)
-    @nonterminal = nonterminal
-    @args_code = args_code
-    @source_pos = source_pos
-  end
-  
-  # Nonterminal associated with this UnknownMethodCall.
-  attr_reader :nonterminal
-  
-  # Code of arguments of this call (as String).
-  attr_reader :args_code
-  
-  # Position in source code of this UnknownMethodCall.
-  attr_reader :source_pos
-
-  def to_s
-    raise CodeCanNotBeDetermined.new self
-  end
-  
-  def inspect
-    "#<UnknownMethodCall: @nonterminal=#{@nonterminal.inspect}>"
-  end
-  
-end
-
-module LazyRepeat
-  
-  class UnknownLookAheadCode < Code
-    
-    class << self
-      
-      alias [] new
-      
-    end
-    
-    def initialize(source_pos)
-      @source_pos = source_pos
-    end
-    
-    def to_s
-      raise CodeCanNotBeDetermined.new self
-    end
-    
-    # Position in source code associated with this UnknownLookAheadCode.
-    attr_reader :source_pos
-    
-    def inspect
-      "#<LazyRepeat::UnknownLookAheadCode>"
-    end
-    
-  end
-  
-end
-
-class CodeCanNotBeDetermined < Exception
-  
-  def initialize(code)
-    super %(code can not be determined: #{code.inspect})
-    @code = code
-  end
-  
-  attr_reader :code
-  
-end
-
-
-class Array
-  
-  alias add <<
-  
-end
-
-
-begin
-  grammar_file = ARGV[0] or abort %(Usage: ruby #{__FILE__} grammar-file)
-  File.open(grammar_file) do |io|
-    begin
-      yy_parse(io)
-    rescue PEGParserGenerator::YY_SyntaxError => e
-      line, column = *(line_and_column(e.pos, io))
-      STDERR.puts %(#{grammar_file}:#{line}:#{column}: error: #{e.message})
-      exit 1
-    end
+grammar_file = ARGV[0] or abort %(Usage: ruby #{__FILE__} grammar-file)
+File.open(grammar_file) do |io|
+  begin
+    yy_parse(io)
+  rescue PEGParserGenerator::YY_SyntaxError => e
+    line, column = *(line_and_column(e.pos, io))
+    STDERR.puts %(#{grammar_file}:#{line}:#{column}: error: #{e.message})
+    exit 1
   end
 end
 
