@@ -176,70 +176,6 @@ class CodeConcatenation < Code
 end
 
 
-class UnknownMethodCall < Code
-  
-  class << self
-    
-    alias [] new
-    
-  end
-  
-  def initialize(nonterminal, args_code, source_pos)
-    @nonterminal = nonterminal
-    @args_code = args_code
-    @source_pos = source_pos
-  end
-  
-  # Nonterminal associated with this UnknownMethodCall.
-  attr_reader :nonterminal
-  
-  # Code of arguments of this call (as String).
-  attr_reader :args_code
-  
-  # Position in source code of this UnknownMethodCall.
-  attr_reader :source_pos
-
-  def to_s
-    raise CodeCanNotBeDetermined.new self
-  end
-  
-  def inspect
-    "#<UnknownMethodCall: @nonterminal=#{@nonterminal.inspect}>"
-  end
-  
-end
-
-
-module LazyRepeat
-  
-  class UnknownLookAheadCode < Code
-    
-    class << self
-      
-      alias [] new
-      
-    end
-    
-    def initialize(source_pos)
-      @source_pos = source_pos
-    end
-    
-    def to_s
-      raise CodeCanNotBeDetermined.new self
-    end
-    
-    # Position in source code associated with this UnknownLookAheadCode.
-    attr_reader :source_pos
-    
-    def inspect
-      "#<LazyRepeat::UnknownLookAheadCode>"
-    end
-    
-  end
-  
-end
-
-
 class CodeCanNotBeDetermined < Exception
   
   def initialize(code)
@@ -745,6 +681,35 @@ expr80: Code <-
     end))
   end
   
+  module LazyRepeat
+    
+    class UnknownLookAheadCode < Code
+      
+      class << self
+        
+        alias [] new
+        
+      end
+      
+      def initialize(source_pos)
+        @source_pos = source_pos
+      end
+      
+      def to_s
+        raise CodeCanNotBeDetermined.new self
+      end
+      
+      # Position in source code associated with this UnknownLookAheadCode.
+      attr_reader :source_pos
+      
+      def inspect
+        "#<LazyRepeat::UnknownLookAheadCode>"
+      end
+      
+    end
+    
+  end
+
 }...
 
 expr90: Code <-
@@ -804,6 +769,43 @@ expr100: Code <-
     { val = code "(yy_context.input.pos = #{pos_variable}; true)" }
   / `@` { val = code "yy_context.input.pos" }
   ;
+
+{...
+  
+  class UnknownMethodCall < Code
+    
+    class << self
+      
+      alias [] new
+      
+    end
+    
+    def initialize(nonterminal, args_code, source_pos)
+      @nonterminal = nonterminal
+      @args_code = args_code
+      @source_pos = source_pos
+    end
+    
+    # Nonterminal associated with this UnknownMethodCall.
+    attr_reader :nonterminal
+    
+    # Code of arguments of this call (as String).
+    attr_reader :args_code
+    
+    # Position in source code of this UnknownMethodCall.
+    attr_reader :source_pos
+    
+    def to_s
+      raise CodeCanNotBeDetermined.new self
+    end
+    
+    def inspect
+      "#<UnknownMethodCall: @nonterminal=#{@nonterminal.inspect}>"
+    end
+    
+  end
+  
+}...
 
 rule: Rule <-
   { rule = val = Rule.new }
