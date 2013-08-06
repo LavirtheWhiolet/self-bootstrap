@@ -87,6 +87,243 @@ grammar <-
     print code
   } ;
 
+{...
+  
+  def parser_entry_point_code(method_name, parsing_method_name)
+    code %(
+
+      # 
+      # +input+ is IO. It must have working IO#pos, IO#pos= and
+      # IO#set_encoding() methods.
+      # 
+      # It may raise YY_SyntaxError.
+      # 
+      def #{method_name}(input)
+        input.set_encoding("UTF-8", "UTF-8")
+        context = YY_ParsingContext.new(input)
+        yy_from_pcv(
+          #{parsing_method_name}(context) ||
+          # TODO: context.worst_error can not be nil here. Prove it.
+          raise(context.worst_error)
+        )
+      end
+
+      # TODO: Allow to pass String to the entry point.
+    )
+  end
+
+  # 
+  # See source code.
+  # 
+  def link(code, method_names)
+    code.map do |code_part|
+      if code_part.is_a? UnknownMethodCall and method_names.has_key? code_part.nonterminal
+        code "#{method_names[code_part.nonterminal]}(#{code_part.args_code.to_s})"
+      else
+        code_part
+      end
+    end
+  end
+
+  def check_no_unresolved_code_in code
+    code.each do |code_part|
+      case code_part
+      when UnknownMethodCall
+        raise YY_SyntaxError.new(%(rule #{code_part.nonterminal} is not defined), code_part.source_pos)
+      when LazyRepeat::UnknownLookAheadCode
+        raise YY_SyntaxError.new(%(at least one expression is expected to be in sequence with "*?" expression), code_part.source_pos)
+      end
+    end
+  end
+
+  def auxiliary_parser_code
+    code %(
+      
+      # converts value to parser-compatible value (which is always non-false and
+      # non-nil).
+      def yy_to_pcv(value)
+        if value.nil? then :yy_nil
+        elsif value == false then :yy_false
+        else value
+        end
+      end
+      
+      # converts value got by #yy_to_pcv() to actual value.
+      def yy_from_pcv(value)
+        if value == :yy_nil then nil
+        elsif value == :yy_false then false
+        else value
+        end
+      end
+
+      class YY_ParsingContext
+        
+        # +input+ is IO.
+        def initialize(input)
+          @input = input
+          @worst_error = nil
+        end
+        
+        attr_reader :input
+        
+        # It is YY_SyntaxExpectationError or nil.
+        attr_accessor :worst_error
+        
+        # adds possible error to this YY_ParsingContext.
+        # 
+        # +error+ is YY_SyntaxExpectationError.
+        # 
+        def << error
+          # Update worst_error.
+          if worst_error.nil? or worst_error.pos < error.pos then
+            @worst_error = error
+          elsif worst_error.pos == error.pos then
+            @worst_error = @worst_error.or error
+          end
+          # 
+          return self
+        end
+        
+      end
+      
+      def yy_string(context, string)
+        # 
+        string_start_pos = context.input.pos
+        # Read string.
+        read_string = context.input.read(string.bytesize)
+        # Set the string's encoding; check if it fits the argument.
+        unless read_string and (read_string.force_encoding(Encoding::UTF_8)) == string then
+          # 
+          context << YY_SyntaxExpectationError.new(yy_displayed(string), string_start_pos)
+          # 
+          return nil
+        end
+        # 
+        return read_string
+      end
+      
+      def yy_end?(context)
+        #
+        if not context.input.eof?
+          context << YY_SyntaxExpectationError.new("the end", context.input.pos)
+          return nil
+        end
+        #
+        return true
+      end
+      
+      def yy_begin?(context)
+        #
+        if not (context.input.pos == 0)
+          context << YY_SyntaxExpectationError.new("the beginning", context.input.pos)
+          return nil
+        end
+        #
+        return true
+      end
+      
+      def yy_char(context)
+        # 
+        char_start_pos = context.input.pos
+        # Read a char.
+        c = context.input.getc
+        # 
+        unless c then
+          #
+          context << YY_SyntaxExpectationError.new("a character", char_start_pos)
+          #
+          return nil
+        end
+        #
+        return c
+      end
+      
+      def yy_char_range(context, from, to)
+        # 
+        char_start_pos = context.input.pos
+        # Read the char.
+        c = context.input.getc
+        # Check if it fits the range.
+        # NOTE: c has UTF-8 encoding.
+        unless c and (from <= c and c <= to) then
+          # 
+          context << YY_SyntaxExpectationError.new(%(\#{yy_displayed from}\...\#{yy_displayed to}), char_start_pos)
+          # 
+          return nil
+        end
+        #
+        return c
+      end
+      
+      # The form of +string+ suitable for displaying in messages.
+      def yy_displayed(string)
+        if string.length == 1 then
+          char = string[0]
+          char_code = char.ord
+          case char_code
+          when 0x00...0x20 then %(\#{yy_unicode_s char_code})
+          when 0x20...0x80 then %("\#{char}")
+          when 0x80...Float::INFINITY then %("\#{char} (\#{yy_unicode_s char_code})")
+          end
+        else
+          %("\#{string}")
+        end
+      end
+      
+      # "U+XXXX" string corresponding to +char_code+.
+      def yy_unicode_s(char_code)
+        "U+\#{"%04X" % char_code}"
+      end
+      
+      class YY_SyntaxError < Exception
+        
+        def initialize(message, pos)
+          super(message)
+          @pos = pos
+        end
+        
+        attr_reader :pos
+        
+      end
+      
+      class YY_SyntaxExpectationError < YY_SyntaxError
+        
+        # 
+        # +expectations+ are String-s.
+        # 
+        def initialize(*expectations, pos)
+          super(nil, pos)
+          @expectations = expectations
+        end
+        
+        # 
+        # returns other YY_SyntaxExpectationError with #expectations combined.
+        # 
+        # +other+ is another YY_SyntaxExpectationError.
+        # 
+        # #pos of this YY_SyntaxExpectationError and +other+ must be equal.
+        # 
+        def or other
+          raise %(can not "or" \#{YY_SyntaxExpectationError}s with different pos) unless self.pos == other.pos
+          YY_SyntaxExpectationError.new(*(self.expectations + other.expectations), pos)
+        end
+        
+        def message
+          expectations = self.expectations.uniq
+          [expectations[0...-1].join(", "), expectations[-1]].join(" or ") + " is expected"
+        end
+        
+        protected
+        
+        # Private
+        attr_reader :expectations
+        
+      end
+    )
+  end
+  
+}...
+
 expr: Code <-
   expr20:val ;
 
@@ -152,6 +389,34 @@ expr60: Code <-
   / expr70:val
   ;
 
+{...
+  
+  # 
+  # +capture_type+ may be:
+  # 
+  # [:capture] "Capture the semantic value to +target_var+"
+  # [:append]  "Append semantic value to +target_var+ using "<<" operator".
+  # 
+  def capture_semantic_value_code(target_var, code, capture_type)
+    parse_result_var = new_unique_variable_name
+    capture_operator =
+      case capture_type
+      when :capture then "="
+      when :append then "<<"
+      else raise %(capture_type #{capture_type.inspect} is not supported)
+      end
+    #
+    code(%(begin
+      #{parse_result_var} = )) + code + code(%(
+      if #{parse_result_var} then
+        #{target_var} #{capture_operator} yy_from_pcv(#{parse_result_var})
+      end
+      #{parse_result_var}
+    end))
+  end
+  
+}...
+
 # TODO: Rename "action" rule to "Ruby-code".
 
 expr70 <-
@@ -162,6 +427,39 @@ expr70 <-
   / expr80:val
   ;
 
+{...
+  
+  def positive_predicate_with_native_code_code(native_code)
+    code(%(begin \n #{native_code} \n end))  # Newlines are needed because native_code may contain comments.
+  end
+  
+  def positive_predicate_code(code)
+    stored_pos_var = new_unique_variable_name
+    result_var = new_unique_variable_name
+    #
+    code(%(begin
+      #{stored_pos_var} = yy_context.input.pos
+      #{result_var} = )) + code + code(%(
+      yy_context.input.pos = #{stored_pos_var}
+      #{result_var}
+    end))
+  end
+  
+  def negative_predicate_code(code)
+    stored_worst_error_var = new_unique_variable_name
+    # 
+    code(%(begin
+      #{stored_worst_error_var} = yy_context.worst_error
+      begin
+        not )) + positive_predicate_code(code) + code(%(
+      ensure
+        yy_context.worst_error = #{stored_worst_error_var}
+      end
+    end))
+  end
+
+}...
+
 expr80: Code <-
   # Repetition.
   expr90:val (
@@ -171,6 +469,67 @@ expr80: Code <-
     `?` { val = optional_code(val) }
   )* ;
 
+{...
+  
+  # 
+  # +source_pos+ is position in source code the "lazy repeat" code is compiled
+  # from.
+  # 
+  def lazy_repeat_code(parsing_code, source_pos)
+    #
+    original_pos_var = new_unique_variable_name
+    result_var = new_unique_variable_name
+    #
+    code(%[ begin
+      while true
+        ###
+        #{original_pos_var} = yy_context.input.pos
+        ### Look ahead.
+        #{result_var} = ]) + LazyRepeat::UnknownLookAheadCode[source_pos] + code(%[
+        yy_context.input.pos = #{original_pos_var}
+        break if #{result_var}
+        ### Repeat one more time (if possible).
+        #{result_var} = ]) + parsing_code + code(%[
+        if not #{result_var} then
+          yy_context.input.pos = #{original_pos_var}
+          break
+        end
+      end
+      ### The repetition is always successful.
+      true
+    end ])
+  end
+  
+  def repeat_many_times_code(code)
+    stored_pos_var = new_unique_variable_name
+    #
+    code(%(while true
+      #{stored_pos_var} = yy_context.input.pos
+      if not )) + code + code(%( then
+        yy_context.input.pos = #{stored_pos_var}
+        break true
+      end
+    end))
+  end
+  
+  def repeat_at_least_once_code(code)
+    code + code(%( and )) + repeat_many_times_code(code)
+  end
+  
+  def optional_code(code)
+    stored_pos_var = new_unique_variable_name
+    #
+    code(%(begin
+      #{stored_pos_var} = yy_context.input.pos
+      if not )) + code + code(%( then
+        yy_context.input.pos = #{stored_pos_var}
+      end
+      true
+    end))
+  end
+  
+}...
+
 expr90: Code <-
   # Parentheses.
   `(` expr:val `)` /
@@ -178,6 +537,40 @@ expr90: Code <-
   `<` expr:c `>` capture-delimiter:t capture-target-variable:var { val = capture_text_code(var, c, t) } /
   # 
   expr100:val ;
+
+{...
+  
+  # returns code which captures text to specified variable.
+  # 
+  # +capture_type+ may be one of the following:
+  # 
+  # [:capture] "Capture the text into the variable +target_variable_name+"
+  # [:append]  "Append the text to the variable +target_variable_name+"
+  # 
+  def capture_text_code(target_variable_name, parsing_code, capture_type)
+    #
+    init_target_variable_code =
+      case capture_type
+      when :capture then %(#{target_variable_name} = "")
+      when :append then %()
+      else raise %(capture_type #{capture_type.inspect} is not supported)
+      end
+    start_pos_var = new_unique_variable_name
+    end_pos_var = new_unique_variable_name
+    # 
+    code(%(begin
+      #{init_target_variable_code}
+      #{start_pos_var} = yy_context.input.pos
+      )) +
+      parsing_code + code(%( and begin
+        #{end_pos_var} = yy_context.input.pos
+        yy_context.input.pos = #{start_pos_var}
+        #{target_variable_name} << yy_context.input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
+      end
+    end))
+  end
+  
+}...
 
 expr100: Code <-
   / char-range:r  { val = code "yy_char_range(yy_context, #{r.begin.to_ruby_code}, #{r.end.to_ruby_code})" }
@@ -214,6 +607,13 @@ rule: Rule <-
 
 {...
   
+  def to_method_definition(code, method_name)
+    code("def #{method_name}(yy_context) \n") +
+      code("val = :yy_nil \n") +
+      code + code(" and yy_to_pcv(val) \n") +
+    code("end \n")
+  end
+  
   class Rule
 
     def initialize()
@@ -248,7 +648,7 @@ rule: Rule <-
     end
 
   end
-
+  
 }...
 
 rule-type <-
@@ -452,466 +852,173 @@ newline <-
 ---- Additional code ----
 
 {...
-  
-  # 
-  # +capture_type+ may be:
-  # 
-  # [:capture] "Capture the semantic value to +target_var+"
-  # [:append]  "Append semantic value to +target_var+ using "<<" operator".
-  # 
-  def capture_semantic_value_code(target_var, code, capture_type)
-    parse_result_var = new_unique_variable_name
-    capture_operator =
-      case capture_type
-      when :capture then "="
-      when :append then "<<"
-      else raise %(capture_type #{capture_type.inspect} is not supported)
-      end
-    #
-    code(%(begin
-      #{parse_result_var} = )) + code + code(%(
-      if #{parse_result_var} then
-        #{target_var} #{capture_operator} yy_from_pcv(#{parse_result_var})
-      end
-      #{parse_result_var}
-    end))
-  end
-  
-  def positive_predicate_with_native_code_code(native_code)
-    code(%(begin \n #{native_code} \n end))  # Newlines are needed because native_code may contain comments.
-  end
-  
-  def positive_predicate_code(code)
-    stored_pos_var = new_unique_variable_name
-    result_var = new_unique_variable_name
-    #
-    code(%(begin
-      #{stored_pos_var} = yy_context.input.pos
-      #{result_var} = )) + code + code(%(
-      yy_context.input.pos = #{stored_pos_var}
-      #{result_var}
-    end))
-  end
-  
-  def negative_predicate_code(code)
-    stored_worst_error_var = new_unique_variable_name
-    # 
-    code(%(begin
-      #{stored_worst_error_var} = yy_context.worst_error
-      begin
-        not )) + positive_predicate_code(code) + code(%(
-      ensure
-        yy_context.worst_error = #{stored_worst_error_var}
-      end
-    end))
-  end
-  
-  def repeat_many_times_code(code)
-    stored_pos_var = new_unique_variable_name
-    #
-    code(%(while true
-      #{stored_pos_var} = yy_context.input.pos
-      if not )) + code + code(%( then
-        yy_context.input.pos = #{stored_pos_var}
-        break true
-      end
-    end))
-  end
-  
-  def repeat_at_least_once_code(code)
-    code + code(%( and )) + repeat_many_times_code(code)
-  end
-  
-  def optional_code(code)
-    stored_pos_var = new_unique_variable_name
-    #
-    code(%(begin
-      #{stored_pos_var} = yy_context.input.pos
-      if not )) + code + code(%( then
-        yy_context.input.pos = #{stored_pos_var}
-      end
-      true
-    end))
-  end
-  
-  # 
-  # +source_pos+ is position in source code the "lazy repeat" code is compiled
-  # from.
-  # 
-  def lazy_repeat_code(parsing_code, source_pos)
-    #
-    original_pos_var = new_unique_variable_name
-    result_var = new_unique_variable_name
-    #
-    code(%[ begin
-      while true
-        ###
-        #{original_pos_var} = yy_context.input.pos
-        ### Look ahead.
-        #{result_var} = ]) + LazyRepeat::UnknownLookAheadCode[source_pos] + code(%[
-        yy_context.input.pos = #{original_pos_var}
-        break if #{result_var}
-        ### Repeat one more time (if possible).
-        #{result_var} = ]) + parsing_code + code(%[
-        if not #{result_var} then
-          yy_context.input.pos = #{original_pos_var}
-          break
-        end
-      end
-      ### The repetition is always successful.
-      true
-    end ])
-  end
-  
-  # returns code which captures text to specified variable.
-  # 
-  # +capture_type+ may be one of the following:
-  # 
-  # [:capture] "Capture the text into the variable +target_variable_name+"
-  # [:append]  "Append the text to the variable +target_variable_name+"
-  # 
-  def capture_text_code(target_variable_name, parsing_code, capture_type)
-    #
-    init_target_variable_code =
-      case capture_type
-      when :capture then %(#{target_variable_name} = "")
-      when :append then %()
-      else raise %(capture_type #{capture_type.inspect} is not supported)
-      end
-    start_pos_var = new_unique_variable_name
-    end_pos_var = new_unique_variable_name
-    # 
-    code(%(begin
-      #{init_target_variable_code}
-      #{start_pos_var} = yy_context.input.pos
-      )) +
-      parsing_code + code(%( and begin
-        #{end_pos_var} = yy_context.input.pos
-        yy_context.input.pos = #{start_pos_var}
-        #{target_variable_name} << yy_context.input.read(#{end_pos_var} - #{start_pos_var}).force_encoding(Encoding::UTF_8)
-      end
-    end))
-  end
-  
-  def auxiliary_parser_code
-    code %(
-      
-      # converts value to parser-compatible value (which is always non-false and
-      # non-nil).
-      def yy_to_pcv(value)
-        if value.nil? then :yy_nil
-        elsif value == false then :yy_false
-        else value
-        end
-      end
-      
-      # converts value got by #yy_to_pcv() to actual value.
-      def yy_from_pcv(value)
-        if value == :yy_nil then nil
-        elsif value == :yy_false then false
-        else value
-        end
-      end
 
-      class YY_ParsingContext
-        
-        # +input+ is IO.
-        def initialize(input)
-          @input = input
-          @worst_error = nil
-        end
-        
-        attr_reader :input
-        
-        # It is YY_SyntaxExpectationError or nil.
-        attr_accessor :worst_error
-        
-        # adds possible error to this YY_ParsingContext.
-        # 
-        # +error+ is YY_SyntaxExpectationError.
-        # 
-        def << error
-          # Update worst_error.
-          if worst_error.nil? or worst_error.pos < error.pos then
-            @worst_error = error
-          elsif worst_error.pos == error.pos then
-            @worst_error = @worst_error.or error
-          end
-          # 
-          return self
-        end
-        
-      end
-      
-      def yy_string(context, string)
-        # 
-        string_start_pos = context.input.pos
-        # Read string.
-        read_string = context.input.read(string.bytesize)
-        # Set the string's encoding; check if it fits the argument.
-        unless read_string and (read_string.force_encoding(Encoding::UTF_8)) == string then
-          # 
-          context << YY_SyntaxExpectationError.new(yy_displayed(string), string_start_pos)
-          # 
-          return nil
-        end
-        # 
-        return read_string
-      end
-      
-      def yy_end?(context)
-        #
-        if not context.input.eof?
-          context << YY_SyntaxExpectationError.new("the end", context.input.pos)
-          return nil
-        end
-        #
-        return true
-      end
-      
-      def yy_begin?(context)
-        #
-        if not (context.input.pos == 0)
-          context << YY_SyntaxExpectationError.new("the beginning", context.input.pos)
-          return nil
-        end
-        #
-        return true
-      end
-      
-      def yy_char(context)
-        # 
-        char_start_pos = context.input.pos
-        # Read a char.
-        c = context.input.getc
-        # 
-        unless c then
-          #
-          context << YY_SyntaxExpectationError.new("a character", char_start_pos)
-          #
-          return nil
-        end
-        #
-        return c
-      end
-      
-      def yy_char_range(context, from, to)
-        # 
-        char_start_pos = context.input.pos
-        # Read the char.
-        c = context.input.getc
-        # Check if it fits the range.
-        # NOTE: c has UTF-8 encoding.
-        unless c and (from <= c and c <= to) then
-          # 
-          context << YY_SyntaxExpectationError.new(%(\#{yy_displayed from}\...\#{yy_displayed to}), char_start_pos)
-          # 
-          return nil
-        end
-        #
-        return c
-      end
-      
-      # The form of +string+ suitable for displaying in messages.
-      def yy_displayed(string)
-        if string.length == 1 then
-          char = string[0]
-          char_code = char.ord
-          case char_code
-          when 0x00...0x20 then %(\#{yy_unicode_s char_code})
-          when 0x20...0x80 then %("\#{char}")
-          when 0x80...Float::INFINITY then %("\#{char} (\#{yy_unicode_s char_code})")
-          end
-        else
-          %("\#{string}")
-        end
-      end
-      
-      # "U+XXXX" string corresponding to +char_code+.
-      def yy_unicode_s(char_code)
-        "U+\#{"%04X" % char_code}"
-      end
-      
-      class YY_SyntaxError < Exception
-        
-        def initialize(message, pos)
-          super(message)
-          @pos = pos
-        end
-        
-        attr_reader :pos
-        
-      end
-      
-      class YY_SyntaxExpectationError < YY_SyntaxError
-        
-        # 
-        # +expectations+ are String-s.
-        # 
-        def initialize(*expectations, pos)
-          super(nil, pos)
-          @expectations = expectations
-        end
-        
-        # 
-        # returns other YY_SyntaxExpectationError with #expectations combined.
-        # 
-        # +other+ is another YY_SyntaxExpectationError.
-        # 
-        # #pos of this YY_SyntaxExpectationError and +other+ must be equal.
-        # 
-        def or other
-          raise %(can not "or" \#{YY_SyntaxExpectationError}s with different pos) unless self.pos == other.pos
-          YY_SyntaxExpectationError.new(*(self.expectations + other.expectations), pos)
-        end
-        
-        def message
-          expectations = self.expectations.uniq
-          [expectations[0...-1].join(", "), expectations[-1]].join(" or ") + " is expected"
-        end
-        
-        protected
-        
-        # Private
-        attr_reader :expectations
-        
-      end
-    )
+RubyCode = String
+
+Nonterminal = String
+
+# TODO: Replace String with Nonterminal where it is needed.
+
+class Code
+  
+  # defines abstract method.
+  def self.abstract(method)
+    define_method(method) { |*args| raise %(method `#{method}' is abstract) }
   end
-
-  def parser_entry_point_code(method_name, parsing_method_name)
-    code %(
-
-      # 
-      # +input+ is IO. It must have working IO#pos, IO#pos= and
-      # IO#set_encoding() methods.
-      # 
-      # It may raise YY_SyntaxError.
-      # 
-      def #{method_name}(input)
-        input.set_encoding("UTF-8", "UTF-8")
-        context = YY_ParsingContext.new(input)
-        yy_from_pcv(
-          #{parsing_method_name}(context) ||
-          # TODO: context.worst_error can not be nil here. Prove it.
-          raise(context.worst_error)
-        )
-      end
-
-      # TODO: Allow to pass String to the entry point.
-    )
+  
+  abstract :to_s
+  
+  # Not overridable.
+  def + other
+    CodeConcatenation.new([self, other])
   end
   
   # 
-  # See source code.
+  # passes every atomic Code comprising this Code and returns this Code with
+  # the atomic Code-s replaced with what +block+ returns.
   # 
-  def link(code, method_names)
-    code.map do |code_part|
-      if code_part.is_a? UnknownMethodCall and method_names.has_key? code_part.nonterminal
-        code "#{method_names[code_part.nonterminal]}(#{code_part.args_code.to_s})"
+  def map(&block)
+    block.(self)
+  end
+  
+  # 
+  # passes every atomic Code comprising this Code to +block+.
+  # 
+  # It returns this Code.
+  # 
+  # Not overridable.
+  # 
+  def each(&block)
+    map do |part|
+      block.(part)
+      part
+    end
+  end
+  
+  # 
+  # The same as Enumerable#reduce(initial) <tt>{ |memo, obj| block }</tt> or
+  # Enumerable#reduce <tt>{ |memo, obj| block }</tt> where +obj+ is one of
+  # atomic Code-s comprising this Code.
+  # 
+  # Not overridable.
+  # 
+  def reduce(initial = nil, &block)
+    # TODO: Optimize.
+    result = initial
+    self.map { |code_part| result = block.(result, code_part); code_part }
+    return result
+  end
+  
+  # returns true if +predicate+ returns true for any atomic Code comprising
+  # this code.
+  def any?(&predicate)
+    self.reduce(false) { |result, part| result or predicate.(part) }
+  end
+  
+  # 
+  # replaces each atomic Code which comprises this Code and is case-equal to
+  # +pattern+ with +replacement+.
+  # 
+  def replace(pattern, replacement)
+    self.map do |code_part|
+      if pattern === code_part then
+        replacement
       else
         code_part
       end
     end
   end
   
-  def check_no_unresolved_code_in code
-    code.each do |code_part|
-      case code_part
-      when UnknownMethodCall
-        raise YY_SyntaxError.new(%(rule #{code_part.nonterminal} is not defined), code_part.source_pos)
-      when LazyRepeat::UnknownLookAheadCode
-        raise YY_SyntaxError.new(%(at least one expression is expected to be in sequence with "*?" expression), code_part.source_pos)
-      end
-    end
-  end
+end
+
+class CodeAsString < Code
   
-  def to_method_definition(code, method_name)
-    code("def #{method_name}(yy_context) \n") +
-      code("val = :yy_nil \n") +
-      code + code(" and yy_to_pcv(val) \n") +
-    code("end \n")
-  end
-  
-  RubyCode = String
-  
-  Nonterminal = String
-  
-  # TODO: Replace String with Nonterminal where it is needed.
-  
-  class Code
+  class << self
     
-    # defines abstract method.
-    def self.abstract(method)
-      define_method(method) { |*args| raise %(method `#{method}' is abstract) }
-    end
-    
-    abstract :to_s
-    
-    # Not overridable.
-    def + other
-      CodeConcatenation.new([self, other])
-    end
-    
-    # 
-    # passes every atomic Code comprising this Code and returns this Code with
-    # the atomic Code-s replaced with what +block+ returns.
-    # 
-    def map(&block)
-      block.(self)
-    end
-    
-    # 
-    # passes every atomic Code comprising this Code to +block+.
-    # 
-    # It returns this Code.
-    # 
-    # Not overridable.
-    # 
-    def each(&block)
-      map do |part|
-        block.(part)
-        part
-      end
-    end
-    
-    # 
-    # The same as Enumerable#reduce(initial) <tt>{ |memo, obj| block }</tt> or
-    # Enumerable#reduce <tt>{ |memo, obj| block }</tt> where +obj+ is one of
-    # atomic Code-s comprising this Code.
-    # 
-    # Not overridable.
-    # 
-    def reduce(initial = nil, &block)
-      # TODO: Optimize.
-      result = initial
-      self.map { |code_part| result = block.(result, code_part); code_part }
-      return result
-    end
-    
-    # returns true if +predicate+ returns true for any atomic Code comprising
-    # this code.
-    def any?(&predicate)
-      self.reduce(false) { |result, part| result or predicate.(part) }
-    end
-    
-    # 
-    # replaces each atomic Code which comprises this Code and is case-equal to
-    # +pattern+ with +replacement+.
-    # 
-    def replace(pattern, replacement)
-      self.map do |code_part|
-        if pattern === code_part then
-          replacement
-        else
-          code_part
-        end
-      end
-    end
+    alias [] new
     
   end
   
-  class CodeAsString < Code
+  def initialize(string)
+    @string = string
+  end
+  
+  def to_s
+    @string
+  end
+  
+  def inspect
+    "#<CodeAsString: #{@string.inspect}>"
+  end
+  
+end
+
+# returns CodeAsString.
+def code(string)
+  CodeAsString.new(string)
+end
+
+class CodeConcatenation < Code
+  
+  def initialize(parts)
+    @parts = parts
+  end
+  
+  def to_s
+    @parts.map { |part| part.to_s }.join
+  end
+  
+  def + other
+    # Optimization.
+    CodeConcatenation.new([*@parts, other])
+  end
+  
+  def map(&block)
+    CodeConcatenation.new(@parts.map { |part| part.map(&block) })
+  end
+  
+  def inspect
+    "#<CodeConcatenation: #{@parts.map { |p| p.inspect }.join(", ")}>"
+  end
+  
+end
+
+class UnknownMethodCall < Code
+  
+  class << self
+    
+    alias [] new
+    
+  end
+  
+  def initialize(nonterminal, args_code, source_pos)
+    @nonterminal = nonterminal
+    @args_code = args_code
+    @source_pos = source_pos
+  end
+  
+  # Nonterminal associated with this UnknownMethodCall.
+  attr_reader :nonterminal
+  
+  # Code of arguments of this call (as String).
+  attr_reader :args_code
+  
+  # Position in source code of this UnknownMethodCall.
+  attr_reader :source_pos
+
+  def to_s
+    raise CodeCanNotBeDetermined.new self
+  end
+  
+  def inspect
+    "#<UnknownMethodCall: @nonterminal=#{@nonterminal.inspect}>"
+  end
+  
+end
+
+module LazyRepeat
+  
+  class UnknownLookAheadCode < Code
     
     class << self
       
@@ -919,142 +1026,55 @@ newline <-
       
     end
     
-    def initialize(string)
-      @string = string
-    end
-    
-    def to_s
-      @string
-    end
-    
-    def inspect
-      "#<CodeAsString: #{@string.inspect}>"
-    end
-    
-  end
-  
-  # returns CodeAsString.
-  def code(string)
-    CodeAsString.new(string)
-  end
-  
-  class CodeConcatenation < Code
-    
-    def initialize(parts)
-      @parts = parts
-    end
-    
-    def to_s
-      @parts.map { |part| part.to_s }.join
-    end
-    
-    def + other
-      # Optimization.
-      CodeConcatenation.new([*@parts, other])
-    end
-    
-    def map(&block)
-      CodeConcatenation.new(@parts.map { |part| part.map(&block) })
-    end
-    
-    def inspect
-      "#<CodeConcatenation: #{@parts.map { |p| p.inspect }.join(", ")}>"
-    end
-    
-  end
-  
-  class UnknownMethodCall < Code
-    
-    class << self
-      
-      alias [] new
-      
-    end
-    
-    def initialize(nonterminal, args_code, source_pos)
-      @nonterminal = nonterminal
-      @args_code = args_code
+    def initialize(source_pos)
       @source_pos = source_pos
     end
     
-    # Nonterminal associated with this UnknownMethodCall.
-    attr_reader :nonterminal
-    
-    # Code of arguments of this call (as String).
-    attr_reader :args_code
-    
-    # Position in source code of this UnknownMethodCall.
-    attr_reader :source_pos
-
     def to_s
       raise CodeCanNotBeDetermined.new self
     end
     
+    # Position in source code associated with this UnknownLookAheadCode.
+    attr_reader :source_pos
+    
     def inspect
-      "#<UnknownMethodCall: @nonterminal=#{@nonterminal.inspect}>"
+      "#<LazyRepeat::UnknownLookAheadCode>"
     end
     
   end
   
-  module LazyRepeat
-    
-    class UnknownLookAheadCode < Code
-      
-      class << self
-        
-        alias [] new
-        
-      end
-      
-      def initialize(source_pos)
-        @source_pos = source_pos
-      end
-      
-      def to_s
-        raise CodeCanNotBeDetermined.new self
-      end
-      
-      # Position in source code associated with this UnknownLookAheadCode.
-      attr_reader :source_pos
-      
-      def inspect
-        "#<LazyRepeat::UnknownLookAheadCode>"
-      end
-      
-    end
-    
+end
+
+class CodeCanNotBeDetermined < Exception
+  
+  def initialize(code)
+    super %(code can not be determined: #{code.inspect})
+    @code = code
   end
   
-  class CodeCanNotBeDetermined < Exception
-    
-    def initialize(code)
-      super %(code can not be determined: #{code.inspect})
-      @code = code
-    end
-    
-    attr_reader :code
-    
-  end
+  attr_reader :code
   
-
-  class Array
-    
-    alias add <<
-    
-  end
+end
 
 
-  begin
-    grammar_file = ARGV[0] or abort %(Usage: ruby #{__FILE__} grammar-file)
-    File.open(grammar_file) do |io|
-      begin
-        yy_parse(io)
-      rescue PEGParserGenerator::YY_SyntaxError => e
-        line, column = *(line_and_column(e.pos, io))
-        STDERR.puts %(#{grammar_file}:#{line}:#{column}: error: #{e.message})
-        exit 1
-      end
+class Array
+  
+  alias add <<
+  
+end
+
+
+begin
+  grammar_file = ARGV[0] or abort %(Usage: ruby #{__FILE__} grammar-file)
+  File.open(grammar_file) do |io|
+    begin
+      yy_parse(io)
+    rescue PEGParserGenerator::YY_SyntaxError => e
+      line, column = *(line_and_column(e.pos, io))
+      STDERR.puts %(#{grammar_file}:#{line}:#{column}: error: #{e.message})
+      exit 1
     end
   end
+end
 
 }...
