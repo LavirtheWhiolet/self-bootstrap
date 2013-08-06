@@ -5,34 +5,11 @@
 
 
 #
-INF = Float::INFINITY
-
-
 class String
   
   # returns Ruby code which evaluates to this String.
   def to_ruby_code
     self.dump
-  end
-  
-  def to_displayed_string
-    if length == 1 then
-      char = self[0]
-      char_code = char.ord
-      case char_code
-      when 0x00...0x20 then %(#{unicode_s char_code})
-      when 0x20...0x80 then %("#{char}")
-      when 0x80...INF  then %("#{char} (#{unicode_s char_code})")
-      end
-    else
-      %("#{self}")
-    end
-  end
-  
-  private
-  
-  def unicode_s char_code
-    "U+#{"%04X" % char_code}"
   end
   
 end
@@ -155,7 +132,7 @@ class PEGParserGenerator
         # Set the string's encoding; check if it fits the argument.
         unless read_string and (read_string.force_encoding(Encoding::UTF_8)) == string then
           # 
-          context << YY_SyntaxExpectationError.new(string.to_displayed_string, string_start_pos)
+          context << YY_SyntaxExpectationError.new(yy_displayed(string), string_start_pos)
           # 
           return nil
         end
@@ -208,12 +185,32 @@ class PEGParserGenerator
         # NOTE: c has UTF-8 encoding.
         unless c and (from <= c and c <= to) then
           # 
-          context << YY_SyntaxExpectationError.new(%(#{from.to_displayed_string}...#{to.to_displayed_string}), char_start_pos)
+          context << YY_SyntaxExpectationError.new(%(#{yy_displayed from}...#{yy_displayed to}), char_start_pos)
           # 
           return nil
         end
         #
         return c
+      end
+      
+      # The form of +string+ suitable for displaying in messages.
+      def yy_displayed(string)
+        if string.length == 1 then
+          char = string[0]
+          char_code = char.ord
+          case char_code
+          when 0x00...0x20 then %(#{yy_unicode_s char_code})
+          when 0x20...0x80 then %("#{char}")
+          when 0x80...Float::INFINITY then %("#{char} (#{yy_unicode_s char_code})")
+          end
+        else
+          %("#{string}")
+        end
+      end
+      
+      # "U+XXXX" string corresponding to +char_code+.
+      def yy_unicode_s(char_code)
+        "U+#{"%04X" % char_code}"
       end
       
       class YY_SyntaxError < Exception
@@ -1680,7 +1677,7 @@ end
         # Set the string's encoding; check if it fits the argument.
         unless read_string and (read_string.force_encoding(Encoding::UTF_8)) == string then
           # 
-          context << YY_SyntaxExpectationError.new(string.to_displayed_string, string_start_pos)
+          context << YY_SyntaxExpectationError.new(yy_displayed(string), string_start_pos)
           # 
           return nil
         end
@@ -1733,12 +1730,32 @@ end
         # NOTE: c has UTF-8 encoding.
         unless c and (from <= c and c <= to) then
           # 
-          context << YY_SyntaxExpectationError.new(%(\#{from.to_displayed_string}\...\#{to.to_displayed_string}), char_start_pos)
+          context << YY_SyntaxExpectationError.new(%(\#{yy_displayed from}\...\#{yy_displayed to}), char_start_pos)
           # 
           return nil
         end
         #
         return c
+      end
+      
+      # The form of +string+ suitable for displaying in messages.
+      def yy_displayed(string)
+        if string.length == 1 then
+          char = string[0]
+          char_code = char.ord
+          case char_code
+          when 0x00...0x20 then %(\#{yy_unicode_s char_code})
+          when 0x20...0x80 then %("\#{char}")
+          when 0x80...Float::INFINITY then %("\#{char} (\#{yy_unicode_s char_code})")
+          end
+        else
+          %("\#{string}")
+        end
+      end
+      
+      # "U+XXXX" string corresponding to +char_code+.
+      def yy_unicode_s(char_code)
+        "U+\#{"%04X" % char_code}"
       end
       
       class YY_SyntaxError < Exception
