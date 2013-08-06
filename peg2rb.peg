@@ -40,7 +40,8 @@ end
 
 
 HashMap = Hash
-  
+
+
 }...
 
 ---- Syntax ----
