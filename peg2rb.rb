@@ -1,8 +1,6 @@
 #!/usr/bin/ruby
 # encoding: UTF-8
 
-# This file is both runnable and "require"-able.
-
 
 #
 class String
@@ -40,21 +38,7 @@ def new_unique_nonterminal_method_name
 end
 
 
-# 
-class PEGParserGenerator
-  
-  # 
-  # +input+ is IO. It must have working IO#pos, IO#pos= and IO#set_encoding()
-  # methods.
-  # 
-  def call(input)
-    # Initialize.
-    @next_unique_number = 0
-    # Parse grammar and generate the parser.
-    yy_parse(input)
-  end
-  
-  HashMap = Hash
+HashMap = Hash
   
 
 
@@ -2062,25 +2046,24 @@ end
     
   end
   
-end
+
+  class Array
+    
+    alias add <<
+    
+  end
 
 
-class Array
-  
-  alias add <<
-  
-end
-
-
-if $0 == __FILE__
-  grammar_file = ARGV[0] or abort %(Usage: ruby #{__FILE__} grammar-file)
-  File.open(grammar_file) do |io|
-    begin
-      PEGParserGenerator.new.call(io)
-    rescue PEGParserGenerator::YY_SyntaxError => e
-      line, column = *(PEGParserGenerator.new.line_and_column(e.pos, io))
-      STDERR.puts %(#{grammar_file}:#{line}:#{column}: error: #{e.message})
-      exit 1
+  begin
+    grammar_file = ARGV[0] or abort %(Usage: ruby #{__FILE__} grammar-file)
+    File.open(grammar_file) do |io|
+      begin
+        yy_parse(io)
+      rescue PEGParserGenerator::YY_SyntaxError => e
+        line, column = *(line_and_column(e.pos, io))
+        STDERR.puts %(#{grammar_file}:#{line}:#{column}: error: #{e.message})
+        exit 1
+      end
     end
   end
-end
+
