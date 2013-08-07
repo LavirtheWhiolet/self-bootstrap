@@ -886,12 +886,12 @@ capture-delimiter: Symbol <-
 
 {...
 
-# [line, column] corresponding to position in +io+ (+pos+).
-def line_and_column(pos, io)
-  @pos = pos
-  io.pos = 0
-  return line_and_column0(io)
-end
+  # [line, column] corresponding to position in +io+ (+pos+).
+  def line_and_column(pos, io)
+    @pos = pos
+    io.pos = 0
+    return line_and_column0(io)
+  end
 
 }...
 
