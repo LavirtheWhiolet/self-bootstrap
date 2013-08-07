@@ -48,6 +48,9 @@ RubyCode = String
 Nonterminal = String
 
 
+# TODO: Replace String with Nonterminal where it is needed.
+
+
 class Code
   
   # defines abstract method.
@@ -1070,8 +1073,6 @@ newline <-
 ---- Launching code ----
 
 {...
-
-# TODO: Replace String with Nonterminal where it is needed.
 
 grammar_file = ARGV[0] or abort %(Usage: ruby #{__FILE__} grammar-file)
 File.open(grammar_file) do |io|
