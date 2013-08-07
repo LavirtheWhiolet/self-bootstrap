@@ -377,7 +377,7 @@ grammar <-
       end
     end
   end
-
+  
   def check_no_unresolved_code_in code
     code.each do |code_part|
       case code_part
@@ -388,7 +388,7 @@ grammar <-
       end
     end
   end
-
+  
   def auxiliary_parser_code
     code %(
       
