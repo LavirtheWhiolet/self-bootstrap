@@ -4,6 +4,8 @@
 
 }...
 
+#### Grammar ####
+
 INI =
   { val = JSON.new }
   -- global keys --
@@ -72,7 +74,39 @@ newline <-
   U+2028 /
   U+2029 ;
 
+#### Line and column calculating ####
+
 {...
+
+# [line, column] corresponding to position in +io+ (+pos+).
+def line_and_column(pos, io)
+  @pos = pos
+  io.pos = 0
+  return line_and_column0(io)
+end
+
+}...
+
+# 
+# It expects +@pos+ to be position in input and returns [line, column]
+# corresponding to that position.
+# 
+line_and_column0(): [Integer, Integer] <-
+  { current_line_and_column = [1, 1] }
+  (
+    @:current_pos
+    { if current_pos == @pos then val = current_line_and_column.dup; end }
+    (
+      / newline { current_line_and_column[0] += 1; current_line_and_column[1] = 1 }
+      / char { current_line_and_column[1] += 1 }
+    )
+  )*
+  ;
+
+{...
+
+
+#### Auxiliary classes ####
 
 
 JSON = String
@@ -87,9 +121,17 @@ class JSON
 end
 
 
-File.open(ARGV[0]) do |io|
-  puts yy_parse(io)
-end
+#### Launcher ####
 
+grammar_file = ARGV[0] or abort %(Usage: ruby #{__FILE__} grammar-file)
+File.open(grammar_file) do |io|
+  begin
+    yy_parse(io)
+  rescue YY_SyntaxError => e
+    line, column = *line_and_column(e.pos, io)
+    STDERR.puts %(#{grammar_file}:#{line}:#{column}: error: #{e.message})
+    exit 1
+  end
+end
 
 }...
