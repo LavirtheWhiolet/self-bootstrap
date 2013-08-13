@@ -126,7 +126,7 @@ end
 grammar_file = ARGV[0] or abort %(Usage: ruby #{__FILE__} grammar-file)
 File.open(grammar_file) do |io|
   begin
-    yy_parse(io)
+    puts yy_parse(io)
   rescue YY_SyntaxError => e
     line, column = *line_and_column(e.pos, io)
     STDERR.puts %(#{grammar_file}:#{line}:#{column}: error: #{e.message})
