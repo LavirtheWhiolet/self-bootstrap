@@ -315,8 +315,7 @@ expr20: Code <-
   } ;
 
 expr30: Code <-
-  # Sequence.
-  # One-side bracket.
+  # Sequence and one-side bracket.
   { code_parts = [] } 
   (
     / expr60:code_part  { code_parts.add code_part }
