@@ -152,7 +152,7 @@
           char = string[0]
           char_code = char.ord
           case char_code
-          when 0x00...0x20 then %(#{yy_unicode_s char_code})
+          when 0x00...0x20, 0x2028, 0x2029 then %(#{yy_unicode_s char_code})
           when 0x20...0x80 then %("#{char}")
           when 0x80...Float::INFINITY then %("#{char} (#{yy_unicode_s char_code})")
           end
@@ -465,7 +465,7 @@
           char = string[0]
           char_code = char.ord
           case char_code
-          when 0x00...0x20 then %(\#{yy_unicode_s char_code})
+          when 0x00...0x20, 0x2028, 0x2029 then %(\#{yy_unicode_s char_code})
           when 0x20...0x80 then %("\#{char}")
           when 0x80...Float::INFINITY then %("\#{char} (\#{yy_unicode_s char_code})")
           end
