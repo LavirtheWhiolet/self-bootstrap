@@ -542,6 +542,7 @@ expr100: Code <-
   / char-range:r  { val = code "yy_char_range(yy_context, #{r.begin.to_ruby_code}, #{r.end.to_ruby_code})" }
   / string:s  { val = code "yy_string(yy_context, #{s.to_ruby_code})" }
   / @:(n_pos) nonterminal:n  { val = UnknownMethodCall[n, %(yy_context), n_pos] }
+  # TODO: Remove comment below.
   / `char` { val = code "yy_char(yy_context)" }  # IO#getc returns nil at end of input. That's OK for us.
   / Ruby-code:(action_code)  { val = to_action_expression(action_code) }
   / `$` { val = code "yy_end?(yy_context)" }
