@@ -32,9 +32,9 @@ grammar <-
         # 
         method_names[rule.name] = rule.method_name
       }
-    / action:(action_code)
+    / Ruby-code:(code_insertion)
       {
-        code += code(action_code)
+        code += code(code_insertion)
       }
   )*
   $
@@ -385,13 +385,11 @@ expr60: Code <-
   
 }...
 
-# TODO: Rename "action" rule to "Ruby-code".
-
 expr70 <-
   # Predicate.
-  / `&` action:c { val = positive_predicate_with_native_code_code(c) }
-  / `&` expr70:val { val = positive_predicate_code(val) }
-  / `!` expr70:val { val = negative_predicate_code(val) }
+  / `&` Ruby-code:(predicate_code) { val = positive_predicate_with_native_code_code(predicate_code) }
+  / `&` expr70:(val) { val = positive_predicate_code(val) }
+  / `!` expr70:(val) { val = negative_predicate_code(val) }
   / expr80:val
   ;
 
@@ -545,7 +543,7 @@ expr100: Code <-
   / string:s  { val = code "yy_string(yy_context, #{s.to_ruby_code})" }
   / @:(n_pos) nonterminal:n  { val = UnknownMethodCall[n, %(yy_context), n_pos] }
   / `char` { val = code "yy_char(yy_context)" }  # IO#getc returns nil at end of input. That's OK for us.
-  / action:a  { val = code "begin \n #{a} \n true \n end" }  # Newline must be present after action's body because it may include comments.
+  / Ruby-code:(action_code)  { val = code "begin \n #{action_code} \n true \n end" }  -- Newline must be present after action's body because it may include comments.
   / `$` { val = code "yy_end?(yy_context)" }
   / `^` { val = code "yy_begin?(yy_context)" }
   / (
@@ -634,10 +632,10 @@ line_and_column0(): [Integer, Integer] <-
 `%%` <-
   "%%" char*? (newline / $) ;
 
-action: RubyCode <-
+Ruby-code: RubyCode <-
   (
     / "{" white-space* "..." (white-space*? newline)? < char*? >:val ("..." white-space* "}" / "}" white-space* "...")
-    / < action-body >:val { val = val[1...-1] }
+    / < Ruby-code-body >:val { val = val[1...-1] }
     / (
         `%%`
         < char*? >:val
@@ -651,8 +649,8 @@ action: RubyCode <-
   )
   ` ` ;
 
-action-body <-
-  "{" (action-body / char)*? "}" ;
+Ruby-code-body <-
+  "{" (Ruby-code-body / char)*? "}" ;
 
 `<-/=` <- ("<-" / "=" / U+2190) ` `;
 `:` <- ":" (!"+" !">>") ` `;
