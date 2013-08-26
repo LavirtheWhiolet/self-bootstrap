@@ -347,7 +347,7 @@ grammar <-
   
   def parser_entry_point_code(method_name, parsing_method_name)
     code %(
-
+      
       # 
       # +input+ is IO. It must have working IO#pos, IO#pos= and
       # IO#set_encoding() methods.
@@ -395,8 +395,9 @@ grammar <-
   def auxiliary_parser_code
     code %(
       
-      # converts value to parser-compatible value (which is always non-false and
-      # non-nil).
+      # :nodoc:
+      ### converts value to parser-compatible value (which is always non-false and
+      ### non-nil).
       def yy_to_pcv(value)
         if value.nil? then :yy_nil
         elsif value == false then :yy_false
@@ -404,14 +405,16 @@ grammar <-
         end
       end
       
-      # converts value got by #yy_to_pcv() to actual value.
+      # :nodoc:
+      ### converts value got by #yy_to_pcv() to actual value.
       def yy_from_pcv(value)
         if value == :yy_nil then nil
         elsif value == :yy_false then false
         else value
         end
       end
-
+      
+      # :nodoc:
       class YY_ParsingContext
         
         # +input+ is IO.
@@ -442,6 +445,7 @@ grammar <-
         
       end
       
+      # :nodoc:
       def yy_string(context, string)
         # 
         string_start_pos = context.input.pos
@@ -458,6 +462,7 @@ grammar <-
         return read_string
       end
       
+      # :nodoc:
       def yy_end?(context)
         #
         if not context.input.eof?
@@ -468,6 +473,7 @@ grammar <-
         return true
       end
       
+      # :nodoc:
       def yy_begin?(context)
         #
         if not (context.input.pos == 0)
@@ -478,6 +484,7 @@ grammar <-
         return true
       end
       
+      # :nodoc:
       def yy_char(context)
         # 
         char_start_pos = context.input.pos
@@ -494,6 +501,7 @@ grammar <-
         return c
       end
       
+      # :nodoc:
       def yy_char_range(context, from, to)
         # 
         char_start_pos = context.input.pos
@@ -511,7 +519,8 @@ grammar <-
         return c
       end
       
-      # The form of +string+ suitable for displaying in messages.
+      # :nodoc:
+      ### The form of +string+ suitable for displaying in messages.
       def yy_displayed(string)
         if string.length == 1 then
           char = string[0]
@@ -526,7 +535,8 @@ grammar <-
         end
       end
       
-      # "U+XXXX" string corresponding to +char_code+.
+      # :nodoc:
+      ### "U+XXXX" string corresponding to +char_code+.
       def yy_unicode_s(char_code)
         "U+\#{"%04X" % char_code}"
       end
@@ -542,6 +552,7 @@ grammar <-
         
       end
       
+      # :nodoc:
       class YY_SyntaxExpectationError < YY_SyntaxError
         
         # 
@@ -864,10 +875,13 @@ rule: Rule <-
 {...
   
   def to_method_definition(code, method_name)
-    code("def #{method_name}(yy_context) \n") +
-      code("val = :yy_nil \n") +
-      code + code(" and yy_to_pcv(val) \n") +
-    code("end \n")
+    code(%(
+      # :nodoc:
+      def #{method_name}(yy_context)
+        val = :yy_nil
+        )) + code + code(%( and yy_to_pcv(val)
+      end
+    ))
   end
   
 }...
