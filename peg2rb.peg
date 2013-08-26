@@ -32,9 +32,9 @@ grammar <-
         # 
         method_names[rule.name] = rule.method_name
       }
-    / action:(action_code)
+    / Ruby-code:(code_insertion)
       {
-        code += code(action_code)
+        code += code_insertion
       }
   )*
   $
@@ -385,20 +385,18 @@ expr60: Code <-
   
 }...
 
-# TODO: Rename "action" rule to "Ruby-code".
-
 expr70 <-
   # Predicate.
-  / `&` action:c { val = positive_predicate_with_native_code_code(c) }
-  / `&` expr70:val { val = positive_predicate_code(val) }
-  / `!` expr70:val { val = negative_predicate_code(val) }
+  / `&` Ruby-code:(predicate_code) { val = positive_predicate_with_native_code_code(predicate_code) }
+  / `&` expr70:(val) { val = positive_predicate_code(val) }
+  / `!` expr70:(val) { val = negative_predicate_code(val) }
   / expr80:val
   ;
 
 {...
   
   def positive_predicate_with_native_code_code(native_code)
-    code(%(begin \n #{native_code} \n end))  # Newlines are needed because native_code may contain comments.
+    code(%(begin \n )) + native_code + code(%( \n end))  # Newlines are needed because native_code may contain comments.
   end
   
   def positive_predicate_code(code)
@@ -544,8 +542,9 @@ expr100: Code <-
   / char-range:r  { val = code "yy_char_range(yy_context, #{r.begin.to_ruby_code}, #{r.end.to_ruby_code})" }
   / string:s  { val = code "yy_string(yy_context, #{s.to_ruby_code})" }
   / @:(n_pos) nonterminal:n  { val = UnknownMethodCall[n, %(yy_context), n_pos] }
+  # TODO: Remove comment below.
   / `char` { val = code "yy_char(yy_context)" }  # IO#getc returns nil at end of input. That's OK for us.
-  / action:a  { val = code "begin \n #{a} \n true \n end" }  # Newline must be present after action's body because it may include comments.
+  / Ruby-code:(action_code)  { val = to_action_expression(action_code) }
   / `$` { val = code "yy_end?(yy_context)" }
   / `^` { val = code "yy_begin?(yy_context)" }
   / (
@@ -555,6 +554,26 @@ expr100: Code <-
     { val = code "(yy_context.input.pos = #{pos_variable}; true)" }
   / `@` { val = code "yy_context.input.pos" }
   ;
+
+{...
+  
+  def to_action_expression(action_code)
+    # Validate action code.
+    begin
+      RubyVM::InstructionSequence.compile(action_code.to_s)
+    rescue SyntaxError => e
+      raise YY_SyntaxError.new("syntax error", action_code.pos)
+    end
+    # Compile the expression!
+    code(%(begin
+      )) + action_code + code(%(
+      true
+    end))
+    # NOTE: Newline must be present after action's body because it may include
+    # comments.
+  end
+  
+}...
 
 rule: Rule <-
   { rule = val = Rule.new }
@@ -634,10 +653,10 @@ line_and_column0(): [Integer, Integer] <-
 `%%` <-
   "%%" char*? (newline / $) ;
 
-action: RubyCode <-
+Ruby-code: Code <-
   (
     / "{" white-space* "..." (white-space*? newline)? < char*? >:val ("..." white-space* "}" / "}" white-space* "...")
-    / < action-body >:val { val = val[1...-1] }
+    / < Ruby-code-body >:val { val = val[1...-1] }
     / (
         `%%`
         < char*? >:val
@@ -649,10 +668,12 @@ action: RubyCode <-
         $
       )
   )
-  ` ` ;
+  ` `
+  { val = code(val) }
+  ;
 
-action-body <-
-  "{" (action-body / char)*? "}" ;
+Ruby-code-body <-
+  "{" (Ruby-code-body / char)*? "}" ;
 
 `<-/=` <- ("<-" / "=" / U+2190) ` `;
 `:` <- ":" (!"+" !">>") ` `;
