@@ -556,8 +556,15 @@ expr100: Code <-
   ;
 
 {...
-
+  
   def to_action_expression(action_code)
+    # Validate action code.
+    begin
+      RubyVM::InstructionSequence.compile(action_code.to_s)
+    rescue SyntaxError => e
+      raise YY_SyntaxError.new("syntax error", action_code.pos)
+    end
+    # Compile the expression!
     code(%(begin
       )) + action_code + code(%(
       true
@@ -565,7 +572,7 @@ expr100: Code <-
     # NOTE: Newline must be present after action's body because it may include
     # comments.
   end
-
+  
 }...
 
 rule: Rule <-
