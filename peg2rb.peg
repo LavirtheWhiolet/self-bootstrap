@@ -34,7 +34,7 @@ grammar <-
       }
     / Ruby-code:(code_insertion)
       {
-        code += code(code_insertion)
+        code += code_insertion
       }
   )*
   $
@@ -396,7 +396,7 @@ expr70 <-
 {...
   
   def positive_predicate_with_native_code_code(native_code)
-    code(%(begin \n #{native_code} \n end))  # Newlines are needed because native_code may contain comments.
+    code(%(begin \n )) + native_code + code(%( \n end))  # Newlines are needed because native_code may contain comments.
   end
   
   def positive_predicate_code(code)
@@ -543,7 +543,7 @@ expr100: Code <-
   / string:s  { val = code "yy_string(yy_context, #{s.to_ruby_code})" }
   / @:(n_pos) nonterminal:n  { val = UnknownMethodCall[n, %(yy_context), n_pos] }
   / `char` { val = code "yy_char(yy_context)" }  # IO#getc returns nil at end of input. That's OK for us.
-  / Ruby-code:(action_code)  { val = code "begin \n #{action_code} \n true \n end" }  -- Newline must be present after action's body because it may include comments.
+  / Ruby-code:(action_code)  { val = to_action_expression(action_code) }
   / `$` { val = code "yy_end?(yy_context)" }
   / `^` { val = code "yy_begin?(yy_context)" }
   / (
@@ -553,6 +553,19 @@ expr100: Code <-
     { val = code "(yy_context.input.pos = #{pos_variable}; true)" }
   / `@` { val = code "yy_context.input.pos" }
   ;
+
+{...
+
+  def to_action_expression(action_code)
+    code(%(begin
+      )) + action_code + code(%(
+      true
+    end))
+    # NOTE: Newline must be present after action's body because it may include
+    # comments.
+  end
+
+}...
 
 rule: Rule <-
   { rule = val = Rule.new }
@@ -632,7 +645,7 @@ line_and_column0(): [Integer, Integer] <-
 `%%` <-
   "%%" char*? (newline / $) ;
 
-Ruby-code: RubyCode <-
+Ruby-code: Code <-
   (
     / "{" white-space* "..." (white-space*? newline)? < char*? >:val ("..." white-space* "}" / "}" white-space* "...")
     / < Ruby-code-body >:val { val = val[1...-1] }
@@ -647,7 +660,9 @@ Ruby-code: RubyCode <-
         $
       )
   )
-  ` ` ;
+  ` `
+  { val = code(val) }
+  ;
 
 Ruby-code-body <-
   "{" (Ruby-code-body / char)*? "}" ;
