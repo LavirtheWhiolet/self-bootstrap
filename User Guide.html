@@ -5,7 +5,7 @@
 	<TITLE></TITLE>
 	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.0  (Win32)">
 	<META NAME="CREATED" CONTENT="20130826;18542682">
-	<META NAME="CHANGED" CONTENT="20130827;19001271">
+	<META NAME="CHANGED" CONTENT="20130827;19022956">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 21cm 29.7cm; margin: 2cm }
@@ -517,38 +517,40 @@ insertions is put into the beginning of the output file. A code
 insertion after all rules and other code insertions is put into the
 end of the output file. Other code insertions are put somewhere in
 the middle of the output file.</P>
-<P><STRONG><SPAN LANG="en-US">Attention!</SPAN></STRONG><SPAN LANG="en-US">
-Do not declare methods, classes, modules, variables etc. with names
-starting with &ldquo;</SPAN><CODE><SPAN LANG="en-US">yy_</SPAN></CODE><SPAN LANG="en-US">&rdquo;
-or &ldquo;</SPAN><CODE><SPAN LANG="en-US">YY_</SPAN></CODE><SPAN LANG="en-US">&rdquo;
-in the code insertions! They are reserved by the parser generator!</SPAN></P>
-<H2 CLASS="western"><SPAN LANG="en-US">Output Parser</SPAN></H2>
-<P><SPAN LANG="en-US">The output of the parser generator is a Ruby
-script containing the following:</SPAN></P>
+<P><STRONG><SPAN LANG="en-US">Attention!</SPAN></STRONG> <SPAN LANG="en-US">Do
+not declare methods, classes, modules, variables etc. with names
+starting with &ldquo;</SPAN><CODE><SPAN LANG="en-US">yy_</SPAN></CODE>&rdquo;
+<SPAN LANG="en-US">or &ldquo;</SPAN><CODE><SPAN LANG="en-US">YY_</SPAN></CODE>&rdquo;
+<SPAN LANG="en-US">in the code insertions! They are reserved by the
+parser generator!</SPAN></P>
+<H2 LANG="en-US" CLASS="western">Output Parser</H2>
+<P LANG="en-US">The output of the parser generator is a Ruby script
+containing the following:</P>
 <OL>
-	<LI><P><SPAN LANG="en-US">Content of the code insertion before all
-	rules and other code insertions (if it is present);</SPAN></P>
-	<LI><P><CODE><SPAN LANG="en-US">yy_parse(io)</SPAN></CODE><SPAN LANG="en-US">
-	function definition. It receives an </SPAN><CODE><SPAN LANG="en-US">IO</SPAN></CODE><SPAN LANG="en-US">
-	and parses it according to the first rule in the input grammar. Its
-	return value is semantic value of that rule. If it can not parse the
-	input (due to syntax error in it) then it raises </SPAN><CODE><SPAN LANG="en-US">YY_SyntaxError</SPAN></CODE><SPAN LANG="en-US">
-	(see below).</SPAN></P>
-	<LI><P><CODE><SPAN LANG="en-US">YY_SyntaxError</SPAN></CODE><SPAN LANG="en-US">
-	class definition. It is a subclass of </SPAN><CODE><SPAN LANG="en-US">Exception</SPAN></CODE><SPAN LANG="en-US">
-	and has the following methods:</SPAN></P>
+	<LI><P LANG="en-US">Content of the code insertion before all rules
+	and other code insertions (if it is present);</P>
+	<LI><P><CODE><SPAN LANG="en-US">yy_parse(io)</SPAN></CODE> <SPAN LANG="en-US">function
+	definition. It receives an </SPAN><CODE><SPAN LANG="en-US">IO</SPAN></CODE>
+	<SPAN LANG="en-US">and parses it according to the first rule in the
+	input grammar. Its return value is semantic value of that rule. If
+	it can not parse the input (due to syntax error in it) then it
+	raises </SPAN><CODE><SPAN LANG="en-US">YY_SyntaxError</SPAN></CODE>
+	<SPAN LANG="en-US">(see below).</SPAN></P>
+	<LI><P><CODE><SPAN LANG="en-US">YY_SyntaxError</SPAN></CODE> <SPAN LANG="en-US">class
+	definition. It is a subclass of </SPAN><CODE><SPAN LANG="en-US">Exception</SPAN></CODE>
+	<SPAN LANG="en-US">and has the following methods:</SPAN></P>
 	<OL>
 		<LI><P><CODE><SPAN LANG="en-US">pos</SPAN></CODE><SPAN LANG="en-US">.
-		It returns an offset in input the </SPAN><CODE><SPAN LANG="en-US">YY_SyntaxError</SPAN></CODE><SPAN LANG="en-US">
-		has occurred at.</SPAN></P>
+		It returns an offset in input (in bytes) the </SPAN><CODE><SPAN LANG="en-US">YY_SyntaxError</SPAN></CODE>
+		<SPAN LANG="en-US">has occurred at.</SPAN></P>
 	</OL>
-	<LI><P><SPAN LANG="en-US">Auxiliary functions and classes
-	definitions. Their names always start with &ldquo;yy_&rdquo; (for
-	functions) and &ldquo;YY_&rdquo; (for classes and modules).</SPAN></P>
-	<LI><P><SPAN LANG="en-US">Content of the code insertion after all
-	rules and other code insertions (if it is present).</SPAN></P>
+	<LI><P LANG="en-US">Auxiliary functions and classes definitions.
+	Their names always start with &ldquo;yy_&rdquo; (for functions) and
+	&ldquo;YY_&rdquo; (for classes and modules).</P>
+	<LI><P LANG="en-US">Content of the code insertion after all rules
+	and other code insertions (if it is present).</P>
 </OL>
-<H3 CLASS="western"><SPAN LANG="en-US">Multiple Parser Entry Points</SPAN></H3>
+<H3 LANG="en-US" CLASS="western">Multiple Parser Entry Points</H3>
 <P><BR><BR>
 </P>
 <P><BR><BR>
