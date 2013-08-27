@@ -5,7 +5,7 @@
 	<TITLE></TITLE>
 	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.0  (Win32)">
 	<META NAME="CREATED" CONTENT="20130826;18542682">
-	<META NAME="CHANGED" CONTENT="20130827;19292448">
+	<META NAME="CHANGED" CONTENT="20130827;19324737">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 21cm 29.7cm; margin: 2cm }
@@ -125,6 +125,18 @@ anyhow and serve the informational purposes only.)</P>
 		</TR>
 		<TR VALIGN=TOP>
 			<TD WIDTH=33%>
+				<P LANG="en-US"><CODE>char</CODE></P>
+			</TD>
+			<TD COLSPAN=2 WIDTH=34%>
+				<P LANG="en-US">Read UTF-8 encoded character from input.</P>
+			</TD>
+			<TD WIDTH=33%>
+				<P><SPAN LANG="en-US">A </SPAN><CODE><SPAN LANG="en-US">String</SPAN></CODE>
+				<SPAN LANG="en-US">containing the read character.</SPAN></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
 				<P><CODE><SPAN LANG="en-US">x...y</SPAN></CODE></P>
 			</TD>
 			<TD ROWSPAN=4 COLSPAN=2 WIDTH=34%>
@@ -221,6 +233,23 @@ anyhow and serve the informational purposes only.)</P>
 			</TD>
 			<TD WIDTH=33%>
 				<P LANG="en-US">Current position in input.</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P LANG="en-US"><CODE>@=var</CODE></P>
+			</TD>
+			<TD ROWSPAN=2 COLSPAN=2 WIDTH=34%>
+				<P LANG="en-US"><BR>
+				</P>
+			</TD>
+			<TD ROWSPAN=2 WIDTH=33%>
+				<P LANG="en-US" ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P LANG="en-US"><CODE>at var</CODE></P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -524,13 +553,13 @@ starting with &ldquo;</SPAN><CODE><SPAN LANG="en-US">yy_</SPAN></CODE>&rdquo;
 <SPAN LANG="en-US">or &ldquo;</SPAN><CODE><SPAN LANG="en-US">YY_</SPAN></CODE>&rdquo;
 <SPAN LANG="en-US">in the code insertions! They are reserved by the
 parser generator!</SPAN></P>
-<H3 CLASS="western"><SPAN LANG="en-US">Comments</SPAN></H3>
+<H3 LANG="en-US" CLASS="western">Comments</H3>
 <P><SPAN LANG="en-US">Comments can be written anywhere in the input
 grammar except identifiers and atomic expressions. A comment starts
-with &ldquo;</SPAN><CODE><SPAN LANG="en-US">#</SPAN></CODE><SPAN LANG="en-US">&rdquo;
-or &ldquo;</SPAN><CODE><SPAN LANG="en-US">--</SPAN></CODE><SPAN LANG="en-US">&rdquo;
-and continues until the end of the line.</SPAN></P>
-<P><SPAN LANG="en-US">Following are examples of comments:</SPAN></P>
+with &ldquo;</SPAN><CODE><SPAN LANG="en-US">#</SPAN></CODE>&rdquo; <SPAN LANG="en-US">or
+&ldquo;</SPAN><CODE><SPAN LANG="en-US">--</SPAN></CODE>&rdquo; <SPAN LANG="en-US">and
+continues until the end of the line.</SPAN></P>
+<P LANG="en-US">Following are examples of comments:</P>
 <P><CODE><SPAN LANG="en-US"># Simple comment</SPAN></CODE></P>
 <P><CODE><SPAN LANG="en-US">-- Another comment</SPAN></CODE></P>
 <P><CODE><SPAN LANG="en-US">---- Section delimiter, a comment too
@@ -570,9 +599,9 @@ with another rule?</P>
 <P><CODE><SPAN LANG="en-US">rule_name() &larr; expression ;</SPAN></CODE></P>
 <P><SPAN LANG="en-US">and the parser generator will generate a
 function which is named after the rule's left-hand side nonterminal
-(</SPAN><CODE><SPAN LANG="en-US">rule_name</SPAN></CODE><SPAN LANG="en-US">
-in this example) and which behaves the same as </SPAN><CODE><SPAN LANG="en-US">yy_parse(io)</SPAN></CODE><SPAN LANG="en-US">
-but starts parsing input with the defined rule!</SPAN></P>
+(</SPAN><CODE><SPAN LANG="en-US">rule_name</SPAN></CODE> <SPAN LANG="en-US">in
+this example) and which behaves the same as </SPAN><CODE><SPAN LANG="en-US">yy_parse(io)</SPAN></CODE>
+<SPAN LANG="en-US">but starts parsing input with the defined rule!</SPAN></P>
 <P LANG="en-US">Other valid forms for such a rule are:</P>
 <UL>
 	<LI><P><CODE><SPAN LANG="en-US">rule_name(...) &larr; expression
@@ -592,9 +621,9 @@ type as well:</P>
 <P LANG="en-US">results in the following functions in the output
 parser:</P>
 <UL>
-	<LI><P><CODE><SPAN LANG="en-US">yy_parse(io)</SPAN></CODE><SPAN LANG="en-US">&mdash;it
+	<LI><P><CODE><SPAN LANG="en-US">yy_parse(io)</SPAN></CODE>&mdash;<SPAN LANG="en-US">it
 	starts parsing input with main rule;</SPAN></P>
-	<LI><P><CODE><SPAN LANG="en-US">rule2(io)</SPAN></CODE><SPAN LANG="en-US">&mdash;it
+	<LI><P><CODE><SPAN LANG="en-US">rule2(io)</SPAN></CODE>&mdash;<SPAN LANG="en-US">it
 	starts parsing input with rule2 rule.</SPAN></P>
 </UL>
 <DIV ID="sdfootnote1">
