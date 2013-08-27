@@ -5,7 +5,7 @@
 	<TITLE></TITLE>
 	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.0  (Win32)">
 	<META NAME="CREATED" CONTENT="20130826;18542682">
-	<META NAME="CHANGED" CONTENT="20130827;19054234">
+	<META NAME="CHANGED" CONTENT="20130827;19241679">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 21cm 29.7cm; margin: 2cm }
@@ -551,9 +551,39 @@ containing the following:</P>
 	and other code insertions (if it is present).</P>
 </OL>
 <H3 LANG="en-US" CLASS="western">Multiple parser entry points</H3>
-<P><BR><BR>
-</P>
-<P><BR><BR>
+<P LANG="en-US">yy_parse(io) always starts parsing with the first
+rule from the input grammar. But what if you need to start parsing
+with another rule?</P>
+<P LANG="en-US">No problem, just define the required rule as follows:</P>
+<P LANG="en-US"><CODE>rule_name() &larr; expression ;</CODE></P>
+<P LANG="en-US">and the parser generator will generate a function
+which is named after the rule's left-hand side nonterminal (<CODE>rule_name</CODE>
+in this example) and which behaves the same as <CODE>yy_parse(io)</CODE>
+but starts parsing input with the defined rule!</P>
+<P LANG="en-US">Other valid forms for such a rule are:</P>
+<UL>
+	<LI><P><CODE><SPAN LANG="en-US">rule_name(...) &larr; expression
+	;</SPAN></CODE><SPAN LANG="en-US"><BR>(here &ldquo;...&rdquo; is
+	three dots, not some arbitrary expression)</SPAN></P>
+	<LI><P LANG="en-US"><CODE>rule_name(arg) &larr; expression ;</CODE><BR>(here
+	arg is a valid Ruby variable name)</P>
+</UL>
+<P LANG="en-US">Of course you may define the rule's semantic value
+type as well:</P>
+<P LANG="en-US"><CODE>rule_name(): Type &larr; expression ;</CODE></P>
+<H4 CLASS="western">Example</H4>
+<P LANG="en-US">The following input grammar:</P>
+<P LANG="en-US"><CODE>main &larr; rule2 ;<BR>rule2(io) &larr; &hellip;
+;</CODE></P>
+<P LANG="en-US">results in the following functions in the output
+parser:</P>
+<UL>
+	<LI><P LANG="en-US"><CODE>yy_parse(io)</CODE>&mdash;it starts
+	parsing input with main rule;</P>
+	<LI><P LANG="en-US"><CODE>rule2(io)</CODE>&mdash;it starts parsing
+	input with rule2 rule.</P>
+</UL>
+<P LANG="en-US"><BR><BR>
 </P>
 <DIV ID="sdfootnote1">
 	<P CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote1sym" HREF="#sdfootnote1anc">1</A><SPAN LANG="en-US">Its
