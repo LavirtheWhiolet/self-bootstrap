@@ -5,7 +5,7 @@
 	<TITLE></TITLE>
 	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.0  (Win32)">
 	<META NAME="CREATED" CONTENT="20130826;18542682">
-	<META NAME="CHANGED" CONTENT="20130827;18313400">
+	<META NAME="CHANGED" CONTENT="20130827;18484203">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 21cm 29.7cm; margin: 2cm }
@@ -30,6 +30,7 @@
 		CODE { font-family: "Courier New", monospace }
 		A:link { color: #000080; so-language: zxx; text-decoration: underline }
 		A:visited { color: #800000; so-language: zxx; text-decoration: underline }
+		STRONG { font-weight: bold }
 		A.sdfootnoteanc { font-size: 57% }
 	-->
 	</STYLE>
@@ -167,6 +168,11 @@ anyhow and serve the informational purposes only.)</P>
 			</TD>
 			<TD ROWSPAN=3 COLSPAN=2 WIDTH=34%>
 				<P><SPAN LANG="en-US">Execute </SPAN><CODE><SPAN LANG="en-US">code</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
+				<P><STRONG><SPAN LANG="en-US">Attention!</SPAN></STRONG><SPAN LANG="en-US">
+				Do not declare variables or use </SPAN><CODE><SPAN LANG="en-US">Symbol</SPAN></CODE><SPAN LANG="en-US">s
+				with names starting with &ldquo;</SPAN><CODE><SPAN LANG="en-US">yy_</SPAN></CODE><SPAN LANG="en-US">&rdquo;
+				in </SPAN><CODE><SPAN LANG="en-US">code</SPAN></CODE><SPAN LANG="en-US">!
+				They are reserved by the parser generator!</SPAN></P>
 			</TD>
 			<TD ROWSPAN=3 WIDTH=33%>
 				<P ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
@@ -511,8 +517,10 @@ insertions is put into the beginning of the output file. A code
 insertion after all rules and other code insertions is put into the
 end of the output file. Other code insertions are put somewhere in
 the middle of the output file.</P>
-<P LANG="en-US"><BR><BR>
-</P>
+<P LANG="en-US"><STRONG>Attention!</STRONG> Do not declare methods,
+classes, modules, variables etc. with names starting with &ldquo;<CODE>yy_</CODE>&rdquo;
+or &ldquo;<CODE>YY_</CODE>&rdquo; in the code insertions! They are
+reserved by the parser generator!</P>
 <DIV ID="sdfootnote1">
 	<P CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote1sym" HREF="#sdfootnote1anc">1</A><SPAN LANG="en-US">Its
 	</SPAN><CODE><SPAN LANG="en-US">String#encoding</SPAN></CODE> <SPAN LANG="en-US">is
