@@ -5,7 +5,7 @@
 	<TITLE></TITLE>
 	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.0  (Win32)">
 	<META NAME="CREATED" CONTENT="20130826;18542682">
-	<META NAME="CHANGED" CONTENT="20130827;17344393">
+	<META NAME="CHANGED" CONTENT="20130827;17440329">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 21cm 29.7cm; margin: 2cm }
@@ -40,9 +40,9 @@
 <H3 LANG="en-US" CLASS="western">Rules</H3>
 <P LANG="en-US">Rules have the following form:</P>
 <P><CODE><SPAN LANG="en-US">nonterminal &lt;- expression ;</SPAN></CODE></P>
-<P><SPAN LANG="en-US">You may use &ldquo;</SPAN><CODE><SPAN LANG="en-US">=</SPAN></CODE>&rdquo;
+<P><SPAN LANG="en-US">(You may use &ldquo;</SPAN><CODE><SPAN LANG="en-US">=</SPAN></CODE>&rdquo;
 <SPAN LANG="en-US">or &ldquo;</SPAN><CODE>&larr;</CODE>&rdquo;
-<SPAN LANG="en-US">instead of &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;-</SPAN></CODE>&rdquo;<SPAN LANG="en-US">.</SPAN></P>
+<SPAN LANG="en-US">instead of &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;-</SPAN></CODE>&rdquo;<SPAN LANG="en-US">.)</SPAN></P>
 <P><BR><BR>
 </P>
 <P><SPAN LANG="en-US">Valid </SPAN><CODE><SPAN LANG="en-US">expression</SPAN></CODE><SPAN LANG="en-US">s
@@ -93,8 +93,8 @@ are listed below:</SPAN></P>
 				U+HHHH from input.</P>
 			</TD>
 			<TD WIDTH=33%>
-				<P LANG="en-US">A <CODE>String</CODE> containing the read
-				character.</P>
+				<P><SPAN LANG="en-US">A </SPAN><CODE><SPAN LANG="en-US">String</SPAN></CODE>
+				<SPAN LANG="en-US">containing the read character.</SPAN></P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -102,11 +102,12 @@ are listed below:</SPAN></P>
 				<P><CODE><SPAN LANG="en-US">x...y</SPAN></CODE></P>
 			</TD>
 			<TD ROWSPAN=4 COLSPAN=2 WIDTH=34%>
-				<P LANG="en-US">Read a character from input which is in the range
-				between <CODE>x</CODE> and <CODE>y</CODE>.</P>
-				<P><CODE><SPAN LANG="en-US">x</SPAN></CODE><SPAN LANG="en-US">
-				and </SPAN><CODE><SPAN LANG="en-US">y</SPAN></CODE><SPAN LANG="en-US">
-				may be of the form of </SPAN><CODE><SPAN LANG="en-US">&quot;c&quot;</SPAN></CODE><SPAN LANG="en-US">,
+				<P><SPAN LANG="en-US">Read a character from input which is in the
+				range between </SPAN><CODE><SPAN LANG="en-US">x</SPAN></CODE> <SPAN LANG="en-US">and
+				</SPAN><CODE><SPAN LANG="en-US">y</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
+				<P><CODE><SPAN LANG="en-US">x</SPAN></CODE> <SPAN LANG="en-US">and
+				</SPAN><CODE><SPAN LANG="en-US">y</SPAN></CODE> <SPAN LANG="en-US">may
+				be of the form of </SPAN><CODE><SPAN LANG="en-US">&quot;c&quot;</SPAN></CODE><SPAN LANG="en-US">,
 				</SPAN><CODE><SPAN LANG="en-US">'c'</SPAN></CODE> <SPAN LANG="en-US">or
 				</SPAN><CODE><SPAN LANG="en-US">U+HHHH</SPAN></CODE><SPAN LANG="en-US">.
 				Examples:</SPAN></P>
@@ -117,8 +118,8 @@ are listed below:</SPAN></P>
 				</UL>
 			</TD>
 			<TD ROWSPAN=4 WIDTH=33%>
-				<P LANG="en-US">A <CODE>String</CODE> containing the read
-				character.</P>
+				<P><SPAN LANG="en-US">A </SPAN><CODE><SPAN LANG="en-US">String</SPAN></CODE>
+				<SPAN LANG="en-US">containing the read character.</SPAN></P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -141,7 +142,7 @@ are listed below:</SPAN></P>
 				<P><CODE><SPAN LANG="en-US">{ code }</SPAN></CODE></P>
 			</TD>
 			<TD ROWSPAN=3 COLSPAN=2 WIDTH=34%>
-				<P LANG="en-US">Execute <CODE>code</CODE>.</P>
+				<P><SPAN LANG="en-US">Execute </SPAN><CODE><SPAN LANG="en-US">code</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
 			</TD>
 			<TD ROWSPAN=3 WIDTH=33%>
 				<P>&ndash;</P>
@@ -294,9 +295,9 @@ are listed below:</SPAN></P>
 				<P><CODE><SPAN LANG="en-US">&amp;expr</SPAN></CODE></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=34%>
-				<P LANG="en-US">Predicate. Remember current position in input,
-				parse input with <CODE>expr</CODE> and go back to the remembered
-				position.</P>
+				<P><SPAN LANG="en-US">Predicate. Remember current position in
+				input, parse input with </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE>
+				<SPAN LANG="en-US">and go back to the remembered position.</SPAN></P>
 			</TD>
 			<TD WIDTH=33%>
 				<P>&ndash;</P>
@@ -308,8 +309,8 @@ are listed below:</SPAN></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=34%>
 				<P><SPAN LANG="en-US">Predicate (negative). The same as </SPAN><CODE><SPAN LANG="en-US">&amp;expr</SPAN></CODE>
-				<SPAN LANG="en-US">but it fails if </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">
-				parses input successfully.</SPAN></P>
+				<SPAN LANG="en-US">but it fails if </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE>
+				<SPAN LANG="en-US">parses input successfully.</SPAN></P>
 			</TD>
 			<TD WIDTH=33%>
 				<P>&ndash;</P>
@@ -342,10 +343,10 @@ are listed below:</SPAN></P>
 				<P><CODE><SPAN LANG="en-US">expr*</SPAN></CODE></P>
 			</TD>
 			<TD ROWSPAN=3 WIDTH=17%>
-				<P LANG="en-US">Repetition. Repeat parsing input with <CODE>expr</CODE>&hellip;</P>
+				<P><SPAN LANG="en-US">Repetition. Repeat parsing input with </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE>&hellip;</P>
 			</TD>
 			<TD WIDTH=17% VALIGN=TOP>
-				<P LANG="en-US">&hellip;zero or more times.</P>
+				<P>&hellip;<SPAN LANG="en-US">zero or more times.</SPAN></P>
 			</TD>
 			<TD ROWSPAN=3 WIDTH=33% VALIGN=TOP>
 				<P>&ndash;</P>
@@ -356,7 +357,7 @@ are listed below:</SPAN></P>
 				<P><CODE><SPAN LANG="en-US">expr+</SPAN></CODE></P>
 			</TD>
 			<TD WIDTH=17% VALIGN=TOP>
-				<P LANG="en-US">&hellip;one or more times.</P>
+				<P>&hellip;<SPAN LANG="en-US">one or more times.</SPAN></P>
 			</TD>
 		</TR>
 		<TR>
@@ -364,7 +365,7 @@ are listed below:</SPAN></P>
 				<P><CODE><SPAN LANG="en-US">expr?</SPAN></CODE></P>
 			</TD>
 			<TD WIDTH=17% VALIGN=TOP>
-				<P LANG="en-US">&hellip;zero or one time.</P>
+				<P>&hellip;<SPAN LANG="en-US">zero or one time.</SPAN></P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -372,9 +373,10 @@ are listed below:</SPAN></P>
 				<P><CODE><SPAN LANG="en-US">expr*?</SPAN></CODE></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=34%>
-				<P LANG="en-US">Repetition (lazy). Repeat parsing input with <CODE>expr</CODE>
-				until next expression in sequence with it succeeds. See examples
-				in section &ldquo;Lazy repetition: examples&rdquo;.</P>
+				<P><SPAN LANG="en-US">Repetition (lazy). Repeat parsing input
+				with </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE> <SPAN LANG="en-US">until
+				next expression in sequence with it succeeds. See examples in
+				section &ldquo;Lazy repetition: examples&rdquo;.</SPAN></P>
 			</TD>
 			<TD WIDTH=33%>
 				<P>&ndash;</P>
@@ -449,23 +451,23 @@ are listed below:</SPAN></P>
 		</TR>
 		<TR VALIGN=TOP>
 			<TD WIDTH=50%>
-				<P LANG="en-US"><CODE>a*? b c</CODE></P>
+				<P><CODE><SPAN LANG="en-US">a*? b c</SPAN></CODE></P>
 			</TD>
 			<TD WIDTH=50%>
-				<P LANG="en-US"><CODE>(!(b c) a) b c</CODE></P>
+				<P><CODE><SPAN LANG="en-US">(!(b c) a) b c</SPAN></CODE></P>
 			</TD>
 		</TR>
 		<TR>
 			<TD WIDTH=50% VALIGN=TOP>
-				<P LANG="en-US"><CODE>(a*? b c) d</CODE></P>
+				<P><CODE><SPAN LANG="en-US">(a*? b c) d</SPAN></CODE></P>
 			</TD>
 			<TD ROWSPAN=2 WIDTH=50%>
-				<P LANG="en-US"><CODE>( (!(b c) a) b c ) d</CODE></P>
+				<P><CODE><SPAN LANG="en-US">( (!(b c) a) b c ) d</SPAN></CODE></P>
 			</TD>
 		</TR>
-		<TR VALIGN=TOP>
-			<TD WIDTH=50%>
-				<P LANG="en-US"><CODE>a*? b c ] d</CODE></P>
+		<TR>
+			<TD WIDTH=50% VALIGN=TOP>
+				<P><CODE><SPAN LANG="en-US">a*? b c ] d</SPAN></CODE></P>
 			</TD>
 		</TR>
 	</TBODY>
@@ -497,18 +499,19 @@ the middle of the output file.</P>
 	&ldquo;..&rdquo; is Unicode character with code U+2025.</P>
 </DIV>
 <DIV ID="sdfootnote3">
-	<P LANG="en-US" CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote3sym" HREF="#sdfootnote3anc">3</A>Here
-	<CODE>expr</CODE>, <CODE>expr1</CODE>, <CODE>expr2</CODE>, &hellip;
-	are other expressions.</P>
+	<P CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote3sym" HREF="#sdfootnote3anc">3</A><SPAN LANG="en-US">Here
+	</SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">,
+	</SPAN><CODE><SPAN LANG="en-US">expr1</SPAN></CODE><SPAN LANG="en-US">,
+	</SPAN><CODE><SPAN LANG="en-US">expr2</SPAN></CODE><SPAN LANG="en-US">,
+	&hellip; are other valid expressions.</SPAN></P>
 </DIV>
 <DIV ID="sdfootnote4">
 	<P CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote4sym" HREF="#sdfootnote4anc">4</A><SPAN LANG="en-US">In
 	all &ldquo;capture&rdquo; and &ldquo;append&rdquo; expressions you
 	may put </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE> <SPAN LANG="en-US">into
 	parentheses. For example, &ldquo;</SPAN><CODE><SPAN LANG="en-US">expr:(var)</SPAN></CODE>&rdquo;
-	<SPAN LANG="en-US">and &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;expr&gt;
-	:+ (var)</SPAN></CODE>&rdquo; <SPAN LANG="en-US">are also valid
-	expressions.</SPAN></P>
+	<SPAN LANG="en-US">and &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;expr&gt;:+(var)</SPAN></CODE>&rdquo;
+	<SPAN LANG="en-US">are also valid expressions.</SPAN></P>
 </DIV>
 </BODY>
 </HTML>
