@@ -5,7 +5,7 @@
 	<TITLE></TITLE>
 	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.0  (Win32)">
 	<META NAME="CREATED" CONTENT="20130826;18542682">
-	<META NAME="CHANGED" CONTENT="20130827;16334898">
+	<META NAME="CHANGED" CONTENT="20130827;17142281">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 21cm 29.7cm; margin: 2cm }
@@ -18,11 +18,11 @@
 		H3.western { font-family: "Arial", sans-serif; font-size: 14pt; font-weight: bold }
 		H3.cjk { font-family: "Arial Unicode MS"; font-size: 14pt; font-weight: bold }
 		H3.ctl { font-family: "Mangal"; font-size: 14pt; font-weight: bold }
-		TH P { font-weight: bold; widows: 4 }
 		H4 { page-break-after: avoid }
 		H4.western { font-family: "Arial", sans-serif; font-size: 11pt; font-style: italic; font-weight: bold }
 		H4.cjk { font-family: "Arial Unicode MS"; font-size: 11pt; font-style: italic; font-weight: bold }
 		H4.ctl { font-family: "Mangal"; font-size: 11pt; font-style: italic; font-weight: bold }
+		TH P { font-weight: bold; widows: 4 }
 		CODE { font-family: "Courier New", monospace }
 		A:link { color: #000080; so-language: zxx; text-decoration: underline }
 		A:visited { color: #800000; so-language: zxx; text-decoration: underline }
@@ -46,7 +46,7 @@
 <P><BR><BR>
 </P>
 <P><SPAN LANG="en-US">Valid </SPAN><CODE><SPAN LANG="en-US">expression</SPAN></CODE><SPAN LANG="en-US">s
-are listed in the following table.</SPAN></P>
+are listed below:</SPAN></P>
 <TABLE WIDTH=100% BORDER=2 BORDERCOLOR="#000000" CELLPADDING=5 CELLSPACING=0>
 	<COL WIDTH=85*>
 	<COL WIDTH=43*>
@@ -257,8 +257,8 @@ are listed in the following table.</SPAN></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=34%>
 				<P><SPAN LANG="en-US">Capture (semantic value). Parse input with
-				</SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">
-				and capture its semantic value into Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
+				</SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE> <SPAN LANG="en-US">and
+				capture its semantic value into Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
 			</TD>
 			<TD WIDTH=33%>
 				<P><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">'s
@@ -271,10 +271,10 @@ are listed in the following table.</SPAN></P>
 			</TD>
 			<TD ROWSPAN=2 COLSPAN=2 WIDTH=34%>
 				<P><SPAN LANG="en-US">Append (semantic value). Parse input with
-				</SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">
-				and append its semantic value to Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.
-				Append is performed with &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;&lt;</SPAN></CODE><SPAN LANG="en-US">&rdquo;
-				operator (e. g., &ldquo;</SPAN><CODE><SPAN LANG="en-US">var&nbsp;&lt;&lt;&nbsp;yy_expr_value</SPAN></CODE><SPAN LANG="en-US">&rdquo;).</SPAN></P>
+				</SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE> <SPAN LANG="en-US">and
+				append its semantic value to Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.
+				Append is performed with &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;&lt;</SPAN></CODE>&rdquo;
+				<SPAN LANG="en-US">operator (e. g., &ldquo;</SPAN><CODE><SPAN LANG="en-US">var&nbsp;&lt;&lt;&nbsp;yy_expr_value</SPAN></CODE>&rdquo;<SPAN LANG="en-US">).</SPAN></P>
 			</TD>
 			<TD ROWSPAN=2 WIDTH=33%>
 				<P>&ndash;</P>
@@ -302,8 +302,9 @@ are listed in the following table.</SPAN></P>
 				<P><CODE>!</CODE><CODE><SPAN LANG="en-US">expr</SPAN></CODE></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=34%>
-				<P><SPAN LANG="en-US">Predicate (negative). The same as </SPAN><CODE><SPAN LANG="en-US">&amp;expr</SPAN></CODE><SPAN LANG="en-US">
-				but it fails if expr parses input successfully.</SPAN></P>
+				<P><SPAN LANG="en-US">Predicate (negative). The same as </SPAN><CODE><SPAN LANG="en-US">&amp;expr</SPAN></CODE>
+				<SPAN LANG="en-US">but it fails if expr parses input
+				successfully.</SPAN></P>
 			</TD>
 			<TD WIDTH=33%>
 				<P>&ndash;</P>
@@ -315,7 +316,7 @@ are listed in the following table.</SPAN></P>
 			</TD>
 			<TD ROWSPAN=3 COLSPAN=2 WIDTH=34%>
 				<P><SPAN LANG="en-US">Predicate (native). Continue only if </SPAN><CODE><SPAN LANG="en-US">Ruby
-				code</SPAN></CODE><SPAN LANG="en-US"> evaluates to true.</SPAN></P>
+				code</SPAN></CODE> <SPAN LANG="en-US">evaluates to true.</SPAN></P>
 			</TD>
 			<TD ROWSPAN=3 WIDTH=33%>
 				<P>&ndash;</P>
@@ -380,8 +381,8 @@ are listed in the following table.</SPAN></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=34%>
 				<P><SPAN LANG="en-US">Capture (text). Capture text consumed by
-				</SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">
-				into Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
+				</SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE> <SPAN LANG="en-US">into
+				Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
 			</TD>
 			<TD WIDTH=33%>
 				<P><SPAN LANG="en-US">Value of </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
@@ -392,12 +393,13 @@ are listed in the following table.</SPAN></P>
 				<P><CODE><SPAN LANG="en-US">&lt; expr &gt; :+ var</SPAN></CODE></P>
 			</TD>
 			<TD ROWSPAN=2 COLSPAN=2 WIDTH=34%>
-				<P LANG="en-US">Append (text). Append text consumed by <CODE>expr</CODE>
-				to Ruby variable <CODE>var</CODE>.</P>
-				<P LANG="en-US">Appending is performed with Ruby operator &ldquo;<CODE>&lt;&lt;</CODE>&rdquo;.</P>
+				<P><SPAN LANG="en-US">Append (text). Append text consumed by </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">
+				to Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
+				<P><SPAN LANG="en-US">Appending is performed with Ruby operator
+				&ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;&lt;</SPAN></CODE><SPAN LANG="en-US">&rdquo;.</SPAN></P>
 			</TD>
 			<TD ROWSPAN=2 WIDTH=33%>
-				<P LANG="en-US">&ndash;</P>
+				<P>&ndash;</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -426,34 +428,34 @@ are listed in the following table.</SPAN></P>
 	<TBODY>
 		<TR VALIGN=TOP>
 			<TD WIDTH=50%>
-				<P LANG="en-US"><CODE>a*? b</CODE></P>
+				<P><CODE><SPAN LANG="en-US">a*? b</SPAN></CODE></P>
 			</TD>
 			<TD WIDTH=50%>
-				<P LANG="en-US"><CODE>(!b a) b</CODE></P>
-			</TD>
-		</TR>
-		<TR VALIGN=TOP>
-			<TD WIDTH=50%>
-				<P LANG="en-US"><CODE>(a*?) b</CODE></P>
-			</TD>
-			<TD WIDTH=50%>
-				<P LANG="en-US"><CODE>(!b a) b</CODE></P>
+				<P><CODE><SPAN LANG="en-US">(!b a) b</SPAN></CODE></P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
 			<TD WIDTH=50%>
-				<P LANG="en-US"><CODE>(a*? b) c</CODE></P>
+				<P><CODE><SPAN LANG="en-US">(a*?) b</SPAN></CODE></P>
 			</TD>
 			<TD WIDTH=50%>
-				<P LANG="en-US"><CODE>( (!b a) b ) c</CODE></P>
+				<P><CODE><SPAN LANG="en-US">(!b a) b</SPAN></CODE></P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
 			<TD WIDTH=50%>
-				<P LANG="en-US"><CODE>((a*? b) c) d</CODE></P>
+				<P><CODE><SPAN LANG="en-US">(a*? b) c</SPAN></CODE></P>
 			</TD>
 			<TD WIDTH=50%>
-				<P LANG="en-US"><CODE>(( (!b a) b ) c) d</CODE></P>
+				<P><CODE><SPAN LANG="en-US">( (!b a) b ) c</SPAN></CODE></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=50%>
+				<P><CODE><SPAN LANG="en-US">((a*? b) c) d</SPAN></CODE></P>
+			</TD>
+			<TD WIDTH=50%>
+				<P><CODE><SPAN LANG="en-US">(( (!b a) b ) c) d</SPAN></CODE></P>
 			</TD>
 		</TR>
 	</TBODY>
@@ -488,10 +490,11 @@ output file.</P>
 <DIV ID="sdfootnote3">
 	<P CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote3sym" HREF="#sdfootnote3anc">3</A><SPAN LANG="en-US">In
 	all &ldquo;capture&rdquo; and &ldquo;append&rdquo; expressions you
-	may put </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">
-	into parentheses. For example, &ldquo;</SPAN><CODE><SPAN LANG="en-US">expr:(var)</SPAN></CODE><SPAN LANG="en-US">&rdquo;
-	and &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;expr&gt; :+ (var)</SPAN></CODE><SPAN LANG="en-US">&rdquo;
-	are also valid expressions.</SPAN></P>
+	may put </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE> <SPAN LANG="en-US">into
+	parentheses. For example, &ldquo;</SPAN><CODE><SPAN LANG="en-US">expr:(var)</SPAN></CODE>&rdquo;
+	<SPAN LANG="en-US">and &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;expr&gt;
+	:+ (var)</SPAN></CODE>&rdquo; <SPAN LANG="en-US">are also valid
+	expressions.</SPAN></P>
 </DIV>
 </BODY>
 </HTML>
