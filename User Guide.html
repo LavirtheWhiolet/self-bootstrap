@@ -5,7 +5,7 @@
 	<TITLE></TITLE>
 	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.0  (Win32)">
 	<META NAME="CREATED" CONTENT="20130826;18542682">
-	<META NAME="CHANGED" CONTENT="20130827;17440329">
+	<META NAME="CHANGED" CONTENT="20130827;18292054">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 21cm 29.7cm; margin: 2cm }
@@ -22,6 +22,10 @@
 		H4.western { font-family: "Arial", sans-serif; font-size: 11pt; font-style: italic; font-weight: bold }
 		H4.cjk { font-family: "Arial Unicode MS"; font-size: 11pt; font-style: italic; font-weight: bold }
 		H4.ctl { font-family: "Mangal"; font-size: 11pt; font-style: italic; font-weight: bold }
+		H5 { page-break-after: avoid }
+		H5.western { font-family: "Arial", sans-serif; font-size: 11pt; font-weight: bold }
+		H5.cjk { font-family: "Arial Unicode MS"; font-size: 11pt; font-weight: bold }
+		H5.ctl { font-family: "Mangal"; font-size: 11pt; font-weight: bold }
 		TH P { font-weight: bold; widows: 4 }
 		CODE { font-family: "Courier New", monospace }
 		A:link { color: #000080; so-language: zxx; text-decoration: underline }
@@ -41,12 +45,32 @@
 <P LANG="en-US">Rules have the following form:</P>
 <P><CODE><SPAN LANG="en-US">nonterminal &lt;- expression ;</SPAN></CODE></P>
 <P><SPAN LANG="en-US">(You may use &ldquo;</SPAN><CODE><SPAN LANG="en-US">=</SPAN></CODE>&rdquo;
-<SPAN LANG="en-US">or &ldquo;</SPAN><CODE>&larr;</CODE>&rdquo;
+<SPAN LANG="en-US">or &ldquo;</SPAN><CODE><SPAN LANG="en-US">&larr;</SPAN></CODE>&rdquo;
 <SPAN LANG="en-US">instead of &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;-</SPAN></CODE>&rdquo;<SPAN LANG="en-US">.)</SPAN></P>
-<P><BR><BR>
-</P>
-<P><SPAN LANG="en-US">Valid </SPAN><CODE><SPAN LANG="en-US">expression</SPAN></CODE><SPAN LANG="en-US">s
-are listed below:</SPAN></P>
+<P><CODE><SPAN LANG="en-US">expression</SPAN></CODE> <SPAN LANG="en-US">describes
+how to parse input. Valid </SPAN><CODE><SPAN LANG="en-US">expression</SPAN></CODE><SPAN LANG="en-US">s
+are listed in &ldquo;Parsing Expressions&rdquo; section below.</SPAN></P>
+<H4 LANG="en-US" CLASS="western">Semantic values</H4>
+<P><SPAN LANG="en-US">Each rule has a semantic value. You may set it
+in runtime by setting Ruby variable </SPAN><CODE><SPAN LANG="en-US">val</SPAN></CODE>
+<SPAN LANG="en-US">in the right-hand expression of the rule. When the
+rule is executed, its semantic value becomes semantic value of the
+nonterminal which caused the rule execution. In the following example
+nonterminal </SPAN><CODE><SPAN LANG="en-US">ntrm</SPAN></CODE> <SPAN LANG="en-US">in
+the first rule receives semantic value </SPAN><CODE><SPAN LANG="en-US">&quot;b&quot;</SPAN></CODE><SPAN LANG="en-US">:</SPAN></P>
+<P><CODE><SPAN LANG="en-US">text &larr; &quot;a&quot; ntrm ;</SPAN></CODE></P>
+<P><CODE><SPAN LANG="en-US">ntrm &larr; &quot;b&quot;:val ;</SPAN></CODE></P>
+<P><SPAN LANG="en-US">You may capture the semantic values in Ruby
+variables (as shown in the example; see corresponding &ldquo;capture&rdquo;
+expressions in &ldquo;Parsing Expressions&rdquo; section), process
+them in code insertions and even return them as resultant value from
+the parser.</SPAN></P>
+<P><SPAN LANG="en-US">You may define the type of the semantic value
+of the rule:</SPAN></P>
+<P><CODE><SPAN LANG="en-US">nonterminal: Type &larr; expression ;</SPAN></CODE></P>
+<P><SPAN LANG="en-US">(Currently semantic value types are not
+processed anyhow and serve the informational purposes only.)</SPAN></P>
+<H4 LANG="en-US" CLASS="western">Parsing Expressions</H4>
 <TABLE WIDTH=100% BORDER=2 BORDERCOLOR="#000000" CELLPADDING=5 CELLSPACING=0>
 	<COL WIDTH=85*>
 	<COL WIDTH=43*>
@@ -145,7 +169,7 @@ are listed below:</SPAN></P>
 				<P><SPAN LANG="en-US">Execute </SPAN><CODE><SPAN LANG="en-US">code</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
 			</TD>
 			<TD ROWSPAN=3 WIDTH=33%>
-				<P>&ndash;</P>
+				<P LANG="en-US" ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -166,7 +190,7 @@ are listed below:</SPAN></P>
 				<P LANG="en-US">Fail everywhere except the end of the input.</P>
 			</TD>
 			<TD WIDTH=33%>
-				<P>&ndash;</P>
+				<P LANG="en-US" ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -178,7 +202,7 @@ are listed below:</SPAN></P>
 				input.</P>
 			</TD>
 			<TD WIDTH=33%>
-				<P>&ndash;</P>
+				<P LANG="en-US" ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -219,7 +243,7 @@ are listed below:</SPAN></P>
 				If it fails then parse it with </SPAN><CODE><SPAN LANG="en-US">expr2</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
 			</TD>
 			<TD ROWSPAN=2 WIDTH=33%>
-				<P>&ndash;</P>
+				<P LANG="en-US" ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -236,7 +260,7 @@ are listed below:</SPAN></P>
 				<SPAN LANG="en-US">then with </SPAN><CODE><SPAN LANG="en-US">expr2</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
 			</TD>
 			<TD WIDTH=33%>
-				<P>&ndash;</P>
+				<P LANG="en-US" ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -282,7 +306,7 @@ are listed below:</SPAN></P>
 				<SPAN LANG="en-US">operator (e. g., &ldquo;</SPAN><CODE><SPAN LANG="en-US">var&nbsp;&lt;&lt;&nbsp;yy_expr_value</SPAN></CODE>&rdquo;<SPAN LANG="en-US">).</SPAN></P>
 			</TD>
 			<TD ROWSPAN=2 WIDTH=33%>
-				<P>&ndash;</P>
+				<P LANG="en-US" ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -300,7 +324,7 @@ are listed below:</SPAN></P>
 				<SPAN LANG="en-US">and go back to the remembered position.</SPAN></P>
 			</TD>
 			<TD WIDTH=33%>
-				<P>&ndash;</P>
+				<P LANG="en-US" ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -313,7 +337,7 @@ are listed below:</SPAN></P>
 				<SPAN LANG="en-US">parses input successfully.</SPAN></P>
 			</TD>
 			<TD WIDTH=33%>
-				<P>&ndash;</P>
+				<P LANG="en-US" ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -325,7 +349,7 @@ are listed below:</SPAN></P>
 				<SPAN LANG="en-US">evaluates to false or nil.</SPAN></P>
 			</TD>
 			<TD ROWSPAN=3 WIDTH=33%>
-				<P>&ndash;</P>
+				<P LANG="en-US" ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -349,7 +373,7 @@ are listed below:</SPAN></P>
 				<P>&hellip;<SPAN LANG="en-US">zero or more times.</SPAN></P>
 			</TD>
 			<TD ROWSPAN=3 WIDTH=33% VALIGN=TOP>
-				<P>&ndash;</P>
+				<P LANG="en-US" ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
 			</TD>
 		</TR>
 		<TR>
@@ -379,7 +403,7 @@ are listed below:</SPAN></P>
 				section &ldquo;Lazy repetition: examples&rdquo;.</SPAN></P>
 			</TD>
 			<TD WIDTH=33%>
-				<P>&ndash;</P>
+				<P LANG="en-US" ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -406,7 +430,7 @@ are listed below:</SPAN></P>
 				&ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;&lt;</SPAN></CODE>&rdquo;<SPAN LANG="en-US">.</SPAN></P>
 			</TD>
 			<TD ROWSPAN=2 WIDTH=33%>
-				<P>&ndash;</P>
+				<P LANG="en-US" ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -418,7 +442,7 @@ are listed below:</SPAN></P>
 </TABLE>
 <P><BR><BR>
 </P>
-<H4 LANG="en-US" CLASS="western">Lazy repetition: examples</H4>
+<H5 CLASS="western">Lazy repetition: examples</H5>
 <TABLE WIDTH=100% BORDER=2 BORDERCOLOR="#000000" CELLPADDING=5 CELLSPACING=0>
 	<COL WIDTH=128*>
 	<COL WIDTH=128*>
@@ -428,7 +452,7 @@ are listed below:</SPAN></P>
 				<P LANG="en-US">Expression</P>
 			</TH>
 			<TH WIDTH=50%>
-				<P LANG="en-US">Equivalent to</P>
+				<P LANG="en-US">Equivalent to&hellip;</P>
 			</TH>
 		</TR>
 	</THEAD>
