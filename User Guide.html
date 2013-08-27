@@ -5,7 +5,7 @@
 	<TITLE></TITLE>
 	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.0  (Win32)">
 	<META NAME="CREATED" CONTENT="20130826;18542682">
-	<META NAME="CHANGED" CONTENT="20130827;19022956">
+	<META NAME="CHANGED" CONTENT="20130827;19054234">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 21cm 29.7cm; margin: 2cm }
@@ -36,7 +36,7 @@
 	</STYLE>
 </HEAD>
 <BODY LANG="ru-RU" LINK="#000080" VLINK="#800000" DIR="LTR">
-<H2 CLASS="western">Input Grammar</H2>
+<H2 CLASS="western">Input <SPAN LANG="en-US">g</SPAN>rammar</H2>
 <P LANG="en-US">Input grammar consists of:</P>
 <UL>
 	<LI><P LANG="en-US">Rules (at least one)</P>
@@ -50,7 +50,7 @@
 <SPAN LANG="en-US">instead of &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;-</SPAN></CODE>&rdquo;<SPAN LANG="en-US">.)</SPAN></P>
 <P><CODE><SPAN LANG="en-US">expression</SPAN></CODE> <SPAN LANG="en-US">describes
 how to parse input. Valid </SPAN><CODE><SPAN LANG="en-US">expression</SPAN></CODE><SPAN LANG="en-US">s
-are listed in &ldquo;Parsing Expressions&rdquo; section below.</SPAN></P>
+are listed in &ldquo;Parsing expressions&rdquo; section below.</SPAN></P>
 <H4 LANG="en-US" CLASS="western">Semantic values</H4>
 <P><SPAN LANG="en-US">Each rule has a semantic value. You may set it
 in runtime by setting Ruby variable </SPAN><CODE><SPAN LANG="en-US">val</SPAN></CODE>
@@ -63,7 +63,7 @@ the first rule receives semantic value </SPAN><CODE><SPAN LANG="en-US">&quot;b&q
 <P><CODE><SPAN LANG="en-US">ntrm &larr; &quot;b&quot;:val ;</SPAN></CODE></P>
 <P LANG="en-US">You may capture the semantic values into Ruby
 variables (as shown in the example; see corresponding &ldquo;Capture&rdquo;
-expressions in &ldquo;Parsing Expressions&rdquo; section), process
+expressions in &ldquo;Parsing expressions&rdquo; section), process
 them inside code insertions (the semantic values are valid Ruby
 objects) and even return them as resultant value from the parser.</P>
 <P LANG="en-US">You also may define the type of the semantic value of
@@ -71,7 +71,7 @@ the rule:</P>
 <P><CODE><SPAN LANG="en-US">nonterminal: Type &larr; expression ;</SPAN></CODE></P>
 <P LANG="en-US">(Currently semantic value types are not processed
 anyhow and serve the informational purposes only.)</P>
-<H4 LANG="en-US" CLASS="western">Parsing Expressions</H4>
+<H4 LANG="en-US" CLASS="western">Parsing expressions</H4>
 <TABLE WIDTH=100% BORDER=2 BORDERCOLOR="#000000" CELLPADDING=5 CELLSPACING=0>
 	<COL WIDTH=85*>
 	<COL WIDTH=43*>
@@ -523,7 +523,7 @@ starting with &ldquo;</SPAN><CODE><SPAN LANG="en-US">yy_</SPAN></CODE>&rdquo;
 <SPAN LANG="en-US">or &ldquo;</SPAN><CODE><SPAN LANG="en-US">YY_</SPAN></CODE>&rdquo;
 <SPAN LANG="en-US">in the code insertions! They are reserved by the
 parser generator!</SPAN></P>
-<H2 LANG="en-US" CLASS="western">Output Parser</H2>
+<H2 LANG="en-US" CLASS="western">Output parser</H2>
 <P LANG="en-US">The output of the parser generator is a Ruby script
 containing the following:</P>
 <OL>
@@ -550,7 +550,7 @@ containing the following:</P>
 	<LI><P LANG="en-US">Content of the code insertion after all rules
 	and other code insertions (if it is present).</P>
 </OL>
-<H3 LANG="en-US" CLASS="western">Multiple Parser Entry Points</H3>
+<H3 LANG="en-US" CLASS="western">Multiple parser entry points</H3>
 <P><BR><BR>
 </P>
 <P><BR><BR>
