@@ -5,7 +5,7 @@
 	<TITLE></TITLE>
 	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.0  (Win32)">
 	<META NAME="CREATED" CONTENT="20130826;18542682">
-	<META NAME="CHANGED" CONTENT="20130827;19241679">
+	<META NAME="CHANGED" CONTENT="20130827;19292448">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 21cm 29.7cm; margin: 2cm }
@@ -41,6 +41,7 @@
 <UL>
 	<LI><P LANG="en-US">Rules (at least one)</P>
 	<LI><P LANG="en-US">Code insertions (optional)</P>
+	<LI><P LANG="en-US">Comments (optional)</P>
 </UL>
 <H3 LANG="en-US" CLASS="western">Rules</H3>
 <P LANG="en-US">Rules have the following form:</P>
@@ -523,6 +524,17 @@ starting with &ldquo;</SPAN><CODE><SPAN LANG="en-US">yy_</SPAN></CODE>&rdquo;
 <SPAN LANG="en-US">or &ldquo;</SPAN><CODE><SPAN LANG="en-US">YY_</SPAN></CODE>&rdquo;
 <SPAN LANG="en-US">in the code insertions! They are reserved by the
 parser generator!</SPAN></P>
+<H3 CLASS="western"><SPAN LANG="en-US">Comments</SPAN></H3>
+<P><SPAN LANG="en-US">Comments can be written anywhere in the input
+grammar except identifiers and atomic expressions. A comment starts
+with &ldquo;</SPAN><CODE><SPAN LANG="en-US">#</SPAN></CODE><SPAN LANG="en-US">&rdquo;
+or &ldquo;</SPAN><CODE><SPAN LANG="en-US">--</SPAN></CODE><SPAN LANG="en-US">&rdquo;
+and continues until the end of the line.</SPAN></P>
+<P><SPAN LANG="en-US">Following are examples of comments:</SPAN></P>
+<P><CODE><SPAN LANG="en-US"># Simple comment</SPAN></CODE></P>
+<P><CODE><SPAN LANG="en-US">-- Another comment</SPAN></CODE></P>
+<P><CODE><SPAN LANG="en-US">---- Section delimiter, a comment too
+----</SPAN></CODE></P>
 <H2 LANG="en-US" CLASS="western">Output parser</H2>
 <P LANG="en-US">The output of the parser generator is a Ruby script
 containing the following:</P>
@@ -555,36 +567,36 @@ containing the following:</P>
 rule from the input grammar. But what if you need to start parsing
 with another rule?</P>
 <P LANG="en-US">No problem, just define the required rule as follows:</P>
-<P LANG="en-US"><CODE>rule_name() &larr; expression ;</CODE></P>
-<P LANG="en-US">and the parser generator will generate a function
-which is named after the rule's left-hand side nonterminal (<CODE>rule_name</CODE>
-in this example) and which behaves the same as <CODE>yy_parse(io)</CODE>
-but starts parsing input with the defined rule!</P>
+<P><CODE><SPAN LANG="en-US">rule_name() &larr; expression ;</SPAN></CODE></P>
+<P><SPAN LANG="en-US">and the parser generator will generate a
+function which is named after the rule's left-hand side nonterminal
+(</SPAN><CODE><SPAN LANG="en-US">rule_name</SPAN></CODE><SPAN LANG="en-US">
+in this example) and which behaves the same as </SPAN><CODE><SPAN LANG="en-US">yy_parse(io)</SPAN></CODE><SPAN LANG="en-US">
+but starts parsing input with the defined rule!</SPAN></P>
 <P LANG="en-US">Other valid forms for such a rule are:</P>
 <UL>
 	<LI><P><CODE><SPAN LANG="en-US">rule_name(...) &larr; expression
 	;</SPAN></CODE><SPAN LANG="en-US"><BR>(here &ldquo;...&rdquo; is
 	three dots, not some arbitrary expression)</SPAN></P>
-	<LI><P LANG="en-US"><CODE>rule_name(arg) &larr; expression ;</CODE><BR>(here
-	arg is a valid Ruby variable name)</P>
+	<LI><P><CODE><SPAN LANG="en-US">rule_name(arg) &larr; expression
+	;</SPAN></CODE><SPAN LANG="en-US"><BR>(here arg is a valid Ruby
+	variable name)</SPAN></P>
 </UL>
 <P LANG="en-US">Of course you may define the rule's semantic value
 type as well:</P>
-<P LANG="en-US"><CODE>rule_name(): Type &larr; expression ;</CODE></P>
+<P><CODE><SPAN LANG="en-US">rule_name(): Type &larr; expression ;</SPAN></CODE></P>
 <H4 CLASS="western">Example</H4>
 <P LANG="en-US">The following input grammar:</P>
-<P LANG="en-US"><CODE>main &larr; rule2 ;<BR>rule2(io) &larr; &hellip;
-;</CODE></P>
+<P><CODE><SPAN LANG="en-US">main &larr; rule2 ;<BR>rule2(io) &larr; &hellip;
+;</SPAN></CODE></P>
 <P LANG="en-US">results in the following functions in the output
 parser:</P>
 <UL>
-	<LI><P LANG="en-US"><CODE>yy_parse(io)</CODE>&mdash;it starts
-	parsing input with main rule;</P>
-	<LI><P LANG="en-US"><CODE>rule2(io)</CODE>&mdash;it starts parsing
-	input with rule2 rule.</P>
+	<LI><P><CODE><SPAN LANG="en-US">yy_parse(io)</SPAN></CODE><SPAN LANG="en-US">&mdash;it
+	starts parsing input with main rule;</SPAN></P>
+	<LI><P><CODE><SPAN LANG="en-US">rule2(io)</SPAN></CODE><SPAN LANG="en-US">&mdash;it
+	starts parsing input with rule2 rule.</SPAN></P>
 </UL>
-<P LANG="en-US"><BR><BR>
-</P>
 <DIV ID="sdfootnote1">
 	<P CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote1sym" HREF="#sdfootnote1anc">1</A><SPAN LANG="en-US">Its
 	</SPAN><CODE><SPAN LANG="en-US">String#encoding</SPAN></CODE> <SPAN LANG="en-US">is
