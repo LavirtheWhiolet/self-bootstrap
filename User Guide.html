@@ -5,7 +5,7 @@
 	<TITLE></TITLE>
 	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.0  (Win32)">
 	<META NAME="CREATED" CONTENT="20130826;18542682">
-	<META NAME="CHANGED" CONTENT="20130826;19301895">
+	<META NAME="CHANGED" CONTENT="20130827;16334898">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 21cm 29.7cm; margin: 2cm }
@@ -14,7 +14,15 @@
 		H2.cjk { font-family: "Arial Unicode MS"; font-size: 14pt; font-style: italic; font-weight: bold }
 		H2.ctl { font-family: "Mangal"; font-size: 14pt; font-style: italic; font-weight: bold }
 		P.sdfootnote { font-size: 10pt }
+		H3 { page-break-after: avoid }
+		H3.western { font-family: "Arial", sans-serif; font-size: 14pt; font-weight: bold }
+		H3.cjk { font-family: "Arial Unicode MS"; font-size: 14pt; font-weight: bold }
+		H3.ctl { font-family: "Mangal"; font-size: 14pt; font-weight: bold }
 		TH P { font-weight: bold; widows: 4 }
+		H4 { page-break-after: avoid }
+		H4.western { font-family: "Arial", sans-serif; font-size: 11pt; font-style: italic; font-weight: bold }
+		H4.cjk { font-family: "Arial Unicode MS"; font-size: 11pt; font-style: italic; font-weight: bold }
+		H4.ctl { font-family: "Mangal"; font-size: 11pt; font-style: italic; font-weight: bold }
 		CODE { font-family: "Courier New", monospace }
 		A:link { color: #000080; so-language: zxx; text-decoration: underline }
 		A:visited { color: #800000; so-language: zxx; text-decoration: underline }
@@ -27,25 +35,29 @@
 <P LANG="en-US">Input grammar consists of:</P>
 <UL>
 	<LI><P LANG="en-US">Rules (at least one)</P>
-	<LI><P LANG="en-US">Code blocks (optional)</P>
+	<LI><P LANG="en-US">Ruby code insertions (optional)</P>
 </UL>
+<H3 LANG="en-US" CLASS="western">Rules</H3>
 <P LANG="en-US">Rules have the following form:</P>
-<P><CODE><SPAN LANG="en-US">	nonterminal &lt;- expression ;</SPAN></CODE></P>
+<P><CODE><SPAN LANG="en-US">nonterminal &lt;- expression ;</SPAN></CODE></P>
 <P><SPAN LANG="en-US">You may use &ldquo;</SPAN><CODE><SPAN LANG="en-US">=</SPAN></CODE>&rdquo;
 <SPAN LANG="en-US">or &ldquo;</SPAN><CODE>&larr;</CODE>&rdquo;
 <SPAN LANG="en-US">instead of &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;-</SPAN></CODE>&rdquo;<SPAN LANG="en-US">.</SPAN></P>
+<P><BR><BR>
+</P>
 <P><SPAN LANG="en-US">Valid </SPAN><CODE><SPAN LANG="en-US">expression</SPAN></CODE><SPAN LANG="en-US">s
 are listed in the following table.</SPAN></P>
 <TABLE WIDTH=100% BORDER=2 BORDERCOLOR="#000000" CELLPADDING=5 CELLSPACING=0>
 	<COL WIDTH=85*>
-	<COL WIDTH=85*>
+	<COL WIDTH=43*>
+	<COL WIDTH=43*>
 	<COL WIDTH=85*>
 	<THEAD>
 		<TR VALIGN=TOP>
 			<TH WIDTH=33%>
 				<P LANG="en-US">Expression</P>
 			</TH>
-			<TH WIDTH=33%>
+			<TH COLSPAN=2 WIDTH=34%>
 				<P LANG="en-US"><FONT FACE="Times New Roman, serif">Meaning</FONT></P>
 			</TH>
 			<TH WIDTH=33%>
@@ -58,10 +70,10 @@ are listed in the following table.</SPAN></P>
 			<TD WIDTH=33%>
 				<P><CODE><SPAN LANG="en-US">&quot;string&quot;</SPAN></CODE></P>
 			</TD>
-			<TD ROWSPAN=2 WIDTH=33%>
+			<TD ROWSPAN=2 COLSPAN=2 WIDTH=34%>
 				<P><FONT FACE="Times New Roman, serif"><SPAN LANG="en-US">Read
-				</SPAN></FONT><CODE><SPAN LANG="en-US">string</SPAN></CODE><FONT FACE="Times New Roman, serif"><SPAN LANG="en-US">
-				from input.</SPAN></FONT></P>
+				</SPAN></FONT><CODE><SPAN LANG="en-US">string</SPAN></CODE> <FONT FACE="Times New Roman, serif"><SPAN LANG="en-US">from
+				input.</SPAN></FONT></P>
 			</TD>
 			<TD ROWSPAN=2 WIDTH=33%>
 				<P><CODE><SPAN LANG="en-US">string<A CLASS="sdfootnoteanc" NAME="sdfootnote1anc" HREF="#sdfootnote1sym"><SUP>1</SUP></A></SPAN></CODE></P>
@@ -76,7 +88,7 @@ are listed in the following table.</SPAN></P>
 			<TD WIDTH=33%>
 				<P><CODE><SPAN LANG="en-US">U+HHHH</SPAN></CODE></P>
 			</TD>
-			<TD WIDTH=33%>
+			<TD COLSPAN=2 WIDTH=34%>
 				<P LANG="en-US">Read UTF-8 encoded character with Unicode code
 				U+HHHH from input.</P>
 			</TD>
@@ -88,13 +100,13 @@ are listed in the following table.</SPAN></P>
 			<TD WIDTH=33%>
 				<P><CODE><SPAN LANG="en-US">x...y</SPAN></CODE></P>
 			</TD>
-			<TD ROWSPAN=4 WIDTH=33%>
+			<TD ROWSPAN=4 COLSPAN=2 WIDTH=34%>
 				<P LANG="en-US">Read a character from input which is in the range
 				between x and y.</P>
 				<P><SPAN LANG="en-US">You may use </SPAN><CODE><SPAN LANG="en-US">&quot;c&quot;</SPAN></CODE><SPAN LANG="en-US">,
-				</SPAN><CODE><SPAN LANG="en-US">'c'</SPAN></CODE><SPAN LANG="en-US">
-				or </SPAN><CODE><SPAN LANG="en-US">U+HHHH</SPAN></CODE><SPAN LANG="en-US">
-				form to define x or y. Examples:</SPAN></P>
+				</SPAN><CODE><SPAN LANG="en-US">'c'</SPAN></CODE> <SPAN LANG="en-US">or
+				</SPAN><CODE><SPAN LANG="en-US">U+HHHH</SPAN></CODE> <SPAN LANG="en-US">form
+				to define x or y. Examples:</SPAN></P>
 				<UL>
 					<LI><P><CODE><SPAN LANG="en-US">'a'...'z'</SPAN></CODE></P>
 					<LI><P><CODE><SPAN LANG="en-US">U+0000...U+0020</SPAN></CODE></P>
@@ -122,32 +134,54 @@ are listed in the following table.</SPAN></P>
 		</TR>
 		<TR VALIGN=TOP>
 			<TD WIDTH=33%>
-				<P LANG="en-US"><CODE>$</CODE></P>
+				<P><CODE><SPAN LANG="en-US">{ Ruby code }</SPAN></CODE></P>
+			</TD>
+			<TD ROWSPAN=3 COLSPAN=2 WIDTH=34%>
+				<P LANG="en-US">Execute Ruby code.</P>
+			</TD>
+			<TD ROWSPAN=3 WIDTH=33%>
+				<P>&ndash;</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">{... Ruby code ...}</SPAN></CODE></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">{... Ruby code }...</SPAN></CODE></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">$</SPAN></CODE></P>
+			</TD>
+			<TD COLSPAN=2 WIDTH=34%>
+				<P LANG="en-US">Fail everywhere except the end of the input.</P>
 			</TD>
 			<TD WIDTH=33%>
-				<P LANG="en-US">&ldquo;Is it the end of the input?&rdquo;</P>
-			</TD>
-			<TD WIDTH=33%>
-				<P LANG="en-US">&ndash;</P>
+				<P>&ndash;</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
 			<TD WIDTH=33%>
 				<P><CODE><SPAN LANG="en-US">^</SPAN></CODE></P>
 			</TD>
-			<TD WIDTH=33%>
-				<P LANG="en-US">&ldquo;Is it the beginning of the input?&rdquo;</P>
+			<TD COLSPAN=2 WIDTH=34%>
+				<P LANG="en-US">Fail everywhere except the beginning of the
+				input.</P>
 			</TD>
 			<TD WIDTH=33%>
-				<P LANG="en-US">&ndash;</P>
+				<P>&ndash;</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
 			<TD WIDTH=33%>
 				<P><CODE><SPAN LANG="en-US">@</SPAN></CODE></P>
 			</TD>
-			<TD WIDTH=33%>
-				<P LANG="en-US">Current position in input.</P>
+			<TD COLSPAN=2 WIDTH=34%>
+				<P LANG="en-US">Get current position in input.</P>
 			</TD>
 			<TD WIDTH=33%>
 				<P LANG="en-US">Current position in input.</P>
@@ -157,29 +191,30 @@ are listed in the following table.</SPAN></P>
 			<TD WIDTH=33%>
 				<P><CODE><SPAN LANG="en-US">nonterminal</SPAN></CODE></P>
 			</TD>
-			<TD WIDTH=33%>
-				<P LANG="en-US">Use rule having <CODE>nonterminal</CODE> as its
-				left part to parse input.</P>
+			<TD COLSPAN=2 WIDTH=34%>
+				<P><SPAN LANG="en-US">Use rule having </SPAN><CODE><SPAN LANG="en-US">nonterminal</SPAN></CODE>
+				<SPAN LANG="en-US">as its left part to parse input.</SPAN></P>
 			</TD>
 			<TD WIDTH=33%>
 				<P LANG="en-US">The rule's semantic value.</P>
 			</TD>
 		</TR>
 		<TR>
-			<TD COLSPAN=3 WIDTH=100% VALIGN=TOP>
-				<P LANG="en-US" ALIGN=CENTER STYLE="widows: 4"><I><B>Combinators</B></I></P>
+			<TD COLSPAN=4 WIDTH=100% VALIGN=TOP>
+				<P LANG="en-US" ALIGN=CENTER STYLE="widows: 4"><I><B>Combinations
+				(ordered by priority)</B></I></P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
 			<TD WIDTH=33%>
-				<P LANG="en-US"><CODE>expr1 / expr2</CODE></P>
+				<P><CODE><SPAN LANG="en-US">expr1 / expr2</SPAN></CODE></P>
+			</TD>
+			<TD ROWSPAN=2 COLSPAN=2 WIDTH=34%>
+				<P><SPAN LANG="en-US">Choice (ordered). Parse input with </SPAN><CODE><SPAN LANG="en-US">expr1</SPAN></CODE><SPAN LANG="en-US">.
+				If it fails then parse it with </SPAN><CODE><SPAN LANG="en-US">expr2</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
 			</TD>
 			<TD ROWSPAN=2 WIDTH=33%>
-				<P LANG="en-US">Choice (ordered). Parse input with <CODE>expr1</CODE>.
-				If it fails then parse it with <CODE>expr2</CODE>.</P>
-			</TD>
-			<TD ROWSPAN=2 WIDTH=33%>
-				<P LANG="en-US">&ndash;</P>
+				<P>&ndash;</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -189,60 +224,256 @@ are listed in the following table.</SPAN></P>
 		</TR>
 		<TR VALIGN=TOP>
 			<TD WIDTH=33%>
-				<P LANG="en-US"><CODE>expr1</CODE> <CODE>expr2</CODE></P>
+				<P><CODE><SPAN LANG="en-US">expr1 expr2</SPAN></CODE></P>
+			</TD>
+			<TD COLSPAN=2 WIDTH=34%>
+				<P><SPAN LANG="en-US">Sequence. Parse input with </SPAN><CODE><SPAN LANG="en-US">expr1</SPAN></CODE>
+				<SPAN LANG="en-US">then with </SPAN><CODE><SPAN LANG="en-US">expr2</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
 			</TD>
 			<TD WIDTH=33%>
-				<P LANG="en-US">Sequence. Parse input with <CODE>expr1</CODE>
-				then with <CODE>expr2</CODE>.</P>
+				<P>&ndash;</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">expr ]</SPAN></CODE></P>
+			</TD>
+			<TD ROWSPAN=2 COLSPAN=2 WIDTH=34%>
+				<P><SPAN LANG="en-US">The same as </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE></P>
+			</TD>
+			<TD ROWSPAN=2 WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">'s
+				semantic value.</SPAN></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">(expr)</SPAN></CODE></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">expr:var<A CLASS="sdfootnoteanc" NAME="sdfootnote3anc" HREF="#sdfootnote3sym"><SUP>3</SUP></A></SPAN></CODE></P>
+			</TD>
+			<TD COLSPAN=2 WIDTH=34%>
+				<P><SPAN LANG="en-US">Capture (semantic value). Parse input with
+				</SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">
+				and capture its semantic value into Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
 			</TD>
 			<TD WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">'s
+				semantic value.</SPAN></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">expr :+ var</SPAN></CODE></P>
+			</TD>
+			<TD ROWSPAN=2 COLSPAN=2 WIDTH=34%>
+				<P><SPAN LANG="en-US">Append (semantic value). Parse input with
+				</SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">
+				and append its semantic value to Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.
+				Append is performed with &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;&lt;</SPAN></CODE><SPAN LANG="en-US">&rdquo;
+				operator (e. g., &ldquo;</SPAN><CODE><SPAN LANG="en-US">var&nbsp;&lt;&lt;&nbsp;yy_expr_value</SPAN></CODE><SPAN LANG="en-US">&rdquo;).</SPAN></P>
+			</TD>
+			<TD ROWSPAN=2 WIDTH=33%>
+				<P>&ndash;</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">expr :&gt;&gt; var</SPAN></CODE></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">&amp;expr</SPAN></CODE></P>
+			</TD>
+			<TD COLSPAN=2 WIDTH=34%>
+				<P LANG="en-US">Predicate. Remember current position in input,
+				parse input with expr and go back to the remembered position.</P>
+			</TD>
+			<TD WIDTH=33%>
+				<P>&ndash;</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P><CODE>!</CODE><CODE><SPAN LANG="en-US">expr</SPAN></CODE></P>
+			</TD>
+			<TD COLSPAN=2 WIDTH=34%>
+				<P><SPAN LANG="en-US">Predicate (negative). The same as </SPAN><CODE><SPAN LANG="en-US">&amp;expr</SPAN></CODE><SPAN LANG="en-US">
+				but it fails if expr parses input successfully.</SPAN></P>
+			</TD>
+			<TD WIDTH=33%>
+				<P>&ndash;</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">&amp;{ Ruby code }</SPAN></CODE></P>
+			</TD>
+			<TD ROWSPAN=3 COLSPAN=2 WIDTH=34%>
+				<P><SPAN LANG="en-US">Predicate (native). Continue only if </SPAN><CODE><SPAN LANG="en-US">Ruby
+				code</SPAN></CODE><SPAN LANG="en-US"> evaluates to true.</SPAN></P>
+			</TD>
+			<TD ROWSPAN=3 WIDTH=33%>
+				<P>&ndash;</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">&amp;{... Ruby code ...}</SPAN></CODE></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">&amp;{... Ruby code }...</SPAN></CODE></P>
+			</TD>
+		</TR>
+		<TR>
+			<TD WIDTH=33% VALIGN=TOP>
+				<P><CODE><SPAN LANG="en-US">expr*</SPAN></CODE></P>
+			</TD>
+			<TD ROWSPAN=3 WIDTH=17%>
+				<P LANG="en-US">Repetition. Repeat parsing input with expr&hellip;</P>
+			</TD>
+			<TD WIDTH=17% VALIGN=TOP>
+				<P LANG="en-US">zero or more times.</P>
+			</TD>
+			<TD ROWSPAN=3 WIDTH=33% VALIGN=TOP>
+				<P>&ndash;</P>
+			</TD>
+		</TR>
+		<TR>
+			<TD WIDTH=33% VALIGN=TOP>
+				<P><CODE><SPAN LANG="en-US">expr+</SPAN></CODE></P>
+			</TD>
+			<TD WIDTH=17% VALIGN=TOP>
+				<P LANG="en-US">one or more times.</P>
+			</TD>
+		</TR>
+		<TR>
+			<TD WIDTH=33% VALIGN=TOP>
+				<P><CODE><SPAN LANG="en-US">expr?</SPAN></CODE></P>
+			</TD>
+			<TD WIDTH=17% VALIGN=TOP>
+				<P LANG="en-US">zero or one time.</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">expr*?</SPAN></CODE></P>
+			</TD>
+			<TD COLSPAN=2 WIDTH=34%>
+				<P LANG="en-US">Repetition (lazy). Repeat parsing input with expr
+				until next expression sequenced with it succeeds. See examples in
+				section &ldquo;Lazy repetition: examples&rdquo;.</P>
+			</TD>
+			<TD WIDTH=33%>
+				<P>&ndash;</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">&lt; expr &gt;:var</SPAN></CODE></P>
+			</TD>
+			<TD COLSPAN=2 WIDTH=34%>
+				<P><SPAN LANG="en-US">Capture (text). Capture text consumed by
+				</SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">
+				into Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
+			</TD>
+			<TD WIDTH=33%>
+				<P><SPAN LANG="en-US">Value of </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=33%>
+				<P><CODE><SPAN LANG="en-US">&lt; expr &gt; :+ var</SPAN></CODE></P>
+			</TD>
+			<TD ROWSPAN=2 COLSPAN=2 WIDTH=34%>
+				<P LANG="en-US">Append (text). Append text consumed by <CODE>expr</CODE>
+				to Ruby variable <CODE>var</CODE>.</P>
+				<P LANG="en-US">Appending is performed with Ruby operator &ldquo;<CODE>&lt;&lt;</CODE>&rdquo;.</P>
+			</TD>
+			<TD ROWSPAN=2 WIDTH=33%>
 				<P LANG="en-US">&ndash;</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
 			<TD WIDTH=33%>
-				<P><BR>
-				</P>
-			</TD>
-			<TD WIDTH=33%>
-				<P LANG="en-US"><BR>
-				</P>
-			</TD>
-			<TD WIDTH=33%>
-				<P LANG="en-US"><BR>
-				</P>
-			</TD>
-		</TR>
-		<TR VALIGN=TOP>
-			<TD WIDTH=33%>
-				<P><BR>
-				</P>
-			</TD>
-			<TD WIDTH=33%>
-				<P LANG="en-US"><BR>
-				</P>
-			</TD>
-			<TD WIDTH=33%>
-				<P LANG="en-US"><BR>
-				</P>
-			</TD>
-		</TR>
-		<TR VALIGN=TOP>
-			<TD WIDTH=33%>
-				<P><BR>
-				</P>
-			</TD>
-			<TD WIDTH=33%>
-				<P LANG="en-US"><BR>
-				</P>
-			</TD>
-			<TD WIDTH=33%>
-				<P LANG="en-US"><BR>
-				</P>
+				<P><CODE><SPAN LANG="en-US">&lt; expr &gt; :&gt;&gt; var</SPAN></CODE></P>
 			</TD>
 		</TR>
 	</TBODY>
 </TABLE>
+<P><BR><BR>
+</P>
+<H4 LANG="en-US" CLASS="western">Lazy repetition: examples</H4>
+<TABLE WIDTH=100% BORDER=1 BORDERCOLOR="#000000" CELLPADDING=5 CELLSPACING=0>
+	<COL WIDTH=128*>
+	<COL WIDTH=128*>
+	<THEAD>
+		<TR VALIGN=TOP>
+			<TH WIDTH=50%>
+				<P LANG="en-US">Expression</P>
+			</TH>
+			<TH WIDTH=50%>
+				<P LANG="en-US">Equivalent to</P>
+			</TH>
+		</TR>
+	</THEAD>
+	<TBODY>
+		<TR VALIGN=TOP>
+			<TD WIDTH=50%>
+				<P LANG="en-US"><CODE>a*? b</CODE></P>
+			</TD>
+			<TD WIDTH=50%>
+				<P LANG="en-US"><CODE>(!b a) b</CODE></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=50%>
+				<P LANG="en-US"><CODE>(a*?) b</CODE></P>
+			</TD>
+			<TD WIDTH=50%>
+				<P LANG="en-US"><CODE>(!b a) b</CODE></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=50%>
+				<P LANG="en-US"><CODE>(a*? b) c</CODE></P>
+			</TD>
+			<TD WIDTH=50%>
+				<P LANG="en-US"><CODE>( (!b a) b ) c</CODE></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=50%>
+				<P LANG="en-US"><CODE>((a*? b) c) d</CODE></P>
+			</TD>
+			<TD WIDTH=50%>
+				<P LANG="en-US"><CODE>(( (!b a) b ) c) d</CODE></P>
+			</TD>
+		</TR>
+	</TBODY>
+</TABLE>
+<P><BR><BR>
+</P>
+<H3 LANG="en-US" CLASS="western">Ruby code insertions</H3>
+<P LANG="en-US">Every Ruby code insertion has one of the following
+forms:</P>
+<UL>
+	<LI><P><CODE><SPAN LANG="en-US">{ code }</SPAN></CODE></P>
+	<LI><P><CODE><SPAN LANG="en-US">{... code ...}</SPAN></CODE></P>
+	<LI><P><CODE><SPAN LANG="en-US">{... code }...</SPAN></CODE></P>
+</UL>
+<P LANG="en-US">They are written into the output file &ldquo;as is&rdquo;.
+A code insertion before all rules and other code insertions is put
+into the beginning of the output file. A code insertion after all
+rules and other code insertions is put into the end of the output
+file. Other code insertions are put somewhere in the middle of the
+output file.</P>
 <P><BR><BR>
 </P>
 <DIV ID="sdfootnote1">
@@ -253,6 +484,14 @@ are listed in the following table.</SPAN></P>
 <DIV ID="sdfootnote2">
 	<P LANG="en-US" CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote2sym" HREF="#sdfootnote2anc">2</A>Here
 	&ldquo;..&rdquo; is Unicode character with code U+2025.</P>
+</DIV>
+<DIV ID="sdfootnote3">
+	<P CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote3sym" HREF="#sdfootnote3anc">3</A><SPAN LANG="en-US">In
+	all &ldquo;capture&rdquo; and &ldquo;append&rdquo; expressions you
+	may put </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">
+	into parentheses. For example, &ldquo;</SPAN><CODE><SPAN LANG="en-US">expr:(var)</SPAN></CODE><SPAN LANG="en-US">&rdquo;
+	and &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;expr&gt; :+ (var)</SPAN></CODE><SPAN LANG="en-US">&rdquo;
+	are also valid expressions.</SPAN></P>
 </DIV>
 </BODY>
 </HTML>
