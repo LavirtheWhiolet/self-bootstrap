@@ -6,20 +6,7 @@ Self-bootstrap
 
 A general-purpose parser generator that converts a grammar description for an extended [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar) into a [Ruby](http://ruby-lang.org) program to parse that grammar.
 
-The input grammar description has its own grammar which is described in [peg2rb.peg](#peg2rb.peg) (in terms of the [peg2rb.rb](#peg2rb.rb)'s input grammar itself). You may also see samples of the input grammar description in [samples](#samples).
-
-The output program is a [Ruby](http://ruby-lang.org) script containing the following (in order of appearance):
-
-* Content of the `{...}` block before all rules in the input grammar description (if it is present).
-* `yy_parse(io)` method. It either returns a semantic value of the first rule of the grammar or raises YY\_SyntaxError (see below).<br/>
-  `io` is IO which supports following methods:
-  * `read(...)`
-  * `pos`
-  * `pos=(...)`
-  * `set_encoding(...)`
-* YY\_SyntaxError class. It is a subclass of Exception.
-* Auxiliary functions and classes with names starting with `yy_` or `YY_`.
-* Content of the `{...}` block after all rules in the input grammar (if it is present).
+See <a href="peg2rb - User Guide.html">peg2rb - User Guide.html</a> for details on the input grammar and the output parser. You may also see samples of the grammars in [samples](#samples). The input grammar's grammar is also described in [peg2rb.peg](#peg2rb.peg).
 
 ### Requirements ###
 
