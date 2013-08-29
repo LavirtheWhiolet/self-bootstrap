@@ -5,7 +5,7 @@
 	<TITLE></TITLE>
 	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.0  (Win32)">
 	<META NAME="CREATED" CONTENT="20130826;18542682">
-	<META NAME="CHANGED" CONTENT="20130828;19312710">
+	<META NAME="CHANGED" CONTENT="20130829;15484957">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 21cm 29.7cm; margin: 2cm }
@@ -55,7 +55,7 @@ are listed in &ldquo;Parsing expressions&rdquo; section below.</SPAN></P>
 <H4 LANG="en-US" CLASS="western">Semantic values</H4>
 <P><SPAN LANG="en-US">Each rule has a semantic value. You may set it
 in runtime by setting Ruby variable </SPAN><CODE><SPAN LANG="en-US">val</SPAN></CODE>
-<SPAN LANG="en-US">in the right-hand expression of the rule. When the
+<SPAN LANG="en-US">in the rule's right-hand side expression. When the
 rule is executed, its semantic value becomes semantic value of the
 nonterminal which caused the rule execution. In the following example
 nonterminal </SPAN><CODE><SPAN LANG="en-US">ntrm</SPAN></CODE> <SPAN LANG="en-US">in
@@ -66,12 +66,12 @@ the first rule receives semantic value </SPAN><CODE><SPAN LANG="en-US">&quot;b&q
 variables (as shown in the example; see corresponding &ldquo;Capture&rdquo;
 expressions in &ldquo;Parsing expressions&rdquo; section), process
 them inside code insertions (the semantic values are valid Ruby
-objects) and even return them as resultant value from the parser.</P>
+objects) and even return them as resultant values from the parser.</P>
 <P LANG="en-US">You also may define the type of the semantic value of
 the rule:</P>
 <P><CODE><SPAN LANG="en-US">nonterminal: Type &larr; expression ;</SPAN></CODE></P>
 <P LANG="en-US">(Currently semantic value types are not processed
-anyhow and serve the informational purposes only.)</P>
+anyhow and serve informational purposes only.)</P>
 <H4 LANG="en-US" CLASS="western">Parsing expressions</H4>
 <TABLE WIDTH=100% BORDER=2 BORDERCOLOR="#000000" CELLPADDING=5 CELLSPACING=0>
 	<COL WIDTH=45*>
@@ -242,11 +242,11 @@ anyhow and serve the informational purposes only.)</P>
 				<P><CODE><SPAN LANG="en-US">@=var</SPAN></CODE></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=31%>
-				<P LANG="en-US"><CODE>@=var:</CODE></P>
+				<P><CODE><SPAN LANG="en-US">@=var:</SPAN></CODE></P>
 			</TD>
 			<TD ROWSPAN=2 COLSPAN=2 WIDTH=37%>
-				<P LANG="en-US">Set current position in input to position stored
-				in Ruby variable <CODE>var</CODE>.</P>
+				<P><SPAN LANG="en-US">Set current position in input to position
+				stored in Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
 			</TD>
 			<TD ROWSPAN=2 WIDTH=15%>
 				<P ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
@@ -257,7 +257,7 @@ anyhow and serve the informational purposes only.)</P>
 				<P><CODE><SPAN LANG="en-US">at var</SPAN></CODE></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=31%>
-				<P LANG="en-US"><CODE>at var:</CODE></P>
+				<P><CODE><SPAN LANG="en-US">at var:</SPAN></CODE></P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -329,7 +329,7 @@ anyhow and serve the informational purposes only.)</P>
 				<P><CODE><SPAN LANG="en-US">expr:var</SPAN></CODE></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=31%>
-				<P LANG="en-US"><CODE>expr:(var)</CODE></P>
+				<P><CODE><SPAN LANG="en-US">expr:(var)</SPAN></CODE></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=37%>
 				<P><SPAN LANG="en-US">Capture (semantic value). Parse input with
@@ -602,7 +602,11 @@ containing the following:</P>
 	input grammar. Its return value is semantic value of that rule. If
 	it can not parse the input (due to syntax error in it) then it
 	raises </SPAN><CODE><SPAN LANG="en-US">YY_SyntaxError</SPAN></CODE>
-	<SPAN LANG="en-US">(see below).</SPAN></P>
+	<SPAN LANG="en-US">(see below). The </SPAN><CODE><SPAN LANG="en-US">io</SPAN></CODE><SPAN LANG="en-US">
+	must support following methods: </SPAN><CODE><SPAN LANG="en-US">read(&hellip;)</SPAN></CODE><SPAN LANG="en-US">,
+	</SPAN><CODE><SPAN LANG="en-US">pos</SPAN></CODE><SPAN LANG="en-US">,
+	</SPAN><CODE><SPAN LANG="en-US">pos=(&hellip;)</SPAN></CODE><SPAN LANG="en-US">
+	and </SPAN><CODE><SPAN LANG="en-US">set_encoding(&hellip;)</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
 	<LI><P><CODE><SPAN LANG="en-US">YY_SyntaxError</SPAN></CODE> <SPAN LANG="en-US">class
 	definition. It is a subclass of </SPAN><CODE><SPAN LANG="en-US">Exception</SPAN></CODE>
 	<SPAN LANG="en-US">and has the following methods:</SPAN></P>
@@ -648,9 +652,10 @@ type as well:</P>
 parser:</P>
 <UL>
 	<LI><P><CODE><SPAN LANG="en-US">yy_parse(io)</SPAN></CODE>&mdash;<SPAN LANG="en-US">it
-	starts parsing input with main rule;</SPAN></P>
+	starts parsing input with main </SPAN><CODE><SPAN LANG="en-US">rule</SPAN></CODE><SPAN LANG="en-US">;</SPAN></P>
 	<LI><P><CODE><SPAN LANG="en-US">rule2(io)</SPAN></CODE>&mdash;<SPAN LANG="en-US">it
-	starts parsing input with rule2 rule.</SPAN></P>
+	starts parsing input with </SPAN><CODE><SPAN LANG="en-US">rule2</SPAN></CODE>
+	<SPAN LANG="en-US">rule.</SPAN></P>
 </UL>
 <DIV ID="sdfootnote1">
 	<P CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote1sym" HREF="#sdfootnote1anc">1</A><SPAN LANG="en-US">Its
