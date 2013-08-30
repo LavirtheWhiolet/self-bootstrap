@@ -5,7 +5,7 @@
 	<TITLE></TITLE>
 	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.0  (Win32)">
 	<META NAME="CREATED" CONTENT="20130826;18542682">
-	<META NAME="CHANGED" CONTENT="20130829;15484957">
+	<META NAME="CHANGED" CONTENT="20130830;14475087">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 21cm 29.7cm; margin: 2cm }
@@ -35,44 +35,42 @@
 	-->
 	</STYLE>
 </HEAD>
-<BODY LANG="ru-RU" LINK="#000080" VLINK="#800000" DIR="LTR">
-<H2 CLASS="western">Input <SPAN LANG="en-US">g</SPAN>rammar</H2>
-<P LANG="en-US">Input grammar consists of:</P>
+<BODY LANG="en-US" LINK="#000080" VLINK="#800000" DIR="LTR">
+<H2 CLASS="western">Input grammar</H2>
+<P>Input grammar consists of:</P>
 <UL>
-	<LI><P LANG="en-US">Rules (at least one)</P>
-	<LI><P LANG="en-US">Code insertions (optional)</P>
-	<LI><P LANG="en-US">Comments (optional)</P>
+	<LI><P>Rules (at least one)</P>
+	<LI><P>Code insertions (optional)</P>
+	<LI><P>Comments (optional)</P>
 </UL>
-<H3 LANG="en-US" CLASS="western">Rules</H3>
-<P LANG="en-US">Rules have the following form:</P>
+<H3 CLASS="western">Rules</H3>
+<P>Rules have the following form:</P>
 <P><CODE><SPAN LANG="en-US">nonterminal &lt;- expression ;</SPAN></CODE></P>
-<P><SPAN LANG="en-US">(You may use &ldquo;</SPAN><CODE><SPAN LANG="en-US">=</SPAN></CODE>&rdquo;
-<SPAN LANG="en-US">or &ldquo;</SPAN><CODE>&larr;</CODE>&rdquo;
-<SPAN LANG="en-US">instead of &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;-</SPAN></CODE>&rdquo;<SPAN LANG="en-US">.)</SPAN></P>
-<P><CODE><SPAN LANG="en-US">expression</SPAN></CODE> <SPAN LANG="en-US">describes
-how to parse input. Valid </SPAN><CODE><SPAN LANG="en-US">expression</SPAN></CODE><SPAN LANG="en-US">s
+<P><SPAN LANG="en-US">(You may use &ldquo;</SPAN><CODE><SPAN LANG="en-US">=</SPAN></CODE><SPAN LANG="en-US">&rdquo;
+or &ldquo;</SPAN><CODE><SPAN LANG="en-US">&larr;</SPAN></CODE><SPAN LANG="en-US">&rdquo;
+instead of &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;-</SPAN></CODE><SPAN LANG="en-US">&rdquo;.)</SPAN></P>
+<P><CODE><SPAN LANG="en-US">expression</SPAN></CODE><SPAN LANG="en-US">
+describes how to parse input. Valid </SPAN><CODE><SPAN LANG="en-US">expression</SPAN></CODE><SPAN LANG="en-US">s
 are listed in &ldquo;Parsing expressions&rdquo; section below.</SPAN></P>
-<H4 LANG="en-US" CLASS="western">Semantic values</H4>
+<H4 CLASS="western">Semantic values</H4>
 <P><SPAN LANG="en-US">Each rule has a semantic value. You may set it
-in runtime by setting Ruby variable </SPAN><CODE><SPAN LANG="en-US">val</SPAN></CODE>
-<SPAN LANG="en-US">in the rule's right-hand side expression. When the
-rule is executed, its semantic value becomes semantic value of the
-nonterminal which caused the rule execution. In the following example
-nonterminal </SPAN><CODE><SPAN LANG="en-US">ntrm</SPAN></CODE> <SPAN LANG="en-US">in
-the first rule receives semantic value </SPAN><CODE><SPAN LANG="en-US">&quot;b&quot;</SPAN></CODE><SPAN LANG="en-US">:</SPAN></P>
+in runtime by setting Ruby variable </SPAN><CODE><SPAN LANG="en-US">val</SPAN></CODE><SPAN LANG="en-US">
+in the rule's right-hand side expression. When the rule is executed,
+its semantic value becomes semantic value of the nonterminal which
+caused the rule execution. In the following example nonterminal </SPAN><CODE><SPAN LANG="en-US">ntrm</SPAN></CODE><SPAN LANG="en-US">
+in the first rule receives semantic value </SPAN><CODE><SPAN LANG="en-US">&quot;b&quot;</SPAN></CODE><SPAN LANG="en-US">:</SPAN></P>
 <P><CODE><SPAN LANG="en-US">text &larr; &quot;a&quot; ntrm ;</SPAN></CODE></P>
 <P><CODE><SPAN LANG="en-US">ntrm &larr; &quot;b&quot;:val ;</SPAN></CODE></P>
-<P LANG="en-US">You may capture the semantic values into Ruby
-variables (as shown in the example; see corresponding &ldquo;Capture&rdquo;
-expressions in &ldquo;Parsing expressions&rdquo; section), process
-them inside code insertions (the semantic values are valid Ruby
-objects) and even return them as resultant values from the parser.</P>
-<P LANG="en-US">You also may define the type of the semantic value of
-the rule:</P>
+<P>You may capture the semantic values into Ruby variables (as shown
+in the example; see corresponding &ldquo;Capture&rdquo; expressions
+in &ldquo;Parsing expressions&rdquo; section), process them inside
+code insertions (the semantic values are valid Ruby objects) and even
+return them as resultant values from the parser.</P>
+<P>You also may define the type of the semantic value of the rule:</P>
 <P><CODE><SPAN LANG="en-US">nonterminal: Type &larr; expression ;</SPAN></CODE></P>
-<P LANG="en-US">(Currently semantic value types are not processed
-anyhow and serve informational purposes only.)</P>
-<H4 LANG="en-US" CLASS="western">Parsing expressions</H4>
+<P>(Currently semantic value types are not processed anyhow and serve
+informational purposes only.)</P>
+<H4 CLASS="western">Parsing expressions</H4>
 <TABLE WIDTH=100% BORDER=2 BORDERCOLOR="#000000" CELLPADDING=5 CELLSPACING=0>
 	<COL WIDTH=45*>
 	<COL WIDTH=11*>
@@ -83,13 +81,13 @@ anyhow and serve informational purposes only.)</P>
 	<THEAD>
 		<TR VALIGN=TOP>
 			<TH COLSPAN=3 WIDTH=48%>
-				<P LANG="en-US">Expression</P>
+				<P>Expression</P>
 			</TH>
 			<TH COLSPAN=2 WIDTH=37%>
-				<P LANG="en-US"><FONT FACE="Times New Roman, serif">Meaning</FONT></P>
+				<P><FONT FACE="Times New Roman, serif">Meaning</FONT></P>
 			</TH>
 			<TH WIDTH=15%>
-				<P LANG="en-US">Semantic value</P>
+				<P>Semantic value</P>
 			</TH>
 		</TR>
 	</THEAD>
@@ -100,7 +98,8 @@ anyhow and serve informational purposes only.)</P>
 			</TD>
 			<TD ROWSPAN=2 COLSPAN=2 WIDTH=37%>
 				<P><FONT FACE="Times New Roman, serif"><SPAN LANG="en-US">Read
-				</SPAN></FONT><CODE><SPAN LANG="en-US">string</SPAN></CODE> <FONT FACE="Times New Roman, serif"><SPAN LANG="en-US">from
+				</SPAN></FONT><CODE><SPAN LANG="en-US">string</SPAN></CODE><SPAN LANG="en-US">
+				</SPAN><FONT FACE="Times New Roman, serif"><SPAN LANG="en-US">from
 				input.</SPAN></FONT></P>
 			</TD>
 			<TD ROWSPAN=2 WIDTH=15%>
@@ -117,12 +116,12 @@ anyhow and serve informational purposes only.)</P>
 				<P><CODE><SPAN LANG="en-US">U+HHHH</SPAN></CODE></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=37%>
-				<P LANG="en-US">Read UTF-8 encoded character with Unicode code
-				U+HHHH from input.</P>
+				<P>Read UTF-8 encoded character with Unicode code U+HHHH from
+				input.</P>
 			</TD>
 			<TD WIDTH=15%>
-				<P><SPAN LANG="en-US">A </SPAN><CODE><SPAN LANG="en-US">String</SPAN></CODE>
-				<SPAN LANG="en-US">containing the read character.</SPAN></P>
+				<P><SPAN LANG="en-US">A </SPAN><CODE><SPAN LANG="en-US">String</SPAN></CODE><SPAN LANG="en-US">
+				containing the read character.</SPAN></P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -130,11 +129,11 @@ anyhow and serve informational purposes only.)</P>
 				<P><CODE><SPAN LANG="en-US">char</SPAN></CODE></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=37%>
-				<P LANG="en-US">Read UTF-8 encoded character from input.</P>
+				<P>Read UTF-8 encoded character from input.</P>
 			</TD>
 			<TD WIDTH=15%>
-				<P><SPAN LANG="en-US">A </SPAN><CODE><SPAN LANG="en-US">String</SPAN></CODE>
-				<SPAN LANG="en-US">containing the read character.</SPAN></P>
+				<P><SPAN LANG="en-US">A </SPAN><CODE><SPAN LANG="en-US">String</SPAN></CODE><SPAN LANG="en-US">
+				containing the read character.</SPAN></P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -143,13 +142,13 @@ anyhow and serve informational purposes only.)</P>
 			</TD>
 			<TD ROWSPAN=4 COLSPAN=2 WIDTH=37%>
 				<P><SPAN LANG="en-US">Read a character from input which is in the
-				range between </SPAN><CODE><SPAN LANG="en-US">x</SPAN></CODE> <SPAN LANG="en-US">and
-				</SPAN><CODE><SPAN LANG="en-US">y</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
-				<P><CODE><SPAN LANG="en-US">x</SPAN></CODE> <SPAN LANG="en-US">and
-				</SPAN><CODE><SPAN LANG="en-US">y</SPAN></CODE> <SPAN LANG="en-US">may
-				be of the form of </SPAN><CODE><SPAN LANG="en-US">&quot;c&quot;</SPAN></CODE><SPAN LANG="en-US">,
-				</SPAN><CODE><SPAN LANG="en-US">'c'</SPAN></CODE> <SPAN LANG="en-US">or
-				</SPAN><CODE><SPAN LANG="en-US">U+HHHH</SPAN></CODE><SPAN LANG="en-US">.
+				range between </SPAN><CODE><SPAN LANG="en-US">x</SPAN></CODE><SPAN LANG="en-US">
+				and </SPAN><CODE><SPAN LANG="en-US">y</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
+				<P><CODE><SPAN LANG="en-US">x</SPAN></CODE><SPAN LANG="en-US">
+				and </SPAN><CODE><SPAN LANG="en-US">y</SPAN></CODE><SPAN LANG="en-US">
+				may be of the form of </SPAN><CODE><SPAN LANG="en-US">&quot;c&quot;</SPAN></CODE><SPAN LANG="en-US">,
+				</SPAN><CODE><SPAN LANG="en-US">'c'</SPAN></CODE><SPAN LANG="en-US">
+				or </SPAN><CODE><SPAN LANG="en-US">U+HHHH</SPAN></CODE><SPAN LANG="en-US">.
 				Examples:</SPAN></P>
 				<UL>
 					<LI><P><CODE><SPAN LANG="en-US">'a'...'z'</SPAN></CODE></P>
@@ -158,8 +157,8 @@ anyhow and serve informational purposes only.)</P>
 				</UL>
 			</TD>
 			<TD ROWSPAN=4 WIDTH=15%>
-				<P><SPAN LANG="en-US">A </SPAN><CODE><SPAN LANG="en-US">String</SPAN></CODE>
-				<SPAN LANG="en-US">containing the read character.</SPAN></P>
+				<P><SPAN LANG="en-US">A </SPAN><CODE><SPAN LANG="en-US">String</SPAN></CODE><SPAN LANG="en-US">
+				containing the read character.</SPAN></P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -183,10 +182,10 @@ anyhow and serve informational purposes only.)</P>
 			</TD>
 			<TD ROWSPAN=3 COLSPAN=2 WIDTH=37%>
 				<P><SPAN LANG="en-US">Execute </SPAN><CODE><SPAN LANG="en-US">code</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
-				<P><STRONG><SPAN LANG="en-US">Attention!</SPAN></STRONG> <SPAN LANG="en-US">Do
-				not declare variables or use </SPAN><CODE><SPAN LANG="en-US">Symbol</SPAN></CODE><SPAN LANG="en-US">s
-				with names starting with &ldquo;</SPAN><CODE><SPAN LANG="en-US">yy_</SPAN></CODE>&rdquo;
-				<SPAN LANG="en-US">in </SPAN><CODE><SPAN LANG="en-US">code</SPAN></CODE><SPAN LANG="en-US">!
+				<P><STRONG><SPAN LANG="en-US">Attention!</SPAN></STRONG><SPAN LANG="en-US">
+				Do not declare variables or use </SPAN><CODE><SPAN LANG="en-US">Symbol</SPAN></CODE><SPAN LANG="en-US">s
+				with names starting with &ldquo;</SPAN><CODE><SPAN LANG="en-US">yy_</SPAN></CODE><SPAN LANG="en-US">&rdquo;
+				in </SPAN><CODE><SPAN LANG="en-US">code</SPAN></CODE><SPAN LANG="en-US">!
 				They are reserved by the parser generator!</SPAN></P>
 			</TD>
 			<TD ROWSPAN=3 WIDTH=15%>
@@ -208,7 +207,7 @@ anyhow and serve informational purposes only.)</P>
 				<P><CODE><SPAN LANG="en-US">$</SPAN></CODE></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=37%>
-				<P LANG="en-US">Fail everywhere except the end of the input.</P>
+				<P>Fail everywhere except the end of the input.</P>
 			</TD>
 			<TD WIDTH=15%>
 				<P ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
@@ -219,8 +218,7 @@ anyhow and serve informational purposes only.)</P>
 				<P><CODE><SPAN LANG="en-US">^</SPAN></CODE></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=37%>
-				<P LANG="en-US">Fail everywhere except the beginning of the
-				input.</P>
+				<P>Fail everywhere except the beginning of the input.</P>
 			</TD>
 			<TD WIDTH=15%>
 				<P ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
@@ -231,10 +229,10 @@ anyhow and serve informational purposes only.)</P>
 				<P><CODE><SPAN LANG="en-US">@</SPAN></CODE></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=37%>
-				<P LANG="en-US">Get current position in input.</P>
+				<P>Get current position in input.</P>
 			</TD>
 			<TD WIDTH=15%>
-				<P LANG="en-US">Current position in input.</P>
+				<P>Current position in input.</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -265,17 +263,17 @@ anyhow and serve informational purposes only.)</P>
 				<P><CODE><SPAN LANG="en-US">nonterminal</SPAN></CODE></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=37%>
-				<P><SPAN LANG="en-US">Use rule having </SPAN><CODE><SPAN LANG="en-US">nonterminal</SPAN></CODE>
-				<SPAN LANG="en-US">as its left part to parse input.</SPAN></P>
+				<P><SPAN LANG="en-US">Use rule having </SPAN><CODE><SPAN LANG="en-US">nonterminal</SPAN></CODE><SPAN LANG="en-US">
+				as its left part to parse input.</SPAN></P>
 			</TD>
 			<TD WIDTH=15%>
-				<P LANG="en-US">The rule's semantic value.</P>
+				<P>The rule's semantic value.</P>
 			</TD>
 		</TR>
 		<TR>
 			<TD COLSPAN=6 WIDTH=100% VALIGN=TOP>
-				<P LANG="en-US" ALIGN=CENTER STYLE="widows: 4"><I><B>Combinations
-				(ordered by priority)<A CLASS="sdfootnoteanc" NAME="sdfootnote3anc" HREF="#sdfootnote3sym"><SUP>3</SUP></A></B></I></P>
+				<P ALIGN=CENTER STYLE="widows: 4"><I><B>Combinations (ordered by
+				priority)<A CLASS="sdfootnoteanc" NAME="sdfootnote3anc" HREF="#sdfootnote3sym"><SUP>3</SUP></A></B></I></P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -292,7 +290,7 @@ anyhow and serve informational purposes only.)</P>
 		</TR>
 		<TR VALIGN=TOP>
 			<TD COLSPAN=3 WIDTH=48%>
-				<P><CODE>/ </CODE><CODE><SPAN LANG="en-US">expr1 / expr2</SPAN></CODE></P>
+				<P><CODE><SPAN LANG="en-US">/ expr1 / expr2</SPAN></CODE></P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -300,8 +298,8 @@ anyhow and serve informational purposes only.)</P>
 				<P><CODE><SPAN LANG="en-US">expr1 expr2</SPAN></CODE></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=37%>
-				<P><SPAN LANG="en-US">Sequence. Parse input with </SPAN><CODE><SPAN LANG="en-US">expr1</SPAN></CODE>
-				<SPAN LANG="en-US">then with </SPAN><CODE><SPAN LANG="en-US">expr2</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
+				<P><SPAN LANG="en-US">Sequence. Parse input with </SPAN><CODE><SPAN LANG="en-US">expr1</SPAN></CODE><SPAN LANG="en-US">
+				then with </SPAN><CODE><SPAN LANG="en-US">expr2</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
 			</TD>
 			<TD WIDTH=15%>
 				<P ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
@@ -333,8 +331,8 @@ anyhow and serve informational purposes only.)</P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=37%>
 				<P><SPAN LANG="en-US">Capture (semantic value). Parse input with
-				</SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE> <SPAN LANG="en-US">and
-				capture its semantic value into Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
+				</SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">
+				and capture its semantic value into Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
 			</TD>
 			<TD WIDTH=15%>
 				<P><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">'s
@@ -350,10 +348,10 @@ anyhow and serve informational purposes only.)</P>
 			</TD>
 			<TD ROWSPAN=2 COLSPAN=2 WIDTH=37%>
 				<P><SPAN LANG="en-US">Append (semantic value). Parse input with
-				</SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE> <SPAN LANG="en-US">and
-				append its semantic value to Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.
-				Append is performed with &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;&lt;</SPAN></CODE>&rdquo;
-				<SPAN LANG="en-US">operator (e. g., &ldquo;</SPAN><CODE><SPAN LANG="en-US">var&nbsp;&lt;&lt;&nbsp;yy_expr_value</SPAN></CODE>&rdquo;<SPAN LANG="en-US">).</SPAN></P>
+				</SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">
+				and append its semantic value to Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.
+				Append is performed with &ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;&lt;</SPAN></CODE><SPAN LANG="en-US">&rdquo;
+				operator (e. g., &ldquo;</SPAN><CODE><SPAN LANG="en-US">var&nbsp;&lt;&lt;&nbsp;yy_expr_value</SPAN></CODE><SPAN LANG="en-US">&rdquo;).</SPAN></P>
 			</TD>
 			<TD ROWSPAN=2 WIDTH=15%>
 				<P ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
@@ -373,8 +371,8 @@ anyhow and serve informational purposes only.)</P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=37%>
 				<P><SPAN LANG="en-US">Predicate. Remember current position in
-				input, parse input with </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE>
-				<SPAN LANG="en-US">and go back to the remembered position.</SPAN></P>
+				input, parse input with </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">
+				and go back to the remembered position.</SPAN></P>
 			</TD>
 			<TD WIDTH=15%>
 				<P ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
@@ -382,12 +380,12 @@ anyhow and serve informational purposes only.)</P>
 		</TR>
 		<TR VALIGN=TOP>
 			<TD COLSPAN=3 WIDTH=48%>
-				<P><CODE>!</CODE><CODE><SPAN LANG="en-US">expr</SPAN></CODE></P>
+				<P><CODE><SPAN LANG="en-US">!expr</SPAN></CODE></P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=37%>
-				<P><SPAN LANG="en-US">Predicate (negative). The same as </SPAN><CODE><SPAN LANG="en-US">&amp;expr</SPAN></CODE>
-				<SPAN LANG="en-US">but it fails if </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE>
-				<SPAN LANG="en-US">parses input successfully.</SPAN></P>
+				<P><SPAN LANG="en-US">Predicate (negative). The same as </SPAN><CODE><SPAN LANG="en-US">&amp;expr</SPAN></CODE><SPAN LANG="en-US">
+				but it fails if </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">
+				parses input successfully.</SPAN></P>
 			</TD>
 			<TD WIDTH=15%>
 				<P ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
@@ -398,8 +396,8 @@ anyhow and serve informational purposes only.)</P>
 				<P><CODE><SPAN LANG="en-US">&amp;{ code }</SPAN></CODE></P>
 			</TD>
 			<TD ROWSPAN=3 COLSPAN=2 WIDTH=37%>
-				<P><SPAN LANG="en-US">Predicate (code). Fail if </SPAN><CODE><SPAN LANG="en-US">code</SPAN></CODE>
-				<SPAN LANG="en-US">evaluates to false or nil.</SPAN></P>
+				<P><SPAN LANG="en-US">Predicate (code). Fail if </SPAN><CODE><SPAN LANG="en-US">code</SPAN></CODE><SPAN LANG="en-US">
+				evaluates to false or nil.</SPAN></P>
 			</TD>
 			<TD ROWSPAN=3 WIDTH=15%>
 				<P ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
@@ -420,10 +418,10 @@ anyhow and serve informational purposes only.)</P>
 				<P><CODE><SPAN LANG="en-US">expr*</SPAN></CODE></P>
 			</TD>
 			<TD ROWSPAN=3 WIDTH=16%>
-				<P><SPAN LANG="en-US">Repetition. Repeat parsing input with </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE>&hellip;</P>
+				<P><SPAN LANG="en-US">Repetition. Repeat parsing input with </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">&hellip;</SPAN></P>
 			</TD>
 			<TD WIDTH=21% VALIGN=TOP>
-				<P>&hellip;<SPAN LANG="en-US">zero or more times.</SPAN></P>
+				<P>&hellip;zero or more times.</P>
 			</TD>
 			<TD ROWSPAN=3 WIDTH=15% VALIGN=TOP>
 				<P ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
@@ -434,7 +432,7 @@ anyhow and serve informational purposes only.)</P>
 				<P><CODE><SPAN LANG="en-US">expr+</SPAN></CODE></P>
 			</TD>
 			<TD WIDTH=21% VALIGN=TOP>
-				<P>&hellip;<SPAN LANG="en-US">one or more times.</SPAN></P>
+				<P>&hellip;one or more times.</P>
 			</TD>
 		</TR>
 		<TR>
@@ -442,7 +440,7 @@ anyhow and serve informational purposes only.)</P>
 				<P><CODE><SPAN LANG="en-US">expr?</SPAN></CODE></P>
 			</TD>
 			<TD WIDTH=21% VALIGN=TOP>
-				<P>&hellip;<SPAN LANG="en-US">zero or one time.</SPAN></P>
+				<P>&hellip;zero or one time.</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -451,9 +449,9 @@ anyhow and serve informational purposes only.)</P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=37%>
 				<P><SPAN LANG="en-US">Repetition (lazy). Repeat parsing input
-				with </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE> <SPAN LANG="en-US">until
-				next expression in sequence with it succeeds. See examples in
-				section &ldquo;Lazy repetition: examples&rdquo;.</SPAN></P>
+				with </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">
+				until next expression in sequence with it succeeds. See examples
+				in section &ldquo;Lazy repetition: examples&rdquo;.</SPAN></P>
 			</TD>
 			<TD WIDTH=15%>
 				<P ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
@@ -468,8 +466,8 @@ anyhow and serve informational purposes only.)</P>
 			</TD>
 			<TD COLSPAN=2 WIDTH=37%>
 				<P><SPAN LANG="en-US">Capture (text). Capture text consumed by
-				</SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE> <SPAN LANG="en-US">into
-				Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
+				</SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">
+				into Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
 			</TD>
 			<TD WIDTH=15%>
 				<P><SPAN LANG="en-US">Captured text (as </SPAN><CODE><SPAN LANG="en-US">String</SPAN></CODE><SPAN LANG="en-US">).</SPAN></P>
@@ -483,10 +481,10 @@ anyhow and serve informational purposes only.)</P>
 				<P><CODE><SPAN LANG="en-US">&lt;&nbsp;expr&nbsp;&gt;&nbsp;:+&nbsp;(var)</SPAN></CODE></P>
 			</TD>
 			<TD ROWSPAN=2 COLSPAN=2 WIDTH=37%>
-				<P><SPAN LANG="en-US">Append (text). Append text consumed by </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE>
-				<SPAN LANG="en-US">to Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
+				<P><SPAN LANG="en-US">Append (text). Append text consumed by </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE><SPAN LANG="en-US">
+				to Ruby variable </SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
 				<P><SPAN LANG="en-US">Appending is performed with Ruby operator
-				&ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;&lt;</SPAN></CODE>&rdquo;<SPAN LANG="en-US">.</SPAN></P>
+				&ldquo;</SPAN><CODE><SPAN LANG="en-US">&lt;&lt;</SPAN></CODE><SPAN LANG="en-US">&rdquo;.</SPAN></P>
 			</TD>
 			<TD ROWSPAN=2 WIDTH=15%>
 				<P ALIGN=CENTER STYLE="widows: 4">&mdash;</P>
@@ -511,10 +509,10 @@ anyhow and serve informational purposes only.)</P>
 	<THEAD>
 		<TR VALIGN=TOP>
 			<TH WIDTH=50%>
-				<P LANG="en-US">Expression</P>
+				<P>Expression</P>
 			</TH>
 			<TH WIDTH=50%>
-				<P LANG="en-US">Equivalent to&hellip;</P>
+				<P>Equivalent to&hellip;</P>
 			</TH>
 		</TR>
 	</THEAD>
@@ -560,79 +558,77 @@ anyhow and serve informational purposes only.)</P>
 </TABLE>
 <P><BR><BR>
 </P>
-<H3 LANG="en-US" CLASS="western">Code insertions</H3>
-<P LANG="en-US">Every code insertion has one of the following forms:</P>
+<H3 CLASS="western">Code insertions</H3>
+<P>Every code insertion has one of the following forms:</P>
 <UL>
 	<LI><P><CODE><SPAN LANG="en-US">{ code }</SPAN></CODE></P>
 	<LI><P><CODE><SPAN LANG="en-US">{... code ...}</SPAN></CODE></P>
 	<LI><P><CODE><SPAN LANG="en-US">{... code }...</SPAN></CODE></P>
 </UL>
-<P LANG="en-US">They are written into the output parser &ldquo;as
-is&rdquo;. A code insertion before all rules and other code
-insertions is put into the beginning of the output file. A code
-insertion after all rules and other code insertions is put into the
-end of the output file. Other code insertions are put somewhere in
-the middle of the output file.</P>
-<P><STRONG><SPAN LANG="en-US">Attention!</SPAN></STRONG> <SPAN LANG="en-US">Do
-not declare methods, classes, modules, variables etc. with names
-starting with &ldquo;</SPAN><CODE><SPAN LANG="en-US">yy_</SPAN></CODE>&rdquo;
-<SPAN LANG="en-US">or &ldquo;</SPAN><CODE><SPAN LANG="en-US">YY_</SPAN></CODE>&rdquo;
-<SPAN LANG="en-US">in the code insertions! They are reserved by the
-parser generator!</SPAN></P>
-<H3 LANG="en-US" CLASS="western">Comments</H3>
+<P>They are written into the output parser &ldquo;as is&rdquo;. A
+code insertion before all rules and other code insertions is put into
+the beginning of the output file. A code insertion after all rules
+and other code insertions is put into the end of the output file.
+Other code insertions are put somewhere in the middle of the output
+file.</P>
+<P><STRONG><SPAN LANG="en-US">Attention!</SPAN></STRONG><SPAN LANG="en-US">
+Do not declare methods, classes, modules, variables etc. with names
+starting with &ldquo;</SPAN><CODE><SPAN LANG="en-US">yy_</SPAN></CODE><SPAN LANG="en-US">&rdquo;
+or &ldquo;</SPAN><CODE><SPAN LANG="en-US">YY_</SPAN></CODE><SPAN LANG="en-US">&rdquo;
+in the code insertions! They are reserved by the parser generator!</SPAN></P>
+<H3 CLASS="western">Comments</H3>
 <P><SPAN LANG="en-US">Comments can be written anywhere in the input
 grammar except identifiers and atomic expressions. A comment starts
-with &ldquo;</SPAN><CODE><SPAN LANG="en-US">#</SPAN></CODE>&rdquo; <SPAN LANG="en-US">or
-&ldquo;</SPAN><CODE><SPAN LANG="en-US">--</SPAN></CODE>&rdquo; <SPAN LANG="en-US">and
-continues until the end of the line.</SPAN></P>
-<P LANG="en-US">Following are examples of comments:</P>
+with &ldquo;</SPAN><CODE><SPAN LANG="en-US">#</SPAN></CODE><SPAN LANG="en-US">&rdquo;
+or &ldquo;</SPAN><CODE><SPAN LANG="en-US">--</SPAN></CODE><SPAN LANG="en-US">&rdquo;
+and continues until the end of the line.</SPAN></P>
+<P>Following are examples of comments:</P>
 <P><CODE><SPAN LANG="en-US"># Simple comment</SPAN></CODE></P>
 <P><CODE><SPAN LANG="en-US">-- Another comment</SPAN></CODE></P>
 <P><CODE><SPAN LANG="en-US">---- Section delimiter, a comment too
 ----</SPAN></CODE></P>
-<H2 LANG="en-US" CLASS="western">Output parser</H2>
-<P LANG="en-US">The output of the parser generator is a Ruby script
-containing the following:</P>
+<H2 CLASS="western">Output parser</H2>
+<P>The output of the parser generator is a Ruby script containing the
+following:</P>
 <OL>
-	<LI><P LANG="en-US">Content of the code insertion before all rules
-	and other code insertions (if it is present);</P>
-	<LI><P><CODE><SPAN LANG="en-US">yy_parse(io)</SPAN></CODE> <SPAN LANG="en-US">function
-	definition. It receives an </SPAN><CODE><SPAN LANG="en-US">IO</SPAN></CODE>
-	<SPAN LANG="en-US">and parses it according to the first rule in the
-	input grammar. Its return value is semantic value of that rule. If
-	it can not parse the input (due to syntax error in it) then it
-	raises </SPAN><CODE><SPAN LANG="en-US">YY_SyntaxError</SPAN></CODE>
-	<SPAN LANG="en-US">(see below). The </SPAN><CODE><SPAN LANG="en-US">io</SPAN></CODE><SPAN LANG="en-US">
+	<LI><P>Content of the code insertion before all rules and other code
+	insertions (if it is present);</P>
+	<LI><P><CODE><SPAN LANG="en-US">yy_parse(io)</SPAN></CODE><SPAN LANG="en-US">
+	function definition. It receives an </SPAN><CODE><SPAN LANG="en-US">IO</SPAN></CODE><SPAN LANG="en-US">
+	and parses it according to the first rule in the input grammar. Its
+	return value is semantic value of that rule. If it can not parse the
+	input (due to syntax error in it) then it raises </SPAN><CODE><SPAN LANG="en-US">YY_SyntaxError</SPAN></CODE><SPAN LANG="en-US">
+	(see below). The </SPAN><CODE><SPAN LANG="en-US">io</SPAN></CODE><SPAN LANG="en-US">
 	must support following methods: </SPAN><CODE><SPAN LANG="en-US">read(&hellip;)</SPAN></CODE><SPAN LANG="en-US">,
 	</SPAN><CODE><SPAN LANG="en-US">pos</SPAN></CODE><SPAN LANG="en-US">,
 	</SPAN><CODE><SPAN LANG="en-US">pos=(&hellip;)</SPAN></CODE><SPAN LANG="en-US">
 	and </SPAN><CODE><SPAN LANG="en-US">set_encoding(&hellip;)</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
-	<LI><P><CODE><SPAN LANG="en-US">YY_SyntaxError</SPAN></CODE> <SPAN LANG="en-US">class
-	definition. It is a subclass of </SPAN><CODE><SPAN LANG="en-US">Exception</SPAN></CODE>
-	<SPAN LANG="en-US">and has the following methods:</SPAN></P>
+	<LI><P><CODE><SPAN LANG="en-US">YY_SyntaxError</SPAN></CODE><SPAN LANG="en-US">
+	class definition. It is a subclass of </SPAN><CODE><SPAN LANG="en-US">Exception</SPAN></CODE><SPAN LANG="en-US">
+	and has the following methods:</SPAN></P>
 	<OL>
 		<LI><P><CODE><SPAN LANG="en-US">pos</SPAN></CODE><SPAN LANG="en-US">.
-		It returns an offset in input (in bytes) the </SPAN><CODE><SPAN LANG="en-US">YY_SyntaxError</SPAN></CODE>
-		<SPAN LANG="en-US">has occurred at.</SPAN></P>
+		It returns an offset in input (in bytes) the </SPAN><CODE><SPAN LANG="en-US">YY_SyntaxError</SPAN></CODE><SPAN LANG="en-US">
+		has occurred at.</SPAN></P>
 	</OL>
-	<LI><P LANG="en-US">Auxiliary functions and classes definitions.
-	Their names always start with &ldquo;yy_&rdquo; (for functions) and
-	&ldquo;YY_&rdquo; (for classes and modules).</P>
-	<LI><P LANG="en-US">Content of the code insertion after all rules
-	and other code insertions (if it is present).</P>
+	<LI><P>Auxiliary functions and classes definitions. Their names
+	always start with &ldquo;<CODE>yy_</CODE>&rdquo; (for functions) and
+	&ldquo;<CODE>YY_</CODE>&rdquo; (for classes and modules).</P>
+	<LI><P>Content of the code insertion after all rules and other code
+	insertions (if it is present).</P>
 </OL>
-<H3 LANG="en-US" CLASS="western">Multiple parser entry points</H3>
-<P LANG="en-US">yy_parse(io) always starts parsing with the first
+<H3 CLASS="western">Multiple parser entry points</H3>
+<P><CODE>yy_parse(io)</CODE> always starts parsing with the first
 rule from the input grammar. But what if you need to start parsing
 with another rule?</P>
-<P LANG="en-US">No problem, just define the required rule as follows:</P>
+<P>No problem, just define the required rule as follows:</P>
 <P><CODE><SPAN LANG="en-US">rule_name() &larr; expression ;</SPAN></CODE></P>
 <P><SPAN LANG="en-US">and the parser generator will generate a
 function which is named after the rule's left-hand side nonterminal
-(</SPAN><CODE><SPAN LANG="en-US">rule_name</SPAN></CODE> <SPAN LANG="en-US">in
-this example) and which behaves the same as </SPAN><CODE><SPAN LANG="en-US">yy_parse(io)</SPAN></CODE>
-<SPAN LANG="en-US">but starts parsing input with the defined rule!</SPAN></P>
-<P LANG="en-US">Other valid forms for such a rule are:</P>
+(</SPAN><CODE><SPAN LANG="en-US">rule_name</SPAN></CODE><SPAN LANG="en-US">
+in this example) and which behaves the same as </SPAN><CODE><SPAN LANG="en-US">yy_parse(io)</SPAN></CODE><SPAN LANG="en-US">
+but starts parsing input with the defined rule!</SPAN></P>
+<P>Other valid forms for such a rule are:</P>
 <UL>
 	<LI><P><CODE><SPAN LANG="en-US">rule_name(...) &larr; expression
 	;</SPAN></CODE><SPAN LANG="en-US"><BR>(here &ldquo;...&rdquo; is
@@ -641,29 +637,27 @@ this example) and which behaves the same as </SPAN><CODE><SPAN LANG="en-US">yy_p
 	;</SPAN></CODE><SPAN LANG="en-US"><BR>(here arg is a valid Ruby
 	variable name)</SPAN></P>
 </UL>
-<P LANG="en-US">Of course you may define the rule's semantic value
-type as well:</P>
+<P>Of course you may define the rule's semantic value type as well:</P>
 <P><CODE><SPAN LANG="en-US">rule_name(): Type &larr; expression ;</SPAN></CODE></P>
 <H4 CLASS="western">Example</H4>
-<P LANG="en-US">The following input grammar:</P>
+<P>The following input grammar:</P>
 <P><CODE><SPAN LANG="en-US">main &larr; rule2 ;<BR>rule2(io) &larr; &hellip;
 ;</SPAN></CODE></P>
-<P LANG="en-US">results in the following functions in the output
-parser:</P>
+<P>results in the following functions in the output parser:</P>
 <UL>
-	<LI><P><CODE><SPAN LANG="en-US">yy_parse(io)</SPAN></CODE>&mdash;<SPAN LANG="en-US">it
+	<LI><P><CODE><SPAN LANG="en-US">yy_parse(io)</SPAN></CODE><SPAN LANG="en-US">&mdash;it
 	starts parsing input with main </SPAN><CODE><SPAN LANG="en-US">rule</SPAN></CODE><SPAN LANG="en-US">;</SPAN></P>
-	<LI><P><CODE><SPAN LANG="en-US">rule2(io)</SPAN></CODE>&mdash;<SPAN LANG="en-US">it
-	starts parsing input with </SPAN><CODE><SPAN LANG="en-US">rule2</SPAN></CODE>
-	<SPAN LANG="en-US">rule.</SPAN></P>
+	<LI><P><CODE><SPAN LANG="en-US">rule2(io)</SPAN></CODE><SPAN LANG="en-US">&mdash;it
+	starts parsing input with </SPAN><CODE><SPAN LANG="en-US">rule2</SPAN></CODE><SPAN LANG="en-US">
+	rule.</SPAN></P>
 </UL>
 <DIV ID="sdfootnote1">
 	<P CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote1sym" HREF="#sdfootnote1anc">1</A><SPAN LANG="en-US">Its
-	</SPAN><CODE><SPAN LANG="en-US">String#encoding</SPAN></CODE> <SPAN LANG="en-US">is
-	set to &ldquo;</SPAN><CODE><SPAN LANG="en-US">UTF-8</SPAN></CODE>&rdquo;<SPAN LANG="en-US">.</SPAN></P>
+	</SPAN><CODE><SPAN LANG="en-US">String#encoding</SPAN></CODE><SPAN LANG="en-US">
+	is set to &ldquo;</SPAN><CODE><SPAN LANG="en-US">UTF-8</SPAN></CODE><SPAN LANG="en-US">&rdquo;.</SPAN></P>
 </DIV>
 <DIV ID="sdfootnote2">
-	<P LANG="en-US" CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote2sym" HREF="#sdfootnote2anc">2</A>Here
+	<P CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote2sym" HREF="#sdfootnote2anc">2</A>Here
 	&ldquo;..&rdquo; is Unicode character with code U+2025.</P>
 </DIV>
 <DIV ID="sdfootnote3">
