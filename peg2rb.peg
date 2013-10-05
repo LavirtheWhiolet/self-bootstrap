@@ -650,23 +650,10 @@ line_and_column0(): [Integer, Integer] <-
 
 ---- Lexemes ----
 
-`%%` <-
-  "%%" char*? (newline / $) ;
-
 Ruby-code: Code <-
   (
     / "{" white-space* "..." (white-space*? newline)? < char*? >:val ("..." white-space* "}" / "}" white-space* "...")
     / < Ruby-code-body >:val { val = val[1...-1] }
-    / (
-        `%%`
-        < char*? >:val
-        `%%`
-      )
-    / (
-        `%%`
-        < char* >:val
-        $
-      )
   )
   ` `
   { val = code(val) }
