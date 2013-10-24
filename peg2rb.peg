@@ -743,8 +743,6 @@ char-range: Range[String] <-
   { raise %("#{from}" or "#{to}" is not a character) if from.length != 1 or to.length != 1 }
   { val = from...to } ;
 
-# TODO: Tell that all String-s are encoded in UTF-8.
-
 string: String <-
   (
     "'" < char*? >:val "'" /
@@ -839,9 +837,6 @@ RubyCode = String
 
 
 Nonterminal = String
-
-
-# TODO: Replace String with Nonterminal where it is needed.
 
 
 class Code
