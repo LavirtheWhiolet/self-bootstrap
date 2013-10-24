@@ -278,7 +278,7 @@
       
     code = link(code, method_names)
     check_no_unresolved_code_in code
-    print code
+    val = code
   
       true
     end) and yy_to_pcv(val)
@@ -1921,9 +1921,6 @@ RubyCode = String
 Nonterminal = String
 
 
-# TODO: Replace String with Nonterminal where it is needed.
-
-
 class Code
   
   # defines abstract method.
@@ -2175,7 +2172,7 @@ begin
   grammar_file = ARGV[0] or abort %(Usage: ruby #{__FILE__} grammar-file)
   File.open(grammar_file) do |io|
     begin
-      yy_parse(io)
+      print(yy_parse(io))
     rescue PEGParserGenerator::YY_SyntaxError => e
       line, column = *(line_and_column(e.pos, io))
       STDERR.puts %(#{grammar_file}:#{line}:#{column}: error: #{e.message})
