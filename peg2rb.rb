@@ -2173,7 +2173,7 @@ begin
   File.open(grammar_file) do |io|
     begin
       print(yy_parse(io))
-    rescue PEGParserGenerator::YY_SyntaxError => e
+    rescue YY_SyntaxError => e
       line, column = *(line_and_column(e.pos, io))
       STDERR.puts %(#{grammar_file}:#{line}:#{column}: error: #{e.message})
       exit 1
