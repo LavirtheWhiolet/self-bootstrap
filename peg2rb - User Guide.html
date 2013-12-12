@@ -3,9 +3,9 @@
 <HEAD>
 	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
 	<TITLE></TITLE>
-	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.0  (Linux)">
+	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.0  (Win32)">
 	<META NAME="CREATED" CONTENT="20130826;18542682">
-	<META NAME="CHANGED" CONTENT="20131025;12453200">
+	<META NAME="CHANGED" CONTENT="20131212;18345107">
 	<STYLE TYPE="text/css">
 	<!--
 		@page { size: 21cm 29.7cm; margin: 2cm }
@@ -377,7 +377,9 @@ informational purposes only.)</P>
 			<TD COLSPAN=2 WIDTH=37%>
 				<P><SPAN LANG="en-US"><B>Predicate</B></SPAN><SPAN LANG="en-US">.
 				Remember current position in input, parse input with </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE>
-				<SPAN LANG="en-US">and go back to the remembered position.</SPAN></P>
+				<SPAN LANG="en-US">and go back to the remembered position. It
+				fails if </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE>
+				<SPAN LANG="en-US">fails.</SPAN></P>
 			</TD>
 			<TD WIDTH=15%>
 				<P ALIGN=CENTER STYLE="widows: 4">—</P>
@@ -572,8 +574,8 @@ informational purposes only.)</P>
 <P>Every code insertion has one of the following forms:</P>
 <UL>
 	<LI><P><CODE><SPAN LANG="en-US">{ code }</SPAN></CODE></P>
-	<LI><P><CODE><SPAN LANG="en-US">{... code ...}</SPAN></CODE></P>
-	<LI><P><CODE><SPAN LANG="en-US">{... code }...</SPAN></CODE></P>
+	<LI><P><CODE><SPAN LANG="en-US">{... code ...}<A CLASS="sdfootnoteanc" NAME="sdfootnote4anc" HREF="#sdfootnote4sym"><SUP>4</SUP></A></SPAN></CODE></P>
+	<LI><P><CODE><SPAN LANG="en-US">{... code }...<A CLASS="sdfootnoteanc" NAME="sdfootnote5anc" HREF="#sdfootnote5sym"><SUP>5</SUP></A></SPAN></CODE></P>
 </UL>
 <P>They are written into the output parser “as is”. A code
 insertion before all rules and other code insertions is put into the
@@ -633,7 +635,7 @@ following:</P>
 rule from the input grammar. But what if you need to start parsing
 with another rule?</P>
 <P>No problem, just define the required rule as follows:</P>
-<P><CODE><SPAN LANG="en-US">rule_name() ← expression ;   # notice
+<P><CODE><SPAN LANG="en-US">rule_name() ← expression ; # notice
 parentheses after the rule name</SPAN></CODE></P>
 <P><SPAN LANG="en-US">and the parser generator will generate a
 function which is named after the rule's left-hand side nonterminal
@@ -668,7 +670,8 @@ this example) and which behaves the same as </SPAN><CODE><SPAN LANG="en-US">yy_p
 </DIV>
 <DIV ID="sdfootnote2">
 	<P CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote2sym" HREF="#sdfootnote2anc">2</A>Here
-	“..” is Unicode character with code U+2025.</P>
+	“<CODE><SPAN LANG="en-US">..</SPAN></CODE>” is Unicode character
+	with code U+2025.</P>
 </DIV>
 <DIV ID="sdfootnote3">
 	<P CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote3sym" HREF="#sdfootnote3anc">3</A><SPAN LANG="en-US">Here
@@ -676,6 +679,16 @@ this example) and which behaves the same as </SPAN><CODE><SPAN LANG="en-US">yy_p
 	</SPAN><CODE><SPAN LANG="en-US">expr1</SPAN></CODE><SPAN LANG="en-US">,
 	</SPAN><CODE><SPAN LANG="en-US">expr2</SPAN></CODE><SPAN LANG="en-US">,
 	… are other valid expressions.</SPAN></P>
+</DIV>
+<DIV ID="sdfootnote4">
+	<P CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote4sym" HREF="#sdfootnote4anc">4</A>White
+	space finished with newline after the first &quot;<CODE><SPAN LANG="en-US">...</SPAN></CODE>&quot;
+	is ignored.</P>
+</DIV>
+<DIV ID="sdfootnote5">
+	<P CLASS="sdfootnote"><A CLASS="sdfootnotesym" NAME="sdfootnote5sym" HREF="#sdfootnote5anc">5</A>White
+	space finished with newline after the first &quot;<CODE><SPAN LANG="en-US">...</SPAN></CODE>&quot;
+	is ignored.</P>
 </DIV>
 </BODY>
 </HTML>
