@@ -5,37 +5,29 @@
 	<TITLE></TITLE>
 	<META NAME="GENERATOR" CONTENT="OpenOffice 4.0.0  (Win32)">
 	<META NAME="CREATED" CONTENT="20130826;18542682">
-	<META NAME="CHANGED" CONTENT="20131212;18345107">
+	<META NAME="CHANGED" CONTENT="20140717;16502084">
 	<STYLE TYPE="text/css">
 	<!--
-		@page { size: 21cm 29.7cm; margin: 2cm }
-		H2 { page-break-after: avoid }
-		H2.western { font-family: "Arial", sans-serif; font-size: 14pt; font-style: italic; font-weight: bold }
-		H2.cjk { font-family: "Arial Unicode MS"; font-size: 14pt; font-style: italic; font-weight: bold }
-		H2.ctl { font-family: "Mangal"; font-size: 14pt; font-style: italic; font-weight: bold }
+		@page { margin: 2cm }
+		H2.western { font-family: "Arial", sans-serif; font-size: 14pt; font-style: italic }
+		H2.cjk { font-family: "Arial Unicode MS"; font-size: 14pt; font-style: italic }
+		H2.ctl { font-family: "Mangal"; font-size: 14pt; font-style: italic }
 		P.sdfootnote { font-size: 10pt }
-		H3 { page-break-after: avoid }
-		H3.western { font-family: "Arial", sans-serif; font-size: 14pt; font-weight: bold }
-		H3.cjk { font-family: "Arial Unicode MS"; font-size: 14pt; font-weight: bold }
-		H3.ctl { font-family: "Mangal"; font-size: 14pt; font-weight: bold }
-		H4 { page-break-after: avoid }
-		H4.western { font-family: "Arial", sans-serif; font-size: 11pt; font-style: italic; font-weight: bold }
-		H4.cjk { font-family: "Arial Unicode MS"; font-size: 11pt; font-style: italic; font-weight: bold }
-		H4.ctl { font-family: "Mangal"; font-size: 11pt; font-style: italic; font-weight: bold }
-		H5 { page-break-after: avoid }
-		H5.western { font-family: "Arial", sans-serif; font-size: 11pt; font-weight: bold }
-		H5.cjk { font-family: "Arial Unicode MS"; font-size: 11pt; font-weight: bold }
-		H5.ctl { font-family: "Mangal"; font-size: 11pt; font-weight: bold }
-		TH P { font-weight: bold; widows: 4 }
+		H3.western { font-family: "Arial", sans-serif }
+		H3.cjk { font-family: "Arial Unicode MS" }
+		H3.ctl { font-family: "Mangal" }
+		H4.western { font-family: "Arial", sans-serif; font-size: 11pt; font-style: italic }
+		H4.cjk { font-family: "Arial Unicode MS"; font-size: 11pt; font-style: italic }
+		H4.ctl { font-family: "Mangal"; font-size: 11pt; font-style: italic }
+		H5.western { font-family: "Arial", sans-serif; font-size: 11pt }
+		H5.cjk { font-family: "Arial Unicode MS"; font-size: 11pt }
+		H5.ctl { font-family: "Mangal"; font-size: 11pt }
 		CODE { font-family: "Courier New", monospace }
-		STRONG { font-weight: bold }
-		A:link { color: #000080; so-language: zxx; text-decoration: underline }
-		A:visited { color: #800000; so-language: zxx; text-decoration: underline }
 		A.sdfootnoteanc { font-size: 57% }
 	-->
 	</STYLE>
 </HEAD>
-<BODY LANG="en-US" LINK="#000080" VLINK="#800000" DIR="LTR">
+<BODY LANG="en-US" DIR="LTR">
 <H2 CLASS="western">Input grammar</H2>
 <P>Input grammar consists of:</P>
 <UL>
@@ -353,9 +345,9 @@ informational purposes only.)</P>
 				<P><SPAN LANG="en-US"><B>Append (semantic value)</B></SPAN><SPAN LANG="en-US">.
 				Parse input with </SPAN><CODE><SPAN LANG="en-US">expr</SPAN></CODE>
 				<SPAN LANG="en-US">and append its semantic value to Ruby variable
-				</SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.
-				Appending in the generated parser is performed with Ruby operator
-				“</SPAN><CODE><SPAN LANG="en-US">&lt;&lt;</SPAN></CODE>”
+				</SPAN><CODE><SPAN LANG="en-US">var</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
+				<P><SPAN LANG="en-US">Appending in the generated parser is
+				performed with Ruby operator “</SPAN><CODE><SPAN LANG="en-US">&lt;&lt;</SPAN></CODE>”
 				<SPAN LANG="en-US">(e.&nbsp;g., “</SPAN><CODE><SPAN LANG="en-US">var&nbsp;&lt;&lt;&nbsp;yy_expr_value</SPAN></CODE>”<SPAN LANG="en-US">).</SPAN></P>
 			</TD>
 			<TD ROWSPAN=2 WIDTH=15%>
@@ -659,7 +651,8 @@ this example) and which behaves the same as </SPAN><CODE><SPAN LANG="en-US">yy_p
 <P>results in the following functions in the output parser:</P>
 <UL>
 	<LI><P><CODE><SPAN LANG="en-US">yy_parse(io)</SPAN></CODE>—<SPAN LANG="en-US">it
-	starts parsing input with </SPAN><CODE><SPAN LANG="en-US">main</SPAN></CODE><SPAN LANG="en-US"> rule;</SPAN></P>
+	starts parsing input with </SPAN><CODE><SPAN LANG="en-US">main</SPAN></CODE>
+	<SPAN LANG="en-US">rule;</SPAN></P>
 	<LI><P><CODE><SPAN LANG="en-US">rule2(io)</SPAN></CODE>—<SPAN LANG="en-US">it
 	starts parsing input with </SPAN><CODE><SPAN LANG="en-US">rule2</SPAN></CODE><SPAN LANG="en-US">.</SPAN></P>
 </UL>
