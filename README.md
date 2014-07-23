@@ -20,6 +20,10 @@ You may run this program with the following command of [Bourne shell](http://en.
 
     ruby peg2rb.rb input-grammar > output-parser
 
+or, if you have installed this package as described in [How to install](#install):
+
+    peg2rb input-grammar > output-parser
+
 where `input-grammar` is a file with the input grammar description and `output-parser` is a file which the output parser is to be written to.
 
 The program exits with [status](http://en.wikipedia.org/wiki/Exit_status) 0 if the parser is generated successfully and with non-zero status otherwise.
@@ -32,7 +36,7 @@ Source code for [peg2rb.rb](#peg2rb.rb). You may use [peg2rb.rb](#peg2rb.rb) on 
 Rakefile
 --------
 
-Script for [Rake](http://rake.rubyforge.org/) for building this package.
+Script for [Rake](http://rake.rubyforge.org/) for building and installing this package.
 
 TODO
 ----
@@ -60,3 +64,8 @@ How to build
 Install [Rake](http://rake.rubyforge.org/) and run following command in this directory:
 
     rake
+
+<a id="install"/> How to install
+--------------------------------
+
+First install [Rake](http://rake.rubyforge.org/). Then run `rake` command in
