@@ -1,0 +1,18 @@
+{...
+require 'stringio'
+}...
+
+foo <- plusminus:val U+000A* $ {puts val};
+plusminus <- multdiv:val (<'-' / '+'>:op multdiv:n {if op == '+' then val += n else val -= n end })*;
+multdiv <- primary:val (<'/' / '*'>:op primary:n {if op == '*' then val = val * n else val = val / n end })* ;
+primary <- brackets:val / number:val ;
+brackets <- '(' plusminus:val ')' ;
+number <- <digit+ ('.' digit+)?>:n {val = n.to_f} ;
+digit <- '0'...'9';
+
+{...
+
+puts "Enter expression, press ENTER and then Ctrl+D:"
+yy_parse(StringIO.new(STDIN.read))
+
+}...

@@ -3,11 +3,11 @@
 require 'mathn'
 
 class Calculator
-  
+
   def call(input)
     yy_parse(input)
   end
-  
+
   private
 
 }...
