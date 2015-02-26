@@ -598,7 +598,7 @@ rule: Rule <-
     code(%(
       # :nodoc:
       def #{method_name}(yy_context)
-        val = :yy_nil
+        val = nil
         )) + code + code(%( and yy_to_pcv(val)
       end
     ))

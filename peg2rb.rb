@@ -215,7 +215,7 @@
     
       # :nodoc:
       def yy_nonterm1(yy_context)
-        val = :yy_nil
+        val = nil
         (begin
       
     code = code("")
@@ -531,7 +531,7 @@
 
       # :nodoc:
       def yy_nonterme(yy_context)
-        val = :yy_nil
+        val = nil
         begin
       yy_varg = yy_nontermh(yy_context)
       if yy_varg then
@@ -543,7 +543,7 @@
     
       # :nodoc:
       def yy_nontermh(yy_context)
-        val = :yy_nil
+        val = nil
         (begin
       
     single_expression = true
@@ -592,7 +592,7 @@
     
       # :nodoc:
       def yy_nonterms(yy_context)
-        val = :yy_nil
+        val = nil
         (begin
        code_parts = [] 
       true
@@ -658,7 +658,7 @@
 
       # :nodoc:
       def yy_nonterm11(yy_context)
-        val = :yy_nil
+        val = nil
         begin; yy_var12 = yy_context.input.pos; (begin
       yy_var13 = yy_nonterm18(yy_context)
       if yy_var13 then
@@ -716,7 +716,7 @@
 
       # :nodoc:
       def yy_nonterm18(yy_context)
-        val = :yy_nil
+        val = nil
         begin; yy_var19 = yy_context.input.pos; (yy_nonterm90(yy_context) and begin
       yy_var1a = yy_nonterm4g(yy_context)
       if yy_var1a then
@@ -785,7 +785,7 @@
 
       # :nodoc:
       def yy_nonterm1f(yy_context)
-        val = :yy_nil
+        val = nil
         (begin
       yy_var1h = yy_nonterm1p(yy_context)
       if yy_var1h then
@@ -879,7 +879,7 @@
 
       # :nodoc:
       def yy_nonterm1p(yy_context)
-        val = :yy_nil
+        val = nil
         begin; yy_var1q = yy_context.input.pos; (yy_nonterm8g(yy_context) and begin
       yy_var1r = yy_nonterme(yy_context)
       if yy_var1r then
@@ -949,7 +949,7 @@
 
       # :nodoc:
       def yy_nonterm1x(yy_context)
-        val = :yy_nil
+        val = nil
         begin; yy_var1y = yy_context.input.pos; (begin
       yy_var1z = yy_nontermdi(yy_context)
       if yy_var1z then
@@ -1048,7 +1048,7 @@
 
       # :nodoc:
       def yy_nonterm2d(yy_context)
-        val = :yy_nil
+        val = nil
         (begin
        rule = val = Rule.new 
       true
@@ -1098,7 +1098,7 @@
     code(%(
       # :nodoc:
       def #{method_name}(yy_context)
-        val = :yy_nil
+        val = nil
         )) + code + code(%( and yy_to_pcv(val)
       end
     ))
@@ -1107,7 +1107,7 @@
 
       # :nodoc:
       def yy_nonterm2z(yy_context)
-        val = :yy_nil
+        val = nil
         ((begin
       yy_var3t = yy_context.worst_error
       begin
@@ -1143,7 +1143,7 @@
     
       # :nodoc:
       def yy_nonterm3x(yy_context)
-        val = :yy_nil
+        val = nil
         begin; yy_var3y = yy_context.input.pos; begin
       yy_var3z = yy_nonterm9s(yy_context)
       if yy_var3z then
@@ -1161,7 +1161,7 @@
     
       # :nodoc:
       def yy_nonterm41(yy_context)
-        val = :yy_nil
+        val = nil
         begin; yy_var42 = yy_context.input.pos; (yy_nonterm7c(yy_context) and begin
       val = :capture
       true
@@ -1203,7 +1203,7 @@
     
       # :nodoc:
       def yy_nonterm44(yy_context)
-        val = :yy_nil
+        val = nil
         (begin
        current_line_and_column = [1, 1] 
       true
@@ -1233,7 +1233,7 @@
     
       # :nodoc:
       def yy_nonterm4g(yy_context)
-        val = :yy_nil
+        val = nil
         (begin; yy_var5r = yy_context.input.pos; (yy_string(yy_context, "{") and while true
       yy_var5t = yy_context.input.pos
       if not yy_nontermga(yy_context) then
@@ -1331,7 +1331,7 @@
     
       # :nodoc:
       def yy_nonterm70(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "{") and  begin
       while true
         ###
@@ -1354,13 +1354,13 @@
     
       # :nodoc:
       def yy_nonterm78(yy_context)
-        val = :yy_nil
+        val = nil
         (begin; yy_var7b = yy_context.input.pos; yy_string(yy_context, "<-") or (yy_context.input.pos = yy_var7b; yy_string(yy_context, "=")) or (yy_context.input.pos = yy_var7b; yy_string(yy_context, "\u{2190}")); end and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm7c(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, ":") and (begin
       yy_var7v = yy_context.worst_error
       begin
@@ -1390,133 +1390,133 @@
     
       # :nodoc:
       def yy_nonterm84(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, ":+") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm86(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, ":>>") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm88(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, ";") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm8a(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "/") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm8c(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "$") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm8e(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "^") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm8g(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "(") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm8i(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, ")") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm8k(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "[") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm8m(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "]") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm8o(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "<") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm8q(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, ">") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm8s(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "*") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm8u(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "*?") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm8w(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "?") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm8y(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "+") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm90(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "&") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm92(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "!") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm94(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "@") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm96(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "=") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm98(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "...") and yy_nontermfu(yy_context)) and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm9a(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "char") and begin
       yy_var9f = yy_context.worst_error
       begin
@@ -1534,7 +1534,7 @@
     
       # :nodoc:
       def yy_nonterm9i(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "at") and begin
       yy_var9n = yy_context.worst_error
       begin
@@ -1552,13 +1552,13 @@
     
       # :nodoc:
       def yy_nonterm9q(yy_context)
-        val = :yy_nil
+        val = nil
         begin; yy_var9r = yy_context.input.pos; yy_nonterm9a(yy_context) or (yy_context.input.pos = yy_var9r; yy_nonterm9i(yy_context)); end and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nonterm9s(yy_context)
-        val = :yy_nil
+        val = nil
         (begin
       val = ""
       yy_varae = yy_context.input.pos
@@ -1584,7 +1584,7 @@
     
       # :nodoc:
       def yy_nontermag(yy_context)
-        val = :yy_nil
+        val = nil
         (begin
       val = ""
       yy_varau = yy_context.input.pos
@@ -1604,19 +1604,19 @@
     
       # :nodoc:
       def yy_nontermaw(yy_context)
-        val = :yy_nil
+        val = nil
         begin; yy_varax = yy_context.input.pos; yy_char_range(yy_context, "a", "z") or (yy_context.input.pos = yy_varax; yy_string(yy_context, "_")); end and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nontermay(yy_context)
-        val = :yy_nil
+        val = nil
         begin; yy_varaz = yy_context.input.pos; yy_nontermaw(yy_context) or (yy_context.input.pos = yy_varaz; yy_char_range(yy_context, "0", "9")); end and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nontermb0(yy_context)
-        val = :yy_nil
+        val = nil
         (begin
       val = ""
       yy_varbe = yy_context.input.pos
@@ -1636,19 +1636,19 @@
     
       # :nodoc:
       def yy_nontermbg(yy_context)
-        val = :yy_nil
+        val = nil
         begin; yy_varbh = yy_context.input.pos; yy_char_range(yy_context, "a", "z") or (yy_context.input.pos = yy_varbh; yy_string(yy_context, "_")); end and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nontermbi(yy_context)
-        val = :yy_nil
+        val = nil
         begin; yy_varbj = yy_context.input.pos; yy_nontermbg(yy_context) or (yy_context.input.pos = yy_varbj; yy_char_range(yy_context, "0", "9")); end and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nontermbk(yy_context)
-        val = :yy_nil
+        val = nil
         (begin
       yy_varbp = yy_context.worst_error
       begin
@@ -1705,19 +1705,19 @@
     
       # :nodoc:
       def yy_nontermde(yy_context)
-        val = :yy_nil
+        val = nil
         begin; yy_vardf = yy_context.input.pos; yy_char_range(yy_context, "a", "z") or (yy_context.input.pos = yy_vardf; yy_char_range(yy_context, "A", "Z")) or (yy_context.input.pos = yy_vardf; yy_string(yy_context, "-")) or (yy_context.input.pos = yy_vardf; yy_string(yy_context, "_")); end and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nontermdg(yy_context)
-        val = :yy_nil
+        val = nil
         begin; yy_vardh = yy_context.input.pos; yy_nontermde(yy_context) or (yy_context.input.pos = yy_vardh; yy_char_range(yy_context, "0", "9")); end and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nontermdi(yy_context)
-        val = :yy_nil
+        val = nil
         (begin
       yy_vardk = yy_nontermdo(yy_context)
       if yy_vardk then
@@ -1741,7 +1741,7 @@
     
       # :nodoc:
       def yy_nontermdo(yy_context)
-        val = :yy_nil
+        val = nil
         (begin; yy_varek = yy_context.input.pos; (yy_string(yy_context, "'") and begin
       val = ""
       yy_varex = yy_context.input.pos
@@ -1806,7 +1806,7 @@
     
       # :nodoc:
       def yy_nontermfe(yy_context)
-        val = :yy_nil
+        val = nil
         (yy_string(yy_context, "U+") and begin
       code = ""
       yy_varfs = yy_context.input.pos
@@ -1832,7 +1832,7 @@
     
       # :nodoc:
       def yy_nontermfu(yy_context)
-        val = :yy_nil
+        val = nil
         while true
       yy_varfz = yy_context.input.pos
       if not begin; yy_varfy = yy_context.input.pos; yy_nontermga(yy_context) or (yy_context.input.pos = yy_varfy; yy_nontermg0(yy_context)); end then
@@ -1844,7 +1844,7 @@
     
       # :nodoc:
       def yy_nontermg0(yy_context)
-        val = :yy_nil
+        val = nil
         (begin; yy_varg3 = yy_context.input.pos; yy_string(yy_context, "#") or (yy_context.input.pos = yy_varg3; yy_string(yy_context, "--")); end and  begin
       while true
         ###
@@ -1867,13 +1867,13 @@
     
       # :nodoc:
       def yy_nontermga(yy_context)
-        val = :yy_nil
+        val = nil
         begin; yy_vargb = yy_context.input.pos; yy_char_range(yy_context, "\t", "\r") or (yy_context.input.pos = yy_vargb; yy_string(yy_context, " ")) or (yy_context.input.pos = yy_vargb; yy_string(yy_context, "\u{85}")) or (yy_context.input.pos = yy_vargb; yy_string(yy_context, "\u{a0}")) or (yy_context.input.pos = yy_vargb; yy_string(yy_context, "\u{1680}")) or (yy_context.input.pos = yy_vargb; yy_string(yy_context, "\u{180e}")) or (yy_context.input.pos = yy_vargb; yy_char_range(yy_context, "\u{2000}", "\u{200a}")) or (yy_context.input.pos = yy_vargb; yy_string(yy_context, "\u{2028}")) or (yy_context.input.pos = yy_vargb; yy_string(yy_context, "\u{2029}")) or (yy_context.input.pos = yy_vargb; yy_string(yy_context, "\u{202f}")) or (yy_context.input.pos = yy_vargb; yy_string(yy_context, "\u{205f}")) or (yy_context.input.pos = yy_vargb; yy_string(yy_context, "\u{3000}")); end and yy_to_pcv(val)
       end
     
       # :nodoc:
       def yy_nontermgc(yy_context)
-        val = :yy_nil
+        val = nil
         begin; yy_vargd = yy_context.input.pos; (yy_string(yy_context, "\r") and yy_string(yy_context, "\n")) or (yy_context.input.pos = yy_vargd; yy_string(yy_context, "\r")) or (yy_context.input.pos = yy_vargd; yy_string(yy_context, "\n")) or (yy_context.input.pos = yy_vargd; yy_string(yy_context, "\u{85}")) or (yy_context.input.pos = yy_vargd; yy_string(yy_context, "\v")) or (yy_context.input.pos = yy_vargd; yy_string(yy_context, "\f")) or (yy_context.input.pos = yy_vargd; yy_string(yy_context, "\u{2028}")) or (yy_context.input.pos = yy_vargd; yy_string(yy_context, "\u{2029}")); end and yy_to_pcv(val)
       end
     
