@@ -203,7 +203,11 @@
         
         def message
           expectations = self.expectations.uniq
-          [expectations[0...-1].join(", "), expectations[-1]].join(" or ") + " is expected"
+          (
+            if expectations.size == 1 then expectations.first
+            else [expectations[0...-1].join(", "), expectations[-1]].join(" or ")
+            end
+          ) + " is expected"
         end
         
         protected
@@ -516,7 +520,11 @@
         
         def message
           expectations = self.expectations.uniq
-          [expectations[0...-1].join(", "), expectations[-1]].join(" or ") + " is expected"
+          (
+            if expectations.size == 1 then expectations.first
+            else [expectations[0...-1].join(", "), expectations[-1]].join(" or ")
+            end
+          ) + " is expected"
         end
         
         protected
