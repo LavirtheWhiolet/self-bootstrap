@@ -1,0 +1,11 @@
+
+program = 'a' / 'b' / 'c';
+
+{...
+
+require 'stringio'
+yy_parse(StringIO.new(
+  'c'
+))
+
+}...
