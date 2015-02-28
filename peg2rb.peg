@@ -177,7 +177,7 @@ grammar: Code <-
       # :nodoc:
       def yy_begin?(context)
         #
-        if not (context.input.pos == 0)
+        if not(context.input.pos == 0)
           context << YY_SyntaxExpectationError.new("the beginning", context.input.pos)
           return nil
         end
@@ -413,15 +413,19 @@ expr70 <-
   
   def negative_predicate_code(code)
     stored_worst_error_var = new_unique_variable_name
+    result_var = new_unique_variable_name
     # 
-    code(%(begin
+    code(%{begin
       #{stored_worst_error_var} = yy_context.worst_error
-      begin
-        not )) + positive_predicate_code(code) + code(%(
-      ensure
+      #{result_var} = not(}) + positive_predicate_code(code) + code(%{)
+      if #{result_var}
         yy_context.worst_error = #{stored_worst_error_var}
+      else
+        # NOTE: No errors were added into context but the error is still there.
+        yy_context << YY_SyntaxExpectationError.new("different expression", yy_context.input.pos)
       end
-    end))
+      #{result_var}
+    end})
   end
 
 }...
@@ -446,16 +450,16 @@ expr80: Code <-
     original_pos_var = new_unique_variable_name
     result_var = new_unique_variable_name
     #
-    code(%[ begin
+    code(%{ begin
       while true
         ###
         #{original_pos_var} = yy_context.input.pos
         ### Look ahead.
-        #{result_var} = ]) + LazyRepeat::UnknownLookAheadCode[source_pos] + code(%[
+        #{result_var} = }) + LazyRepeat::UnknownLookAheadCode[source_pos] + code(%{
         yy_context.input.pos = #{original_pos_var}
         break if #{result_var}
         ### Repeat one more time (if possible).
-        #{result_var} = ]) + parsing_code + code(%[
+        #{result_var} = }) + parsing_code + code(%{
         if not #{result_var} then
           yy_context.input.pos = #{original_pos_var}
           break
@@ -463,19 +467,19 @@ expr80: Code <-
       end
       ### The repetition is always successful.
       true
-    end ])
+    end })
   end
   
   def repeat_many_times_code(code)
     stored_pos_var = new_unique_variable_name
     #
-    code(%(while true
+    code(%{while true
       #{stored_pos_var} = yy_context.input.pos
-      if not )) + code + code(%( then
+      if not(}) + code + code(%{) then
         yy_context.input.pos = #{stored_pos_var}
         break true
       end
-    end))
+    end})
   end
   
   def repeat_at_least_once_code(code)
@@ -485,13 +489,13 @@ expr80: Code <-
   def optional_code(code)
     stored_pos_var = new_unique_variable_name
     #
-    code(%(begin
+    code(%{begin
       #{stored_pos_var} = yy_context.input.pos
-      if not )) + code + code(%( then
+      if not(}) + code + code(%{) then
         yy_context.input.pos = #{stored_pos_var}
       end
       true
-    end))
+    end})
   end
   
 }...
