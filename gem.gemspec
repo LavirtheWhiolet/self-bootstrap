@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.description = ""
   s.authors = ""
   s.email = ""
-  s.files = []
-  s.extra_rdoc_files = "User Guide.html"
+  s.files = ["User Guide.html"]
+  s.rdoc_options="--copy-files='User Guide.html'"
   s.homepage = ""
 end
