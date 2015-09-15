@@ -551,7 +551,7 @@ expr100: Code <-
   / string:s  { val = code "yy_string(yy_context, #{s.to_ruby_code})" }
   / @:(n_pos) nonterminal:n  { val = UnknownMethodCall[n, %(yy_context), n_pos] }
   / `char` { val = code "yy_char(yy_context)" }
-  / Ruby-code:(action_code)  { val = compile_action_expression(action_code) }
+  / @:(pos) Ruby-code:(action_code)  { val = compile_action_expression(action_code, pos) }
   / `$` { val = code "yy_end?(yy_context)" }
   / `^` { val = code "yy_begin?(yy_context)" }
   / (
@@ -565,12 +565,12 @@ expr100: Code <-
 {...
   
   # +action_code+ is the Code extracted from the "action" expression.
-  def compile_action_expression(action_code)
+  def compile_action_expression(action_code, pos)
     # Validate action code.
     begin
       RubyVM::InstructionSequence.compile(action_code.to_s)
     rescue SyntaxError => e
-      raise YY_SyntaxError.new("syntax error", action_code.pos)
+      raise YY_SyntaxError.new("syntax error", pos)
     end
     # Compile the expression!
     code(%(begin
