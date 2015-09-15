@@ -1052,7 +1052,7 @@
     begin
       RubyVM::InstructionSequence.compile(action_code.to_s)
     rescue SyntaxError => e
-      raise YY_SyntaxError.new("syntax error", pos)
+      raise YY_SyntaxError.new("Ruby syntax error", pos)
     end
     # Compile the expression!
     code(%(begin
